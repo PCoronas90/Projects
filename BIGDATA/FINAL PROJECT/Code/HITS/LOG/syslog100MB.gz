@@ -1,0 +1,70 @@
+2015-07-13 07:13:18,339 INFO org.apache.hadoop.yarn.client.RMProxy (main): Connecting to ResourceManager at /172.31.43.242:9022
+2015-07-13 07:13:18,552 INFO org.apache.hadoop.yarn.client.RMProxy (main): Connecting to ResourceManager at /172.31.43.242:9022
+2015-07-13 07:13:19,890 INFO com.amazon.ws.emr.hadoop.fs.EmrFileSystem (main): Consistency disabled, using com.amazon.ws.emr.hadoop.fs.s3n.S3NativeFileSystem as filesystem implementation
+2015-07-13 07:13:20,153 INFO amazon.emr.metrics.MetricsSaver (main): MetricsConfigRecord disabledInCluster: false instanceEngineCycleSec: 60 clusterEngineCycleSec: 60 disableClusterEngine: false maxMemoryMb: 3072 maxInstanceCount: 500 
+2015-07-13 07:13:20,153 INFO amazon.emr.metrics.MetricsSaver (main): Created MetricsSaver j-11KZ59B22ZIZB:i-ff100408:RunJar:10549 period:60 /mnt/var/em/raw/i-ff100408_20150713_RunJar_10549_raw.bin
+2015-07-13 07:13:21,372 WARN org.apache.hadoop.mapreduce.JobSubmitter (main): Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+2015-07-13 07:13:21,617 INFO com.hadoop.compression.lzo.GPLNativeCodeLoader (main): Loaded native gpl library from the embedded binaries
+2015-07-13 07:13:21,620 INFO com.hadoop.compression.lzo.LzoCodec (main): Successfully loaded & initialized native-lzo library [hadoop-lzo rev 77cfa96225d62546008ca339b7c2076a3da91578]
+2015-07-13 07:13:21,790 INFO org.apache.hadoop.mapred.FileInputFormat (main): Total input paths to process : 1
+2015-07-13 07:13:21,845 INFO org.apache.hadoop.mapreduce.JobSubmitter (main): number of splits:32
+2015-07-13 07:13:22,062 INFO org.apache.hadoop.mapreduce.JobSubmitter (main): Submitting tokens for job: job_1436730415994_0002
+2015-07-13 07:13:22,254 INFO org.apache.hadoop.yarn.client.api.impl.YarnClientImpl (main): Submitted application application_1436730415994_0002
+2015-07-13 07:13:22,298 INFO org.apache.hadoop.mapreduce.Job (main): The url to track the job: http://172.31.43.242:9046/proxy/application_1436730415994_0002/
+2015-07-13 07:13:22,300 INFO org.apache.hadoop.mapreduce.Job (main): Running job: job_1436730415994_0002
+2015-07-13 07:13:29,416 INFO org.apache.hadoop.mapreduce.Job (main): Job job_1436730415994_0002 running in uber mode : false
+2015-07-13 07:13:29,417 INFO org.apache.hadoop.mapreduce.Job (main):  map 0% reduce 0%
+2015-07-13 07:13:51,611 INFO org.apache.hadoop.mapreduce.Job (main):  map 4% reduce 0%
+2015-07-13 07:13:52,616 INFO org.apache.hadoop.mapreduce.Job (main):  map 8% reduce 0%
+2015-07-13 07:13:53,622 INFO org.apache.hadoop.mapreduce.Job (main):  map 14% reduce 0%
+2015-07-13 07:13:54,630 INFO org.apache.hadoop.mapreduce.Job (main):  map 15% reduce 0%
+2015-07-13 07:13:55,638 INFO org.apache.hadoop.mapreduce.Job (main):  map 19% reduce 0%
+2015-07-13 07:13:56,644 INFO org.apache.hadoop.mapreduce.Job (main):  map 24% reduce 0%
+2015-07-13 07:13:57,651 INFO org.apache.hadoop.mapreduce.Job (main):  map 30% reduce 0%
+2015-07-13 07:13:58,657 INFO org.apache.hadoop.mapreduce.Job (main):  map 38% reduce 0%
+2015-07-13 07:13:59,663 INFO org.apache.hadoop.mapreduce.Job (main):  map 47% reduce 0%
+2015-07-13 07:14:00,670 INFO org.apache.hadoop.mapreduce.Job (main):  map 55% reduce 0%
+2015-07-13 07:14:01,679 INFO org.apache.hadoop.mapreduce.Job (main):  map 63% reduce 0%
+2015-07-13 07:14:02,685 INFO org.apache.hadoop.mapreduce.Job (main):  map 72% reduce 0%
+2015-07-13 07:14:03,691 INFO org.apache.hadoop.mapreduce.Job (main):  map 78% reduce 0%
+2015-07-13 07:14:04,697 INFO org.apache.hadoop.mapreduce.Job (main):  map 81% reduce 0%
+2015-07-13 07:14:09,736 INFO org.apache.hadoop.mapreduce.Job (main):  map 84% reduce 0%
+2015-07-13 07:14:10,742 INFO org.apache.hadoop.mapreduce.Job (main):  map 91% reduce 0%
+2015-07-13 07:14:11,747 INFO org.apache.hadoop.mapreduce.Job (main):  map 97% reduce 0%
+2015-07-13 07:14:13,764 INFO org.apache.hadoop.mapreduce.Job (main):  map 97% reduce 2%
+2015-07-13 07:14:14,769 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 2%
+2015-07-13 07:14:15,775 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 9%
+2015-07-13 07:14:16,780 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 19%
+2015-07-13 07:14:17,785 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 23%
+2015-07-13 07:14:18,790 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 26%
+2015-07-13 07:14:19,795 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 36%
+2015-07-13 07:14:21,805 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 45%
+2015-07-13 07:14:28,842 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 50%
+2015-07-13 07:14:40,903 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 51%
+2015-07-13 07:14:58,995 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 52%
+2015-07-13 07:15:14,074 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 53%
+2015-07-13 07:15:28,148 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 54%
+2015-07-13 07:15:37,192 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 55%
+2015-07-13 07:15:49,251 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 60%
+2015-07-13 07:16:20,403 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 61%
+2015-07-13 07:16:38,489 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 62%
+2015-07-13 07:16:41,504 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 64%
+2015-07-13 07:16:42,509 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 65%
+2015-07-13 07:16:51,554 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 69%
+2015-07-13 07:16:53,563 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 74%
+2015-07-13 07:16:57,583 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 79%
+2015-07-13 07:17:18,684 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 80%
+2015-07-13 07:17:21,698 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 81%
+2015-07-13 07:17:28,733 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 83%
+2015-07-13 07:18:58,155 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 84%
+2015-07-13 07:19:56,427 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 85%
+2015-07-13 07:20:07,480 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 86%
+2015-07-13 07:20:35,603 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 88%
+2015-07-13 07:21:31,854 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 90%
+2015-07-13 07:21:34,867 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 91%
+2015-07-13 07:22:32,113 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 92%
+2015-07-13 07:23:34,376 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 93%
+2015-07-13 07:31:28,289 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 95%
+2015-07-13 07:34:57,012 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 96%
+2015-07-13 07:49:39,095 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 97%
+2015-07-13 07:52:19,644 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 98%

@@ -1,0 +1,70 @@
+peter@peter-Aspire-ES1-512:~/hadoop$ hadoop jar /home/peter/Scrivania/EsA.jar EsercizioA/Main input/esempio.txt output/result17
+15/05/03 18:55:33 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+15/05/03 18:55:34 WARN mapreduce.JobSubmitter: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+15/05/03 18:55:35 INFO input.FileInputFormat: Total input paths to process : 1
+15/05/03 18:55:35 INFO mapreduce.JobSubmitter: number of splits:1
+15/05/03 18:55:36 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1430648190850_0015
+15/05/03 18:55:36 INFO impl.YarnClientImpl: Submitted application application_1430648190850_0015
+15/05/03 18:55:36 INFO mapreduce.Job: The url to track the job: http://peter-Aspire-ES1-512:8088/proxy/application_1430648190850_0015/
+15/05/03 18:55:36 INFO mapreduce.Job: Running job: job_1430648190850_0015
+15/05/03 18:55:50 INFO mapreduce.Job: Job job_1430648190850_0015 running in uber mode : false
+15/05/03 18:55:50 INFO mapreduce.Job:  map 0% reduce 0%
+15/05/03 18:56:00 INFO mapreduce.Job:  map 100% reduce 0%
+15/05/03 18:56:11 INFO mapreduce.Job:  map 100% reduce 100%
+15/05/03 18:56:14 INFO mapreduce.Job: Job job_1430648190850_0015 completed successfully
+15/05/03 18:56:14 INFO mapreduce.Job: Counters: 49
+	File System Counters
+		FILE: Number of bytes read=11222
+		FILE: Number of bytes written=232879
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=2485
+		HDFS: Number of bytes written=1609
+		HDFS: Number of read operations=6
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=1
+		Launched reduce tasks=1
+		Data-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=7922
+		Total time spent by all reduces in occupied slots (ms)=8979
+		Total time spent by all map tasks (ms)=7922
+		Total time spent by all reduce tasks (ms)=8979
+		Total vcore-seconds taken by all map tasks=7922
+		Total vcore-seconds taken by all reduce tasks=8979
+		Total megabyte-seconds taken by all map tasks=8112128
+		Total megabyte-seconds taken by all reduce tasks=9194496
+	Map-Reduce Framework
+		Map input records=100
+		Map output records=538
+		Map output bytes=10140
+		Map output materialized bytes=11222
+		Input split bytes=115
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=98
+		Reduce shuffle bytes=11222
+		Reduce input records=538
+		Reduce output records=88
+		Spilled Records=1076
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=109
+		CPU time spent (ms)=3700
+		Physical memory (bytes) snapshot=466792448
+		Virtual memory (bytes) snapshot=1693827072
+		Total committed heap usage (bytes)=312475648
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=2370
+	File Output Format Counters 
+		Bytes Written=1609

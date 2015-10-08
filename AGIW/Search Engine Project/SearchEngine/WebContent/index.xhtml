@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core">
+<head>
+ 	<title>Explore3</title>
+ 	<link href="stile.css" rel="stylesheet" type="text/css" />
+</head>
+<h:body>
+	
+	<h:form>
+		<br />
+		<div align="center">
+
+			<h:graphicImage value="/image/logoSearch.png" width="200" height="200" />
+			<br />
+			<h:inputText value="#{searcherBean.originalQuery}" size="80" required="true" requiredMessage="Inserisci una query" />
+			<div class="index">
+			<h:commandButton value="Go!" action="#{searcherBean.searchImage}" image="/image/logoImg.png"></h:commandButton>
+			</div>
+			
+			<h:commandButton value="Go!" action="#{searcherBean.search}"
+				image="/image/cerca.png" />
+			<h:commandButton value="I'm Feeling lucky" action="#{searcherBean.feelLucky}" image="/image/lucky.png"/>
+			
+			
+		</div>
+	</h:form>
+	<div id="footer">
+		<h:graphicImage value="/image/logo6.png" width="600" height="20" />
+	</div>
+</h:body>
+</html>

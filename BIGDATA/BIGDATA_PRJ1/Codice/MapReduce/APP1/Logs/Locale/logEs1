@@ -1,0 +1,139 @@
+peter@peter-Aspire-ES1-512:~/hadoop$ hadoop jar /home/peter/Scrivania/App1.jar App1/AlimentsCount input/esempio10.txt output/result1 output/result2
+[Ljava.lang.String;@75115dab15/05/01 00:37:29 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+15/05/01 00:37:30 WARN mapreduce.JobSubmitter: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+15/05/01 00:37:30 INFO input.FileInputFormat: Total input paths to process : 1
+15/05/01 00:37:31 INFO mapreduce.JobSubmitter: number of splits:1
+15/05/01 00:37:31 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1430428850184_0019
+15/05/01 00:37:31 INFO impl.YarnClientImpl: Submitted application application_1430428850184_0019
+15/05/01 00:37:32 INFO mapreduce.Job: The url to track the job: http://peter-Aspire-ES1-512:8088/proxy/application_1430428850184_0019/
+15/05/01 00:37:32 INFO mapreduce.Job: Running job: job_1430428850184_0019
+15/05/01 00:37:43 INFO mapreduce.Job: Job job_1430428850184_0019 running in uber mode : false
+15/05/01 00:37:43 INFO mapreduce.Job:  map 0% reduce 0%
+15/05/01 00:37:55 INFO mapreduce.Job:  map 100% reduce 0%
+15/05/01 00:38:05 INFO mapreduce.Job:  map 100% reduce 100%
+15/05/01 00:38:06 INFO mapreduce.Job: Job job_1430428850184_0019 completed successfully
+15/05/01 00:38:07 INFO mapreduce.Job: Counters: 49
+	File System Counters
+		FILE: Number of bytes read=283
+		FILE: Number of bytes written=211653
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=368
+		HDFS: Number of bytes written=61
+		HDFS: Number of read operations=6
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=1
+		Launched reduce tasks=1
+		Data-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=8938
+		Total time spent by all reduces in occupied slots (ms)=7867
+		Total time spent by all map tasks (ms)=8938
+		Total time spent by all reduce tasks (ms)=7867
+		Total vcore-seconds taken by all map tasks=8938
+		Total vcore-seconds taken by all reduce tasks=7867
+		Total megabyte-seconds taken by all map tasks=9152512
+		Total megabyte-seconds taken by all reduce tasks=8055808
+	Map-Reduce Framework
+		Map input records=10
+		Map output records=21
+		Map output bytes=235
+		Map output materialized bytes=283
+		Input split bytes=117
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=7
+		Reduce shuffle bytes=283
+		Reduce input records=21
+		Reduce output records=7
+		Spilled Records=42
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=90
+		CPU time spent (ms)=3050
+		Physical memory (bytes) snapshot=455454720
+		Virtual memory (bytes) snapshot=1674424320
+		Total committed heap usage (bytes)=312475648
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=251
+	File Output Format Counters 
+		Bytes Written=61
+15/05/01 00:38:07 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+15/05/01 00:38:07 WARN mapreduce.JobSubmitter: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+15/05/01 00:38:07 INFO input.FileInputFormat: Total input paths to process : 1
+15/05/01 00:38:07 INFO mapreduce.JobSubmitter: number of splits:1
+15/05/01 00:38:07 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1430428850184_0020
+15/05/01 00:38:07 INFO impl.YarnClientImpl: Submitted application application_1430428850184_0020
+15/05/01 00:38:07 INFO mapreduce.Job: The url to track the job: http://peter-Aspire-ES1-512:8088/proxy/application_1430428850184_0020/
+15/05/01 00:38:07 INFO mapreduce.Job: Running job: job_1430428850184_0020
+15/05/01 00:38:23 INFO mapreduce.Job: Job job_1430428850184_0020 running in uber mode : false
+15/05/01 00:38:23 INFO mapreduce.Job:  map 0% reduce 0%
+15/05/01 00:38:33 INFO mapreduce.Job:  map 100% reduce 0%
+15/05/01 00:38:43 INFO mapreduce.Job:  map 100% reduce 100%
+15/05/01 00:38:43 INFO mapreduce.Job: Job job_1430428850184_0020 completed successfully
+15/05/01 00:38:43 INFO mapreduce.Job: Counters: 49
+	File System Counters
+		FILE: Number of bytes read=95
+		FILE: Number of bytes written=211595
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=182
+		HDFS: Number of bytes written=61
+		HDFS: Number of read operations=6
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=1
+		Launched reduce tasks=1
+		Data-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=7474
+		Total time spent by all reduces in occupied slots (ms)=7923
+		Total time spent by all map tasks (ms)=7474
+		Total time spent by all reduce tasks (ms)=7923
+		Total vcore-seconds taken by all map tasks=7474
+		Total vcore-seconds taken by all reduce tasks=7923
+		Total megabyte-seconds taken by all map tasks=7653376
+		Total megabyte-seconds taken by all reduce tasks=8113152
+	Map-Reduce Framework
+		Map input records=7
+		Map output records=7
+		Map output bytes=75
+		Map output materialized bytes=95
+		Input split bytes=121
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=5
+		Reduce shuffle bytes=95
+		Reduce input records=7
+		Reduce output records=7
+		Spilled Records=14
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=99
+		CPU time spent (ms)=2960
+		Physical memory (bytes) snapshot=461824000
+		Virtual memory (bytes) snapshot=1681395712
+		Total committed heap usage (bytes)=312475648
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=61
+	File Output Format Counters 
+		Bytes Written=61

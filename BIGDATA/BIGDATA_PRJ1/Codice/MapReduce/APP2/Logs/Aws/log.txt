@@ -1,0 +1,88 @@
+2015-05-03 10:54:18,831 INFO com.amazon.ws.emr.hadoop.fs.EmrFileSystem (main): Consistency disabled, using com.amazon.ws.emr.hadoop.fs.s3n.S3NativeFileSystem as filesystem implementation
+2015-05-03 10:54:19,085 INFO amazon.emr.metrics.MetricsSaver (main): MetricsConfigRecord disabledInCluster: false instanceEngineCycleSec: 60 clusterEngineCycleSec: 60 disableClusterEngine: false 
+2015-05-03 10:54:19,086 INFO amazon.emr.metrics.MetricsSaver (main): Created MetricsSaver j-10NFCU5O0R7C3:i-1c3be5eb:RunJar:25854 period:60 /mnt/var/em/raw/i-1c3be5eb_20150503_null_00000_raw.bin
+2015-05-03 10:54:19,874 INFO org.apache.hadoop.yarn.client.RMProxy (main): Connecting to ResourceManager at /172.31.45.126:9022
+2015-05-03 10:54:20,837 WARN org.apache.hadoop.mapreduce.JobSubmitter (main): Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+2015-05-03 10:54:21,208 INFO org.apache.hadoop.mapreduce.lib.input.FileInputFormat (main): Total input paths to process : 1
+2015-05-03 10:54:21,223 INFO com.hadoop.compression.lzo.GPLNativeCodeLoader (main): Loaded native gpl library from the embedded binaries
+2015-05-03 10:54:21,225 INFO com.hadoop.compression.lzo.LzoCodec (main): Successfully loaded & initialized native-lzo library [hadoop-lzo rev 77cfa96225d62546008ca339b7c2076a3da91578]
+2015-05-03 10:54:21,278 INFO org.apache.hadoop.mapreduce.JobSubmitter (main): number of splits:1
+2015-05-03 10:54:21,471 INFO org.apache.hadoop.mapreduce.JobSubmitter (main): Submitting tokens for job: job_1430643279561_0010
+2015-05-03 10:54:21,635 INFO org.apache.hadoop.yarn.client.api.impl.YarnClientImpl (main): Submitted application application_1430643279561_0010
+2015-05-03 10:54:21,697 INFO org.apache.hadoop.mapreduce.Job (main): The url to track the job: http://172.31.45.126:9046/proxy/application_1430643279561_0010/
+2015-05-03 10:54:21,698 INFO org.apache.hadoop.mapreduce.Job (main): Running job: job_1430643279561_0010
+2015-05-03 10:54:29,867 INFO org.apache.hadoop.mapreduce.Job (main): Job job_1430643279561_0010 running in uber mode : false
+2015-05-03 10:54:29,868 INFO org.apache.hadoop.mapreduce.Job (main):  map 0% reduce 0%
+2015-05-03 10:54:37,981 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 0%
+2015-05-03 10:54:47,031 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 14%
+2015-05-03 10:54:48,037 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 29%
+2015-05-03 10:54:49,010 INFO amazon.emr.metrics.MetricsSaver (Thread-3): MetricsSaver j-10NFCU5O0R7C3:i-1c3be5eb:RunJar:25854 metricFile /mnt/var/em/raw/i-1c3be5eb_20150503_null_00000_raw.bin
+2015-05-03 10:54:49,011 INFO amazon.emr.metrics.MetricsSaver (Thread-3): Saved 8:22 records to /mnt/var/em/raw/i-1c3be5eb_20150503_RunJar_25854_raw.bin
+2015-05-03 10:54:50,048 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 43%
+2015-05-03 10:54:51,054 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 57%
+2015-05-03 10:54:52,060 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 71%
+2015-05-03 10:54:56,081 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 86%
+2015-05-03 10:54:58,091 INFO org.apache.hadoop.mapreduce.Job (main):  map 100% reduce 100%
+2015-05-03 10:54:59,104 INFO org.apache.hadoop.mapreduce.Job (main): Job job_1430643279561_0010 completed successfully
+2015-05-03 10:54:59,253 INFO org.apache.hadoop.mapreduce.Job (main): Counters: 54
+	File System Counters
+		FILE: Number of bytes read=397
+		FILE: Number of bytes written=812746
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=98
+		HDFS: Number of bytes written=0
+		HDFS: Number of read operations=1
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=0
+		S3: Number of bytes read=251
+		S3: Number of bytes written=236
+		S3: Number of read operations=0
+		S3: Number of large read operations=0
+		S3: Number of write operations=0
+	Job Counters 
+		Launched map tasks=1
+		Launched reduce tasks=7
+		Data-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=34686
+		Total time spent by all reduces in occupied slots (ms)=709464
+		Total time spent by all map tasks (ms)=5781
+		Total time spent by all reduce tasks (ms)=59122
+		Total vcore-seconds taken by all map tasks=5781
+		Total vcore-seconds taken by all reduce tasks=59122
+		Total megabyte-seconds taken by all map tasks=8324640
+		Total megabyte-seconds taken by all reduce tasks=170271360
+	Map-Reduce Framework
+		Map input records=10
+		Map output records=21
+		Map output bytes=359
+		Map output materialized bytes=369
+		Input split bytes=98
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=7
+		Reduce shuffle bytes=369
+		Reduce input records=21
+		Reduce output records=7
+		Spilled Records=42
+		Shuffled Maps =7
+		Failed Shuffles=0
+		Merged Map outputs=7
+		GC time elapsed (ms)=1030
+		CPU time spent (ms)=5300
+		Physical memory (bytes) snapshot=2392002560
+		Virtual memory (bytes) snapshot=24635924480
+		Total committed heap usage (bytes)=3100114944
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=251
+	File Output Format Counters 
+		Bytes Written=236
+2015-05-03 10:54:59,257 INFO amazon.emr.metrics.MetricsSaver (Thread-4): Saved 1:1 records to /mnt/var/em/raw/i-1c3be5eb_20150503_RunJar_25854_raw.bin

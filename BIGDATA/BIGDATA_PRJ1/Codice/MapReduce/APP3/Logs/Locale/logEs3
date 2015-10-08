@@ -1,0 +1,140 @@
+peter@peter-Aspire-ES1-512:~/hadoop$ hadoop jar /home/peter/Scrivania/App3.jar App3/CoupleAlimentsMain input/esempio10.txt output/result1 output/result2
+15/04/30 23:40:39 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+15/04/30 23:40:40 WARN mapreduce.JobSubmitter: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+15/04/30 23:40:41 INFO input.FileInputFormat: Total input paths to process : 1
+15/04/30 23:40:41 INFO mapreduce.JobSubmitter: number of splits:1
+15/04/30 23:40:42 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1430428850184_0003
+15/04/30 23:40:42 INFO impl.YarnClientImpl: Submitted application application_1430428850184_0003
+15/04/30 23:40:43 INFO mapreduce.Job: The url to track the job: http://peter-Aspire-ES1-512:8088/proxy/application_1430428850184_0003/
+15/04/30 23:40:43 INFO mapreduce.Job: Running job: job_1430428850184_0003
+15/04/30 23:41:00 INFO mapreduce.Job: Job job_1430428850184_0003 running in uber mode : false
+15/04/30 23:41:00 INFO mapreduce.Job:  map 0% reduce 0%
+15/04/30 23:41:14 INFO mapreduce.Job:  map 100% reduce 0%
+15/04/30 23:41:25 INFO mapreduce.Job:  map 100% reduce 100%
+15/04/30 23:41:26 INFO mapreduce.Job: Job job_1430428850184_0003 completed successfully
+15/04/30 23:41:26 INFO mapreduce.Job: Counters: 49
+	File System Counters
+		FILE: Number of bytes read=212
+		FILE: Number of bytes written=211173
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=368
+		HDFS: Number of bytes written=166
+		HDFS: Number of read operations=6
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=1
+		Launched reduce tasks=1
+		Data-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=10870
+		Total time spent by all reduces in occupied slots (ms)=8701
+		Total time spent by all map tasks (ms)=10870
+		Total time spent by all reduce tasks (ms)=8701
+		Total vcore-seconds taken by all map tasks=10870
+		Total vcore-seconds taken by all reduce tasks=8701
+		Total megabyte-seconds taken by all map tasks=11130880
+		Total megabyte-seconds taken by all reduce tasks=8909824
+	Map-Reduce Framework
+		Map input records=10
+		Map output records=17
+		Map output bytes=317
+		Map output materialized bytes=212
+		Input split bytes=117
+		Combine input records=17
+		Combine output records=10
+		Reduce input groups=10
+		Reduce shuffle bytes=212
+		Reduce input records=10
+		Reduce output records=10
+		Spilled Records=20
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=180
+		CPU time spent (ms)=3420
+		Physical memory (bytes) snapshot=432902144
+		Virtual memory (bytes) snapshot=1684459520
+		Total committed heap usage (bytes)=309854208
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=251
+	File Output Format Counters 
+		Bytes Written=166
+15/04/30 23:41:27 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+15/04/30 23:41:27 WARN mapreduce.JobSubmitter: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+15/04/30 23:41:27 INFO input.FileInputFormat: Total input paths to process : 1
+15/04/30 23:41:27 INFO mapreduce.JobSubmitter: number of splits:1
+15/04/30 23:41:27 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1430428850184_0004
+15/04/30 23:41:27 INFO impl.YarnClientImpl: Submitted application application_1430428850184_0004
+15/04/30 23:41:27 INFO mapreduce.Job: The url to track the job: http://peter-Aspire-ES1-512:8088/proxy/application_1430428850184_0004/
+15/04/30 23:41:27 INFO mapreduce.Job: Running job: job_1430428850184_0004
+15/04/30 23:41:44 INFO mapreduce.Job: Job job_1430428850184_0004 running in uber mode : false
+15/04/30 23:41:44 INFO mapreduce.Job:  map 0% reduce 0%
+15/04/30 23:41:54 INFO mapreduce.Job:  map 100% reduce 0%
+15/04/30 23:42:05 INFO mapreduce.Job:  map 100% reduce 100%
+15/04/30 23:42:06 INFO mapreduce.Job: Job job_1430428850184_0004 completed successfully
+15/04/30 23:42:06 INFO mapreduce.Job: Counters: 49
+	File System Counters
+		FILE: Number of bytes read=212
+		FILE: Number of bytes written=211201
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=291
+		HDFS: Number of bytes written=166
+		HDFS: Number of read operations=6
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=1
+		Launched reduce tasks=1
+		Data-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=7716
+		Total time spent by all reduces in occupied slots (ms)=7924
+		Total time spent by all map tasks (ms)=7716
+		Total time spent by all reduce tasks (ms)=7924
+		Total vcore-seconds taken by all map tasks=7716
+		Total vcore-seconds taken by all reduce tasks=7924
+		Total megabyte-seconds taken by all map tasks=7901184
+		Total megabyte-seconds taken by all reduce tasks=8114176
+	Map-Reduce Framework
+		Map input records=10
+		Map output records=10
+		Map output bytes=186
+		Map output materialized bytes=212
+		Input split bytes=125
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=3
+		Reduce shuffle bytes=212
+		Reduce input records=10
+		Reduce output records=10
+		Spilled Records=20
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=96
+		CPU time spent (ms)=3090
+		Physical memory (bytes) snapshot=442679296
+		Virtual memory (bytes) snapshot=1677660160
+		Total committed heap usage (bytes)=310902784
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=166
+	File Output Format Counters 
+		Bytes Written=166
+peter@peter-Aspire-ES1-512:~/hadoop$ 

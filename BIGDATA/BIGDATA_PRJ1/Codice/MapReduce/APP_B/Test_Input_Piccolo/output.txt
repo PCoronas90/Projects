@@ -1,0 +1,122 @@
+dolce mais vino 	1
+dolce pane 	2
+dolce uova 	2
+dolce uova formaggio 	1
+dolce vino 	3
+formaggio 	17
+formaggio dolce 	2
+formaggio dolce mais 	1
+formaggio mais 	6
+formaggio uova 	1
+formaggio uova mais 	1
+formaggio vino 	1
+insalata 	26
+insalata dolce 	6
+insalata dolce formaggio 	1
+insalata dolce formaggio mais 	1
+insalata dolce mais 	3
+insalata dolce mais vino 	1
+insalata dolce uova 	2
+insalata dolce vino 	1
+insalata formaggio 	6
+insalata formaggio dolce 	1
+insalata formaggio mais 	4
+insalata formaggio vino 	1
+insalata mais 	9
+insalata mais pane 	1
+insalata mais vino 	1
+insalata pane 	4
+insalata pane vino 	2
+insalata uova 	9
+insalata uova mais 	1
+insalata uova pane 	1
+insalata uova pane vino 	1
+insalata uova vino 	1
+insalata vino 	5
+latte 	20
+latte dolce 	2
+latte dolce pane 	1
+latte formaggio 	2
+latte formaggio mais 	1
+latte insalata 	2
+latte insalata mais 	1
+latte mais 	3
+latte pane 	2
+latte pistacchi 	3
+latte pistacchi formaggio 	1
+latte uova 	1
+latte vino 	1
+mais 	25
+mais pane 	2
+mais pane vino 	1
+mais vino 	5
+pane 	14
+pane vino 	4
+pesce 	21
+pesce dolce 	7
+pesce dolce formaggio 	1
+pesce dolce pane 	2
+pesce dolce uova 	1
+pesce dolce uova pane 	1
+pesce dolce vino 	2
+pesce formaggio 	5
+pesce formaggio dolce 	1
+pesce formaggio mais 	1
+pesce formaggio vino 	1
+pesce insalata 	7
+pesce insalata dolce 	1
+pesce insalata dolce formaggio 	1
+pesce insalata formaggio 	3
+pesce insalata formaggio mais 	1
+pesce insalata formaggio vino 	1
+pesce insalata mais 	1
+pesce insalata uova 	2
+pesce insalata vino 	2
+pesce latte 	3
+pesce latte dolce 	1
+pesce latte dolce pane 	1
+pesce latte insalata 	1
+pesce latte pane 	1
+pesce latte vino 	1
+pesce mais 	4
+pesce mais vino 	2
+pesce pane 	2
+pesce pistacchi 	2
+pesce pistacchi formaggio 	1
+pesce pistacchi mais 	1
+pesce pistacchi mais vino 	1
+pesce pistacchi vino 	1
+pesce uova 	4
+pesce uova pane 	1
+pesce vino 	7
+pistacchi 	18
+pistacchi dolce 	1
+pistacchi dolce mais 	1
+pistacchi formaggio 	5
+pistacchi formaggio mais 	2
+pistacchi insalata 	2
+pistacchi insalata formaggio 	1
+pistacchi insalata formaggio mais 	1
+pistacchi insalata mais 	2
+pistacchi insalata mais pane 	1
+pistacchi insalata pane 	1
+pistacchi mais 	7
+pistacchi mais pane 	2
+pistacchi mais pane vino 	1
+pistacchi mais vino 	2
+pistacchi pane 	2
+pistacchi pane vino 	1
+pistacchi uova 	1
+pistacchi uova formaggio 	1
+pistacchi uova formaggio mais 	1
+pistacchi uova mais 	1
+pistacchi vino 	2
+uova 	24
+uova dolce 	4
+uova dolce pane 	1
+uova formaggio 	2
+uova mais 	3
+uova pane 	3
+uova pane vino 	1
+uova vino 	1
+vino 	15

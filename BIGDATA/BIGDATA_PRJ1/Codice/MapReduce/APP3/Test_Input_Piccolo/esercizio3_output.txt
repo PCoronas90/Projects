@@ -1,0 +1,10 @@
+mais,insalata	9
+uova,insalata	9
+pesce,vino	7
+mais,pistacchi	7
+pesce,insalata	7
+pesce,dolce	7
+mais,formaggio	6
+dolce,formaggio	6
+dolce,uova	6
+formaggio,insalata	6

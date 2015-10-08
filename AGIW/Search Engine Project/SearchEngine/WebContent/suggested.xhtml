@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core">
+<head>
+ 	<title>Explore3</title>
+ 	<link href="stile.css" rel="stylesheet" type="text/css" />
+</head>
+<h:body>	
+
+	<h:form>
+		
+		<div id="container">
+		
+			<h:panelGroup>
+			<div class="box left">
+			<h:graphicImage id="logo" value="/image/logoSearch.png" width="70" height="70" margin-left="2000" />
+				</div>
+				<div class="box center">
+				<h:inputText value="#{searcherBean.originalQuery}" size="50" required="true" requiredMessage="Inserisci una query" />
+				</div>
+				<div class="box center2">
+				<h:commandButton value="Go!" action="#{searcherBean.searchImage}" image="/image/logoImg.png"></h:commandButton>
+				</div>
+				<div class="box right1">
+				<h:commandButton value="Go!" action="#{searcherBean.search}" image="/image/cerca.png" />
+				</div>
+				<div class="box right2">
+				<h:commandButton value="I'm Feeling lucky" action="#{searcherBean.feelLucky}" image="/image/lucky.png"/>
+			</div>
+			</h:panelGroup>
+	<br></br>
+		</div>
+<div class="result">		
+<br /><span style="color: grey"> La ricerca <b> "#{searcherBean.originalQuery}"</b> non ha prodotto nessun risultato</span>>
+ <c:if test="${not empty searcherBean.suggestedQuery}">
+<br /><span style="color: grey">Forse Cercavi <h:commandLink action="#{searcherBean.searchSuggested}" value="#{searcherBean.suggestedQuery}">
+  
+		   </h:commandLink></span>
+		    </c:if> 
+		    
+</div>   
+	</h:form>
+	<br />
+
+</h:body>
+</html>

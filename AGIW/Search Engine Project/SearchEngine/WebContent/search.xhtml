@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core">
+<head>
+ 	<title>Explore3</title>
+ 	<link href="stile.css" rel="stylesheet" type="text/css" />
+</head>
+<h:body>	
+
+	<h:form>
+		
+		<div id="container">
+		
+			<h:panelGroup>
+			<div class="box left">
+			<h:graphicImage id="logo" value="/image/logoSearch.png" width="70" height="70" margin-left="2000" />
+				</div>
+				<div class="box center">
+				<h:inputText value="#{searcherBean.originalQuery}" size="50" required="true" requiredMessage="Inserisci una query" />
+				</div>
+				<div class="box center2">
+				<h:commandButton value="Go!" action="#{searcherBean.searchImage}" image="/image/logoImg.png"></h:commandButton>
+				</div>
+				<div class="box right1">
+				<h:commandButton value="Go!" action="#{searcherBean.search}" image="/image/cerca.png" />
+				</div>
+				<div class="box right2">
+				<h:commandButton value="I'm Feeling lucky" action="#{searcherBean.feelLucky}" image="/image/lucky.png"/>
+			</div>
+			</h:panelGroup>
+	
+		</div>
+<div class="result">		
+		<br /><br /><span style="color: grey"> Risultati trovati per <b>"#{searcherBean.originalQuery}"</b>: #{searcherBean.numberOfResults} (#{searcherBean.searchTime} millisecondi)</span>
+ 
+ <c:if test="${not empty searcherBean.suggestedQuery}">
+ <br />Forse Cercavi <h:commandLink action="#{searcherBean.searchSuggested}" value="#{searcherBean.suggestedQuery}">
+       </h:commandLink>       
+</c:if> 
+        
+
+
+		<br /><br />
+		<c:set var="currentPage" value="#{searcherBean.currentPage}" />
+		<ui:repeat var="result" value="#{currentPage.results}">
+
+			<c:set var="path" value="#{result.path}" />
+			<h3><a href="#{path}">#{result.title}</a></h3>
+					<span style="color: green">Path:<b>#{result.path}</b></span>
+					<span style="color: grey">   Score:<b>#{result.score}</b></span> <br />
+					<h:outputFormat value="#{result.snippet}" escape="false"/>	
+					<br /><br />
+		</ui:repeat>
+
+		<br />
+
+		<h:panelGrid columns="5">
+
+			<c:set var="currentPage" value="#{searcherBean.currentPage.number}" />
+
+			<h:panelGroup>
+				<h:commandButton value="back" image="/image/arrowBack.png"
+					outcome="search" action="#{searcherBean.goToPage(currentPage-1)}" />
+					
+			</h:panelGroup>
+
+			<ui:repeat var="pagePrev" value="#{searcherBean.linkedPagesPrev}">
+				<h:panelGroup>
+					<c:set var="numberPrev" value="#{pagePrev.number}" />
+					<h:commandLink value="#{pagePrev.number}"
+						action="#{searcherBean.goToPage(numberPrev)}" />
+					<h:outputText value="&#160;" />
+				</h:panelGroup>
+			</ui:repeat>
+			<h:panelGroup>
+				<h:outputText value="#{searcherBean.currentPage.number}"
+					style="font-weight:bold" />
+			</h:panelGroup>
+
+			<ui:repeat var="pageNext" value="#{searcherBean.linkedPagesNext}">
+				<h:panelGroup>
+					<c:set var="numberNext" value="#{pageNext.number}" />
+					<h:commandLink value="#{pageNext.number}"
+						action="#{searcherBean.goToPage(numberNext)}" />
+					<h:outputText value="&#160;" />
+				</h:panelGroup>
+			</ui:repeat>
+
+			<h:panelGroup>
+				<h:commandButton value="next" image="/image/arrowNext.png"
+					outcome="search" action="#{searcherBean.goToPage(currentPage+1)}" />
+			</h:panelGroup>
+
+		</h:panelGrid>
+</div>
+
+
+	</h:form>
+	<br />
+
+
+</h:body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        <meta charset="utf-8">
+        <title>Visualization Project</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+    </head>
+
+    <body>
+<div id="header">
+<h1 align="center">Primo Progetto InfoVis</h1></div>
+
+<button id="ProjectPage">Project page</button>
+<button id="reset">Reset</button>
+<button id="ViewCode">View Code</button>
+<div id="container">
+<script type="text/javascript">
+
+// Creo un array per contenere i 30 smile
+var circles=new Array();
+
+//Creo un SVG pri cipale
+var svg = d3.select("body").append("svg")
+  .attr("width", 1330)
+  .attr("height", 600)
+  .style("display", "block")
+  .style("margin", "auto")
+.style("stroke", "#0033FF")
+  .style("fill", "#F6F6F6")
+.style("border", "2px solid blue")
+  .on("click", click);
+
+//Inseriso un rettangolo in cui inserirò gli smile. In questo modo posso gestirli in un'area limitata
+
+svg.append("rect")    
+  .attr("width", 1330)
+  .attr("height", 600)
+  .style("stroke", "#999999")
+  .style("fill", "transparent")
+.style("border", "1px solid blue");
+
+//Creo due array per gestire le posizioni casuali degli smile. Le posizioni sono Random dentro l'SVG rect
+var assxArray= new Array();
+var assyArray= new Array();
+
+//Creo una funzione per generare gli smile
+function createCircle(){ 
+for(i=0;i<29;i++){ 
+
+
+
+//Numero random per creare due tipi di smile: Sorridenti o tristi
+var randomMounth=Math.random()*10;
+
+//Le dimensioni e la posizione degli smile sono variabili. Li setto in modo che non possano essere creati all'infuori dell'svg rect
+var assx=50+Math.random()*1200;
+var assy=50+Math.random()*500;
+var dimR=10+Math.random()*40;
+
+assxArray[i]=assx;
+assyArray[i]=assy;
+
+//Creo un svg face su cui costruirò lo smile
+var face = svg.append("svg:g");
+
+//Cerchio principale
+var head=face.append("circle")
+    .style("stroke", "yellow")
+    .style("fill", "yellow")
+    .attr("r", dimR)
+    .attr("cx", assx)
+    .attr("cy", assy);
+
+// Essendo gli smile di dimensione casuale, ogni elemento va definito come funzione delle dimensioni.
+//Occhio sinistro esterno
+var left_eye_temp = face.append("svg:circle")
+              .style("stroke", "gray")
+    .style("fill", "white")
+    .attr("r", dimR/3)
+    .attr("cx", assx)
+    .attr("cy", assy)
+      .attr("transform", "translate(" + [-dimR/2.5, -dimR/3] + ")"); 
+
+//Occhio sinistro interno
+var left_eye = face.append("svg:circle")
+              .style("stroke", "gray")
+    .style("fill", "black")
+    .attr("r", dimR/10)
+    .attr("cx", assx)
+    .attr("cy", assy)
+      .attr("transform", "translate(" + [-dimR/2.5, -dimR/3] + ")"); 
+
+//Occhio destro esterno
+var right_eye_temp = face.append("svg:circle")
+             .style("stroke", "gray")
+    .style("fill", "white")
+    .attr("r", dimR/3)
+    .attr("cx", assx)
+    .attr("cy", assy)
+            .attr("transform", "translate(" + [dimR/2.5, -dimR/3] + ")");
+
+//Occhio destro interno
+var right_eye = face.append("svg:circle")
+             .style("stroke", "gray")
+    .style("fill", "black")
+    .attr("r", dimR/10)
+    .attr("cx", assx)
+    .attr("cy", assy)
+            .attr("transform", "translate(" + [dimR/2.5, -dimR/3] + ")");
+
+//Punti per creare il naso degli smile.
+var noseData = [ { "x": assx,   "y": assy-(dimR/25)}, 
+                 { "x": assx-(dimR/9),   "y": assy+(dimR/5)} ,
+                 { "x": assx+(dimR/9),   "y": assy+(dimR/5)} ,
+                 { "x": assx,   "y": assy-(dimR/25)},                 ];
+
+//Punti per la bocca e le sopracciglia della faccina sorridente
+if(randomMounth<5) {           
+var lineData = [ { "x": assx-(dimR/1.55),   "y": assy+(dimR/2.8)}, 
+                 { "x": assx,   "y": assy+(dimR/1.2)} ,                
+                 { "x": assx+(dimR/1.55),   "y": assy+(dimR/2.8)},                 ];
+
+var eyebrows1Data = [ { "x":  assx-(dimR/1.5),   "y": assy-(dimR/1.4)}, 
+                 { "x": assx-(dimR/5),   "y": assy-(dimR/1.2)}                 ];
+
+var eyebrows2Data = [ { "x":  assx+(dimR/1.5),   "y": assy-(dimR/1.4)}, 
+                 { "x": assx+(dimR/5),   "y": assy-(dimR/1.2)}                 ];}
+
+//Punti per la bocca e le sopracciglia della faccina  triste. IN questo caso modifica il colore e sposta gli occhi verso il basso
+if(randomMounth>5) {           
+var lineData = [ { "x": assx-(dimR/1.8),   "y": assy+(dimR/1.5)}, 
+                 { "x": assx,   "y": assy+(dimR/2.5)} ,                
+                 { "x": assx+(dimR/1.8),   "y": assy+(dimR/1.5)},                 ];
+
+var eyebrows1Data = [ { "x":  assx-(dimR/1.8),   "y": assy-(dimR/1.4)}, 
+                 { "x": assx-(dimR/5),   "y": assy-(dimR/1.2)}                 ];
+
+var eyebrows2Data = [ { "x":  assx+(dimR/1.8),   "y": assy-(dimR/1.4)}, 
+                 { "x": assx+(dimR/5),   "y": assy-(dimR/1.2)}                 ];
+
+head.style("stroke", "#99CCFF");
+head.style("fill", "#99CCFF");
+left_eye.attr("transform", "translate(" + [-dimR/2.5, -dimR/4] + ")"); 
+right_eye.attr("transform", "translate(" + [+dimR/2.5, -dimR/4] + ")"); 
+}
+
+
+
+//Funzioni per generare le linee relative alla bocca,al naso e alle sopracciglia.         
+var lineFunctionMount = d3.svg.line()
+                         .x(function(d) { return d.x; })
+                         .y(function(d) { return d.y; })
+                         .interpolate("basis");
+
+var lineFunctionLinear = d3.svg.line()
+                         .x(function(d) { return d.x; })
+                         .y(function(d) { return d.y; })
+                         .interpolate("linear");
+
+//Le unisco all'SVG
+var mounth = face.append("path")
+                            .attr("d", lineFunctionMount(lineData))
+                            .attr("stroke", "black")
+                            .attr("stroke-width", 2)
+                           .attr("fill", "none");
+
+var nose = face.append("path")
+                            .attr("d", lineFunctionLinear(noseData))
+                            .attr("stroke", "black")
+                            .attr("stroke-width", 1)
+                           .attr("fill", "none");
+
+var eyebrowsDataLeft = face.append("path")
+                            .attr("d", lineFunctionLinear(eyebrows1Data))
+                            .attr("stroke", "black")
+                            .attr("stroke-width", 1.5)
+                           .attr("fill", "none");
+
+var eyebrowsDataRight = face.append("path")
+                            .attr("d", lineFunctionLinear(eyebrows2Data))
+                            .attr("stroke", "black")
+                            .attr("stroke-width", 1.5)
+                           .attr("fill", "none");
+
+//Aggiungo all'array cerchi
+circles[i]=face; 
+}}
+
+
+//Genero la funzione per gestire lo spostamento
+function click(){
+for(i=0;i<29;i++){
+
+//Definisco una variabile random affinche le 30 faccine abbiano velocità diverse.
+//L'homework non lo specificava, ma se hanno uguale velocità, dopo il primo click tutte le faccine
+//Rimangono sovrapposte. IN questo modo si distinguono
+
+var DurationRandom=2500+Math.random()*2000; 
+  
+  if (d3.event.defaultPrevented) return;
+  
+  var point = d3.mouse(this)
+  , p = {x: point[0], y: point[1] };
+
+  
+ circles[i].transition()
+.duration(DurationRandom)
+.delay(1)
+  .attr("transform", "translate(" + (p.x-assxArray[i]) + "," + (p.y-assyArray[i]) + ")");
+ }
+}
+
+
+
+//Aggiungo un tasto per reindirizzare alla pagina con il codice
+document.getElementById("ViewCode").onclick = function () {
+        location.href = "code.html";
+    };
+
+//Aggiungo un tasto per il reset degli smile. Cancella tutto e rigenera lanciando la funzione createCircle.
+d3.select("#reset").on("click", function(){
+  svg.selectAll("circle")
+       .remove();
+svg.selectAll("path")
+       .remove();
+
+createCircle();
+
+});
+
+createCircle();
+    </script>
+</div>
+</body>
+<div id="footer">
+<p  color="white" align="center">Information Visualization Course of Roma Tre. Created by Pietro Coronas</p></div>
+</html>
+
+

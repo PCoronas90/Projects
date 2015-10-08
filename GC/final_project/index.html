@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head> 
+  <title>Final project</title> 
+  <style>
+   body{
+    margin: 0;
+    overflow: hidden;}
+  #stats{
+    position: absolute;
+    top: 0px;
+    left: 0px;}
+  #pointer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -20px;
+    margin-left: -20px;
+    width: 40px;
+    height: 40px;
+    display: none;
+    background-image: url("assets/textures/general/pointer.png");
+    background-repeat: no-repeat;
+    background-size: contain;}
+  #blocker {
+    text-shadow:0px 0px 20px rgba(250,100,100,1);
+    font-weight:bold;
+    font-size:30px;
+    font-family:arial, helvetica, sans-serif;
+    text-align:center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -15px;
+    margin-left: -100px;
+    width: 200px;
+    height: 30px;
+    display: none;}
+   #video {
+    display: none; 
+    position: absolute; 
+    left : 10px:15px; 
+    bottom: 10px;}
+  </style> 
+</head>
+<body>
+<div id="stats"></div>
+<div id="pointer"></div>
+<div id="blocker">Pointer Lock ERROR!</div>  
+<video id="video" src="assets/movies/italia.ogv" controls="true" autoplay="true"></video> 
+<script src="assets/libraries/jquery.min.js"></script> 
+<script src="assets/libraries/three.min.js"></script>
+<script src="assets/libraries/Stats.min.js"></script>
+<script src="assets/libraries/dat.gui.min.js"></script>
+<script src="assets/libraries/TrackballControls.js"></script>
+<script src="assets/libraries/OBJLoader.js"></script>
+<script src="assets/libraries/PointerLockControls.js"></script>
+<script src="assets/libraries/tween.min.js"></script>
+<script src="assets/libraries/OBJMTLLoader.js"></script>
+<script src="assets/libraries/MTLLoader.js"></script>
+
+<script src="script/MeshFunctions.js"></script>
+<script src="script/MeshGenerator.js"></script>  
+<script src="script/PortWindowCreator.js"></script>
+<script src="script/GardenCreator.js"></script>
+<script src="script/HomeCreator.js"></script>
+<script src="script/FornituresCreator.js"></script>
+<script src="script/FirstPersonAnimation.js"></script> 
+<script src="script/TweenAnimation.js"></script> 
+<script src="script/VideoAnimation.js"></script> 
+<script src="script/AudioAnimation.js"></script> 
+<script src="script/ParticleEngine.js"></script> 
+<script src="script/ParticleAnimation.js"></script> 
+<script src="script/Init.js"></script>    
+<script src="script/Gui.js"></script>    
+<script src="script/Interni.js"></script>  
+<script src="script/GeneralFunction.js"></script>
+<script>
+//Definizione delle variabili principali
+var controls,objects=[],Video,rayPointer,webGLRenderer
+var blocker = document.getElementById( 'blocker' );
+var stats;
+
+scene = new THREE.Scene();
+var ambiColor = "#0c0c0c";
+    var ambientLight = new THREE.AmbientLight(ambiColor);
+    scene.add(ambientLight);
+
+
+camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+var trackballControls,projector,base,spotLight1,spotLight2,casa,Giardino;
+
+var startAnimation,rain,fire,fire2=false,shower,night=false,snow=false,RadioSound=false,lightCamera01=false,bottoneStereo,bottoneLight,pomelloDoccia,FireKitchen=false;
+
+var controlGUI,gui;
+var directions;
+var materialArray;
+
+HomePointLight=new Array();
+HomeSpotLight=new Array(); 
+LightGarden=new Array();  
+ 
+init();
+render(); 
+$('body').append(webGLRenderer.domElement);      
+  </script>  
+ </body>
+</html>

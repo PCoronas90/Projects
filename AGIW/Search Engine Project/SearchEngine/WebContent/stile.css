@@ -1,0 +1,51 @@
+@CHARSET "ISO-8859-1";
+div#footer{
+    background:white;
+    bottom:0;
+    height:100px;
+    position:absolute;
+    width:100%;
+    text-align:center;
+}
+
+
+
+div.index{
+	margin-left:550px;
+	margin-top:-25px;
+}
+
+div.box {
+	width: 200px;
+	height: 200px;
+	
+
+	
+}
+
+.left {
+	margin-top: 0px;
+}
+
+.center {
+	margin: -180px 0 0 100px;
+}
+.center2{
+margin: -200px 0 0 430px;	
+}
+
+.right1 {
+	margin: -210px 0 0 480px;
+}
+.right2 {
+	margin: -200px 0 0 670px;
+}
+
+div.result {
+	width: 1000px;
+	height: 1000px;
+	margin-top:-150px;
+	margin-left:20px;
+
+	
+}
