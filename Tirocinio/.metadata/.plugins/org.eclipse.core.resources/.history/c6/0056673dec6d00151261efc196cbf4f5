@@ -7,6 +7,7 @@ import it.sp4te.CooperativeSpectrumSensing.Detection.Detection;
 import it.sp4te.CooperativeSpectrumSensing.Detection.Threshold;
 import it.sp4te.CooperativeSpectrumSensing.DomainModel.Signal;
 import it.sp4te.CooperativeSpectrumSensing.Functions.Moment;
+import it.sp4te.CooperativeSpectrumSensing.Functions.Pr;
 import it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions;
 
 

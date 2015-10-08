@@ -28,7 +28,7 @@ public class Signal {
 		}
 	}
 
-	//Metodi Getter e Setter
+	
 	
 	public int getSignalLenght() {
 		return signalLenght;

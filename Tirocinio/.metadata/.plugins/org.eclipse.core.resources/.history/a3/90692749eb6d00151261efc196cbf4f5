@@ -34,8 +34,6 @@ public class Noise {
 			}
 		}
 
-		
-		//Metodi Getter e Setter
 		public int getNoiseLenght() {
 			return noiseLenght;
 		}
