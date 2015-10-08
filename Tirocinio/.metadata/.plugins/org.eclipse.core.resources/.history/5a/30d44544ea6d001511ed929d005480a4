@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import it.sp4te.CooperativeSpectrumSensing.Agents.SecondaryUser;
+import it.CooperativeSpectrumSensing.Agents.SecondaryUser;
 import it.sp4te.CooperativeSpectrumSensing.DomainModel.Signal;
 import it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions;
 
