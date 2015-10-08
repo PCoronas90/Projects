@@ -1,0 +1,19 @@
+package it.sp4te.CooperativeSpectrumSensing.Detection;
+
+import it.sp4te.CooperativeSpectrumSensing.Functions.Pr;
+
+public class Detection {
+
+	
+	public static double implMethodDetection(double threshold,Pr pr){
+		double cont=0;
+		for(int i=0;i<pr.getPr().size();i++){
+			if (pr.getPr().get(i)>=threshold){
+				cont++;
+			}}
+
+
+		return (double)100/(double)(pr.getPr().size()/cont);
+
+	}
+}

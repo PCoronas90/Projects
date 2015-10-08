@@ -1,0 +1,25 @@
+package it.sp4te.CooperativeSpectrumSensing.Functions;
+
+import java.util.ArrayList;
+
+
+import it.sp4te.CooperativeSpectrumSensing.DomainModel.Signal;
+
+public class SignalFunctions {
+
+	
+	public static double signalEnergy(Signal s){
+		double p=0.0;
+		for(int i=0;i<s.getSignalLenght();i++){
+		p=p + Math.abs(Math.pow(s.getSamplesRe().get(i),2))+Math.abs((Math.pow(s.getSamplesIm().get(i),2)));
+		}
+		return p/s.getSignalLenght();
+	}
+	
+	public static  ArrayList<ArrayList<Double>> MomentEnergy(Signal s,int length,double energy,int attempts,int inf,int sup){
+		ArrayList<ArrayList<Double> > Energy = new ArrayList<ArrayList<Double> >();
+		return Energy;
+	}
+	
+	
+}

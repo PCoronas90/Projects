@@ -1,2 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="SpectrumSensing.DomainModel.Signal"/>
+<fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.DomainModel.Noise"/>
+<fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.Functions.MathFunctions"/>
+<fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.DomainModel.Signal"/>
+<fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.Functions.Pr"/>
+<fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.Detection.Detection"/>
+<fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.Detection.Threshold"/>
+<fullyQualifiedTypeName name="it.CooperativeSpectrumSensing.Agents.SecondaryUser"/>
+<fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions"/>
+<fullyQualifiedTypeName name="java.util.Set"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.util.Collections"/>
+</qualifiedTypeNameHistroy>

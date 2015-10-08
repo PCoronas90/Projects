@@ -1,0 +1,15 @@
+package it.sp4te.CooperativeSpectrumSensing.Functions;
+
+import SpectrumSensing.DomainModel.Signal;
+
+public class SignalFunctions {
+
+	
+	public static double signalEnergy(Signal s){
+		double p=0.0;
+		for(int i=0;i<s.getSignalLenght();i++){
+		p=p + Math.abs(Math.pow(s.getSamplesRe().get(i),2))+Math.abs((Math.pow(s.getSamplesIm().get(i),2)));
+		}
+		return p/s.getSignalLenght();
+	}
+}

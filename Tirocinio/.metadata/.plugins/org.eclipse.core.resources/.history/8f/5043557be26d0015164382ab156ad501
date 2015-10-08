@@ -1,0 +1,11 @@
+package it.sp4te.CooperativeSpectrumSensing.Main;
+
+public class SpectrumSensing {
+
+	public static void main(String args[]) {		
+		int lunghezza=1000; //poi 10000
+		int prove= 1000;
+		int inf= -30;
+		int sup= 5;
+	}
+}
