@@ -24,19 +24,26 @@ public class SecondaryUser {
 	ArrayList<ArrayList<Double> > MomentSignalEnergy = SignalFunctions.momentEnergy(MomentsSignal);
 	ArrayList<ArrayList<Double> > MomentNoiseEnergy = SignalFunctions.momentEnergy(MomentsNoise);	
 	
-	//Creo una mappa snr->detection
-	HashMap<Double,Double> PowerDetection= new HashMap<Double,Double>();
+	//Creo una mappa snr->detection. 
+	HashMap<Double,Double> EnergyDetection= new HashMap<Double,Double>();
 
 	//Calcolo la detection
 	for(int i=0;i<MomentSignalEnergy.size();i++){
 		
-		//Soglia Prende in input i momenti calcolati sul rumore. L'energy detector la soglia e i momenti calcolati sul segnale
+	//Soglia Prende in input i momenti calcolati sul rumore. L'energy detector la soglia e i momenti calcolati sul segnale
 	Double PD= Detection.EnergyDetection(Threshold.EnergyDetectorThreshold(0.01, MomentNoiseEnergy.get(i)), MomentSignalEnergy.get(i));
 	
 	//MomentSignal per l'snr
-	PowerDetection.put(MomentsSignal.get(i).getSnr(),PD);
+	EnergyDetection.put(MomentsSignal.get(i).getSnr(),PD);
+	
 	
 	
 }
-	return PowerDetection;
-	}}
+	
+	//Ordino la mappa e la ritorno
+	return EnergyDetection;
+	}
+	
+	
+
+}

@@ -8,11 +8,14 @@ import java.util.HashMap;
 import it.sp4te.CooperativeSpectrumSensing.Agents.SecondaryUser;
 import it.sp4te.CooperativeSpectrumSensing.DomainModel.Signal;
 import it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions;
+import it.sp4te.CooperativeSpectrumSensing.GraphGenerator.GraphGenerator;
 
 public class SpectrumSensing {
 
 	public static void main(String args[]) throws Exception {	
-		
+	HashMap<Double,Double> EnergyDetection=	new HashMap<Double,Double>();
+	HashMap<String,ArrayList<Double>> EnergyDetectionGraph= new HashMap<String,ArrayList<Double>>();
+	
 		//Setto i parametri
 		int length=1000; //poi 10000
 		int attempts= 1000;
@@ -26,18 +29,25 @@ public class SpectrumSensing {
 		SecondaryUser SU= new SecondaryUser();
 		
 		//Calcolo EnergyDetector
-		HashMap<Double,Double> PowerDetection=
-		SU.SpectrumSensingEnergyDetector(s, length, SignalFunctions.signalEnergy(s), attempts, inf, sup);
-		ArrayList<Double> snr= new ArrayList<Double>();
+		EnergyDetection=SU.SpectrumSensingEnergyDetector(s, length, SignalFunctions.signalEnergy(s), attempts, inf, sup);		
 		
-		//Stampo i valori
-		for (Double key : PowerDetection.keySet()) {
+		//E' NECESSARIO UN ORDINAMENTO IN BASE AGLI SNR
+		//Ordino gli snr
+		ArrayList<Double> snr= new ArrayList<Double>();
+		for (Double key : EnergyDetection.keySet()) {
 			snr.add(key);}
 		Collections.sort(snr);
-		for (Double key : snr) {
-        System.out.println("snr: "+ key + " " + "Detection: "+ PowerDetection.get(key).toString());
-		}
 		
+		//Prendo le detection
+		ArrayList<Double> Edetection= new ArrayList<Double>();
+		for (Double key : snr) {
+			Edetection.add(EnergyDetection.get(key));}
+	
+		
+		//Creo una mappa per creare il grafico. La mappa deve essere formata da nomeDetection->valori
+		
+		EnergyDetectionGraph.put("Energy Detection", Edetection);
+		GraphGenerator.drawGraph(EnergyDetectionGraph);
 		
 		
 	}

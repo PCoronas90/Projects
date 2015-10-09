@@ -1,0 +1,58 @@
+package it.sp4te.CooperativeSpectrumSensing.GraphGenerator;
+
+import java.util.List;
+import static com.googlecode.charts4j.Color.*;
+import static com.googlecode.charts4j.UrlUtil.normalize;
+import static org.junit.Assert.assertEquals;
+
+import java.awt.BorderLayout;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import com.googlecode.charts4j.Color;
+import com.googlecode.charts4j.Data;
+import com.googlecode.charts4j.GCharts;
+import com.googlecode.charts4j.Line;
+import com.googlecode.charts4j.LineChart;
+import com.googlecode.charts4j.Plot;
+import com.googlecode.charts4j.Plots;
+
+public class GraphGenerator {
+
+	
+	 public static void main(String...s) throws IOException {
+	        Plot plot = Plots.newPlot(Data.newData(0, 66.6, 33.3, 100));
+	        LineChart chart = GCharts.newLineChart(plot);
+	        displayUrlString(chart.toURLString());
+	    }
+
+	    /**
+	     * Display the chart in a swing window.
+	     *
+	     *
+	     * @param urlString
+	     *            the url string to display.
+	     * @throws IOException
+	     */
+	    private static void displayUrlString(final String urlString) throws IOException{
+	        JFrame frame = new JFrame();
+	        JLabel label = new JLabel(new ImageIcon(ImageIO.read(new URL(urlString))));
+	        frame.getContentPane().add(label, BorderLayout.CENTER);
+	        frame.pack();
+	        frame.setVisible(true);
+	    }
+	
+	
+
+}
