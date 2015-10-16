@@ -29,28 +29,21 @@ public class Detection {
 		int end=10;
 		
 		while(complete==false){
-			//media
 			double avg=0;
-			//campioni analizzati
 			int div=0;
-			//Scorro il segnale
 			for(int i=start;i<end;i++){
 				avg=avg+energy.get(i);
 				div++;
 			}
-			
-			//Confronto la media del blocco di energia con la soglia
 			if ((avg/div)>threshold){
 				cont++;}
-			///Se ho finito il campioni finisco
+			
 			if(end==energy.size()){complete=true;}
 			
-			//Altrimenti aggiorno i valori e scorro il segnale
 			else{
 			start=end+1;
 			end=end+10;}
 		}
-		//Ritorno la percentuale
 		return (double)100/(double)(100/cont);
 	}
 	
