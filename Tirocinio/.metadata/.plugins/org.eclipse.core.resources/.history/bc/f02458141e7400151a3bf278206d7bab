@@ -20,8 +20,6 @@ public class Detection {
 
 	}
 	
-	//Energy Detector calcolata dividendo il segnale in 100 blocchi da 10 campioni e calcolando la media
-	//dell'energia. Evita i picchi.
 	public static double energyDetection(double threshold, ArrayList<Double> energy){
 		double cont=0;
 		boolean complete=false;
@@ -44,9 +42,8 @@ public class Detection {
 		return (double)100/(double)(100/cont);
 	}
 	
-	
-	//Calcola la energy detection Tradizionale
-    public static double TraditionalEnergyDetection(double threshold, ArrayList<Double> energy){
+	//Calcola la energy detection
+    public static double EnergyDetection(double threshold, ArrayList<Double> energy){
     	double cont=0;
 		for(int i=0;i<energy.size();i++){
 			if (energy.get(i)>threshold){
