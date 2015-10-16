@@ -42,7 +42,7 @@ public class GraphGenerator {
 			Color lineColor=generateColor();
 		    Line line = Plots.newLine(Data.newData(detection.get(graphName)), lineColor, graphName);
 	        line.setLineStyle(LineStyle.newLineStyle(2, 1, 0));
-	       line.addShapeMarkers(Shape.CIRCLE, lineColor, 8);
+	       line.addShapeMarkers(Shape.CIRCLE, lineColor, 5);
 	        //Il colore va modificato ogni volta. Serve un metodo
 	        //line.addShapeMarkers(Shape.DIAMOND, generateColor(), 8);
 	        lines.add(line);

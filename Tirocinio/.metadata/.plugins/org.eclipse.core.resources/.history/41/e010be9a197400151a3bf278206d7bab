@@ -39,12 +39,11 @@ public class GraphGenerator {
 
 		ArrayList<Line> lines= new ArrayList<Line>();
 		for (String graphName : detection.keySet()) {
-			Color lineColor=generateColor();
-		    Line line = Plots.newLine(Data.newData(detection.get(graphName)), lineColor, graphName);
+		    Line line = Plots.newLine(Data.newData(detection.get(graphName)), generateColor(), graphName);
 	        line.setLineStyle(LineStyle.newLineStyle(2, 1, 0));
-	       line.addShapeMarkers(Shape.CIRCLE, lineColor, 8);
+	        line.addShapeMarkers(Shape.DIAMOND, generateColor(), 12);
 	        //Il colore va modificato ogni volta. Serve un metodo
-	        //line.addShapeMarkers(Shape.DIAMOND, generateColor(), 8);
+	        line.addShapeMarkers(Shape.DIAMOND, generateColor(), 8);
 	        lines.add(line);
 	        }
 	        

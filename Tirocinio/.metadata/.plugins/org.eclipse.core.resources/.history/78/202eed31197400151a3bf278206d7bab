@@ -39,18 +39,17 @@ public class GraphGenerator {
 
 		ArrayList<Line> lines= new ArrayList<Line>();
 		for (String graphName : detection.keySet()) {
-			Color lineColor=generateColor();
-		    Line line = Plots.newLine(Data.newData(detection.get(graphName)), lineColor, graphName);
-	        line.setLineStyle(LineStyle.newLineStyle(2, 1, 0));
-	       line.addShapeMarkers(Shape.CIRCLE, lineColor, 8);
+		    Line line = Plots.newLine(Data.newData(detection.get(graphName)), generateColor(), graphName);
+	        line.setLineStyle(LineStyle.newLineStyle(3, 1, 0));
+	        line.addShapeMarkers(Shape.DIAMOND, generateColor(), 12);
 	        //Il colore va modificato ogni volta. Serve un metodo
-	        //line.addShapeMarkers(Shape.DIAMOND, generateColor(), 8);
+	        line.addShapeMarkers(Shape.DIAMOND, generateColor(), 8);
 	        lines.add(line);
 	        }
 	        
 	        //Definisco il chart  
 	        LineChart chart = GCharts.newLineChart(lines);
-	        chart.setSize(665, 450); //Massima dimensione
+	        chart.setSize(1000, 1000);
 	        chart.setTitle("Detection Methods", WHITE, 14);
 	        
 	        //Definisco lo stile
