@@ -99,7 +99,6 @@ public class GraphGenerator {
          
 	}
 	
-	//Metodo per generare colore random. VA RIVISTO
 	private static Color generateColor(){
 		Double Random=Math.random()*100;
 		if(Random<10){return Color.WHITE;}

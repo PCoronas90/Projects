@@ -8,7 +8,7 @@ public class Detection {
 
 	
 //Detection Metodo Implementato	
-	public static double proposedMethodDetection(double threshold,Pr pr){
+	public static double ProposedMethodDetection(double threshold,Pr pr){
 		double cont=0;
 		for(int i=0;i<pr.getPr().size();i++){
 			if (pr.getPr().get(i)>=threshold){
@@ -21,7 +21,7 @@ public class Detection {
 	}
 	
 	//Calcola la energy detection
-    public static double energyDetection(double threshold, ArrayList<Double> energy){
+    public static double EnergyDetection(double threshold, ArrayList<Double> energy){
     	double cont=0;
 		for(int i=0;i<energy.size();i++){
 			if (energy.get(i)>threshold){

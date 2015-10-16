@@ -32,9 +32,8 @@ public class SpectrumSensing {
 		//Genero utente secondario
 		SecondaryUser SU= new SecondaryUser(s, length, SignalFunctions.signalEnergy(s), attempts, inf, sup);
 		
-		//Calcolo EnergyDetection
-		EnergyDetection=SU.spectrumSensingEnergyDetector();
-		//Calcolo ProposedDetection
+		//Calcolo EnergyDetector
+		EnergyDetection=SU.spectrumSensingEnergyDetector();		
 		ProposedDetection=SU.spectrumSensingProposedDetector();
 		
 	

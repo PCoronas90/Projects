@@ -20,7 +20,7 @@ public class Threshold {
 	
 
 	//Calcolo soglia energyDetector
-    public static double energyDetectorThreshold(double Pfa,ArrayList<Double> energy) throws Exception{
+    public static double EnergyDetectorThreshold(double Pfa,ArrayList<Double> energy) throws Exception{
 
     	double M = MathFunctions.Avarege(energy);
     	double V= MathFunctions.Variance(energy);

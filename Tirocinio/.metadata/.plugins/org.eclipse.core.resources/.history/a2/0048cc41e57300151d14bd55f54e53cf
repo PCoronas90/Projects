@@ -38,11 +38,11 @@ public class SecondaryUser {
 	
 	
 	//SPECTRUM SENSING ENERGY DETECTOR
-	public ArrayList<Double> spectrumSensingEnergyDetector() throws Exception {	 
+	public ArrayList<Double> SpectrumSensingEnergyDetector() throws Exception {	 
 	HashMap<Double,Double> EnergyDetection= new HashMap<Double,Double>();	
 	
 	for(int i=0;i<this.MomentSignalEnergy.size();i++){
-	   Double ED= Detection.energyDetection(Threshold.energyDetectorThreshold(0.01, this.MomentNoiseEnergy.get(i)), MomentSignalEnergy.get(i));
+	   Double ED= Detection.EnergyDetection(Threshold.EnergyDetectorThreshold(0.01, this.MomentNoiseEnergy.get(i)), MomentSignalEnergy.get(i));
 	   EnergyDetection.put(this.MomentsSignal.get(i).getSnr(),ED);}
 	
 	//Ordino in base all'SNR e ritorno
@@ -52,11 +52,11 @@ public class SecondaryUser {
 	
 	
 	//SPECTRUM SENSING PROPOSED DETECTOR
-	public ArrayList<Double> spectrumSensingProposedDetector() throws Exception {
+	public ArrayList<Double> SpectrumSensingProposedDetector() throws Exception {
 		HashMap<Double,Double> ProposedDetection= new HashMap<Double,Double>();
 		
 		for(int i=0;i<this.MomentSignalEnergy.size();i++){
-			Double PD=Detection.proposedMethodDetection(Threshold.proposedThreshold(0.01, this.PrNoise.get(i)), this.PrSignal.get(i));	
+			Double PD=Detection.implMethodDetection(Threshold.implThreshold(0.01, this.PrNoise.get(i)), this.PrSignal.get(i));	
 			ProposedDetection.put(this.MomentsSignal.get(i).getSnr(),PD);
 		}
 		return orderSignal(ProposedDetection);

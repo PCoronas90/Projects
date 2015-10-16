@@ -38,7 +38,7 @@ public class SecondaryUser {
 	
 	
 	//SPECTRUM SENSING ENERGY DETECTOR
-	public ArrayList<Double> spectrumSensingEnergyDetector() throws Exception {	 
+	public ArrayList<Double> SpectrumSensingEnergyDetector() throws Exception {	 
 	HashMap<Double,Double> EnergyDetection= new HashMap<Double,Double>();	
 	
 	for(int i=0;i<this.MomentSignalEnergy.size();i++){
@@ -52,7 +52,7 @@ public class SecondaryUser {
 	
 	
 	//SPECTRUM SENSING PROPOSED DETECTOR
-	public ArrayList<Double> spectrumSensingProposedDetector() throws Exception {
+	public ArrayList<Double> SpectrumSensingProposedDetector() throws Exception {
 		HashMap<Double,Double> ProposedDetection= new HashMap<Double,Double>();
 		
 		for(int i=0;i<this.MomentSignalEnergy.size();i++){
