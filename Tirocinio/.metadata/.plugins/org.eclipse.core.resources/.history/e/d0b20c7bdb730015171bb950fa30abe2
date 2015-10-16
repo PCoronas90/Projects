@@ -1,0 +1,41 @@
+package it.sp4te.CooperativeSpectrumSensing.Main;
+
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+
+import it.sp4te.CooperativeSpectrumSensing.Agents.SecondaryUser;
+import it.sp4te.CooperativeSpectrumSensing.DomainModel.Signal;
+import it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions;
+import it.sp4te.CooperativeSpectrumSensing.GraphGenerator.GraphGenerator;
+
+public class SpectrumSensing {
+
+	public static void main(String args[]) throws Exception {	
+		HashMap<Double,Double> EnergyDetection=	new ArrayList<Double>();
+	//Creo una mappa per creare il grafico. La mappa deve essere formata da nomeDetection->valori
+	HashMap<String,ArrayList<Double>> EnergyDetectionGraph= new HashMap<String,ArrayList<Double>>();
+	
+		//Setto i parametri
+		int length=1000; //poi 10000
+		int attempts= 1000;
+		int inf= -30;
+		int sup= 5;
+		
+		//Genero il segnale
+		Signal s = new Signal(length);
+		
+		//Genero utente secondario
+		SecondaryUser SU= new SecondaryUser();
+		
+		//Calcolo EnergyDetector
+		EnergyDetection=SU.SpectrumSensingEnergyDetector(s, length, SignalFunctions.signalEnergy(s), attempts, inf, sup);		
+				
+		//Inizializzo la Mappa per il grafico
+		EnergyDetectionGraph.put("Energy Detection", EnergyDetection);
+		GraphGenerator.drawGraph(EnergyDetectionGraph,inf,sup);
+		
+		
+	}
+}

@@ -34,16 +34,16 @@ import com.googlecode.charts4j.Shape;
 
 public class GraphGenerator {
 
-//Il metodo prende in input una mappa nomeDetection->detection	
-	public static void drawGraph(HashMap<String,ArrayList<Double>> detection ) throws IOException{
+//Il metodo prende in input una mappa nomeDetection->detection e gli estremi di snr	
+	public static void drawGraph(HashMap<String,ArrayList<Double>> detection,int inf,int sup ) throws IOException{
 
 		ArrayList<Line> lines= new ArrayList<Line>();
 		for (String graphName : detection.keySet()) {
-		    Line line = Plots.newLine(Data.newData(detection.get(graphName)), Color.newColor("CA3D05"), graphName);
+		    Line line = Plots.newLine(Data.newData(detection.get(graphName)), generateColor(), graphName);
 	        line.setLineStyle(LineStyle.newLineStyle(3, 1, 0));
-	        line.addShapeMarkers(Shape.DIAMOND, Color.newColor("CA3D05"), 12);
+	        line.addShapeMarkers(Shape.DIAMOND, generateColor(), 12);
 	        //Il colore va modificato ogni volta. Serve un metodo
-	        line.addShapeMarkers(Shape.DIAMOND, Color.WHITE, 8);
+	        line.addShapeMarkers(Shape.DIAMOND, generateColor(), 8);
 	        lines.add(line);
 	        }
 	        
@@ -60,7 +60,7 @@ public class GraphGenerator {
 	        yAxis.setAxisStyle(axisStyle);
 	      
 	        //Etichetta asse x(SNR in DB)
-	        AxisLabels xAxis1 = AxisLabelsFactory.newNumericRangeAxisLabels(-30, 5);
+	        AxisLabels xAxis1 = AxisLabelsFactory.newNumericRangeAxisLabels(inf, sup);
 	        xAxis1.setAxisStyle(axisStyle);
 	        
 	        //Etichetta asse x
@@ -97,6 +97,20 @@ public class GraphGenerator {
         frame.pack();
         frame.setVisible(true);
          
+	}
+	
+	private static Color generateColor(){
+		Double Random=Math.random()*100;
+		if(Random<10){return Color.WHITE;}
+		else if(Random>10 & Random<20){return Color.BLACK;}
+		else if(Random>20 & Random<30){return Color.BLUE;}
+		else if(Random>30 & Random<40){return Color.YELLOW;}
+		else if(Random>40 & Random<50){return Color.GREEN;}
+		else if(Random>50 & Random<60){return Color.AQUA;}
+		else if(Random>60 & Random<70){return Color.AZURE;}
+		else if(Random>70 & Random<80){return Color.VIOLET;}
+		else if(Random>80 & Random<90){return Color.CYAN;}
+		else return Color.PURPLE;
 	}
 	
 	
