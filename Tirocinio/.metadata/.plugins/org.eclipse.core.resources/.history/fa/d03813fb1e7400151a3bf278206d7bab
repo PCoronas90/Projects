@@ -104,7 +104,7 @@ public class GraphGenerator {
 	private static Color generateColor(){
 		Double Random=Math.random()*100;
 		if(Random<10){return Color.WHITE;}
-		else if(Random>10 & Random<20){return Color.INDIGO;}
+		else if(Random>10 & Random<20){return Color.BLACK;}
 		else if(Random>20 & Random<30){return Color.BLUE;}
 		else if(Random>30 & Random<40){return Color.YELLOW;}
 		else if(Random>40 & Random<50){return Color.GREEN;}
