@@ -19,6 +19,7 @@ public class SpectrumSensing {
 	public static void main(String args[]) throws Exception {
 		ArrayList<Double> EnergyDetection = new ArrayList<Double>();
 		ArrayList<Double> ProposedDetection = new ArrayList<Double>();
+		ArrayList<Double> TraditionalEnergyDetection = new ArrayList<Double>();
 
 		// Creo una mappa per creare il grafico. La mappa deve essere formata da
 		// nomeDetection->valori
@@ -29,6 +30,7 @@ public class SpectrumSensing {
 		int attempts = 1000;
 		int inf = -30;
 		int sup = 5;
+		
 
 		// Genero il segnale
 		Signal s = new Signal(length);
@@ -40,10 +42,12 @@ public class SpectrumSensing {
 		EnergyDetection = SU.spectrumSensingEnergyDetector();
 		// Calcolo ProposedDetection
 		ProposedDetection = SU.spectrumSensingProposedDetector();
+		TraditionalEnergyDetection=SU.spectrumSensingTraditionalEnergyDetector();
 
 		// Inizializzo la Mappa per il grafico
 		DetectionGraph.put("Energy Detection", EnergyDetection);
 		DetectionGraph.put("Proposed Detection", ProposedDetection);
+		DetectionGraph.put("Traditional Energy Detection", TraditionalEnergyDetection);
 
 		GraphGenerator.drawGraph(DetectionGraph, inf, sup);
 
