@@ -72,7 +72,6 @@ public class Moment {
 	}
 
 	/** Classici metodi Getter e Setter **/
-	
 	public double getSnr() {
 		return snr;
 	}

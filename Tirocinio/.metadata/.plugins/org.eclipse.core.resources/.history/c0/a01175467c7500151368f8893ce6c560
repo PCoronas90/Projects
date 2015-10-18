@@ -40,10 +40,8 @@ public class GraphGenerator {
 	 **/
 
 	public static void drawGraph(HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException {
-		// Definisco un array di Lines. In questo array inserisco i diversi
-		// grafici che voglio visualizzare
-		ArrayList<Line> lines = new ArrayList<Line>();
 
+		ArrayList<Line> lines = new ArrayList<Line>();
 		for (String graphName : detection.keySet()) {
 			Color lineColor = generateColor();
 			Line line = Plots.newLine(Data.newData(detection.get(graphName)), lineColor, graphName);

@@ -10,7 +10,7 @@ import it.sp4te.CooperativeSpectrumSensing.GraphGenerator.GraphGenerator;
 
 /**
  * Classe SpectrumSensing. Tramite il metodo main Si occupa di creare: -Il
- * segnale -L'utente Secondario . Tramite l'utente secondario effettua i 2 diversi
+ * segnale -L'utente Secondario Tramite l'utente secondario effettua i 2 diversi
  * tipi di Detection. Successivamente passa alla creazione del grafico.
  **/
 
