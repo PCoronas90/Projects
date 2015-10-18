@@ -5,27 +5,37 @@ import java.util.ArrayList;
 import it.sp4te.CooperativeSpectrumSensing.Functions.MathFunctions;
 import it.sp4te.CooperativeSpectrumSensing.Functions.Pr;
 
-
-
+/**
+ * Classe per il calcolo delle soglie necessarie per il calcolo dei diversi tipi
+ * di Detection
+ **/
 public class Threshold {
 
-	//calcolo della soglia del metodo implementato.
-	public static double proposedThreshold(double Pfa,Pr pr) throws Exception{
-		double M = MathFunctions.Avarege(pr.getPr());
-		double V= MathFunctions.Variance(pr.getPr());
+	/**
+	 * Metodo per il calcolo della soglia necessaria per la Detection del metodo
+	 * proposto. Prende in input probabilità di falso allarme e oggetto PR
+	 **/
 
-		double implThreshold=M+ Math.sqrt(2*V)*MathFunctions.InvErf(1-2*Pfa);
+	public static double proposedThreshold(double Pfa, Pr pr) throws Exception {
+		double M = MathFunctions.Avarege(pr.getPr());
+		double V = MathFunctions.Variance(pr.getPr());
+
+		double implThreshold = M + Math.sqrt(2 * V) * MathFunctions.InvErf(1 - 2 * Pfa);
 		return implThreshold;
 	}
-	
 
-	//Calcolo soglia energyDetector
-    public static double energyDetectorThreshold(double Pfa,ArrayList<Double> energy) throws Exception{
+	/**
+	 * Metodo per il calcolo della soglia necessaria per l'energy Detector.
+	 * Prende in input la probabilità di falso allarme e un vettore di energia
+	 * (i momenti del secondo e quarto ordine)
+	 **/
 
-    	double M = MathFunctions.Avarege(energy);
-    	double V= MathFunctions.Variance(energy);
+	public static double energyDetectorThreshold(double Pfa, ArrayList<Double> energy) throws Exception {
 
-    	double edThreshold=M+ Math.sqrt(2*V)*MathFunctions.InvErf(1-2*Pfa);
-    		return  edThreshold;
-    }}
+		double M = MathFunctions.Avarege(energy);
+		double V = MathFunctions.Variance(energy);
 
+		double edThreshold = M + Math.sqrt(2 * V) * MathFunctions.InvErf(1 - 2 * Pfa);
+		return edThreshold;
+	}
+}
