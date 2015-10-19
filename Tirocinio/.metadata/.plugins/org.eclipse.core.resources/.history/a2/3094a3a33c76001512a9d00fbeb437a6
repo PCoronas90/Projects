@@ -51,7 +51,7 @@ public class Detection {
 				cont++;
 			}
 
-			if (end >= energy.size()-1) {
+			if (end == energy.size()) {
 				complete = true;
 			} /// Se ho finito i campioni finisco
 

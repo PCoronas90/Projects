@@ -40,18 +40,16 @@ public class GraphGenerator {
 	 **/
 
 	public static void drawGraph(HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException {
-		ArrayList<Color> colorList=generateColor();
-		int i=0;
 		// Definisco un array di Lines. In questo array inserisco i diversi
 		// grafici che voglio visualizzare
 		ArrayList<Line> lines = new ArrayList<Line>();
-        
+
 		for (String graphName : detection.keySet()) {
-			Line line = Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
+			Color lineColor = generateColor();
+			Line line = Plots.newLine(Data.newData(detection.get(graphName)), lineColor, graphName);
 			line.setLineStyle(LineStyle.newLineStyle(2, 1, 0));
-			line.addShapeMarkers(Shape.CIRCLE, colorList.get(i), 8);
+			line.addShapeMarkers(Shape.CIRCLE, lineColor, 8);
 			lines.add(line);
-			i++;
 		}
 
 		// Definisco il chart
@@ -106,16 +104,29 @@ public class GraphGenerator {
 	}
 
 	/** Metodo per la generazione del colore Random. **/
-	private static ArrayList<Color> generateColor() {
-		ArrayList<Color> colorList= new ArrayList<Color>();
-		colorList.add(Color.BLUE);
-		colorList.add(Color.RED);
-		colorList.add(Color.GREEN);
-		colorList.add(Color.VIOLET);
-		colorList.add(Color.ORANGE);
-		
-		
-			return colorList;
+	private static Color generateColor() {
+		ArratList<Color> colorList= new ArrayList<Color>();
+		Double Random = Math.random() * 100;
+		if (Random < 10) {
+			return Color.WHITE;
+		} else if (Random > 10 & Random < 20) {
+			return Color.INDIGO;
+		} else if (Random > 20 & Random < 30) {
+			return Color.BLUE;
+		} else if (Random > 30 & Random < 40) {
+			return Color.YELLOW;
+		} else if (Random > 40 & Random < 50) {
+			return Color.GREEN;
+		} else if (Random > 50 & Random < 60) {
+			return Color.AQUA;
+		} else if (Random > 60 & Random < 70) {
+			return Color.AZURE;
+		} else if (Random > 70 & Random < 80) {
+			return Color.VIOLET;
+		} else if (Random > 80 & Random < 90) {
+			return Color.CYAN;
+		} else
+			return Color.PURPLE;
 	}
 
 }

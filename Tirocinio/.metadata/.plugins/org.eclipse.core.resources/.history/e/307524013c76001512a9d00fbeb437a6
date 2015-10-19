@@ -41,17 +41,15 @@ public class GraphGenerator {
 
 	public static void drawGraph(HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException {
 		ArrayList<Color> colorList=generateColor();
-		int i=0;
 		// Definisco un array di Lines. In questo array inserisco i diversi
 		// grafici che voglio visualizzare
 		ArrayList<Line> lines = new ArrayList<Line>();
-        
+
 		for (String graphName : detection.keySet()) {
 			Line line = Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
 			line.setLineStyle(LineStyle.newLineStyle(2, 1, 0));
 			line.addShapeMarkers(Shape.CIRCLE, colorList.get(i), 8);
 			lines.add(line);
-			i++;
 		}
 
 		// Definisco il chart
@@ -108,10 +106,10 @@ public class GraphGenerator {
 	/** Metodo per la generazione del colore Random. **/
 	private static ArrayList<Color> generateColor() {
 		ArrayList<Color> colorList= new ArrayList<Color>();
-		colorList.add(Color.BLUE);
+		colorList.add(Color.VIOLET);
 		colorList.add(Color.RED);
 		colorList.add(Color.GREEN);
-		colorList.add(Color.VIOLET);
+		colorList.add(Color.BLUE);
 		colorList.add(Color.ORANGE);
 		
 		

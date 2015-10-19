@@ -51,12 +51,12 @@ public class Detection {
 				cont++;
 			}
 
-			if (end >= energy.size()-1) {
+			if (end == energy.size()) {
 				complete = true;
 			} /// Se ho finito i campioni finisco
 
 			else {// Altrimenti aggiorno i valori e scorro il segnale
-				start = end;
+				start = end ;
 				end = end + samples;
 			}
 		}

@@ -48,15 +48,16 @@ public class Detection {
 			}
 
 			if ((avg / div) > threshold) { // Confronto la media del blocco di energia con la soglia
+				System.out.println(avg / div + " " + threshold);
 				cont++;
 			}
 
-			if (end >= energy.size()-1) {
+			if (end == energy.size()) {
 				complete = true;
 			} /// Se ho finito i campioni finisco
 
 			else {// Altrimenti aggiorno i valori e scorro il segnale
-				start = end;
+				start = end + 1;
 				end = end + samples;
 			}
 		}
