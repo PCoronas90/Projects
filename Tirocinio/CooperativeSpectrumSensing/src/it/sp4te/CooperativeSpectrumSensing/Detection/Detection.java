@@ -37,31 +37,33 @@ public class Detection {
 		int start = 0;
 		int samples = (energy.size() / block);
 		int end = samples;
-
+       
 		while (complete == false) {
 			double avg = 0;// media
-			int div = 0;// campioni analizzati
+			
 
 			for (int i = start; i < end; i++) {// Scorro il segnale
+				
 				avg = avg + energy.get(i);
-				div++;
+				
+				
 			}
-
-			if ((avg / div) > threshold) { // Confronto la media del blocco di energia con la soglia
+			
+			
+			if ((avg / samples) > threshold) { // Confronto la media del blocco di energia con la soglia
 				cont++;
 			}
 
 			if (end >= energy.size()-1) {
 				complete = true;
-			} /// Se ho finito i campioni finisco
-
-			else {// Altrimenti aggiorno i valori e scorro il segnale
+			} 			
 				start = end;
 				end = end + samples;
-			}
+			
 		}
-		// Ritorno la percentuale
-		return (double) 100 / (double) (block / cont);
+		
+		
+		return (double) 100 / (double) (block/ cont);
 	}
 
 	/**

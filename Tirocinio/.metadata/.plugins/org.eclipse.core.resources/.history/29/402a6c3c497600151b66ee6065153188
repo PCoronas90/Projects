@@ -1,0 +1,52 @@
+package it.sp4te.CooperativeSpectrumSensing.Main;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import it.sp4te.CooperativeSpectrumSensing.Agents.SecondaryUser;
+import it.sp4te.CooperativeSpectrumSensing.DomainModel.Signal;
+import it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions;
+import it.sp4te.CooperativeSpectrumSensing.GraphGenerator.GraphGenerator;
+
+public class SpectrumSensingTest {
+	public static void main(String args[]) throws Exception {
+		int length = 1000; // poi 10000
+		int attempts = 1000;
+		int inf = -30;
+		int sup = 5;
+		int block=5; //blocchi energy Detector
+		int block2=10;
+		int block3=50;
+		int block4=100;
+		
+		ArrayList<Double> EnergyDetection5 = new ArrayList<Double>();
+		ArrayList<Double> EnergyDetection10 = new ArrayList<Double>();
+		ArrayList<Double> EnergyDetection50 = new ArrayList<Double>();
+		ArrayList<Double> EnergyDetection100 = new ArrayList<Double>();
+		HashMap<String, ArrayList<Double>> DetectionGraph = new HashMap<String, ArrayList<Double>>();
+
+
+
+
+		
+		Signal s = new Signal(length);
+		SecondaryUser SU = new SecondaryUser(s, length, SignalFunctions.signalEnergy(s), attempts, inf, sup);
+
+		EnergyDetection5 = SU.spectrumSensingEnergyDetector(block);
+		EnergyDetection10 = SU.spectrumSensingEnergyDetector(block2);
+		EnergyDetection50 = SU.spectrumSensingEnergyDetector(block3);
+		EnergyDetection100 = SU.spectrumSensingEnergyDetector(block4);
+		
+		DetectionGraph.put("Energy Detection 5 block", EnergyDetection5);
+		DetectionGraph.put("Energy Detection 10 block ", EnergyDetection10);
+		DetectionGraph.put("Energy Detection 50 block ", EnergyDetection50);
+		DetectionGraph.put("Energy Detection 100 block ", EnergyDetection100);
+		
+		GraphGenerator.drawGraph(DetectionGraph, inf, sup);
+
+
+
+
+		
+	}
+}

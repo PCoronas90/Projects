@@ -50,14 +50,14 @@ public class SecondaryUser {
 	 * secondo e quarto ordine calcolati sulle due ipotesi
 	 **/
 
-	public ArrayList<Double> spectrumSensingEnergyDetector() throws Exception {
+	public ArrayList<Double> spectrumSensingEnergyDetector(int block) throws Exception {
 		//EnergyDetection è una mappa snr->detection
 		HashMap<Double, Double> EnergyDetection = new HashMap<Double, Double>();
 
 		for (int i = 0; i < this.MomentSignalEnergy.size(); i++) {
 			//pfa settata a 0.01. Segnale diviso in 10 blocchi da 100 campioni ciascuno
 			Double ED = Detection.energyDetection(
-					Threshold.energyDetectorThreshold(0.01, this.MomentNoiseEnergy.get(i)), MomentSignalEnergy.get(i),100);
+					Threshold.energyDetectorThreshold(0.01, this.MomentNoiseEnergy.get(i)), MomentSignalEnergy.get(i),block);
 			EnergyDetection.put(this.MomentsSignal.get(i).getSnr(), ED);
 		}
 

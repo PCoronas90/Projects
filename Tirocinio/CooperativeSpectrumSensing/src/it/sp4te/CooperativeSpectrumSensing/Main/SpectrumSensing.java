@@ -30,6 +30,7 @@ public class SpectrumSensing {
 		int attempts = 1000;
 		int inf = -30;
 		int sup = 5;
+		int block=10; //blocchi energy Detector
 		
 
 		// Genero il segnale
@@ -39,7 +40,7 @@ public class SpectrumSensing {
 		SecondaryUser SU = new SecondaryUser(s, length, SignalFunctions.signalEnergy(s), attempts, inf, sup);
 
 		// Calcolo EnergyDetection
-		EnergyDetection = SU.spectrumSensingEnergyDetector();
+		EnergyDetection = SU.spectrumSensingEnergyDetector(block);
 		// Calcolo ProposedDetection
 		ProposedDetection = SU.spectrumSensingProposedDetector();
 		TraditionalEnergyDetection=SU.spectrumSensingTraditionalEnergyDetector();
@@ -49,7 +50,7 @@ public class SpectrumSensing {
 		DetectionGraph.put("Proposed Detection", ProposedDetection);
 		DetectionGraph.put("Traditional Energy Detection", TraditionalEnergyDetection);
 
-		GraphGenerator.drawGraph(DetectionGraph, inf, sup);
+		GraphGenerator.drawGraph("Detection Methods",DetectionGraph, inf, sup);
 
 	}
 }

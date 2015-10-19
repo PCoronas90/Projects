@@ -39,7 +39,7 @@ public class GraphGenerator {
 	 * elementi nella mappa
 	 **/
 
-	public static void drawGraph(HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException {
+	public static void drawGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException {
 		ArrayList<Color> colorList=generateColor();
 		int i=0;
 		// Definisco un array di Lines. In questo array inserisco i diversi
@@ -57,7 +57,7 @@ public class GraphGenerator {
 		// Definisco il chart
 		LineChart chart = GCharts.newLineChart(lines);
 		chart.setSize(665, 450); // Massima dimensione
-		chart.setTitle("Detection Methods", BLACK, 14);
+		chart.setTitle(title, BLACK, 14);
 		chart.setGrid(5, 5, 3, 2);
 
 		// Definisco lo stile
