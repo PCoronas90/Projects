@@ -42,7 +42,11 @@ public class MathFunctions {
 		return (Avarege(b)) - (Math.pow(Avarege(a), 2));
 	}
 
-	/** Metodo per effettuare la somma di due vettori. 
+	/** Metodo per effettuare la somma di due vettori. In questo caso verrà utilizzata per la somma
+	 * dei vettori relativi al Segnale e al Rumore
+	 * @param noise Primo vettore da sommare
+	 * @param signal Secondo vettore da sommare 
+	 * @return Il vettore risultante dalla somma
 	 **/
 	
 	public static ArrayList<Double> SumVector(ArrayList<Double> noise, ArrayList<Double> signal) {
@@ -59,6 +63,8 @@ public class MathFunctions {
 	}
 
 	/** Metodo per il calcolo della funzione INVERF 
+	 * @param d In questo caso 1 - 2 * Pfa
+	 * @return Ritorna l'applicazione della funzione InvErf al parametro d
 	 * @throws Exception d deve essere compreso tra -1 e 1**/
 	
 	public static double InvErf(double d) throws Exception  {

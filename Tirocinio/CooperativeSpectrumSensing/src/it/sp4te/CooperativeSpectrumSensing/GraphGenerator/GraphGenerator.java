@@ -43,6 +43,7 @@ public class GraphGenerator {
 	 * Detection al variare dell'SNR.
 	 * @param inf Estremo inferiore di SNR su cui è stata effettuata la simulazione
 	 * @param sup Estremo superiore di SNR su cui è stata effettuata la simulazione
+	 * @throws IOException 
 	 **/
 
 	public static void drawGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException {
@@ -101,8 +102,10 @@ public class GraphGenerator {
 		displayUrlString(chart.toURLString());
 	}
 
-	/** Metodo per visualizzare il grafico in una finestra Java Swing 
-	 * @param urlString Url dell'oggetto chart **/
+	/** 
+	 * Metodo per visualizzare il grafico in una finestra Java Swing 
+	 * @param urlString Url dell'oggetto chart
+	 *  **/
 	
 	private static void displayUrlString(final String urlString) throws IOException {
 		JFrame frame = new JFrame();
@@ -113,10 +116,12 @@ public class GraphGenerator {
 
 	}
 
-	/** Metodo per la generazione del colore Random.
+	/** 
+	 * Metodo per la generazione del colore Random.
 	 * 
 	 *  @return Una lista di 5 colori da utilizzare per le curve. Un grafico con più di 5 curve
-	 *  diventa difficilmente leggibile**/
+	 *  diventa difficilmente leggibile
+	 *  **/
 	
 	private static ArrayList<Color> generateColor() {
 		ArrayList<Color> colorList= new ArrayList<Color>();

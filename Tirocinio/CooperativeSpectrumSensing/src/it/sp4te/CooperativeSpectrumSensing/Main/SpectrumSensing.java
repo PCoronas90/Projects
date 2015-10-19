@@ -19,11 +19,12 @@ public class SpectrumSensing {
 
 	/**
 	 * Metodo main per l'esecuzione
-	 * 
+	 * @param args Rappresenta l'input
+	 * @throws Exception Pfa deve essere scelto in modo che 1-2pfa sia compreso tra -1 e 1
 	 * @see Signal
 	 * @see SecondaryUser
-	 * @see Detection
-	 * @see drawGraph
+	 * @see GraphGenerator#drawGraph(String, HashMap, int, int)
+	 * 
 	 * **/
 	public static void main(String args[]) throws Exception {
 		ArrayList<Double> EnergyDetection = new ArrayList<Double>();

@@ -9,9 +9,8 @@ import it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions;
 import it.sp4te.CooperativeSpectrumSensing.GraphGenerator.GraphGenerator;
 
 /**
- * <p>Titolo:SpectrumSensingTest</p>
- * <p>Descrizione: Classe per verificare il corretto funzionamento dell'energy Detector al variare 
- * del numero di blocchi in cui dividere l'energia.</p>
+ * Classe per verificare il corretto funzionamento dell'energy Detector al variare 
+ * del numero di blocchi in cui dividere l'energia.
  * @author Pietro Coronas
  * **/
 
@@ -19,14 +18,11 @@ public class SpectrumSensingTest {
 	
 	/**
 	 * Metodo main per l'esecuzione
-	 * 
-	 * @see Signal
-	 * @see SecondaryUser
-	 * @see Detection
-	 * @see drawGraph
+	 * @param args Rappresenta l'input
+	 * @throws Exception Pfa deve essere scelto in modo che 1-2pfa sia compreso tra -1 e 1
 	 * **/
 	
-	public static void main(String args[]) throws Exception {
+	public static void main(String args[]) throws Exception{
 
 		int length = 1000; // poi 10000
 		int attempts = 1000;

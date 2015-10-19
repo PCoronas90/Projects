@@ -7,8 +7,8 @@ import it.sp4te.CooperativeSpectrumSensing.Functions.Pr;
 
 /**
  * <p>Titolo: Threshold</p>
- * </p>Descrizione: Classe per il calcolo delle soglie necessarie per il calcolo dei diversi tipi
- * di Detection
+ * <p>Descrizione: Classe per il calcolo delle soglie necessarie per il calcolo dei diversi tipi
+ * di Detection</p>
  * @author Pietro Coronas
  **/
 public class Threshold {
@@ -36,6 +36,7 @@ public class Threshold {
 	 * 
 	 * @param Pfa Probabilità di falso allarme
 	 * @param energy Momento calcolato nell'ipotesi in cui il segnale primario è assente (solo rumore)
+	 * @return La soglia necessaria per l'energy Detector
 	 * @throws Exception L'argomento della funzione InvErf deve essere compreso tra -1 e 1
 	 **/
 

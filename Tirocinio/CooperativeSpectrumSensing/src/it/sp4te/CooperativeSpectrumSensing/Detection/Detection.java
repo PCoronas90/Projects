@@ -17,7 +17,7 @@ public class Detection {
 	 * argomento di tesi triennale.
 	 * 
 	 * @param threshold Soglia utilizzata per la Detection
-	 * @param Pr Oggetto Pr calcolato a partire dai momenti
+	 * @param pr Oggetto Pr calcolato a partire dai momenti
 	 * @return La percentuale di Detection calcolata ad uno specifico SNR
 	 **/
 
