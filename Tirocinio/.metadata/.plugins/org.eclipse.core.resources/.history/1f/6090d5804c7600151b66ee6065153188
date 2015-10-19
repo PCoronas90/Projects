@@ -39,20 +39,30 @@ public class Detection {
 		int end = samples;
        
 		while (complete == false) {
-			double avg = 0;// media		
+			double avg = 0;// media
+			
 
-			for (int i = start; i < end; i++) {// Scorro il segnale				
-				avg = avg + energy.get(i);			}			
+			for (int i = start; i < end; i++) {// Scorro il segnale
+				
+				avg = avg + energy.get(i);
+				
+				
+			}
+			
 			
 			if ((avg / samples) > threshold) { // Confronto la media del blocco di energia con la soglia
-				cont++;	}
+				cont++;
+			}
 
 			if (end >= energy.size()-1) {
 				complete = true;
 			} 			
 				start = end;
-				end = end + samples;			
-		}		
+				end = end + samples;
+			
+		}
+		
+		
 		return (double) 100 / (double) (block/ cont);
 	}
 
