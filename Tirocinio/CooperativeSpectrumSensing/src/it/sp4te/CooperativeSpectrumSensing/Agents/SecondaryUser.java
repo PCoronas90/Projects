@@ -10,10 +10,12 @@ import it.sp4te.CooperativeSpectrumSensing.Functions.Pr;
 import it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions;
 
 /**
- * Questa classe si occupa di effetuare tutte le operazione relative allo
+ * <p>Titolo: SecondaryUser</p>
+ * <p>Descrizione della classe: Questa classe si occupa di effettuare tutte le operazione relative allo
  * Spectrum sensing: Calcolo dei momenti del secondo e quarto ordine nelle due
- * ipotesi,Calcolo dell'energia dei momenti,Calcolo dei vettori PR,Spectrum
- * sensing con Energy Detector,Spectrum sensing con Detector proposto
+ * ipotesi,calcolo dell'energia dei momenti,calcolo dei vettori PR,spectrum
+ * sensing con Energy Detector,spectrum sensing con Detector proposto</p>
+ * @author Pietro Coronas
  **/
 
 public class SecondaryUser {
@@ -55,7 +57,7 @@ public class SecondaryUser {
 	}
 
 	/**
-	 * Spectrum Senging dell'energy Detector. 
+	 * Metodo per lo Spectrum Senging dell'energy Detector. 
 	 * 
 	 * @param block Numero di blocchi in cui dividere il segnale per l'energy Detector
 	 * @param pfa Probabilità di falso allarme
@@ -80,7 +82,7 @@ public class SecondaryUser {
 	
 	
 	/**
-	 * Spectrum Senging dell'energy Detector effettuato senza dividere il segnale in blocchi,
+	 * Metodo per lo Spectrum Senging dell'energy Detector effettuato senza dividere il segnale in blocchi,
 	 * considerando ogni singolo valore dell'energia. 
 	 * 
 	 * @param pfa Probabilità di falso allarme
@@ -103,7 +105,7 @@ public class SecondaryUser {
 	}
 
 	/**
-	 * Spectrum sensing del metodo proposto. Il procedimento è simile a quello dell'energy Detector ma con
+	 * Metodo per lo Spectrum sensing del metodo proposto. Il procedimento è simile a quello dell'energy Detector ma con
 	 * la differenza che utilizza gli oggetti PR al posto dei momenti del secondo e quarto ordine.
 	 * 
 	 * @param pfa Probabilità di falso allarme

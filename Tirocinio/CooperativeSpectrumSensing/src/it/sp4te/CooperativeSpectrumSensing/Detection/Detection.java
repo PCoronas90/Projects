@@ -4,7 +4,11 @@ import java.util.ArrayList;
 
 import it.sp4te.CooperativeSpectrumSensing.Functions.Pr;
 
-/** Classe per il calcolo dei Diversi tipi di Detection **/
+/** 
+ * <p>Titolo: Detection</p>
+ * <p>Descrizione: Classe per il calcolo dei Diversi tipi di Detection </p>
+ * @author Pietro Coronas
+ **/
 
 public class Detection {
 
@@ -28,7 +32,7 @@ public class Detection {
 	}
 
 	/**
-	 * Energy Detector calcolato dividento il segnale in M blocchi da N
+	 * Metodo per l'Energy Detector calcolato dividento il segnale in M blocchi da N
 	 * campioni. Successivamente, per ogni blocco, si calcola la media
 	 * dell'energia e si confronta con la soglia. A differenza dell'energy
 	 * Detector tradizionale, evita i picchi e dà un risultato più accurato.
@@ -65,7 +69,7 @@ public class Detection {
 	}
 
 	/**
-	 * Energy Detector tradizionale. Prende in input la soglia e un array di
+	 * Metodo per l'Energy Detector tradizionale. Prende in input la soglia e un array di
 	 * energia. Per ogni valore dell'array che supera la soglia incrementa un
 	 * contatore. Successivamente riporta la % di Detection per un dato SNR
 	 * 

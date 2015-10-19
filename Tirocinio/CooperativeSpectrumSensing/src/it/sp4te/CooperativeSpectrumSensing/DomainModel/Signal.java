@@ -2,7 +2,9 @@ package it.sp4te.CooperativeSpectrumSensing.DomainModel;
 
 import java.util.ArrayList;
 
-/** Classe per la generazione del segnale **/
+/** <p>Titolo: Signal</p>
+ * <p>Descrizione: Classe per la generazione del segnale</p>
+ * @author Pietro Coronas **/
 
 public class Signal {
 

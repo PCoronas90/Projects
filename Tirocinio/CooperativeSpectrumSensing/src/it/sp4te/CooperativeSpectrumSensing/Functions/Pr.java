@@ -2,7 +2,10 @@ package it.sp4te.CooperativeSpectrumSensing.Functions;
 
 import java.util.ArrayList;
 
-/** Classe per la Creazione dell'oggetto PR **/
+/**
+ * <p>Titolo:Pr</p>
+ * <p>Descrizione:Classe per la Creazione dell'oggetto PR </p>
+ * @author Pietro Coronas**/
 
 public class Pr {
 

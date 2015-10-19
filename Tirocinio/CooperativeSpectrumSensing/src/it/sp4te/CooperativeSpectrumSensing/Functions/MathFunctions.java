@@ -7,7 +7,9 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 
 /**
- * Classe che contiene funzioni Matematiche utili.
+ * <p>Titolo: MathFunctions</p>
+ * <p>Descrizione: Classe che contiene funzioni Matematiche utili.</p>
+ * @author Pietro Coronas
  **/
 
 public class MathFunctions {
@@ -56,8 +58,10 @@ public class MathFunctions {
 		}
 	}
 
-	/** Metodo per il calcolo della funzione INVERF **/
-	public static double InvErf(double d) throws Exception {
+	/** Metodo per il calcolo della funzione INVERF 
+	 * @throws Exception d deve essere compreso tra -1 e 1**/
+	
+	public static double InvErf(double d) throws Exception  {
 		if (Math.abs(d) > 1) {
 			throw new Exception("Allowed values for argument in [-1,1]");
 		}

@@ -9,8 +9,10 @@ import it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions;
 import it.sp4te.CooperativeSpectrumSensing.GraphGenerator.GraphGenerator;
 
 /**
- * La classe si occupa di creare il segnale e l'utente secondario . Tramite l'utente secondario effettua i diversi
- * tipi di Detection. Infine passa alla creazione del grafico.
+ * <p>Titolo: SpectrumSensing</p>
+ * <p> Descrizione della classe: La classe si occupa di creare il segnale e l'utente secondario . Tramite l'utente secondario effettua i diversi
+ * tipi di Detection. Infine passa alla creazione del grafico.</p>
+ * @author Pietro Coronas
  **/
 
 public class SpectrumSensing {
@@ -22,7 +24,6 @@ public class SpectrumSensing {
 	 * @see SecondaryUser
 	 * @see Detection
 	 * @see drawGraph
-	 * 
 	 * **/
 	public static void main(String args[]) throws Exception {
 		ArrayList<Double> EnergyDetection = new ArrayList<Double>();

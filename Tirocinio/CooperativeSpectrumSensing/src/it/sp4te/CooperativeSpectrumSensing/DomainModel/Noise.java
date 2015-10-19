@@ -3,7 +3,11 @@ package it.sp4te.CooperativeSpectrumSensing.DomainModel;
 import java.util.ArrayList;
 import java.util.Random;
 
-/** Classe per la generazione del rumore **/
+/** 
+ * <p>Titolo:Noise</p>
+ * <p>Descrizione: Classe per la generazione del rumore </p>
+ * @author Pietro Coronas
+ * **/
 
 public class Noise {
 

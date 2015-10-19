@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import it.sp4te.CooperativeSpectrumSensing.DomainModel.Noise;
 import it.sp4te.CooperativeSpectrumSensing.DomainModel.Signal;
 
-/** Classe relativa ai momenti del secondo e quarto ordine **/
+/** <p>Titolo:Moment</p>
+ * <p>Descrizione: Classe relativa ai momenti del secondo e quarto ordine </p>
+ * @author Pietro Coronas
+ * **/
 
 public class Moment {
 

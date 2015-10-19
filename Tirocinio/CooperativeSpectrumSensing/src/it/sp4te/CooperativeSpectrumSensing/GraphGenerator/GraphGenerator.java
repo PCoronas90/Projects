@@ -28,7 +28,10 @@ import com.googlecode.charts4j.LinearGradientFill;
 import com.googlecode.charts4j.Plots;
 import com.googlecode.charts4j.Shape;
 
-/** Classe per la creazione dei grafici **/
+/**
+ * <p>Titolo: GraphGenerator</p>
+ * <p>Descrizione: Classe per la creazione dei grafici </p>
+ * @author Pietro Coronas**/
 
 public class GraphGenerator {
 
@@ -98,7 +101,8 @@ public class GraphGenerator {
 		displayUrlString(chart.toURLString());
 	}
 
-	/** Metodo per visualizzare il grafico in una finestra Java Swing **/
+	/** Metodo per visualizzare il grafico in una finestra Java Swing 
+	 * @param urlString Url dell'oggetto chart **/
 	
 	private static void displayUrlString(final String urlString) throws IOException {
 		JFrame frame = new JFrame();

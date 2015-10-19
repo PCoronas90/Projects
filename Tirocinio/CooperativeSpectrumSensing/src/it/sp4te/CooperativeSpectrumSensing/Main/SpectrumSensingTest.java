@@ -8,10 +8,24 @@ import it.sp4te.CooperativeSpectrumSensing.DomainModel.Signal;
 import it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions;
 import it.sp4te.CooperativeSpectrumSensing.GraphGenerator.GraphGenerator;
 
-/**Classe per verificare il corretto funzionamento dell'energy Detector al variare 
- * del numero di blocchi in cui dividere l'energia.**/
+/**
+ * <p>Titolo:SpectrumSensingTest</p>
+ * <p>Descrizione: Classe per verificare il corretto funzionamento dell'energy Detector al variare 
+ * del numero di blocchi in cui dividere l'energia.</p>
+ * @author Pietro Coronas
+ * **/
 
 public class SpectrumSensingTest {
+	
+	/**
+	 * Metodo main per l'esecuzione
+	 * 
+	 * @see Signal
+	 * @see SecondaryUser
+	 * @see Detection
+	 * @see drawGraph
+	 * **/
+	
 	public static void main(String args[]) throws Exception {
 
 		int length = 1000; // poi 10000

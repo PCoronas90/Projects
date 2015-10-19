@@ -6,8 +6,10 @@ import it.sp4te.CooperativeSpectrumSensing.Functions.MathFunctions;
 import it.sp4te.CooperativeSpectrumSensing.Functions.Pr;
 
 /**
- * Classe per il calcolo delle soglie necessarie per il calcolo dei diversi tipi
+ * <p>Titolo: Threshold</p>
+ * </p>Descrizione: Classe per il calcolo delle soglie necessarie per il calcolo dei diversi tipi
  * di Detection
+ * @author Pietro Coronas
  **/
 public class Threshold {
 
