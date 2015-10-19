@@ -12,7 +12,11 @@ import it.sp4te.CooperativeSpectrumSensing.DomainModel.Signal;
 
 public class SignalFunctions {
 
-	/** Metodo per il calcolo dell'energia del segnale **/
+	/** Metodo per il calcolo dell'energia del segnale 
+	 * 
+	 * @param s Segnale su cui calcolare l'energia
+	 * @return energia del segnale **/
+	
 	public static double signalEnergy(Signal s) {
 		double p = 0.0;
 		for (int i = 0; i < s.getSignalLenght(); i++) {
@@ -21,7 +25,15 @@ public class SignalFunctions {
 		return p / s.getSignalLenght();
 	}
 
-	/** Metodo per la generazione dei momenti del secondo e quarto ordine. **/
+	/** Metodo per la generazione dei momenti del secondo e quarto ordine.
+	 * 
+	 * @param s Il segnale
+	 * @param length Lunghezza del segnale 
+	 * @param energy Energia del segnale
+	 * @param attempts Numero di prove su cui effettuare la simulazione
+	 * @param inf Estremo inferiore di SNR su cui effettuare la simulazione
+	 * @param sup Estremo superiore di SNR su cui effettuare la simulazione **/
+	
 	public static ArrayList<Moment> momentGenerator(Signal s, int length, double energy, int attempts, int inf,
 			int sup) {
 		ArrayList<Moment> Moments = new ArrayList<Moment>();
@@ -32,7 +44,9 @@ public class SignalFunctions {
 		return Moments;
 	}
 
-	/** Metodo per il calcolo dell'energia dei momento **/
+	/** Metodo per il calcolo dell'energia dei momenti 
+	 * @param Moment Array di oggetti momento
+	 * @return Energia **/
 	public static ArrayList<ArrayList<Double>> momentEnergy(ArrayList<Moment> Moment) {
 		ArrayList<ArrayList<Double>> energy = new ArrayList<ArrayList<Double>>();
 		for (int i = 0; i < Moment.size(); i++) {
@@ -41,8 +55,11 @@ public class SignalFunctions {
 		return energy;
 	}
 
-	/** Metodo per la generazione degli oggetti PR **/
-	public static ArrayList<Pr> prGenerators(ArrayList<Moment> Moment) {
+	/** Metodo per la generazione degli oggetti PR 
+	 * 
+	 * @param Moment Lista di Oggetti Momento su cui calcolare Pr
+	 * @return una lista di Oggetti Pr **/
+	public static ArrayList<Pr> prGenerator(ArrayList<Moment> Moment) {
 		ArrayList<Pr> PrResult = new ArrayList<Pr>();
 		for (int i = 0; i < Moment.size(); i++) {
 			Pr prTemp = new Pr(Moment.get(i));

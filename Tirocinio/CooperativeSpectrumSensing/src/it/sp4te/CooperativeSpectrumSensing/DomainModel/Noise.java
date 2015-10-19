@@ -14,9 +14,12 @@ public class Noise {
 	Random sample;
 
 	/**
-	 * Il costruttore prende come parametri l'SNR, la lunghezza e l'energia.
-	 * Produrrà un rumore gaussiano con varianza=1. L'oggetto rumore contiene 2 array, relativi
-	 * a parte reale e parte immaginaria.
+	 * Costruttore dell'oggetto Rumore. Il rumore sarà gaussiano con varianza unitaria.
+	 * L'oggetto è costituito da 2 vettori, relativi a parte reale e parte immaginaria.
+	 * 
+	 * @param snr L'SNR a cui generare il rumore
+	 * @param noiseLenght Lunghezza del rumore
+	 * @param energy Energia del rumore
 	 **/
 
 	public Noise(double snr, int noiseLenght, double energy) {
@@ -38,7 +41,6 @@ public class Noise {
 		}
 	}
 
-	/** Classici metodi Getter e Setter **/
 
 	public int getNoiseLenght() {
 		return noiseLenght;

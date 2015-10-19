@@ -11,9 +11,9 @@ import it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions;
 
 /**
  * Questa classe si occupa di effetuare tutte le operazione relative allo
- * Spectrum sensing: -Calcolo dei momenti del secondo e quarto ordine nelle due
- * ipotesi -Calcolo dell'energia dei momenti -Calcolo dei vettori PR -Spectrum
- * sensing con Energy Detector -Spectrum sensing con Detector proposto
+ * Spectrum sensing: Calcolo dei momenti del secondo e quarto ordine nelle due
+ * ipotesi,Calcolo dell'energia dei momenti,Calcolo dei vettori PR,Spectrum
+ * sensing con Energy Detector,Spectrum sensing con Detector proposto
  **/
 
 public class SecondaryUser {
@@ -26,8 +26,17 @@ public class SecondaryUser {
 
 	/**
 	 * Il costruttore inizializza i valori che saranno usati nei diversi tipi di
-	 * detection: -Momenti nelle due ipotesi -Energia dei momenti nelle due
-	 * ipotesi -Calcolo dei vettori PR nelle due ipotesi
+	 * detection.
+	 * 
+	 * @param s Segnale su cui effettuare la Detection
+	 * @param length lunghezza del segnale
+	 * @param energy Energia del segnale
+	 * @param attempts Numero di prove su cui viene effettuata la simulazione
+	 * @param inf Estremo inferiore di SNR su cui è stata effettuata la simulazione
+	 * @param sup Estremo superiore di SNR su cui è stata effettuata la simulazione
+	 * @see momentGenerator
+	 * @see momentEnergy
+	 * @see prGenerators
 	 **/
 
 	public SecondaryUser(Signal s, int length, double energy, int attempts, int inf, int sup) {
@@ -40,58 +49,76 @@ public class SecondaryUser {
 		MomentNoiseEnergy = SignalFunctions.momentEnergy(MomentsNoise);
 
 		// Calcolo pr
-		PrSignal = SignalFunctions.prGenerators(MomentsSignal);
-		PrNoise = SignalFunctions.prGenerators(MomentsNoise);
+		PrSignal = SignalFunctions.prGenerator(MomentsSignal);
+		PrNoise = SignalFunctions.prGenerator(MomentsNoise);
 
 	}
 
 	/**
-	 * Spectrum Senginf dell'energy Detector. Prende in input i momenti del
-	 * secondo e quarto ordine calcolati sulle due ipotesi
+	 * Spectrum Senging dell'energy Detector. 
+	 * 
+	 * @param block Numero di blocchi in cui dividere il segnale per l'energy Detector
+	 * @param pfa Probabilità di falso allarme
+	 * @return Array con le percentuali di detection ordinate per SNR
+	 * @throws Exception 
+	 * @see energyDetection
+	 * @see energyDetectorThreshold
+	 * @see orderSignal
 	 **/
 
-	public ArrayList<Double> spectrumSensingEnergyDetector(int block) throws Exception {
-		//EnergyDetection è una mappa snr->detection
+	public ArrayList<Double> spectrumSensingEnergyDetector(int block,Double pfa) throws Exception{
 		HashMap<Double, Double> EnergyDetection = new HashMap<Double, Double>();
 
 		for (int i = 0; i < this.MomentSignalEnergy.size(); i++) {
-			//pfa settata a 0.01. Segnale diviso in 10 blocchi da 100 campioni ciascuno
 			Double ED = Detection.energyDetection(
-					Threshold.energyDetectorThreshold(0.01, this.MomentNoiseEnergy.get(i)), MomentSignalEnergy.get(i),block);
+					Threshold.energyDetectorThreshold(pfa, this.MomentNoiseEnergy.get(i)), MomentSignalEnergy.get(i),block);
 			EnergyDetection.put(this.MomentsSignal.get(i).getSnr(), ED);
 		}
 
-		// Ordino in base all'SNR e ritorno
 		return orderSignal(EnergyDetection);
 	}
 	
-	public ArrayList<Double> spectrumSensingTraditionalEnergyDetector() throws Exception {
-		//EnergyDetection è una mappa snr->detection
+	
+	/**
+	 * Spectrum Senging dell'energy Detector effettuato senza dividere il segnale in blocchi,
+	 * considerando ogni singolo valore dell'energia. 
+	 * 
+	 * @param pfa Probabilità di falso allarme
+	 * @return Array con le percentuali di detection ordinate per SNR
+	 * @throws Exception 
+	 * @see TraditionalenergyDetection
+	 * @see energyDetectorThreshold
+	 * @see orderSignal
+	 **/
+	public ArrayList<Double> spectrumSensingTraditionalEnergyDetector(double pfa) throws Exception {
 		HashMap<Double, Double> EnergyDetection = new HashMap<Double, Double>();
 
 		for (int i = 0; i < this.MomentSignalEnergy.size(); i++) {
-			//pfa settata a 0.01. Segnale diviso in 10 blocchi da 100 campioni ciascuno
 			Double ED = Detection.TraditionalEnergyDetection(
-					Threshold.energyDetectorThreshold(0.01, this.MomentNoiseEnergy.get(i)), MomentSignalEnergy.get(i));
+					Threshold.energyDetectorThreshold(pfa, this.MomentNoiseEnergy.get(i)), MomentSignalEnergy.get(i));
 			EnergyDetection.put(this.MomentsSignal.get(i).getSnr(), ED);
 		}
 
-		// Ordino in base all'SNR e ritorno
 		return orderSignal(EnergyDetection);
 	}
 
 	/**
-	 * Spectrum sensing del metodo proposto. Utilizza il calcolo metodo proposto
-	 * per il calcolo prendendo in input gli oggetti PR calcolati nelle due
-	 * ipotesi
+	 * Spectrum sensing del metodo proposto. Il procedimento è simile a quello dell'energy Detector ma con
+	 * la differenza che utilizza gli oggetti PR al posto dei momenti del secondo e quarto ordine.
+	 * 
+	 * @param pfa Probabilità di falso allarme
+	 * @return Array con le percentuali di detection ordinate per SNR
+	 * @throws Exception 
+	 * @see proposedMethodDetection
+	 * @see proposedThreshold
+	 * @see orderSignal
 	 **/
 
-	public ArrayList<Double> spectrumSensingProposedDetector() throws Exception {
-		//ProposedDetection è una mappa snr->detection
+	public ArrayList<Double> spectrumSensingProposedDetector(Double pfa) throws Exception {
 		HashMap<Double, Double> ProposedDetection = new HashMap<Double, Double>();
 
 		for (int i = 0; i < this.MomentSignalEnergy.size(); i++) {
-			Double PD = Detection.proposedMethodDetection(Threshold.proposedThreshold(0.01, this.PrNoise.get(i)),
+			Double PD = Detection.proposedMethodDetection(Threshold.proposedThreshold(pfa, this.PrNoise.get(i)),
 					this.PrSignal.get(i));
 			ProposedDetection.put(this.MomentsSignal.get(i).getSnr(), PD);
 		}
@@ -99,8 +126,10 @@ public class SecondaryUser {
 	}
 
 	/**
-	 * Data una mappa SNR->Detection, ritorna la lista delle Detection ordinate
-	 * per SNR
+	 * Metodo per ordinare unamappa SNR->Detection.
+	 * 
+	 * @param signalmapToOrder mappa con chiave SNR e valore la relativa % di detection 
+	 * @return la mappa ordinata in base all'SNR
 	 **/
 
 	public static ArrayList<Double> orderSignal(HashMap<Double, Double> signalmapToOrder) {

@@ -3,6 +3,7 @@ package it.sp4te.CooperativeSpectrumSensing.DomainModel;
 import java.util.ArrayList;
 
 /** Classe per la generazione del segnale **/
+
 public class Signal {
 
 	int signalLenght;
@@ -11,9 +12,10 @@ public class Signal {
 	ArrayList<Double> samplesIm;
 
 	/**
-	 * Il costruttore prende in input la lunghezza, generando un segnale
-	 * modulato QPSK e con potenza unitaria. L'oggetto segnale contiene 2 array,
-	 * rispettivamente relativi a parte reale e parte immaginaria
+	 * Costruttore del segnale modulato QPSK e con potenza unitaria. L'oggetto segnale contiene 2 array,
+	 * rispettivamente relativi a parte reale e parte immaginaria.
+	 * 
+	 * @param signalLenght Lunghezza del segnale
 	 **/
 
 	public Signal(int signalLenght) {
@@ -34,7 +36,6 @@ public class Signal {
 		}
 	}
 
-	/** Metodi Getter e Setter **/
 
 	public int getSignalLenght() {
 		return signalLenght;

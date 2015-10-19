@@ -7,14 +7,16 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 
 /**
- * Classe che contiene funzioni Matematiche utili. Permette attraverso metodi
- * statici il calcolo di: -Media -Varianza -Somma di Vettori -Funzione InvErf
- * -Funzione Q
+ * Classe che contiene funzioni Matematiche utili.
  **/
 
 public class MathFunctions {
 
-	/** Metodo per il calcolo della Media **/
+	/** Metodo per il calcolo della Media 
+	 * 
+	 * @param a Vettore su cui calcolare la media
+	 * @return La media del vettore
+	 * **/
 	public static double Avarege(ArrayList<Double> a) {
 		double sum = 0;
 		for (int i = 0; i < a.size(); i++) {
@@ -23,7 +25,11 @@ public class MathFunctions {
 		return sum / a.size();
 	}
 
-	/** Metodo per il calcolo della varianza **/
+	/** Metodo per il calcolo della varianza 
+	 * 
+	 * @param a Vettore su cui calcolare la varianza
+	 * @return La varianza
+	 * **/
 
 	public static double Variance(ArrayList<Double> a) {
 		ArrayList<Double> b = new ArrayList<Double>();
@@ -34,7 +40,9 @@ public class MathFunctions {
 		return (Avarege(b)) - (Math.pow(Avarege(a), 2));
 	}
 
-	/** Metodo per effettuare la somma di due vettori **/
+	/** Metodo per effettuare la somma di due vettori. 
+	 **/
+	
 	public static ArrayList<Double> SumVector(ArrayList<Double> noise, ArrayList<Double> signal) {
 
 		if (signal == null) {

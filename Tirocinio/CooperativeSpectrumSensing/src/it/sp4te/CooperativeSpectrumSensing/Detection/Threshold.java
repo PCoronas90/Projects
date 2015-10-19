@@ -13,7 +13,12 @@ public class Threshold {
 
 	/**
 	 * Metodo per il calcolo della soglia necessaria per la Detection del metodo
-	 * proposto. Prende in input probabilità di falso allarme e oggetto PR
+	 * proposto.
+	 * 
+	 * @param Pfa Probabilità di falso allarme
+	 * @param pr Oggetto Pr calcolato nell'ipotesi in cui il segnale primario è assente (solo rumore)
+	 * @return La soglia
+	 * @throws Exception L'argomento della funzione InvErf deve essere compreso tra -1 e 1
 	 **/
 
 	public static double proposedThreshold(double Pfa, Pr pr) throws Exception {
@@ -26,8 +31,10 @@ public class Threshold {
 
 	/**
 	 * Metodo per il calcolo della soglia necessaria per l'energy Detector.
-	 * Prende in input la probabilità di falso allarme e un vettore di energia
-	 * (i momenti del secondo e quarto ordine)
+	 * 
+	 * @param Pfa Probabilità di falso allarme
+	 * @param energy Momento calcolato nell'ipotesi in cui il segnale primario è assente (solo rumore)
+	 * @throws Exception L'argomento della funzione InvErf deve essere compreso tra -1 e 1
 	 **/
 
 	public static double energyDetectorThreshold(double Pfa, ArrayList<Double> energy) throws Exception {

@@ -18,10 +18,13 @@ public class Moment {
 	public ArrayList<Double> Energy;
 
 	/**
-	 * Il costruttore prende in input il segnale, il numero di prove, l'energia,
-	 * l'snr, e la lunghezza. Gli attributi fondamentali dell'oggetto Momento
-	 * sono: -Energia -Media -Valore q che saranno necessari successivamente per
-	 * il calcolo dgli oggetti Pr e dell'energy Detector.
+	 * Costruttore dell'oggetto Momento
+	 * 
+	 * @param s Il segnale
+	 * @param attempts Numero di prove su cui effettuare la simulazione
+	 * @param energy Energia del segnale
+	 * @param snr L'SNR di riferimento
+	 * @param length Lunghezza del segnale
 	 **/
 
 	public Moment(Signal s, int attempts, double energy, double snr, int length) {
@@ -71,7 +74,6 @@ public class Moment {
 
 	}
 
-	/** Classici metodi Getter e Setter **/
 	
 	public double getSnr() {
 		return snr;

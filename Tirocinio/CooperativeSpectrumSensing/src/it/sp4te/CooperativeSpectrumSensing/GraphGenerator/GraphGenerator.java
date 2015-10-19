@@ -33,10 +33,13 @@ import com.googlecode.charts4j.Shape;
 public class GraphGenerator {
 
 	/**
-	 * Il metodo prende in input una mappa (nomeDetection->ValoriDiDetection) e
-	 * gli estremi di SNR su cui è stata effettuata la simulazione. In output
-	 * produce un grafico SNR->% di Detection con tante linee quanti sono gli
-	 * elementi nella mappa
+	 * Metodo per la creazione del grafico
+	 * 
+	 * @param title Titolo del grafico
+	 * @param detection Mappa che ha come chiave il nome della curva da visualizzare e come valore una lista con le percentuali di 
+	 * Detection al variare dell'SNR.
+	 * @param inf Estremo inferiore di SNR su cui è stata effettuata la simulazione
+	 * @param sup Estremo superiore di SNR su cui è stata effettuata la simulazione
 	 **/
 
 	public static void drawGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException {
@@ -78,7 +81,7 @@ public class GraphGenerator {
 		// Etichetta asse y
 		AxisLabels yAxis3 = AxisLabelsFactory.newAxisLabels("% of Detection", 50.0);
 		yAxis3.setAxisStyle(AxisStyle.newAxisStyle(BLACK, 14, AxisTextAlignment.CENTER));
-
+		
 		// Aggiungo al chart
 		chart.addXAxisLabels(xAxis1);
 		chart.addYAxisLabels(yAxis);
@@ -96,6 +99,7 @@ public class GraphGenerator {
 	}
 
 	/** Metodo per visualizzare il grafico in una finestra Java Swing **/
+	
 	private static void displayUrlString(final String urlString) throws IOException {
 		JFrame frame = new JFrame();
 		JLabel label = new JLabel(new ImageIcon(ImageIO.read(new URL(urlString))));
@@ -105,7 +109,11 @@ public class GraphGenerator {
 
 	}
 
-	/** Metodo per la generazione del colore Random. **/
+	/** Metodo per la generazione del colore Random.
+	 * 
+	 *  @return Una lista di 5 colori da utilizzare per le curve. Un grafico con più di 5 curve
+	 *  diventa difficilmente leggibile**/
+	
 	private static ArrayList<Color> generateColor() {
 		ArrayList<Color> colorList= new ArrayList<Color>();
 		colorList.add(Color.BLUE);

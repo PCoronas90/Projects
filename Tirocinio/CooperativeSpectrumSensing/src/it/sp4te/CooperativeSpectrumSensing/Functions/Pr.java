@@ -15,7 +15,10 @@ public class Pr {
 	 * Il costruttore prende come parametro l'oggetto Momento e tramite la
 	 * formula calcola un array di Double (l'oggetto PR) con tanti elementi
 	 * quanti sono quelli dell'oggetto Momento
+	 * 
+	 * @param moment Oggetto momento su cui calcolare Pr
 	 **/
+	
 	public Pr(Moment moment) {
 		this.moment = moment;
 		this.pr = new ArrayList<Double>();
@@ -26,7 +29,6 @@ public class Pr {
 		}
 	}
 
-	/** Metodi Getter e Setter **/
 	public Moment getMoment() {
 		return moment;
 	}

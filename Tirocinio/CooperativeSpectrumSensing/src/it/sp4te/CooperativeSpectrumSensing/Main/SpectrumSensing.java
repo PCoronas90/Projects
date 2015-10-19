@@ -9,17 +9,25 @@ import it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions;
 import it.sp4te.CooperativeSpectrumSensing.GraphGenerator.GraphGenerator;
 
 /**
- * Classe SpectrumSensing. Tramite il metodo main Si occupa di creare: -Il
- * segnale -L'utente Secondario . Tramite l'utente secondario effettua i 2 diversi
- * tipi di Detection. Successivamente passa alla creazione del grafico.
+ * La classe si occupa di creare il segnale e l'utente secondario . Tramite l'utente secondario effettua i diversi
+ * tipi di Detection. Infine passa alla creazione del grafico.
  **/
 
 public class SpectrumSensing {
 
+	/**
+	 * Metodo main per l'esecuzione
+	 * 
+	 * @see Signal
+	 * @see SecondaryUser
+	 * @see Detection
+	 * @see drawGraph
+	 * 
+	 * **/
 	public static void main(String args[]) throws Exception {
 		ArrayList<Double> EnergyDetection = new ArrayList<Double>();
 		ArrayList<Double> ProposedDetection = new ArrayList<Double>();
-		ArrayList<Double> TraditionalEnergyDetection = new ArrayList<Double>();
+		//ArrayList<Double> TraditionalEnergyDetection = new ArrayList<Double>();
 
 		// Creo una mappa per creare il grafico. La mappa deve essere formata da
 		// nomeDetection->valori
@@ -31,6 +39,7 @@ public class SpectrumSensing {
 		int inf = -30;
 		int sup = 5;
 		int block=10; //blocchi energy Detector
+		double pfa=0.01; //probabilità di falso allarme
 		
 
 		// Genero il segnale
@@ -40,15 +49,16 @@ public class SpectrumSensing {
 		SecondaryUser SU = new SecondaryUser(s, length, SignalFunctions.signalEnergy(s), attempts, inf, sup);
 
 		// Calcolo EnergyDetection
-		EnergyDetection = SU.spectrumSensingEnergyDetector(block);
+		EnergyDetection = SU.spectrumSensingEnergyDetector(block,pfa);
 		// Calcolo ProposedDetection
-		ProposedDetection = SU.spectrumSensingProposedDetector();
-		TraditionalEnergyDetection=SU.spectrumSensingTraditionalEnergyDetector();
+		ProposedDetection = SU.spectrumSensingProposedDetector(pfa);
+		//Calcolo Traditional Detection
+		//TraditionalEnergyDetection=SU.spectrumSensingTraditionalEnergyDetector(pfa);
 
 		// Inizializzo la Mappa per il grafico
 		DetectionGraph.put("Energy Detection", EnergyDetection);
 		DetectionGraph.put("Proposed Detection", ProposedDetection);
-		DetectionGraph.put("Traditional Energy Detection", TraditionalEnergyDetection);
+		//DetectionGraph.put("Traditional Energy Detection", TraditionalEnergyDetection);
 
 		GraphGenerator.drawGraph("Detection Methods",DetectionGraph, inf, sup);
 

@@ -9,9 +9,12 @@ import it.sp4te.CooperativeSpectrumSensing.Functions.Pr;
 public class Detection {
 
 	/**
-	 * Metodo per il calcolo della detection del metodo proposto e che è stato
-	 * argomento di tesi triennale. Prende in input la soglia ed un oggetto
-	 * pr,in output produce la % du Detection per un dato SNR
+	 * Metodo per il calcolo della detection tramite il metodo proposto che è stato
+	 * argomento di tesi triennale.
+	 * 
+	 * @param threshold Soglia utilizzata per la Detection
+	 * @param Pr Oggetto Pr calcolato a partire dai momenti
+	 * @return La percentuale di Detection calcolata ad uno specifico SNR
 	 **/
 
 	public static double proposedMethodDetection(double threshold, Pr pr) {
@@ -29,6 +32,11 @@ public class Detection {
 	 * campioni. Successivamente, per ogni blocco, si calcola la media
 	 * dell'energia e si confronta con la soglia. A differenza dell'energy
 	 * Detector tradizionale, evita i picchi e dà un risultato più accurato.
+	 * 
+	 * @param threshold Soglia utilizzata per la Detection
+	 * @param energy Array di energia. Nello specifico sono i Momenti del secondo e quarto ordine
+	 * @param block Numero di blocchi in cui dividere il segnale per mediare il valore dell'energia ed evitare picchi
+	 * @return Percentuale di Detection per un dato SNR
 	 **/
 
 	public static double energyDetection(double threshold, ArrayList<Double> energy, int block) {
@@ -60,6 +68,10 @@ public class Detection {
 	 * Energy Detector tradizionale. Prende in input la soglia e un array di
 	 * energia. Per ogni valore dell'array che supera la soglia incrementa un
 	 * contatore. Successivamente riporta la % di Detection per un dato SNR
+	 * 
+	 * @param threshold Soglia utilizzata per la Detection
+	 * @param energy Array di energia. Nello specifico sono i Momenti del secondo e quarto ordine
+	 * @return Percentuale di Detection per un dato SNR
 	 **/
 
 	public static double TraditionalEnergyDetection(double threshold, ArrayList<Double> energy) {

@@ -8,6 +8,9 @@ import it.sp4te.CooperativeSpectrumSensing.DomainModel.Signal;
 import it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions;
 import it.sp4te.CooperativeSpectrumSensing.GraphGenerator.GraphGenerator;
 
+/**Classe per verificare il corretto funzionamento dell'energy Detector al variare 
+ * del numero di blocchi in cui dividere l'energia.**/
+
 public class SpectrumSensingTest {
 	public static void main(String args[]) throws Exception {
 
@@ -15,6 +18,7 @@ public class SpectrumSensingTest {
 		int attempts = 1000;
 		int inf = -30;
 		int sup = 5;
+		double pfa =0.01;
 
 		// blocchi energy Detector
 		int block = 10;
@@ -29,9 +33,9 @@ public class SpectrumSensingTest {
 		Signal s = new Signal(length);
 		SecondaryUser SU = new SecondaryUser(s, length, SignalFunctions.signalEnergy(s), attempts, inf, sup);
 
-		EnergyDetection10 = SU.spectrumSensingEnergyDetector(block);
-		EnergyDetection100 = SU.spectrumSensingEnergyDetector(block2);
-		EnergyDetection300 = SU.spectrumSensingEnergyDetector(block3);
+		EnergyDetection10 = SU.spectrumSensingEnergyDetector(block,pfa);
+		EnergyDetection100 = SU.spectrumSensingEnergyDetector(block2,pfa);
+		EnergyDetection300 = SU.spectrumSensingEnergyDetector(block3,pfa);
 
 		DetectionGraph.put("Energy Detection 10 block", EnergyDetection10);
 		DetectionGraph.put("Energy Detection 100 block ", EnergyDetection100);
