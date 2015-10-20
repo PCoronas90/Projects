@@ -11,8 +11,8 @@ import java.util.Random;
 
 public class Noise {
 
-	int noiseLenght;
-	double variance;
+	private int noiseLenght;
+	private double variance;
 	ArrayList<Double> samplesRe;
 	ArrayList<Double> samplesIm;
 	Random sample;

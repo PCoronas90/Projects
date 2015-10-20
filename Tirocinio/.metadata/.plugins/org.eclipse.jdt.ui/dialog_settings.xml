@@ -39,7 +39,7 @@
 		<item value="true" key="splitindex"/>
 		<item value="true" key="fromStandard"/>
 		<item value="false" key="notree"/>
-		<item value="C:\Users\Pietro\Desktop\javadoc" key="destdir"/>
+		<item value="C:\Users\Pietro\Documents\GitHub\Projects\JavaDoc" key="destdir"/>
 		<item value="false" key="openinbrowser"/>
 		<section name="projects">
 			<section name="Old_SS">
@@ -49,7 +49,7 @@
 			</section>
 			<section name="CooperativeSpectrumSensing">
 				<item value="C:\Users\Pietro\Documents\GitHub\Projects\Tirocinio\CooperativeSpectrumSensing\javadoc.xml" key="antpath"/>
-				<item value="C:\Users\Pietro\Desktop\javadoc" key="destdir"/>
+				<item value="C:\Users\Pietro\Documents\GitHub\Projects\JavaDoc" key="destdir"/>
 				<item value="" key="href"/>
 			</section>
 			<section name="RemoteSystemsTempFiles">
