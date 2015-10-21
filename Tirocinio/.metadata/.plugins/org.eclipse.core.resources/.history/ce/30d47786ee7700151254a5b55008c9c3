@@ -50,7 +50,7 @@ public class SecondaryUser {
 		MomentSignalEnergy = SignalFunctions.momentEnergy(MomentsSignal);
 		MomentNoiseEnergy = SignalFunctions.momentEnergy(MomentsNoise);
 
-		// Calcolo pr nelle due ipotesi a partire dai momenti
+		// Calcolo pr
 		PrSignal = SignalFunctions.prGenerator(MomentsSignal);
 		PrNoise = SignalFunctions.prGenerator(MomentsNoise);
 

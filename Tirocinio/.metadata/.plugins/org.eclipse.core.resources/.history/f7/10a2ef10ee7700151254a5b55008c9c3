@@ -2,8 +2,6 @@ package it.sp4te.CooperativeSpectrumSensing.Detection;
 
 import java.util.ArrayList;
 
-import it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions;
-
 /** 
  * <p>Titolo: Detection</p>
  * <p>Descrizione: Classe per il calcolo dei Diversi tipi di Detection </p>
@@ -13,15 +11,12 @@ import it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions;
 public class Detection {
 
 	/**
-	 * Metodo proposto per il calcolo della detection che è stato
-	 * argomento di tesi triennale. Invece di effettuare il calcolo della soglia e il successivo confronto
-	 * sull'energia calcolata a partire dai Momenti del secondo e quarto ordine, questo metodo effettua lo stesso
-	 * procedimento utilizzando i parametri Pr invece dei momenti.
+	 * Metodo per il calcolo della detection tramite il metodo proposto che è stato
+	 * argomento di tesi triennale.
 	 * 
 	 * @param threshold Soglia utilizzata per la Detection
 	 * @param pr Parametro Pr calcolato a partire dai momenti
 	 * @return La percentuale di Detection calcolata ad uno specifico SNR
-	 * @see SignalFunctions#prGenerator
 	 **/
 
 	public static double proposedMethodDetection(double threshold, ArrayList<Double> pr) {

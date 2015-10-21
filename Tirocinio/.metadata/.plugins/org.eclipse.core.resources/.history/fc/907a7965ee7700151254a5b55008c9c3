@@ -13,10 +13,10 @@ import it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions;
 public class Detection {
 
 	/**
-	 * Metodo proposto per il calcolo della detection che è stato
+	 * Metodo per il calcolo della detection tramite il metodo proposto che è stato
 	 * argomento di tesi triennale. Invece di effettuare il calcolo della soglia e il successivo confronto
 	 * sull'energia calcolata a partire dai Momenti del secondo e quarto ordine, questo metodo effettua lo stesso
-	 * procedimento utilizzando i parametri Pr invece dei momenti.
+	 * procedimento utilizzando i Pr.
 	 * 
 	 * @param threshold Soglia utilizzata per la Detection
 	 * @param pr Parametro Pr calcolato a partire dai momenti

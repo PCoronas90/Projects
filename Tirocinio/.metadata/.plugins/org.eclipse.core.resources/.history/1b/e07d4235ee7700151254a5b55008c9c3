@@ -65,12 +65,10 @@ public class SignalFunctions {
 	}
 
 	/** 
-	 * Metodo per la generazione degli parametri Pr. I parametri Pr sono particolari valori
-	 * ottenuti a partire dai momenti del secondo e quarto ordine utilizzati per il calcolo della
-	 * detection nel metodo proposto. 
+	 * Metodo per la generazione degli oggetti PR 
 	 * 
 	 * @param Moment Lista di Oggetti Momento su cui calcolare Pr
-	 * @return una lista di parametri Pr **/
+	 * @return una lista di Oggetti Pr **/
 	
 	public static ArrayList<ArrayList<Double>> prGenerator(ArrayList<Moment> Moment) {
 		ArrayList<ArrayList<Double>> PrResult = new ArrayList<ArrayList<Double>>();
