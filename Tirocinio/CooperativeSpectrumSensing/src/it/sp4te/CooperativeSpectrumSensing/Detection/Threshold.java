@@ -3,7 +3,6 @@ package it.sp4te.CooperativeSpectrumSensing.Detection;
 import java.util.ArrayList;
 
 import it.sp4te.CooperativeSpectrumSensing.Functions.MathFunctions;
-import it.sp4te.CooperativeSpectrumSensing.Functions.Pr;
 
 /**
  * <p>Titolo: Threshold</p>
@@ -18,14 +17,15 @@ public class Threshold {
 	 * proposto.
 	 * 
 	 * @param Pfa Probabilità di falso allarme
-	 * @param pr Oggetto Pr calcolato nell'ipotesi in cui il segnale primario è assente (solo rumore)
+	 * @param pr Lista di Double contenente i valori del parametro Pr
+	 * calcolato nell'ipotesi in cui il segnale primario è assente (solo rumore)
 	 * @return La soglia
 	 * @throws Exception L'argomento della funzione InvErf deve essere compreso tra -1 e 1
 	 **/
 
-	public static double proposedThreshold(double Pfa, Pr pr) throws Exception {
-		double M = MathFunctions.Avarege(pr.getPr());
-		double V = MathFunctions.Variance(pr.getPr());
+	public static double proposedThreshold(double Pfa, ArrayList<Double> pr) throws Exception {
+		double M = MathFunctions.Avarege(pr);
+		double V = MathFunctions.Variance(pr);
 
 		double implThreshold = M + Math.sqrt(2 * V) * MathFunctions.InvErf(1 - 2 * Pfa);
 		return implThreshold;

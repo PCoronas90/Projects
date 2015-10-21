@@ -2,8 +2,6 @@ package it.sp4te.CooperativeSpectrumSensing.Detection;
 
 import java.util.ArrayList;
 
-import it.sp4te.CooperativeSpectrumSensing.Functions.Pr;
-
 /** 
  * <p>Titolo: Detection</p>
  * <p>Descrizione: Classe per il calcolo dei Diversi tipi di Detection </p>
@@ -17,18 +15,18 @@ public class Detection {
 	 * argomento di tesi triennale.
 	 * 
 	 * @param threshold Soglia utilizzata per la Detection
-	 * @param pr Oggetto Pr calcolato a partire dai momenti
+	 * @param pr Parametro Pr calcolato a partire dai momenti
 	 * @return La percentuale di Detection calcolata ad uno specifico SNR
 	 **/
 
-	public static double proposedMethodDetection(double threshold, Pr pr) {
+	public static double proposedMethodDetection(double threshold, ArrayList<Double> pr) {
 		double cont = 0;
-		for (int i = 0; i < pr.getPr().size(); i++) {
-			if (pr.getPr().get(i) >= threshold) {
+		for (int i = 0; i < pr.size(); i++) {
+			if (pr.get(i) >= threshold) {
 				cont++;
 			}
 		}
-		return (double) 100 / (double) (pr.getPr().size() / cont);
+		return (double) 100 / (double) (pr.size() / cont);
 	}
 
 	/**
