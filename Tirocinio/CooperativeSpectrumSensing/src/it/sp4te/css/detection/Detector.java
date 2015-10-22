@@ -2,6 +2,8 @@ package it.sp4te.css.detection;
 
 import java.util.ArrayList;
 
+import it.sp4te.css.signalprocessing.SignalProcessor;
+
 /** 
  * <p>Titolo: Detection</p>
  * <p>Descrizione: Classe per il calcolo dei Diversi tipi di Detection </p>
@@ -19,7 +21,7 @@ public class Detector {
 	 * @param threshold Soglia utilizzata per la Detection
 	 * @param pr Parametro Pr calcolato a partire dai momenti
 	 * @return La percentuale di Detection calcolata ad uno specifico SNR
-	 * @see SignalFunctions#prGenerator
+	 * @see  SignalProcessor#computePr
 	 **/
 
 	public static double proposedMethodDetection(double threshold, ArrayList<Double> pr) {
@@ -35,10 +37,11 @@ public class Detector {
 	/**
 	 * Metodo per l'Energy Detector . Prende in input la soglia e un array di
 	 * energia. Per ogni valore dell'array che supera la soglia incrementa un
-	 * contatore. Successivamente riporta la % di Detection per un dato SNR
+	 * contatore. Successivamente riporta la % di Detection per un dato SNR. 
 	 * 
 	 * @param threshold Soglia utilizzata per la Detection
-	 * @param energy Array di energia. Nello specifico sono i Momenti del secondo e quarto ordine
+	 * @param energy Array di energia. Nello specifico è un vettore di oggetti momento, contenente momenti del 
+	 * secondo e quarto ordine
 	 * @return Percentuale di Detection per un dato SNR
 	 **/
 

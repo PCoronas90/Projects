@@ -31,6 +31,7 @@ public class SecondaryUser {
 	 * @param attempts Numero di prove su cui viene effettuata la simulazione
 	 * @param inf Estremo inferiore di SNR su cui è stata effettuata la simulazione
 	 * @param sup Estremo superiore di SNR su cui è stata effettuata la simulazione
+	 * @param block Blocchi in cui dividere il segnale per l'energy Detector
 	 * @see SignalProcessor#computeMoment
 	 * @see SignalProcessor#computeEnergy
 	 * @see SignalProcessor#computePr
@@ -49,13 +50,12 @@ public class SecondaryUser {
 	/**
 	 * Metodo per lo Spectrum Senging dell'energy Detector. 
 	 * 
-	 * @param block Numero di blocchi in cui dividere il segnale per l'energy Detector
 	 * @param pfa Probabilità di falso allarme
 	 * @return Array con le percentuali di detection ordinate per SNR
 	 * @throws Exception Pfa deve essere scelto in modo che 1-2pfa sia compreso tra -1 e 1
-	 * @see Detection#energyDetection
+	 * @see Detector#energyDetection
 	 * @see #orderSignal
-	 * @see Threshold#energyDetectorThreshold
+	 * @see  SignalProcessor#energyDetectorThreshold
 	 **/
 
 	public ArrayList<Double> spectrumSensingEnergyDetector(Double pfa) throws Exception{
@@ -79,9 +79,9 @@ public class SecondaryUser {
 	 * @param pfa Probabilità di falso allarme
 	 * @return Array con le percentuali di detection ordinate per SNR
 	 * @throws Exception  Pfa deve essere scelto in modo che 1-2pfa sia compreso tra -1 e 1
-	 * @see Detection#TraditionalEnergyDetection
+	 * @see Detector#energyDetection
 	 * @see #orderSignal
-	 * @see Threshold#energyDetectorThreshold
+	 * @see  SignalProcessor#energyDetectorThreshold
 	 **/
 	
 	public ArrayList<Double> spectrumSensingTraditionalEnergyDetector(double pfa) throws Exception {
@@ -105,9 +105,9 @@ public class SecondaryUser {
 	 * @param pfa Probabilità di falso allarme
 	 * @return Array con le percentuali di detection ordinate per SNR
 	 * @throws Exception Pfa deve essere scelto in modo che 1-2pfa sia compreso tra -1 e 1
-	 * @see Detection#proposedMethodDetection
+	 * @see Detector#proposedMethodDetection
 	 * @see #orderSignal
-	 * @see Threshold#proposedThreshold
+	 * @see SignalProcessor#proposedThreshold
 	 * 
 	 **/
 

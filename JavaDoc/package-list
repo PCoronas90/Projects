@@ -1,6 +1,6 @@
-it.sp4te.CooperativeSpectrumSensing.Agents
-it.sp4te.CooperativeSpectrumSensing.Detection
-it.sp4te.CooperativeSpectrumSensing.DomainModel
-it.sp4te.CooperativeSpectrumSensing.Functions
-it.sp4te.CooperativeSpectrumSensing.GraphGenerator
-it.sp4te.CooperativeSpectrumSensing.Main
+it.sp4te.css.agents
+it.sp4te.css.detection
+it.sp4te.css.graphgenerator
+it.sp4te.css.main
+it.sp4te.css.model
+it.sp4te.css.signalprocessing
