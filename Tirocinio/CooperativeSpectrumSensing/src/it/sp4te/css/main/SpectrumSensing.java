@@ -27,7 +27,7 @@ public class SpectrumSensing {
 	 * 
 	 * **/
 	public static void main(String args[]) throws Exception {
-		//ArrayList<Double> EnergyDetection = new ArrayList<Double>();
+		ArrayList<Double> EnergyDetection = new ArrayList<Double>();
 		ArrayList<Double> ProposedDetection = new ArrayList<Double>();
 		ArrayList<Double> TraditionalEnergyDetection = new ArrayList<Double>();
 
@@ -51,14 +51,14 @@ public class SpectrumSensing {
 		SecondaryUser SU = new SecondaryUser(s, length, SignalProcessor.computeEnergy(s), attempts, inf, sup,block);
 
 		// Calcolo EnergyDetection
-		//EnergyDetection = SU.spectrumSensingEnergyDetector(pfa);
+		EnergyDetection = SU.spectrumSensingEnergyDetector(pfa);
 		// Calcolo ProposedDetection
 		ProposedDetection = SU.spectrumSensingProposedDetector(pfa);
 		//Calcolo Traditional Detection
 		TraditionalEnergyDetection=SU.spectrumSensingTraditionalEnergyDetector(pfa);
 
 		// Inizializzo la Mappa per il grafico
-		//DetectionGraph.put("Energy Detection", EnergyDetection);
+		DetectionGraph.put("Energy Detection", EnergyDetection);
 		DetectionGraph.put("Proposed Detection", ProposedDetection);
 		DetectionGraph.put("Traditional Energy Detection", TraditionalEnergyDetection);
 

@@ -43,7 +43,7 @@ public class SecondaryUser {
 		// Genero i momenti nelle due ipotesi h0 e h1
 		MomentsSignal = SignalProcessor.computeMoment(s, length, energy, attempts, inf, sup);
 		MomentsNoise =SignalProcessor.computeMoment(null, length, energy, attempts, inf, sup);
-		//MediumEnergy=SignalProcessor.computeMediumEnergy(s, length, energy, attempts, inf, sup, block);
+		MediumEnergy=SignalProcessor.computeMediumEnergy(s, length, energy, attempts, inf, sup, block);
 
 	}
 

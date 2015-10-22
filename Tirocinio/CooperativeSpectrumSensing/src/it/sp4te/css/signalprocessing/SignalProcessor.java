@@ -22,9 +22,9 @@ public class SignalProcessor {
 	 * @param s Segnale su cui calcolare l'energia
 	 * @return energia del segnale **/
 	
-	public static double computeEnergy(Signal s) {
+	public static double computeEnergy(AbstractSignal s) {
 		double p = 0.0;
-		for (int i = 0; i < s.getLenght(); i++) {
+		for (int i = 0; i < s.getSamplesIm().size(); i++) {
 			p = p + Math.abs(Math.pow(s.getSamplesRe().get(i), 2)) + Math.abs((Math.pow(s.getSamplesIm().get(i), 2)));
 		}
 		return p / s.getLenght();
@@ -100,27 +100,30 @@ public class SignalProcessor {
 			int sup,int block) {
 		
 		ArrayList<ArrayList<Double>> MediumEnergy = new ArrayList<ArrayList<Double>>();
+		//Prendo l'intervallo Snr
 		for (double snr = inf; snr < sup; snr++) {
 			ArrayList<Double> MediumEnergyTemp = new ArrayList<Double>();
+			//Per ogni prova
 			for (int j = 0; j < attempts; j++) {
-				Noise noise = new Noise(snr,s.getLenght()-1, energy);
+				//Genero il rumore.
+				Noise noise = new Noise(snr,length, energy);
 				
 				double avg = 0;
 				int samples = (length/block);
 				int startIndex=0;
-				for(int i=0;i<s.getLenght();i++){
-					if(i%samples==0 & i!=0|i==s.getLenght()-1){
+				for(int i=0;i<length;i++){
+					if(i%samples==0 & i!=0){
 						Signal signal = new Signal(samples);
-						ArrayList<Double> samplesRe=MathFunctions.SumVector(splitSignal(noise,startIndex,i).getSamplesRe(), splitSignal(s,startIndex,i).getSamplesRe());
-						ArrayList<Double> samplesIm=MathFunctions.SumVector(splitSignal(noise,startIndex,i).getSamplesIm(), splitSignal(s,startIndex,i).getSamplesIm());
+						ArrayList<Double> samplesRe=MathFunctions.SumVector(noise.splitNoise(startIndex,i-1).getSamplesRe(), s.splitSignal(startIndex,i-1).getSamplesRe());
+						ArrayList<Double> samplesIm=MathFunctions.SumVector(noise.splitNoise(startIndex,i-1).getSamplesIm(), s.splitSignal(startIndex,i-1).getSamplesIm());
 						signal.setSamplesRe(samplesRe);
 						signal.setSamplesIm(samplesIm);
-						signal.setLenght(samplesRe.size());
 						startIndex=i;
 						avg=avg+computeEnergy(signal);
-						System.out.print(avg);
+						
 					}
-					MediumEnergyTemp.add(avg/block);	
+					if(i==length-1){
+					MediumEnergyTemp.add(avg/block);}	
 				}
 				
 			}
@@ -130,27 +133,6 @@ public class SignalProcessor {
 	}
 	
 	
-	/**
-	 * Metodo per la Divisione di un Segnale. Dato un segnale (segnale o rumore), un indice di inizio
-	 * e uno di fine, il metodo ritorna la porzione di segnale che va dall'indice di inizio all'indice di terminazione.
-	 * @param signal Segnale o rumore da cui estrarre una sottoporzione
-	 * @param start Indice di inizio della sottoporzione
-	 * @param end Indice di terminazione della sottoporzione
-	 * @return Sottoporzione del segnale passato come parametro
-	 * **/
-	
-	public static AbstractSignal splitSignal(AbstractSignal signal,int start,int end){
-		ArrayList<Double> samplesRea=new ArrayList<Double>();
-		ArrayList<Double> samplesImm=new ArrayList<Double>();
-		for(int i=start;i<end-1;i++){
-			samplesRea.add(signal.getSamplesRe().get(i));
-			samplesImm.add(signal.getSamplesIm().get(i));
-			
-		}
-		signal.setSamplesRe(samplesRea);
-		signal.setSamplesIm(samplesImm);
-		return signal;
-	}
 	
 	
 	/**
