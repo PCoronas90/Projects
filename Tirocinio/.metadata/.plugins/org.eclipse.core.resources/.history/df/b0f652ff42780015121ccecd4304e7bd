@@ -1,0 +1,5 @@
+package it.sp4te.css.signalprocessing;
+
+public class SignalProcessor {
+
+}

@@ -39,4 +39,5 @@
 <fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="java.util.Random"/>
 <fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.Functions.Pr"/>
+<fullyQualifiedTypeName name="it.sp4te.css.signalprocessing.SignalProcessor"/>
 </qualifiedTypeNameHistroy>
