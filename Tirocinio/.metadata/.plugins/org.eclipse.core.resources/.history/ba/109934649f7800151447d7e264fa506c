@@ -8,6 +8,10 @@ import java.util.ArrayList;
 
 public class Signal extends AbstractSignal{
 
+	int lenght;
+
+
+
 	/**
 	 * Costruttore del segnale modulato QPSK e con potenza unitaria. L'oggetto segnale contiene 2 array,
 	 * rispettivamente relativi a parte reale e parte immaginaria.
@@ -36,7 +40,13 @@ public class Signal extends AbstractSignal{
 	
 
 
+	public int getSignalLenght() {
+		return lenght;
+	}
 
+	public void setSignalLenght(int signalLenght) {
+		this.lenght = signalLenght;
+	}
 
 	
 	

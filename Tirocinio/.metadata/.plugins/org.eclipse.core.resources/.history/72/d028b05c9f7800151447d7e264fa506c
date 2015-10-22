@@ -11,7 +11,9 @@ import java.util.Random;
 
 public class Noise extends AbstractSignal {
 
+	int lenght;
 	double variance;
+	Random sample;
 
 	/**
 	 * Costruttore dell'oggetto Rumore. Il rumore sarà gaussiano con varianza unitaria.
@@ -23,25 +25,32 @@ public class Noise extends AbstractSignal {
 	 **/
 
 	public Noise(double snr, int noiseLenght, double energy) {
-		Random sample;
+
 		double normalizeSnr = Math.pow(10, (snr / 10));
 		this.variance = (energy / normalizeSnr);
-		lenght = noiseLenght;
+		this.lenght = noiseLenght;
 
 		this.samplesRe = new ArrayList<Double>();
-		for (int i = 0; i < lenght; i++) {
+		for (int i = 0; i < this.lenght; i++) {
 			sample = new Random();
 			samplesRe.add(i, (sample.nextGaussian() * Math.sqrt(variance)));
 
 		}
 		this.samplesIm = new ArrayList<Double>();
-		for (int i = 0; i < lenght; i++) {
+		for (int i = 0; i < this.lenght; i++) {
 			sample = new Random();
 			samplesIm.add(i, (sample.nextGaussian() * Math.sqrt(variance)));
 		}
 	}
 
 
+	public int getNoiseLenght() {
+		return lenght;
+	}
+
+	public void setNoiseLenght(int signalLenght) {
+		this.lenght = signalLenght;
+	}
 
 	public double getVariance() {
 		return variance;
@@ -51,6 +60,28 @@ public class Noise extends AbstractSignal {
 		this.variance = variance;
 	}
 
+	public ArrayList<Double> getSamplesRe() {
+		return samplesRe;
+	}
 
+	public void setSamplesRe(ArrayList<Double> samplesRe) {
+		this.samplesRe = samplesRe;
+	}
+
+	public ArrayList<Double> getSamplesIm() {
+		return samplesIm;
+	}
+
+	public void setSamplesIm(ArrayList<Double> samplesIm) {
+		this.samplesIm = samplesIm;
+	}
+
+	public Random getSample() {
+		return sample;
+	}
+
+	public void setSample(Random sample) {
+		this.sample = sample;
+	}
 
 }

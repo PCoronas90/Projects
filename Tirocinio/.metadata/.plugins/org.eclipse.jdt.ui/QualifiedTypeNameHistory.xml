@@ -10,8 +10,6 @@
 <fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions"/>
 <fullyQualifiedTypeName name="java.util.Set"/>
 <fullyQualifiedTypeName name="java.util.Collections"/>
-<fullyQualifiedTypeName name="java.awt.List"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="com.googlecode.charts4j.Color"/>
 <fullyQualifiedTypeName name="com.googlecode.charts4j.Data"/>
 <fullyQualifiedTypeName name="com.googlecode.charts4j.Plots"/>
@@ -40,4 +38,6 @@
 <fullyQualifiedTypeName name="java.util.Random"/>
 <fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.Functions.Pr"/>
 <fullyQualifiedTypeName name="it.sp4te.css.signalprocessing.SignalProcessor"/>
+<fullyQualifiedTypeName name="java.awt.List"/>
+<fullyQualifiedTypeName name="java.util.List"/>
 </qualifiedTypeNameHistroy>

@@ -23,13 +23,4 @@ public abstract class AbstractSignal {
 	public void setSamplesIm(ArrayList<Double> samplesIm) {
 		this.samplesIm = samplesIm;
 	}
-	
-	public int getLenght() {
-		return lenght;
-	}
-
-	public void setLenght(int signalLenght) {
-		this.lenght = signalLenght;
-	}
-	
 }

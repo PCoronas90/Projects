@@ -2,7 +2,6 @@ package it.sp4te.css.signalprocessing;
 
 import java.util.ArrayList;
 
-import it.sp4te.css.model.AbstractSignal;
 import it.sp4te.css.model.Noise;
 import it.sp4te.css.model.Signal;
 
@@ -111,8 +110,8 @@ public class SignalProcessor {
 				for(int i=0;i<s.getLenght();i++){
 					if(i%samples==0 & i!=0|i==s.getLenght()-1){
 						Signal signal = new Signal(samples);
-						ArrayList<Double> samplesRe=MathFunctions.SumVector(splitSignal(noise,startIndex,i).getSamplesRe(), splitSignal(s,startIndex,i).getSamplesRe());
-						ArrayList<Double> samplesIm=MathFunctions.SumVector(splitSignal(noise,startIndex,i).getSamplesIm(), splitSignal(s,startIndex,i).getSamplesIm());
+						ArrayList<Double> samplesRe=MathFunctions.SumVector(splitNoise(noise,startIndex,i).getSamplesRe(), splitSignal(s,startIndex,i).getSamplesRe());
+						ArrayList<Double> samplesIm=MathFunctions.SumVector(splitNoise(noise,startIndex,i).getSamplesIm(), splitSignal(s,startIndex,i).getSamplesIm());
 						signal.setSamplesRe(samplesRe);
 						signal.setSamplesIm(samplesIm);
 						signal.setLenght(samplesRe.size());
@@ -127,29 +126,6 @@ public class SignalProcessor {
 			MediumEnergy.add(MediumEnergyTemp);
 		}
 		return MediumEnergy;
-	}
-	
-	
-	/**
-	 * Metodo per la Divisione di un Segnale. Dato un segnale (segnale o rumore), un indice di inizio
-	 * e uno di fine, il metodo ritorna la porzione di segnale che va dall'indice di inizio all'indice di terminazione.
-	 * @param signal Segnale o rumore da cui estrarre una sottoporzione
-	 * @param start Indice di inizio della sottoporzione
-	 * @param end Indice di terminazione della sottoporzione
-	 * @return Sottoporzione del segnale passato come parametro
-	 * **/
-	
-	public static AbstractSignal splitSignal(AbstractSignal signal,int start,int end){
-		ArrayList<Double> samplesRea=new ArrayList<Double>();
-		ArrayList<Double> samplesImm=new ArrayList<Double>();
-		for(int i=start;i<end-1;i++){
-			samplesRea.add(signal.getSamplesRe().get(i));
-			samplesImm.add(signal.getSamplesIm().get(i));
-			
-		}
-		signal.setSamplesRe(samplesRea);
-		signal.setSamplesIm(samplesImm);
-		return signal;
 	}
 	
 	
@@ -190,5 +166,30 @@ public class SignalProcessor {
 		return edThreshold;
 	}
 	
+	public static Signal splitSignal(Signal signal,int start,int end){
+		ArrayList<Double> samplesRea=new ArrayList<Double>();
+		ArrayList<Double> samplesImm=new ArrayList<Double>();
+		for(int i=start;i<end-1;i++){
+			samplesRea.add(signal.getSamplesRe().get(i));
+			samplesImm.add(signal.getSamplesIm().get(i));
+			
+		}
+		signal.setSamplesRe(samplesRea);
+		signal.setSamplesIm(samplesImm);
+		return signal;
+	}
+	
+	public static Noise splitNoise(Noise noise,int start,int end){
+		ArrayList<Double> samplesRea=new ArrayList<Double>();
+		ArrayList<Double> samplesImm=new ArrayList<Double>();
+		for(int i=start;i<end-1;i++){
+			samplesRea.add(noise.getSamplesRe().get(i));
+			samplesImm.add(noise.getSamplesIm().get(i));
+			
+		}
+		noise.setSamplesRe(samplesRea);
+		noise.setSamplesIm(samplesImm);
+		return noise;
+	}
 
 }

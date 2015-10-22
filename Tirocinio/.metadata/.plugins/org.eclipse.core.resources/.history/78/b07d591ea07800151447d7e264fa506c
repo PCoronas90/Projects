@@ -31,5 +31,4 @@ public abstract class AbstractSignal {
 	public void setLenght(int signalLenght) {
 		this.lenght = signalLenght;
 	}
-	
 }

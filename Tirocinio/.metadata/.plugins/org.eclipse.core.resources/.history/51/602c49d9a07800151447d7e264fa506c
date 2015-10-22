@@ -32,4 +32,16 @@ public abstract class AbstractSignal {
 		this.lenght = signalLenght;
 	}
 	
+	public static AbstractSignal splitSignal(AbstractSignal signal,int start,int end){
+		ArrayList<Double> samplesRea=new ArrayList<Double>();
+		ArrayList<Double> samplesImm=new ArrayList<Double>();
+		for(int i=start;i<end-1;i++){
+			samplesRea.add(signal.getSamplesRe().get(i));
+			samplesImm.add(signal.getSamplesIm().get(i));
+			
+		}
+		signal.setSamplesRe(samplesRea);
+		signal.setSamplesIm(samplesImm);
+		return signal;
+	}
 }

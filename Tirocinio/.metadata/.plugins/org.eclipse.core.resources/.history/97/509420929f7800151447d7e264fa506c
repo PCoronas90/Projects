@@ -57,21 +57,21 @@ public class Moment {
 
 			Noise noise = new Noise(snr, length, energy);
 
-			Signal signal = new Signal(noise.getLenght());
+			Signal signal = new Signal(noise.getNoiseLenght());
 
 			signal.setSamplesRe(MathFunctions.SumVector(noise.getSamplesRe(), samplesRe));
 			signal.setSamplesIm(MathFunctions.SumVector(noise.getSamplesIm(), samplesIm));
 
 			this.Energy.add(i, SignalProcessor.computeEnergy(signal));
 
-			for (int k = 1; k < noise.getLenght() - 1; k++) {
+			for (int k = 1; k < noise.getNoiseLenght() - 1; k++) {
 
 				j = (j + Math.pow(signal.getSamplesRe().get(k), 2) + Math.pow(signal.getSamplesIm().get(k), 2));
 				h = (h + Math.pow(signal.getSamplesRe().get(k), 4) + Math.pow(signal.getSamplesIm().get(k), 4));
 			}
 
-			this.secondOrder.add(i, j * (1 / (double) signal.getLenght()));
-			this.fourthOrder.add(i, h * (1 / (double) signal.getLenght()));
+			this.secondOrder.add(i, j * (1 / (double) signal.getSignalLenght()));
+			this.fourthOrder.add(i, h * (1 / (double) signal.getSignalLenght()));
 		}
 
 	}

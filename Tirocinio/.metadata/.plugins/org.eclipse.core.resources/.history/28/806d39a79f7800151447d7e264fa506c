@@ -23,7 +23,7 @@ public class Noise extends AbstractSignal {
 	 **/
 
 	public Noise(double snr, int noiseLenght, double energy) {
-		Random sample;
+
 		double normalizeSnr = Math.pow(10, (snr / 10));
 		this.variance = (energy / normalizeSnr);
 		lenght = noiseLenght;

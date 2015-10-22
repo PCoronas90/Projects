@@ -24,12 +24,11 @@ public abstract class AbstractSignal {
 		this.samplesIm = samplesIm;
 	}
 	
-	public int getLenght() {
+	public int getSignalLenght() {
 		return lenght;
 	}
 
-	public void setLenght(int signalLenght) {
+	public void setSignalLenght(int signalLenght) {
 		this.lenght = signalLenght;
 	}
-	
 }

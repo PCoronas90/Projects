@@ -138,7 +138,6 @@ public class SignalProcessor {
 	 * @param end Indice di terminazione della sottoporzione
 	 * @return Sottoporzione del segnale passato come parametro
 	 * **/
-	
 	public static AbstractSignal splitSignal(AbstractSignal signal,int start,int end){
 		ArrayList<Double> samplesRea=new ArrayList<Double>();
 		ArrayList<Double> samplesImm=new ArrayList<Double>();
