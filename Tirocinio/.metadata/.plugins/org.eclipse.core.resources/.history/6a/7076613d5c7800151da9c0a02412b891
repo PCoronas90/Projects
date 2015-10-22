@@ -28,14 +28,16 @@ public class Moment {
 	 * @param length Lunghezza del segnale
 	 **/
 
-	public Moment(Signal s, int attempt_s, double energy, double snr, int length) {
+	public Moment(Signal s, int attempt_s, double snr, int length) {
 		// Inizializza i parametri
 		ArrayList<Double> samplesRe;
 		ArrayList<Double> samplesIm;
 		int attempts = attempt_s;
+		
 		this.secondOrder = new ArrayList<Double>();
 		this.fourthOrder = new ArrayList<Double>();
 		this.Energy = new ArrayList<Double>();
+		
 		if (s != null) {
 
 			samplesRe = s.getSamplesRe();
@@ -55,7 +57,7 @@ public class Moment {
 			double j = 0.0;
 			double h = 0.0;
 
-			Noise noise = new Noise(snr, length, energy);
+			Noise noise = new Noise(snr, length, SignalProcessor.computeEnergy(s));
 
 			Signal signal = new Signal(noise.getNoiseLenght());
 

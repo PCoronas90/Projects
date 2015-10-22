@@ -60,7 +60,7 @@ public class SignalProcessor {
 	public static ArrayList<ArrayList<Double>> momentEnergy(ArrayList<Moment> Moment) {
 		ArrayList<ArrayList<Double>> energy = new ArrayList<ArrayList<Double>>();
 		for (int i = 0; i < Moment.size(); i++) {
-			energy.add(Moment.get(i).getEnergy());
+			energy.add(SignalProcessor.computeEnergy(Moment.get(i)));
 		}
 		return energy;
 	}

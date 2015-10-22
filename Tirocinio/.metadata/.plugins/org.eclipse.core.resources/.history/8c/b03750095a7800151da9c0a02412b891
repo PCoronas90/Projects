@@ -76,8 +76,8 @@ public class SignalProcessor {
 	public static ArrayList<ArrayList<Double>> computePr(ArrayList<Moment> Moment) {
 		ArrayList<ArrayList<Double>> PrResult = new ArrayList<ArrayList<Double>>();
 		for (int i = 0; i < Moment.size(); i++) {
-			ArrayList<Double> m = Moment.get(i).getSecondOrder();
-			ArrayList<Double> q = Moment.get(i).getFourthOrder();
+			ArrayList<Double> m = Moment.get(i).getMean();
+			ArrayList<Double> q = Moment.get(i).getQ();
 			ArrayList<Double> prTemp=new ArrayList<Double>();
 			for (int j = 0; j< m.size(); j++) {
 				prTemp.add((double) ((2 * (Math.pow(m.get(j), 2)) - q.get(j))));

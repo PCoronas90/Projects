@@ -27,18 +27,16 @@ public class Signal extends AbstractSignal{
 		for (int i = 0; i < this.lenght; i++) {
 			double v = Math.random();
 			if (v < 0.5) {
-				this.samplesRe.add(i, v / Math.sqrt(this.lenght));}
-			else{
-				this.samplesRe.add(i, -v / Math.sqrt(this.lenght));}
-			double p = Math.random();
-			if (p < 0.5) {
-				this.samplesIm.add(i,p / Math.sqrt(this.lenght));}
-			else{
-				this.samplesIm.add(i, -p / Math.sqrt(this.lenght));}
+
+				this.samplesRe.add(i, v / Math.sqrt(this.lenght));
+				this.samplesIm.add(i, v / Math.sqrt(this.lenght));
+			} else {
+				this.samplesRe.add(i, -v / Math.sqrt(this.lenght));
+				this.samplesIm.add(i, -v / Math.sqrt(this.lenght));
 
 			}
 		}
-	
+	}
 
 
 	public int getSignalLenght() {

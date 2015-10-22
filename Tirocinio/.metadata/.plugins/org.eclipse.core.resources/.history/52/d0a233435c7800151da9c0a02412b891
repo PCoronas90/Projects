@@ -41,11 +41,11 @@ public class SignalProcessor {
 	 * @return Una lista di Momenti**/
 	
 	
-	public static ArrayList<Moment> computeMoment(Signal s, int length, double energy, int attempts, int inf,
+	public static ArrayList<Moment> computeMoment(Signal s, int length, int attempts, int inf,
 			int sup) {
 		ArrayList<Moment> Moments = new ArrayList<Moment>();
 		for (double i = inf; i < sup; i++) {
-			Moment m = new Moment(s, attempts, energy, i, length);
+			Moment m = new Moment(s, attempts, i, length);
 			Moments.add(m);
 		}
 		return Moments;

@@ -32,9 +32,9 @@ public class Signal extends AbstractSignal{
 				this.samplesRe.add(i, -v / Math.sqrt(this.lenght));}
 			double p = Math.random();
 			if (p < 0.5) {
-				this.samplesIm.add(i,p / Math.sqrt(this.lenght));}
+				this.samplesIm.add(i, v / Math.sqrt(this.lenght));}
 			else{
-				this.samplesIm.add(i, -p / Math.sqrt(this.lenght));}
+				this.samplesIm.add(i, -v / Math.sqrt(this.lenght));}
 
 			}
 		}

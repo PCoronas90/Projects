@@ -13,37 +13,38 @@ import it.sp4te.css.model.Signal;
 public class Moment {
 
 	public double snr;
-	public ArrayList<Double> secondOrder;
-	public ArrayList<Double> fourthOrder;
+	public ArrayList<Double> samplesRe;
+	public ArrayList<Double> samplesIm;
+	public int attempts;
+	public ArrayList<Double> mean;
+	public ArrayList<Double> q;
 	public ArrayList<Double> Energy;
 
 	/**
-	 * Costruttore dell'oggetto Momento. Ogni oggetto momento è composto da 4 attributi: I momenti del secondo ordine,
-	 * i Momenti del quarto ordine, l'energia del segnale e l'SNR su cui viene effettuato il calcolo dei momenti
+	 * Costruttore dell'oggetto Momento
 	 * 
 	 * @param s Il segnale
-	 * @param attempt_s Numero di prove su cui effettuare la simulazione
+	 * @param attempts Numero di prove su cui effettuare la simulazione
 	 * @param energy Energia del segnale
 	 * @param snr L'SNR di riferimento
 	 * @param length Lunghezza del segnale
 	 **/
 
-	public Moment(Signal s, int attempt_s, double energy, double snr, int length) {
+	public Moment(Signal s, int attempts, double energy, double snr, int length) {
 		// Inizializza i parametri
-		ArrayList<Double> samplesRe;
-		ArrayList<Double> samplesIm;
-		int attempts = attempt_s;
-		this.secondOrder = new ArrayList<Double>();
-		this.fourthOrder = new ArrayList<Double>();
+		this.mean = new ArrayList<Double>();
+		this.q = new ArrayList<Double>();
+		;
+		this.attempts = attempts;
 		this.Energy = new ArrayList<Double>();
 		if (s != null) {
 
-			samplesRe = s.getSamplesRe();
-			samplesIm = s.getSamplesIm();
+			this.samplesRe = s.getSamplesRe();
+			this.samplesIm = s.getSamplesIm();
 		} else {
 
-			samplesRe = null;
-			samplesIm = null;
+			this.samplesRe = null;
+			this.samplesIm = null;
 
 		}
 
@@ -51,7 +52,7 @@ public class Moment {
 		// del parametro q
 		this.snr = snr;
 
-		for (int i = 0; i < attempts; i++) {
+		for (int i = 0; i < this.attempts; i++) {
 			double j = 0.0;
 			double h = 0.0;
 
@@ -59,8 +60,8 @@ public class Moment {
 
 			Signal signal = new Signal(noise.getNoiseLenght());
 
-			signal.setSamplesRe(MathFunctions.SumVector(noise.getSamplesRe(), samplesRe));
-			signal.setSamplesIm(MathFunctions.SumVector(noise.getSamplesIm(), samplesIm));
+			signal.setSamplesRe(MathFunctions.SumVector(noise.getSamplesRe(), this.samplesRe));
+			signal.setSamplesIm(MathFunctions.SumVector(noise.getSamplesIm(), this.samplesIm));
 
 			this.Energy.add(i, SignalProcessor.computeEnergy(signal));
 
@@ -70,8 +71,8 @@ public class Moment {
 				h = (h + Math.pow(signal.getSamplesRe().get(k), 4) + Math.pow(signal.getSamplesIm().get(k), 4));
 			}
 
-			this.secondOrder.add(i, j * (1 / (double) signal.getSignalLenght()));
-			this.fourthOrder.add(i, h * (1 / (double) signal.getSignalLenght()));
+			this.mean.add(i, j * (1 / (double) signal.getSignalLenght()));
+			this.q.add(i, h * (1 / (double) signal.getSignalLenght()));
 		}
 
 	}
@@ -85,21 +86,28 @@ public class Moment {
 		this.snr = snr;
 	}
 
-
-	public ArrayList<Double> getSecondOrder() {
-		return secondOrder;
+	public int getAttempts() {
+		return attempts;
 	}
 
-	public void setMean(ArrayList<Double> secondOrder) {
-		this.secondOrder = secondOrder;
+	public void setAttempts(int attempts) {
+		this.attempts = attempts;
 	}
 
-	public ArrayList<Double> getFourthOrder() {
-		return fourthOrder;
+	public ArrayList<Double> getAvarage() {
+		return mean;
 	}
 
-	public void setFourthOrder(ArrayList<Double> fourthOrder) {
-		this.fourthOrder = fourthOrder;
+	public void setAvarage(ArrayList<Double> avarage) {
+		this.mean = avarage;
+	}
+
+	public ArrayList<Double> getQ() {
+		return q;
+	}
+
+	public void setQ(ArrayList<Double> q) {
+		this.q = q;
 	}
 
 	public ArrayList<Double> getEnergy() {

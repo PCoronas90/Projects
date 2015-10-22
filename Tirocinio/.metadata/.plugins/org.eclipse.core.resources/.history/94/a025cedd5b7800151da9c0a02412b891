@@ -33,9 +33,11 @@ public class Moment {
 		ArrayList<Double> samplesRe;
 		ArrayList<Double> samplesIm;
 		int attempts = attempt_s;
+		
 		this.secondOrder = new ArrayList<Double>();
 		this.fourthOrder = new ArrayList<Double>();
 		this.Energy = new ArrayList<Double>();
+		
 		if (s != null) {
 
 			samplesRe = s.getSamplesRe();

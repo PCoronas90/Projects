@@ -47,9 +47,8 @@ public class Moment {
 
 		}
 
-		// Generazione dell'oggetto momento. Calcolo dell'energia, della media e
-		// del parametro q
-		this.snr = snr;
+		// Generazione dell'oggetto momento. Calcolo dell'energia e dei momenti del secondo e quarto 
+		//ordine.
 
 		for (int i = 0; i < attempts; i++) {
 			double j = 0.0;

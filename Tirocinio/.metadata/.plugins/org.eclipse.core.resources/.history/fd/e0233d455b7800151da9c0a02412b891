@@ -18,8 +18,7 @@ public class Moment {
 	public ArrayList<Double> Energy;
 
 	/**
-	 * Costruttore dell'oggetto Momento. Ogni oggetto momento è composto da 4 attributi: I momenti del secondo ordine,
-	 * i Momenti del quarto ordine, l'energia del segnale e l'SNR su cui viene effettuato il calcolo dei momenti
+	 * Costruttore dell'oggetto Momento.
 	 * 
 	 * @param s Il segnale
 	 * @param attempt_s Numero di prove su cui effettuare la simulazione

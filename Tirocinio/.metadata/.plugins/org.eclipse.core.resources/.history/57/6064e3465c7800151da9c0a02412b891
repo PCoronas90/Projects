@@ -38,10 +38,10 @@ public class SecondaryUser {
 	 * 
 	 **/
 
-	public SecondaryUser(Signal s, int length, double energy, int attempts, int inf, int sup,int block) {
+	public SecondaryUser(Signal s, int length, int attempts, int inf, int sup,int block) {
 		// Genero i momenti nelle due ipotesi h0 e h1
-		MomentsSignal = SignalProcessor.computeMoment(s, length, energy, attempts, inf, sup);
-		MomentsNoise =SignalProcessor.computeMoment(null, length, energy, attempts, inf, sup);
+		MomentsSignal = SignalProcessor.computeMoment(s, length, attempts, inf, sup);
+		MomentsNoise =SignalProcessor.computeMoment(null, length, attempts, inf, sup);
 		//MediumEnergy=SignalProcessor.computeMediumEnergy(s, length, energy, attempts, inf, sup, block);
 
 	}
