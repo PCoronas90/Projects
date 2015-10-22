@@ -3,6 +3,7 @@ package it.sp4te.css.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import it.sp4te.css.agents.PrimaryUser;
 import it.sp4te.css.agents.SecondaryUser;
 import it.sp4te.css.graphgenerator.GraphGenerator;
 import it.sp4te.css.model.Signal;
@@ -27,8 +28,8 @@ public class SpectrumSensing {
 	 * 
 	 * **/
 	public static void main(String args[]) throws Exception {
-		ArrayList<Double> EnergyDetection = new ArrayList<Double>();
-		ArrayList<Double> ProposedDetection = new ArrayList<Double>();
+		ArrayList<Double> MomentEnergyDetection = new ArrayList<Double>();		
+		ArrayList<Double> BlockEnergyDetection=new ArrayList<Double>();
 		ArrayList<Double> TraditionalEnergyDetection = new ArrayList<Double>();
 
 		// Creo una mappa per creare il grafico. La mappa deve essere formata da
@@ -43,23 +44,26 @@ public class SpectrumSensing {
 		int block=10; //blocchi energy Detector
 		double pfa=0.01; //probabilità di falso allarme
 		
-
+		//Creo l'utente primario e l'utente Secondario
+        PrimaryUser PU= new PrimaryUser();
+        SecondaryUser SU=new SecondaryUser();
+        
+        
 		// Genero il segnale
-		Signal s = new Signal(length);
+		Signal s = PU.createAndSend(length);
+		
+		//L'utente secondario si mette in ascolto sul canale
+		SU.listenChannel(s, length, SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 
-		// Genero utente secondario
-		SecondaryUser SU = new SecondaryUser(s, length, SignalProcessor.computeEnergy(s), attempts, inf, sup,block);
-
-		// Calcolo EnergyDetection
-		EnergyDetection = SU.spectrumSensingEnergyDetector(pfa);
-		// Calcolo ProposedDetection
-		ProposedDetection = SU.spectrumSensingProposedDetector(pfa);
-		//Calcolo Traditional Detection
+		
+		BlockEnergyDetection = SU.spectrumSensingBlockEnergyDetector(pfa);
 		TraditionalEnergyDetection=SU.spectrumSensingTraditionalEnergyDetector(pfa);
+		MomentEnergyDetection=SU.spectrumSensingMomentEnergyDetector(pfa);
+		
 
 		// Inizializzo la Mappa per il grafico
-		DetectionGraph.put("Energy Detection", EnergyDetection);
-		DetectionGraph.put("Proposed Detection", ProposedDetection);
+		DetectionGraph.put("Moment Energy Detection", MomentEnergyDetection);
+		DetectionGraph.put("Block Energy Detection", BlockEnergyDetection);
 		DetectionGraph.put("Traditional Energy Detection", TraditionalEnergyDetection);
 
 		GraphGenerator.drawGraph("Detection Methods",DetectionGraph, inf, sup);

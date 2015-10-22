@@ -58,7 +58,7 @@ public class SignalProcessor {
 	 * @param Moment Array di oggetti momento
 	 * @return Energia **/
 	
-	public static ArrayList<ArrayList<Double>> momentEnergy(ArrayList<Moment> Moment) {
+	public static ArrayList<ArrayList<Double>> computeMomentEnergy(ArrayList<Moment> Moment) {
 		ArrayList<ArrayList<Double>> energy = new ArrayList<ArrayList<Double>>();
 		for (int i = 0; i < Moment.size(); i++) {
 			energy.add(Moment.get(i).getEnergy());
@@ -113,13 +113,22 @@ public class SignalProcessor {
 				int startIndex=0;
 				for(int i=0;i<length;i++){
 					if(i%samples==0 & i!=0){
+						
 						Signal signal = new Signal(samples);
+						if(s!=null){
 						ArrayList<Double> samplesRe=MathFunctions.SumVector(noise.splitNoise(startIndex,i-1).getSamplesRe(), s.splitSignal(startIndex,i-1).getSamplesRe());
 						ArrayList<Double> samplesIm=MathFunctions.SumVector(noise.splitNoise(startIndex,i-1).getSamplesIm(), s.splitSignal(startIndex,i-1).getSamplesIm());
 						signal.setSamplesRe(samplesRe);
 						signal.setSamplesIm(samplesIm);
 						startIndex=i;
-						avg=avg+computeEnergy(signal);
+						avg=avg+computeEnergy(signal);}
+						else{
+							ArrayList<Double> samplesRe=noise.splitNoise(startIndex,i-1).getSamplesRe();
+							ArrayList<Double> samplesIm=noise.splitNoise(startIndex,i-1).getSamplesIm();
+							signal.setSamplesRe(samplesRe);
+							signal.setSamplesIm(samplesIm);
+							startIndex=i;
+							avg=avg+computeEnergy(signal);}
 						
 					}
 					if(i==length-1){
@@ -133,7 +142,36 @@ public class SignalProcessor {
 	}
 	
 	
-	
+	/**Metodo per il calcolo dei vettori di Energia nelle ipotesi di segnale+rumore e di solo rumore.
+	 * Questo metodo calcola i valori necessari per l'energy Detector tradizionale, in quanto effettua il
+	 * calcolo dell'energya diretto sui segnali senza operazioni intermedie**/
+	public static ArrayList<ArrayList<Double>> computeVectorEnergy(Signal s, int length, double energy, int attempts, int inf,
+			int sup){
+		ArrayList<ArrayList<Double>> EnergyVector = new ArrayList<ArrayList<Double>>();
+		for (double snr = inf; snr < sup; snr++) {
+		ArrayList<Double> EnergyVectorTemp = new ArrayList<Double>();
+		for (int j = 0; j < attempts; j++) {
+			Noise noise = new Noise(snr,length, energy);
+			Signal Resultsignal = new Signal(length);
+			ArrayList<Double> samplesRe;
+			ArrayList<Double> samplesIm;
+			if(s!=null){
+			 samplesRe=MathFunctions.SumVector(noise.getSamplesRe(),s.getSamplesRe());
+			 samplesIm=MathFunctions.SumVector(noise.getSamplesIm(),s.getSamplesIm());
+			}
+			else{
+				samplesRe=noise.getSamplesRe();
+				samplesIm=noise.getSamplesIm();
+			}
+			Resultsignal.setSamplesRe(samplesRe);
+			Resultsignal.setSamplesIm(samplesIm);
+			
+			EnergyVectorTemp.add(SignalProcessor.computeEnergy(Resultsignal));
+		}
+		
+		EnergyVector.add(EnergyVectorTemp);
+	}
+		return EnergyVector;}
 	
 	/**
 	 * Metodo per il calcolo della soglia necessaria per la Detection del metodo
@@ -146,7 +184,7 @@ public class SignalProcessor {
 	 * @throws Exception L'argomento della funzione InvErf deve essere compreso tra -1 e 1
 	 **/
 
-	public static double proposedThreshold(double Pfa, ArrayList<Double> pr) throws Exception {
+	public static double computeProposedThreshold(double Pfa, ArrayList<Double> pr) throws Exception {
 		double M = MathFunctions.Mean(pr);
 		double V = MathFunctions.Variance(pr);
 
@@ -163,7 +201,7 @@ public class SignalProcessor {
 	 * @throws Exception L'argomento della funzione InvErf deve essere compreso tra -1 e 1
 	 **/
 
-	public static double energyDetectorThreshold(double Pfa, ArrayList<Double> energy) throws Exception {
+	public static double computeEnergyDetectorThreshold(double Pfa, ArrayList<Double> energy) throws Exception {
 
 		double M = MathFunctions.Mean(energy);
 		double V = MathFunctions.Variance(energy);

@@ -17,12 +17,15 @@ import it.sp4te.css.signalprocessing.SignalProcessor;
  **/
 
 public class SecondaryUser {
+	Signal s;
+	int attempts,length,inf,sup,block;
+	double energy;
 	ArrayList<Moment> MomentsSignal;
 	ArrayList<Moment> MomentsNoise;
-	ArrayList<ArrayList<Double>> MediumEnergy;
+
 
 	/**
-	 * Il costruttore inizializza i valori che saranno usati nei diversi tipi di
+	 * Questo metodo inizializza i valori che saranno usati nei diversi tipi di
 	 * detection.
 	 * 
 	 * @param s Segnale su cui effettuare la Detection
@@ -39,32 +42,42 @@ public class SecondaryUser {
 	 * 
 	 **/
 
-	public SecondaryUser(Signal s, int length, double energy, int attempts, int inf, int sup,int block) {
-		// Genero i momenti nelle due ipotesi h0 e h1
-		MomentsSignal = SignalProcessor.computeMoment(s, length, energy, attempts, inf, sup);
-		MomentsNoise =SignalProcessor.computeMoment(null, length, energy, attempts, inf, sup);
-		MediumEnergy=SignalProcessor.computeMediumEnergy(s, length, energy, attempts, inf, sup, block);
+
+	public void listenChannel(Signal s, int length, double energy, int attempts, int inf, int sup,int block){
+		//Oggetto momento nell'ipotesi Segnale più rumore
+		this.MomentsSignal = SignalProcessor.computeMoment(s, length, energy, attempts, inf, sup);
+		//Oggetto momento nell'ipotesi di solo Rumore
+		this.MomentsNoise =SignalProcessor.computeMoment(null, length, energy, attempts, inf, sup);
+		//Setto i parametri
+		this.s=s;
+		this.length=length;
+		this.energy=energy;
+		this.attempts=attempts;
+		this.inf=inf;
+		this.sup=sup;
+		this.block=block;
 
 	}
-
 	/**
-	 * Metodo per lo Spectrum Senging dell'energy Detector. 
+	 * Metodo per lo Spectrum Senging dell'energy Detector. Il confronto viene fatto tra la soglia e un vettore di energie ottenuto
+	 * dividendo il segnale in M blocchi da N campioni e facendo la media delle energie.
 	 * 
 	 * @param pfa Probabilità di falso allarme
 	 * @return Array con le percentuali di detection ordinate per SNR
 	 * @throws Exception Pfa deve essere scelto in modo che 1-2pfa sia compreso tra -1 e 1
 	 * @see Detector#energyDetection
 	 * @see #orderSignal
-	 * @see  SignalProcessor#energyDetectorThreshold
+	 * @see  SignalProcessor#computeEnergyDetectorThreshold
 	 **/
 
-	public ArrayList<Double> spectrumSensingEnergyDetector(Double pfa) throws Exception{
+	public ArrayList<Double> spectrumSensingBlockEnergyDetector(Double pfa) throws Exception{
 		HashMap<Double, Double> EnergyDetection = new HashMap<Double, Double>();
-		ArrayList<ArrayList<Double>> MomentNoiseEnergy = SignalProcessor.momentEnergy(MomentsNoise);
+		ArrayList<ArrayList<Double>> MediumSignalEnergy=SignalProcessor.computeMediumEnergy(s, length, energy, attempts, inf, sup, block);
+		ArrayList<ArrayList<Double>> MediumNoiseEnergy=SignalProcessor.computeMediumEnergy(null, length, energy, attempts, inf, sup, block);
 		
-		for (int i = 0; i < MediumEnergy.size(); i++) {
+		for (int i = 0; i < MediumSignalEnergy.size(); i++) {
 			Double ED = Detector.energyDetection(
-					SignalProcessor.energyDetectorThreshold(pfa, MomentNoiseEnergy.get(i)), MediumEnergy.get(i));
+					SignalProcessor.computeEnergyDetectorThreshold(pfa, MediumNoiseEnergy.get(i)), MediumSignalEnergy.get(i));
 			EnergyDetection.put(this.MomentsSignal.get(i).getSnr(), ED);
 		}
 
@@ -72,26 +85,27 @@ public class SecondaryUser {
 	}
 	
 	
+	
 	/**
 	 * Metodo per lo Spectrum Senging dell'energy Detector effettuato senza dividere il segnale in blocchi,
-	 * considerando ogni singolo valore dell'energia. 
+	 * calcolando l'energia a partire dai momenti del secondo e quarto ordine. 
 	 * 
 	 * @param pfa Probabilità di falso allarme
 	 * @return Array con le percentuali di detection ordinate per SNR
 	 * @throws Exception  Pfa deve essere scelto in modo che 1-2pfa sia compreso tra -1 e 1
 	 * @see Detector#energyDetection
 	 * @see #orderSignal
-	 * @see  SignalProcessor#energyDetectorThreshold
+	 * @see  SignalProcessor#ComputeEnergyDetectorThreshold
 	 **/
 	
-	public ArrayList<Double> spectrumSensingTraditionalEnergyDetector(double pfa) throws Exception {
+	public ArrayList<Double> spectrumSensingMomentEnergyDetector(double pfa) throws Exception {
 		HashMap<Double, Double> EnergyDetection = new HashMap<Double, Double>();
-		ArrayList<ArrayList<Double>> MomentSignalEnergy = SignalProcessor.momentEnergy(MomentsSignal);
-		ArrayList<ArrayList<Double>> MomentNoiseEnergy = SignalProcessor.momentEnergy(MomentsNoise);
+		ArrayList<ArrayList<Double>> MomentSignalEnergy = SignalProcessor.computeMomentEnergy(MomentsSignal);
+		ArrayList<ArrayList<Double>> MomentNoiseEnergy = SignalProcessor.computeMomentEnergy(MomentsNoise);
 		
 		for (int i = 0; i < MomentSignalEnergy.size(); i++) {
 			Double ED = Detector.energyDetection(
-					SignalProcessor.energyDetectorThreshold(pfa, MomentNoiseEnergy.get(i)), MomentSignalEnergy.get(i));
+					SignalProcessor.computeEnergyDetectorThreshold(pfa, MomentNoiseEnergy.get(i)), MomentSignalEnergy.get(i));
 			EnergyDetection.put(this.MomentsSignal.get(i).getSnr(), ED);
 		}
 
@@ -107,7 +121,7 @@ public class SecondaryUser {
 	 * @throws Exception Pfa deve essere scelto in modo che 1-2pfa sia compreso tra -1 e 1
 	 * @see Detector#proposedMethodDetection
 	 * @see #orderSignal
-	 * @see SignalProcessor#proposedThreshold
+	 * @see SignalProcessor#computeProposedThreshold
 	 * 
 	 **/
 
@@ -117,13 +131,31 @@ public class SecondaryUser {
 		ArrayList<ArrayList<Double>> PrNoise = SignalProcessor.computePr(MomentsNoise);
 		
 		for (int i = 0; i < PrSignal.size(); i++) {
-			Double PD = Detector.proposedMethodDetection(SignalProcessor.proposedThreshold(pfa, PrNoise.get(i)),
+			Double PD = Detector.proposedMethodDetection(SignalProcessor.computeProposedThreshold(pfa, PrNoise.get(i)),
 					PrSignal.get(i));
 			ProposedDetection.put(this.MomentsSignal.get(i).getSnr(), PD);
 		}
 		return orderSignal(ProposedDetection);
 	}
 
+	
+	/**Questo metodo rappresenta l'energy Detector tradizionale. Effetua il calcolo dell'energia del solo rumore su cui
+	 * calcola la soglia. Successivamente calcola l'energia del segnale+rumore ed effettua il confronto con la soglia
+	 * calcolata.**/
+	public ArrayList<Double> spectrumSensingTraditionalEnergyDetector(double pfa) throws Exception{
+		HashMap<Double, Double> EnergyDetection = new HashMap<Double, Double>();
+		ArrayList<ArrayList<Double>> VectorSignalEnergy=SignalProcessor.computeVectorEnergy(s, length, energy, attempts, inf, sup);
+		ArrayList<ArrayList<Double>> VectorNoiseEnergy=SignalProcessor.computeVectorEnergy(null, length, energy, attempts, inf, sup);	
+		
+		for (int i = 0; i < VectorSignalEnergy.size(); i++) {
+			Double ED = Detector.energyDetection(
+					SignalProcessor.computeEnergyDetectorThreshold(pfa, VectorNoiseEnergy.get(i)), VectorSignalEnergy.get(i));
+			EnergyDetection.put(this.MomentsSignal.get(i).getSnr(), ED);
+		}
+
+		return orderSignal(EnergyDetection);
+	}
+	
 	/**
 	 * Metodo per ordinare una mappa in base alla chiave.
 	 * In questo caso è utilizzato su una mappa che ha come chiave l'SNR e come valore la % di Detection Relativa.
