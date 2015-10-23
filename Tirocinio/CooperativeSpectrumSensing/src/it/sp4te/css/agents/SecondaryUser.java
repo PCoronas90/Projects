@@ -66,7 +66,7 @@ public class SecondaryUser {
 	 * @return Array con le percentuali di detection ordinate per SNR
 	 * @throws Exception Pfa deve essere scelto in modo che 1-2pfa sia compreso tra -1 e 1
 	 * @see Detector#energyDetection
-	 * @see #orderSignal
+	 * @see SignalProcessor#orderSignal
 	 * @see  SignalProcessor#computeEnergyDetectorThreshold
 	 **/
 
@@ -94,8 +94,8 @@ public class SecondaryUser {
 	 * @return Array con le percentuali di detection ordinate per SNR
 	 * @throws Exception  Pfa deve essere scelto in modo che 1-2pfa sia compreso tra -1 e 1
 	 * @see Detector#energyDetection
-	 * @see #orderSignal
-	 * @see  SignalProcessor#ComputeEnergyDetectorThreshold
+	 * @see SignalProcessor#orderSignal
+	 * @see  SignalProcessor#computeEnergyDetectorThreshold
 	 **/
 	
 	public ArrayList<Double> spectrumSensingMomentEnergyDetector(double pfa) throws Exception {
@@ -120,7 +120,7 @@ public class SecondaryUser {
 	 * @return Array con le percentuali di detection ordinate per SNR
 	 * @throws Exception Pfa deve essere scelto in modo che 1-2pfa sia compreso tra -1 e 1
 	 * @see Detector#proposedMethodDetection
-	 * @see #orderSignal
+	 * @see SignalProcessor#orderSignal
 	 * @see SignalProcessor#computeProposedThreshold
 	 * 
 	 **/
@@ -139,10 +139,14 @@ public class SecondaryUser {
 	}
 
 	
-	/**Questo metodo rappresenta l'energy Detector tradizionale. Effetua il calcolo dell'energia del solo rumore su cui
+	/**Questo metodo rappresenta l'energy Detector tradizionale. Effettua il calcolo dell'energia del solo rumore su cui
 	 * calcola la soglia. Successivamente calcola l'energia del segnale+rumore ed effettua il confronto con la soglia
-	 * calcolata.**/
-	public ArrayList<Double> spectrumSensingTraditionalEnergyDetector(double pfa) throws Exception{
+	 * calcolata.
+	 * @param pfa Probabilità di falso allarme
+	 * @return Ritorna la percentuale di Detection calcolata sulle energie senza operazioni intermedie
+	 * @throws Exception **/
+	
+	public ArrayList<Double> spectrumSensingTraditionalEnergyDetector(double pfa) throws Exception {
 		HashMap<Double, Double> EnergyDetection = new HashMap<Double, Double>();
 		ArrayList<ArrayList<Double>> VectorSignalEnergy=SignalProcessor.computeVectorEnergy(s, length, energy, attempts, inf, sup);
 		ArrayList<ArrayList<Double>> VectorNoiseEnergy=SignalProcessor.computeVectorEnergy(null, length, energy, attempts, inf, sup);	
@@ -158,7 +162,11 @@ public class SecondaryUser {
 	
 	/**Questo metodo ritorna un vettore contenente le decisioni riguardo la presenza o l'assenza
 	 * dell'utente primario
-	 * @throws Exception **/
+	 * @param pfa Probabilità di falso allarme
+	 * @throws Exception
+	 * @return per ogni SNR, un vettore di dimensione pari al numero di prove contenente le decisioni binarie sulla
+	 * presenza o assenza dell'utente primario **/
+	
 	public ArrayList<ArrayList<Integer>> computeBinaryDecision(double pfa) throws Exception{
 		ArrayList<ArrayList<Integer>> decisions= SignalProcessor.makeDecisionVector(s, length, energy, attempts, inf, sup,pfa);
 		return decisions;	

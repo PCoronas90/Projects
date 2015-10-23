@@ -30,17 +30,21 @@ public class ClassicCooperativeSpectrumSensing {
 				int block=10; //blocchi energy Detector
 				double pfa=0.01; //probabilità di falso allarme
 		
+		//Creo il Fusion center
 		FusionCenter FC=new FusionCenter();
+		//Creo l'utente primario
 		PrimaryUser PU= new PrimaryUser();
+		//Creo gli utenti secondari
         SecondaryUser FirstSU=new SecondaryUser();
         SecondaryUser SecondSU=new SecondaryUser();
         SecondaryUser ThirdSU=new SecondaryUser();
         SecondaryUser fourthSU=new SecondaryUser();
         SecondaryUser fifthSU=new SecondaryUser();
         
-        
+        //creo il segnale
         Signal s = PU.createAndSend(length);
         
+        //Gli utenti secondari si mettono in ascolto sul canale
         FirstSU.listenChannel(s, length, SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
         SecondSU.listenChannel(s, length, SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
         ThirdSU.listenChannel(s, length, SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
@@ -48,13 +52,16 @@ public class ClassicCooperativeSpectrumSensing {
         fifthSU.listenChannel(s, length, SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
         
 
-        
+        //Creo i vettori contenenti le decisioni binarie sulla presenza o assenza dell'utente primario.Le inserisco in una
+        //mappa
         userToBinaryDecision.put(FirstSU.toString(), FirstSU.computeBinaryDecision(pfa));
         userToBinaryDecision.put(SecondSU.toString(), SecondSU.computeBinaryDecision(pfa));
         userToBinaryDecision.put(ThirdSU.toString(), ThirdSU.computeBinaryDecision(pfa));
         userToBinaryDecision.put(fourthSU.toString(),  fourthSU.computeBinaryDecision(pfa));
         userToBinaryDecision.put(fifthSU.toString(), fifthSU.computeBinaryDecision(pfa));
         
+        //Tutte le decisioni di tutti gli utenti secondari passano al fusion center che riporterà una decisione
+        //globale secondo tre tecniche di fusione: AND OR e MAJORITY. 
         CooperativeEnergyDetectionAndFusion=FC.decisionAndFusion(inf, sup,userToBinaryDecision);
         CooperativeEnergyDetectionOrFusion=FC.decisionOrFusion(inf, sup,userToBinaryDecision);
         CooperativeEnergyDetectionMajorityFusion=FC.decisionMajorityFusion(inf, sup,userToBinaryDecision);

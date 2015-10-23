@@ -96,8 +96,16 @@ public class SignalProcessor {
 	/**
 	 * Metodo per la generazione del vettore di energie medie necessario per il calcolo dell'energy Detector.
 	 * Per ogni prova genero il rumore e lo sommo al segnale.Divido il segnale in M blocchi di N campioni ciascuno e per ogni
-	 * blocco calcolo l'energia. Faccio la media sommando le energie dei blocchi e dividendo per M
-	 * **/
+	 * blocco calcolo l'energia. Faccio la media sommando le energie dei blocchi e dividendo per M.
+	 * @param s Il segnale
+	 * @param length Lunghezza del segnale 
+	 * @param energy Energia del segnale
+	 * @param attempts Numero di prove su cui effettuare la simulazione
+	 * @param inf Estremo inferiore di SNR su cui effettuare la simulazione
+	 * @param sup Estremo superiore di SNR su cui effettuare la simulazione 
+	 * @param block Numero di blocchi M in cui dividere il segnale
+	 * @return Una lista di liste contenente per ogni SNR, una lista di energie medie di cardinalità pari al numero di prove**/
+	
 	
 	public static ArrayList<ArrayList<Double>> computeMediumEnergy(Signal s, int length, double energy, int attempts, int inf,
 			int sup,int block) {
@@ -147,7 +155,15 @@ public class SignalProcessor {
 	
 	/**Metodo per il calcolo dei vettori di Energia nelle ipotesi di segnale+rumore e di solo rumore.
 	 * Questo metodo calcola i valori necessari per l'energy Detector tradizionale, in quanto effettua il
-	 * calcolo dell'energya diretto sui segnali senza operazioni intermedie**/
+	 * calcolo dell'energya diretto sui segnali senza operazioni intermedie
+	 * @param s Il segnale
+	 * @param length Lunghezza del segnale 
+	 * @param energy Energia del segnale
+	 * @param attempts Numero di prove su cui effettuare la simulazione
+	 * @param inf Estremo inferiore di SNR su cui effettuare la simulazione
+	 * @param sup Estremo superiore di SNR su cui effettuare la simulazione 
+	 * @return Una lista di liste contenente per ogni SNR, una lista di energie di cardinalità pari al numero di prove**/
+
 	public static ArrayList<ArrayList<Double>> computeVectorEnergy(Signal s, int length, double energy, int attempts, int inf,
 			int sup){
 		ArrayList<ArrayList<Double>> EnergyVector = new ArrayList<ArrayList<Double>>();
@@ -179,7 +195,16 @@ public class SignalProcessor {
 	
 	/**Questo metodo ritorna, per ogni valore di SNR , una lista di decisioni lunga quanto il numero di prove contenente la presenza (1) o
 	 * l'assenza(0) dell'utente primario
+	 * @param s Il segnale
+	 * @param length Lunghezza del segnale 
+	 * @param energy Energia del segnale
+	 * @param attempts Numero di prove su cui effettuare la simulazione
+	 * @param inf Estremo inferiore di SNR su cui effettuare la simulazione
+	 * @param sup Estremo superiore di SNR su cui effettuare la simulazione 
+	 * @param pfa Probabilità di falso allarme
+	 * @return Una lista di liste contenente per ogni SNR, una lista decisioni binarie sulla presenza o assenza dell'utente primario di cardinalità pari al numero di prove
 	 * @throws Exception **/
+	
 	public static ArrayList<ArrayList<Integer>> makeDecisionVector(Signal s, int length, double energy, int attempts, int inf,
 			int sup,double pfa) throws Exception{
 	ArrayList<ArrayList<Integer>> decisions= new  ArrayList<ArrayList<Integer>>();

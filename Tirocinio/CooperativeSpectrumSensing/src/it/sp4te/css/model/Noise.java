@@ -48,7 +48,6 @@ public class Noise extends AbstractSignal {
 	/**
 	 * Metodo per la Divisione di un Segnale. Dato un segnale (segnale o rumore), un indice di inizio
 	 * e uno di fine, il metodo ritorna la porzione di segnale che va dall'indice di inizio all'indice di terminazione.
-	 * @param signal Segnale o rumore da cui estrarre una sottoporzione
 	 * @param start Indice di inizio della sottoporzione
 	 * @param end Indice di terminazione della sottoporzione
 	 * @return Sottoporzione del segnale passato come parametro
