@@ -1,0 +1,35 @@
+package it.sp4te.css.main;
+
+import it.sp4te.css.agents.PrimaryUser;
+import it.sp4te.css.agents.SecondaryUser;
+import it.sp4te.css.model.Signal;
+import it.sp4te.css.signalprocessing.SignalProcessor;
+
+public class ClassicCooperativeSpectrumSensing {
+
+	public static void main(String args[]) throws Exception {
+		
+		// Setto i parametri
+				int length = 1000; // poi 10000
+				int attempts = 1000;
+				int inf = -30;
+				int sup = 5;
+				int block=10; //blocchi energy Detector
+				double pfa=0.01; //probabilità di falso allarme
+				
+		PrimaryUser PU= new PrimaryUser();
+        SecondaryUser FirstSU=new SecondaryUser();
+        SecondaryUser SecondSU=new SecondaryUser();
+        SecondaryUser ThirdSU=new SecondaryUser();
+        
+        Signal s = PU.createAndSend(length);
+        
+        FirstSU.listenChannel(s, length, SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+        SecondSU.listenChannel(s, length, SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+        ThirdSU.listenChannel(s, length, SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+        
+        
+        
+        
+	}
+}

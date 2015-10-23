@@ -56,14 +56,15 @@ public class SpectrumSensing {
 		SU.listenChannel(s, length, SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 
 		
-		BlockEnergyDetection = SU.spectrumSensingBlockEnergyDetector(pfa);
+		//Effettuo lo spectrum sensing
+		//BlockEnergyDetection = SU.spectrumSensingBlockEnergyDetector(pfa);
 		TraditionalEnergyDetection=SU.spectrumSensingTraditionalEnergyDetector(pfa);
-		MomentEnergyDetection=SU.spectrumSensingMomentEnergyDetector(pfa);
+		//MomentEnergyDetection=SU.spectrumSensingMomentEnergyDetector(pfa);
 		
 
 		// Inizializzo la Mappa per il grafico
-		DetectionGraph.put("Moment Energy Detection", MomentEnergyDetection);
-		DetectionGraph.put("Block Energy Detection", BlockEnergyDetection);
+		//DetectionGraph.put("Moment Energy Detection", MomentEnergyDetection);
+		//DetectionGraph.put("Block Energy Detection", BlockEnergyDetection);
 		DetectionGraph.put("Traditional Energy Detection", TraditionalEnergyDetection);
 
 		GraphGenerator.drawGraph("Detection Methods",DetectionGraph, inf, sup);

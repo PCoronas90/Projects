@@ -1,0 +1,31 @@
+package it.sp4te.fusioncenter;
+
+import java.util.ArrayList;
+
+public class FusionCenter {
+	
+	/**Metodo di fusione con la tecnica and. Ritorna 1 (l'tente primario è presente) se tutte le decisioni
+	 * di tutti i dispositivi sono uguali ad 1, 0 altrimenti**/
+	
+	public static int AndFusion(ArrayList<Integer> decisions){
+		int fusionDecision=1;
+		for(int i=0;i<decisions.size();i++){
+			if(decisions.get(i)==0){
+				fusionDecision=0;
+			}
+		}
+		return fusionDecision;
+	}
+	
+	public static int OrFusion(ArrayList<Integer> decisions){
+		int fusionDecision=0;
+		for(int i=0;i<decisions.size();i++){
+			if(decisions.get(i)==1){
+				fusionDecision=1;
+			}
+		}
+		return fusionDecision;
+	}
+	}
+
+}

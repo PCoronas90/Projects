@@ -27,7 +27,6 @@
 <fullyQualifiedTypeName name="com.googlecode.charts4j.LinearGradientFill"/>
 <fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.GraphGenerator.GraphGenerator"/>
 <fullyQualifiedTypeName name="java.util.Collection"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="javax.swing.JFrame"/>
 <fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
 <fullyQualifiedTypeName name="javax.swing.JLabel"/>
@@ -40,4 +39,10 @@
 <fullyQualifiedTypeName name="java.awt.List"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="it.sp4te.css.signalprocessing.SignalProcessor"/>
+<fullyQualifiedTypeName name="it.sp4te.css.agents.PrimaryUser"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="it.sp4te.fusioncenter.FusionCenter"/>
+<fullyQualifiedTypeName name="it.sp4te.css.detection.Detector"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="it.sp4te.css.model.Noise"/>
 </qualifiedTypeNameHistroy>

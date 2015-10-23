@@ -3,6 +3,7 @@ package it.sp4te.css.detection;
 import java.util.ArrayList;
 
 import it.sp4te.css.signalprocessing.SignalProcessor;
+import it.sp4te.fusioncenter.FusionCenter;
 
 /** 
  * <p>Titolo: Detection</p>
@@ -54,4 +55,65 @@ public class Detector {
 		}
 		return (double) 100 / (double) (energy.size() / cont);
 	}
+	
+	public static  double andFusionDetection(ArrayList<ArrayList<Integer>> decisionsVector){
+		int cont=0;
+		for(int i=0;i<decisionsVector.get(0).size();i++){
+			ArrayList<Integer> decisions=new ArrayList<Integer>();
+			for(int j=0;j<decisionsVector.size();j++){		
+			 decisions.add(decisionsVector.get(j).get(i));
+			
+			}
+			 if(FusionCenter.andFusion(decisions)==1){cont++;
+		 
+	 }
+		
+	}
+		
+		if(cont==0){return 0.0;}
+		else{
+		return (double) 100 / ((double) ((decisionsVector.get(0).size())  / (double) cont));}
+
+}
+	
+	public static  double orFusionDetection(ArrayList<ArrayList<Integer>> decisionsVector){
+		int cont=0;
+		for(int i=0;i<decisionsVector.get(0).size();i++){
+			 ArrayList<Integer> decisions=new ArrayList<Integer>();
+			for(int j=0;j<decisionsVector.size();j++){
+			
+			 decisions.add(decisionsVector.get(j).get(i));
+			 
+			}
+			if(FusionCenter.orFusion(decisions)==1){cont++;
+		 
+	 }
+		
+	}
+		if(cont==0){return 0.0;}
+		else{
+			return (double) 100 / ((double) ((decisionsVector.get(0).size())  / (double) cont));}
+
+}
+	
+	public static  double majorityFusionDetection(ArrayList<ArrayList<Integer>> decisionsVector){
+		int cont=0;
+		for(int i=0;i<decisionsVector.get(0).size();i++){
+			 ArrayList<Integer> decisions=new ArrayList<Integer>();
+			for(int j=0;j<decisionsVector.size();j++){
+			
+			 decisions.add(decisionsVector.get(j).get(i));
+			 
+			}
+			if(FusionCenter.majorityFusion(decisions)==1){cont++;
+	 }
+		
+	}
+		if(cont==0){return 0.0;}
+		else{
+			return (double) 100 / ((double) ((decisionsVector.get(0).size())  / (double) cont));}
+
+}
+	
+	
 }
