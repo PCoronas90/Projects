@@ -26,7 +26,7 @@ public class SignalProcessor {
 	
 	public static double computeEnergy(AbstractSignal s) {
 		double p = 0.0;
-		for (int i = 0; i <  s.getLenght()-1; i++) {
+		for (int i = 0; i <  s.getLenght(); i++) {
 			p=p+ (Math.pow(Math.abs(s.getSamplesRe().get(i)), 2))+(Math.pow(Math.abs(s.getSamplesIm().get(i)), 2));
 			//p = p + Math.abs(Math.pow(s.getSamplesRe().get(i), 2)) + Math.abs((Math.pow(s.getSamplesIm().get(i), 2)));
 		}
