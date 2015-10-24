@@ -219,6 +219,7 @@ public class SignalProcessor {
 		if(s!=null){
 		EnergyVector=computeVectorEnergy(s, length,energy,attempts, i,i+1);		}	
 		else{
+			System.out.println("null signal decision vector");
 			EnergyVector=VectorNoiseEnergy;
 		}
 		for(int j=0;j<EnergyVector.get(0).size();j++){
