@@ -1,0 +1,14 @@
+package it.sp4te.css.agents;
+
+/**
+ * <p>Titolo: SecondaryUser</p>
+ * <p>Descrizione della classe: Questa classe si occupa di effettuare tutte le operazione relative allo
+ * Spectrum sensing: Calcolo dei momenti del secondo e quarto ordine nelle due
+ * ipotesi,calcolo dell'energia dei momenti,calcolo dei vettori PR,spectrum
+ * sensing con Energy Detector,spectrum sensing con Detector proposto</p>
+ * @author Pietro Coronas
+ **/
+
+public class BelievableSecondaryUser extends SecondaryUser {
+	
+}

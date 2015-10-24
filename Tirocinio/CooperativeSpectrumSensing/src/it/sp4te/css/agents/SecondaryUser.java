@@ -1,29 +1,22 @@
 package it.sp4te.css.agents;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import it.sp4te.css.detection.Detector;
 import it.sp4te.css.model.Signal;
 import it.sp4te.css.signalprocessing.Moment;
 import it.sp4te.css.signalprocessing.SignalProcessor;
 
-/**
- * <p>Titolo: SecondaryUser</p>
- * <p>Descrizione della classe: Questa classe si occupa di effettuare tutte le operazione relative allo
- * Spectrum sensing: Calcolo dei momenti del secondo e quarto ordine nelle due
- * ipotesi,calcolo dell'energia dei momenti,calcolo dei vettori PR,spectrum
- * sensing con Energy Detector,spectrum sensing con Detector proposto</p>
- * @author Pietro Coronas
- **/
+public abstract class SecondaryUser {
 
-public class SecondaryUser {
 	Signal s;
 	int attempts,length,inf,sup,block;
 	double energy;
 	ArrayList<Moment> MomentsSignal;
 	ArrayList<Moment> MomentsNoise;
-
-
+	
+	
 	/**
 	 * Questo metodo inizializza i valori che saranno usati nei diversi tipi di
 	 * detection.
@@ -72,8 +65,12 @@ public class SecondaryUser {
 
 	public ArrayList<Double> spectrumSensingBlockEnergyDetector(Double pfa) throws Exception{
 		HashMap<Double, Double> EnergyDetection = new HashMap<Double, Double>();
-		ArrayList<ArrayList<Double>> MediumSignalEnergy=SignalProcessor.computeMediumEnergy(s, length, energy, attempts, inf, sup, block);
 		ArrayList<ArrayList<Double>> MediumNoiseEnergy=SignalProcessor.computeMediumEnergy(null, length, energy, attempts, inf, sup, block);
+		ArrayList<ArrayList<Double>> MediumSignalEnergy;
+		if(s!=null){
+			MediumSignalEnergy=SignalProcessor.computeMediumEnergy(s, length, energy, attempts, inf, sup, block);
+		}
+		else{MediumSignalEnergy=MediumNoiseEnergy;}
 		
 		for (int i = 0; i < MediumSignalEnergy.size(); i++) {
 			Double ED = Detector.energyDetection(
@@ -100,8 +97,10 @@ public class SecondaryUser {
 	
 	public ArrayList<Double> spectrumSensingMomentEnergyDetector(double pfa) throws Exception {
 		HashMap<Double, Double> EnergyDetection = new HashMap<Double, Double>();
-		ArrayList<ArrayList<Double>> MomentSignalEnergy = SignalProcessor.computeMomentEnergy(MomentsSignal);
 		ArrayList<ArrayList<Double>> MomentNoiseEnergy = SignalProcessor.computeMomentEnergy(MomentsNoise);
+		ArrayList<ArrayList<Double>> MomentSignalEnergy;
+		if(s!=null){MomentSignalEnergy = SignalProcessor.computeMomentEnergy(MomentsSignal);}
+		else{MomentSignalEnergy=MomentNoiseEnergy;}
 		
 		for (int i = 0; i < MomentSignalEnergy.size(); i++) {
 			Double ED = Detector.energyDetection(
@@ -127,8 +126,10 @@ public class SecondaryUser {
 
 	public ArrayList<Double> spectrumSensingProposedDetector(Double pfa) throws Exception {
 		HashMap<Double, Double> ProposedDetection = new HashMap<Double, Double>();
-		ArrayList<ArrayList<Double>> PrSignal = SignalProcessor.computePr(MomentsSignal);
 		ArrayList<ArrayList<Double>> PrNoise = SignalProcessor.computePr(MomentsNoise);
+		ArrayList<ArrayList<Double>> PrSignal;
+		if(s!=null){PrSignal = SignalProcessor.computePr(MomentsSignal);}
+		else{PrSignal=PrNoise;}
 		
 		for (int i = 0; i < PrSignal.size(); i++) {
 			Double PD = Detector.proposedMethodDetection(SignalProcessor.computeProposedThreshold(pfa, PrNoise.get(i)),
@@ -148,8 +149,13 @@ public class SecondaryUser {
 	
 	public ArrayList<Double> spectrumSensingTraditionalEnergyDetector(double pfa) throws Exception {
 		HashMap<Double, Double> EnergyDetection = new HashMap<Double, Double>();
-		ArrayList<ArrayList<Double>> VectorSignalEnergy=SignalProcessor.computeVectorEnergy(s, length, energy, attempts, inf, sup);
 		ArrayList<ArrayList<Double>> VectorNoiseEnergy=SignalProcessor.computeVectorEnergy(null, length, energy, attempts, inf, sup);	
+
+		ArrayList<ArrayList<Double>> VectorSignalEnergy;
+		if(s!=null){
+	    VectorSignalEnergy=SignalProcessor.computeVectorEnergy(s, length, energy, attempts, inf, sup);
+		}	
+		else{VectorSignalEnergy=VectorNoiseEnergy;}
 		
 		for (int i = 0; i < VectorSignalEnergy.size(); i++) {
 			Double ED = Detector.energyDetection(

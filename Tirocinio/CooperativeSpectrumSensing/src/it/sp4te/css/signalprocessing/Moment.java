@@ -57,7 +57,7 @@ public class Moment {
 			Noise noise = new Noise(snr, length, energy);
 
 			Signal signal = new Signal(noise.getLenght());
-
+            
 			signal.setSamplesRe(MathFunctions.SumVector(noise.getSamplesRe(), samplesRe));
 			signal.setSamplesIm(MathFunctions.SumVector(noise.getSamplesIm(), samplesIm));
 

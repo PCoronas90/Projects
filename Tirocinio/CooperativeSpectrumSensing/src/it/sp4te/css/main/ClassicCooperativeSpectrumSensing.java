@@ -3,8 +3,8 @@ package it.sp4te.css.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import it.sp4te.css.agents.BelievableSecondaryUser;
 import it.sp4te.css.agents.PrimaryUser;
-import it.sp4te.css.agents.SecondaryUser;
 import it.sp4te.css.fusioncenter.FusionCenter;
 import it.sp4te.css.graphgenerator.GraphGenerator;
 import it.sp4te.css.model.Signal;
@@ -35,11 +35,11 @@ public class ClassicCooperativeSpectrumSensing {
 		//Creo l'utente primario
 		PrimaryUser PU= new PrimaryUser();
 		//Creo gli utenti secondari
-        SecondaryUser FirstSU=new SecondaryUser();
-        SecondaryUser SecondSU=new SecondaryUser();
-        SecondaryUser ThirdSU=new SecondaryUser();
-        SecondaryUser fourthSU=new SecondaryUser();
-        SecondaryUser fifthSU=new SecondaryUser();
+		BelievableSecondaryUser FirstSU=new BelievableSecondaryUser();
+		BelievableSecondaryUser SecondSU=new BelievableSecondaryUser();
+		BelievableSecondaryUser ThirdSU=new BelievableSecondaryUser();
+		BelievableSecondaryUser fourthSU=new BelievableSecondaryUser();
+		BelievableSecondaryUser fifthSU=new BelievableSecondaryUser();
         
         //creo il segnale
         Signal s = PU.createAndSend(length);
@@ -80,11 +80,11 @@ public class ClassicCooperativeSpectrumSensing {
 		HashMap<String, ArrayList<Double>> DetectionGraph2 = new HashMap<String, ArrayList<Double>>();
 
 
-		 SecondaryUser FirstSU2=new SecondaryUser();
-	     SecondaryUser SecondSU2=new SecondaryUser();
-	     SecondaryUser ThirdSU2=new SecondaryUser();
-	     SecondaryUser fourthSU2=new SecondaryUser();
-	     SecondaryUser fifthSU2=new SecondaryUser();
+		BelievableSecondaryUser FirstSU2=new BelievableSecondaryUser();
+		BelievableSecondaryUser SecondSU2=new BelievableSecondaryUser();
+		BelievableSecondaryUser ThirdSU2=new BelievableSecondaryUser();
+		BelievableSecondaryUser fourthSU2=new BelievableSecondaryUser();
+		BelievableSecondaryUser fifthSU2=new BelievableSecondaryUser();
 	     FirstSU2.listenChannel(null, length, SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 	     SecondSU2.listenChannel(null, length, SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 	     ThirdSU2.listenChannel(null, length, SignalProcessor.computeEnergy(s), attempts, inf, sup, block);

@@ -24,15 +24,15 @@ public class Signal extends AbstractSignal{
 		for (int i = 0; i < lenght; i++) {
 			double v = Math.random();
 			if (v < 0.5) {
-				samplesRe.add(i, v / Math.sqrt(lenght));
+				samplesRe.add(i, 1 / Math.sqrt(2));
 			} else {
-				samplesRe.add(i, -v / Math.sqrt(lenght));
+				samplesRe.add(i, -1 / Math.sqrt(2));
 			}
 			double p = Math.random();
 			if (p < 0.5) {
-				samplesIm.add(i, p / Math.sqrt(lenght));
+				samplesIm.add(i, 1 / Math.sqrt(2));
 			} else {
-				samplesIm.add(i, -p / Math.sqrt(lenght));
+				samplesIm.add(i, -1 / Math.sqrt(2));
 			}
 
 		}
