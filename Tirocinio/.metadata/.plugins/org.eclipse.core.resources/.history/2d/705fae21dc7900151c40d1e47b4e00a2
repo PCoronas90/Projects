@@ -5,10 +5,10 @@ import java.util.HashMap;
 
 import it.sp4te.css.agents.PrimaryUser;
 import it.sp4te.css.agents.SecondaryUser;
-import it.sp4te.css.fusioncenter.FusionCenter;
 import it.sp4te.css.graphgenerator.GraphGenerator;
 import it.sp4te.css.model.Signal;
 import it.sp4te.css.signalprocessing.SignalProcessor;
+import it.sp4te.fusioncenter.FusionCenter;
 
 public class ClassicCooperativeSpectrumSensing {
 

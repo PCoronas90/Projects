@@ -2,8 +2,8 @@ package it.sp4te.css.detection;
 
 import java.util.ArrayList;
 
-import it.sp4te.css.fusioncenter.FusionCenter;
 import it.sp4te.css.signalprocessing.SignalProcessor;
+import it.sp4te.fusioncenter.FusionCenter;
 
 /** 
  * <p>Titolo: Detection</p>
