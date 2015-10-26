@@ -11,10 +11,9 @@ import it.sp4te.css.graphgenerator.GraphGenerator;
 import it.sp4te.css.model.Signal;
 import it.sp4te.css.signalprocessing.SignalProcessor;
 
-/**Questo classe modella 4 tipi di scenario : In uno è presente un numero di utenti malevoli che riportano sempre l'assenza dell'utente
+/**Questo classe modella 2 tipi di scenario: In uno è presente un numero di utenti malevoli che riportano sempre l'assenza dell'utente
  * primario in uno scenario in cui è presente. In un secondo scenario riportano sempre la presenza dell'utente primario in uno scenario in cui
- * è assente. Negli altri 2 scenari abbiamo un utente malevolo intelligente che genera l'opposto del risultato dell'energy Detector: riporta 1 se l'utente è
- * assente e 0 se è presente. Attiviamo questo utente malevolo sia in presenza che in assenza dell'utente primario**/
+ * è assente.**/
 
 public class MaliciousCoopeartiveSpectrumSensing {
 

@@ -20,7 +20,7 @@ public class MaliciousSecondaryUser extends SecondaryUser {
 	/**Questo metodo rappresenta il comportamento malevolo di un utente secondario, riportando un vettore di decisioni
 	 * binarie che afferma la presenza dell'utente primario per ogni SNR in ogni prova
 	 * * @return Un vettore di decisioni
-	 * binarie che afferma la presenza dell'utente primario per ogni SNR in ogni prova**/
+	 * binarie che afferma la presenza dell'utente primario per ogni SNR in ogni prova**/**/
 	public ArrayList<ArrayList<Integer>> computePresenceBinaryDecision() throws Exception{
 		ArrayList<ArrayList<Integer>> decisions= SignalProcessor.makePresenceDecisionVector(attempts, inf, sup);
 		return decisions;	

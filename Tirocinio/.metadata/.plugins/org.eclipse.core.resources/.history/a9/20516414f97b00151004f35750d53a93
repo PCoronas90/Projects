@@ -295,7 +295,7 @@ public class SignalProcessor {
 	 * @param inf Estremo inferiore di SNR su cui effettuare la simulazione
 	 * @param sup Estremo superiore di SNR su cui effettuare la simulazione 
 	 * @param pfa Probabilità di falso allarme
-	 * @return Una lista di liste contenente per ogni SNR, una lista decisioni binarie Opporte sulla presenza o assenza dell'utente primario di cardinalità pari al numero di prove
+	 * @return Una lista di liste contenente per ogni SNR, una lista decisioni binarie sulla presenza o assenza dell'utente primario di cardinalità pari al numero di prove
 	 * @throws Exception **/
 	
 	public static ArrayList<ArrayList<Integer>> makeOppositeDecisionVector(Signal s, int length, double energy, int attempts, int inf,

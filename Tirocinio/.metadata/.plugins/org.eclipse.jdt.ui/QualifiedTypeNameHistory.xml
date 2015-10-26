@@ -45,4 +45,6 @@
 <fullyQualifiedTypeName name="it.sp4te.css.detection.Detector"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="it.sp4te.css.model.Noise"/>
+<fullyQualifiedTypeName name="it.sp4te.css.agents.BelievableSecondaryUser"/>
+<fullyQualifiedTypeName name="it.sp4te.css.agents.MaliciousSecondaryUser"/>
 </qualifiedTypeNameHistroy>

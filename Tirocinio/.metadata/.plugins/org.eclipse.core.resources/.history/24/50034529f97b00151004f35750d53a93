@@ -24,7 +24,7 @@ public class ClassicCooperativeSpectrumSensing {
 		
 		// Setto i parametri
 				int length = 1000; // poi 10000
-				int attempts = 100;
+				int attempts = 1000;
 				int inf = -30;
 				int sup = 5;
 				int block=10; //blocchi energy Detector
