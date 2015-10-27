@@ -59,7 +59,7 @@ public class Detector {
 	/**
 	 * Metodo la generazione della detection da parte Del fusion center secondo la tecnica AND.
 	 * 
-	 * @param decisionVector Vettori di decisione degli utenti ad uno stesso SNR
+	 * @param decisionsVector Vettori di decisione degli utenti ad uno stesso SNR
 	 * @return Percentuale di Detection per un dato SNR
 	 **/
 	
@@ -86,7 +86,7 @@ public class Detector {
 	/**
 	 * Metodo la generazione della detection da parte Del fusion center secondo la tecnica Or.
 	 * 
-	 * @param decisionVector Vettori di decisione degli utenti ad uno stesso SNR
+	 * @param decisionsVector Vettori di decisione degli utenti ad uno stesso SNR
 	 * @return Percentuale di Detection per un dato SNR
 	 **/
 	
@@ -114,7 +114,7 @@ public class Detector {
 	/**
 	 * Metodo la generazione della detection da parte Del fusion center secondo la tecnica Majority.
 	 * 
-	 * @param decisionVector Vettori di decisione degli utenti ad uno stesso SNR
+	 * @param decisionsVector Vettori di decisione degli utenti ad uno stesso SNR
 	 * @return Percentuale di Detection per un dato SNR
 	 **/
 	

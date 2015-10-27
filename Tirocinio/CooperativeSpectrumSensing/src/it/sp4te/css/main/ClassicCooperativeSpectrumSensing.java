@@ -10,8 +10,12 @@ import it.sp4te.css.graphgenerator.GraphGenerator;
 import it.sp4te.css.model.Signal;
 import it.sp4te.css.signalprocessing.SignalProcessor;
 
+/**Questa classe modella uno scenario cooperativo ideale in cui sono presenti solamente utenti secondari fidati,
+ * utilizzando le tecniche di fusione AND,OR e MAJORITY nei casi in cui l'utente primario sia presente o assente**/
+
 public class ClassicCooperativeSpectrumSensing {
 
+	
 	public static void main(String args[]) throws Exception {
 		//------------------------------------------------Presenza utente primario-------------------//
 		ArrayList<Double> CooperativeEnergyDetectionAndFusion = new ArrayList<Double>();;
@@ -54,11 +58,11 @@ public class ClassicCooperativeSpectrumSensing {
 
         //Creo i vettori contenenti le decisioni binarie sulla presenza o assenza dell'utente primario.Le inserisco in una
         //mappa
-        userToBinaryDecision.put(FirstSU.toString(), FirstSU.computeBinaryDecision(pfa));
-        userToBinaryDecision.put(SecondSU.toString(), SecondSU.computeBinaryDecision(pfa));
-        userToBinaryDecision.put(ThirdSU.toString(), ThirdSU.computeBinaryDecision(pfa));
-        userToBinaryDecision.put(fourthSU.toString(),  fourthSU.computeBinaryDecision(pfa));
-        userToBinaryDecision.put(fifthSU.toString(), fifthSU.computeBinaryDecision(pfa));
+        userToBinaryDecision.put(FirstSU.toString(), FirstSU.computeBinaryDecisionVector(pfa));
+        userToBinaryDecision.put(SecondSU.toString(), SecondSU.computeBinaryDecisionVector(pfa));
+        userToBinaryDecision.put(ThirdSU.toString(), ThirdSU.computeBinaryDecisionVector(pfa));
+        userToBinaryDecision.put(fourthSU.toString(),  fourthSU.computeBinaryDecisionVector(pfa));
+        userToBinaryDecision.put(fifthSU.toString(), fifthSU.computeBinaryDecisionVector(pfa));
         
         //Tutte le decisioni di tutti gli utenti secondari passano al fusion center che riporterà una decisione
         //globale secondo tre tecniche di fusione: AND OR e MAJORITY. 
@@ -91,11 +95,11 @@ public class ClassicCooperativeSpectrumSensing {
 	     fourthSU2.listenChannel(null, length, SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 	     fifthSU2.listenChannel(null, length, SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
         
-	     userToBinaryDecisionAbsence.put(FirstSU2.toString(), FirstSU2.computeBinaryDecision(pfa));
-	     userToBinaryDecisionAbsence.put(SecondSU2.toString(), SecondSU2.computeBinaryDecision(pfa));
-	     userToBinaryDecisionAbsence.put(ThirdSU2.toString(), ThirdSU2.computeBinaryDecision(pfa));
-	     userToBinaryDecisionAbsence.put(fourthSU2.toString(),  fourthSU2.computeBinaryDecision(pfa));
-	     userToBinaryDecisionAbsence.put(fifthSU2.toString(), fifthSU2.computeBinaryDecision(pfa));
+	     userToBinaryDecisionAbsence.put(FirstSU2.toString(), FirstSU2.computeBinaryDecisionVector(pfa));
+	     userToBinaryDecisionAbsence.put(SecondSU2.toString(), SecondSU2.computeBinaryDecisionVector(pfa));
+	     userToBinaryDecisionAbsence.put(ThirdSU2.toString(), ThirdSU2.computeBinaryDecisionVector(pfa));
+	     userToBinaryDecisionAbsence.put(fourthSU2.toString(),  fourthSU2.computeBinaryDecisionVector(pfa));
+	     userToBinaryDecisionAbsence.put(fifthSU2.toString(), fifthSU2.computeBinaryDecisionVector(pfa));
         
 	     CooperativeEnergyDetectionAndFusionAbsence=FC.decisionAndFusion(inf, sup,userToBinaryDecisionAbsence);
 	     CooperativeEnergyDetectionOrFusionAbsence=FC.decisionOrFusion(inf, sup,userToBinaryDecisionAbsence);

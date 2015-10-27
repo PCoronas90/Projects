@@ -2,8 +2,6 @@ package it.sp4te.css.model;
 
 import java.util.ArrayList;
 
-import it.sp4te.css.signalprocessing.SignalProcessor;
-
 /** <p>Titolo: Signal</p>
  * <p>Descrizione: Classe per la generazione del segnale</p>
  * @author Pietro Coronas **/

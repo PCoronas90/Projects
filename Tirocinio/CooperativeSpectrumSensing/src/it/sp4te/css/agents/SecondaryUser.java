@@ -166,15 +166,38 @@ public abstract class SecondaryUser {
 		return SignalProcessor.orderSignal(EnergyDetection);
 	}
 	
-	/**Questo metodo ritorna un vettore contenente le decisioni riguardo la presenza o l'assenza
-	 * dell'utente primario
+	/**Questo metodo ritorna, per ogni valore di SNR , una lista di decisioni lunga quanto il numero di prove contenente la presenza (1) o
+	 * l'assenza(0) dell'utente primario
 	 * @param pfa Probabilità di falso allarme
-	 * @throws Exception
-	 * @return per ogni SNR, un vettore di dimensione pari al numero di prove contenente le decisioni binarie sulla
-	 * presenza o assenza dell'utente primario **/
+	 * @return Una lista di liste contenente per ogni SNR, una lista decisioni binarie sulla presenza o assenza dell'utente primario di cardinalità pari al numero di prove
+	 * @throws Exception **/
 	
-	public ArrayList<ArrayList<Integer>> computeBinaryDecision(double pfa) throws Exception{
-		ArrayList<ArrayList<Integer>> decisions= SignalProcessor.makeDecisionVector(s, length, energy, attempts, inf, sup,pfa);
+	public ArrayList<ArrayList<Integer>> computeBinaryDecisionVector(double pfa) throws Exception{
+		ArrayList<ArrayList<Integer>> decisions= new  ArrayList<ArrayList<Integer>>();
+		for(int i=inf;i<sup;i++){
+			
+			ArrayList<ArrayList<Double>> VectorNoiseEnergy=SignalProcessor.computeVectorEnergy(null, length, energy, attempts, i, i+1);	
+			double threshold=SignalProcessor.computeEnergyDetectorThreshold(pfa, VectorNoiseEnergy.get(0));
+			
+			ArrayList<Integer> snrDecisions= new  ArrayList<Integer>();
+			ArrayList<ArrayList<Double>> EnergyVector;
+			
+			if(s!=null){
+			EnergyVector=SignalProcessor.computeVectorEnergy(s, length,energy,attempts, i,i+1);		}	
+			else{
+				EnergyVector=VectorNoiseEnergy;
+			}
+			for(int j=0;j<EnergyVector.get(0).size();j++){
+				if(EnergyVector.get(0).get(j)>threshold){
+					snrDecisions.add(1);
+				}
+				else{snrDecisions.add(0);}
+				
+			}
+			decisions.add(snrDecisions);
+		
+			
+		}
 		return decisions;	
 		}
 		

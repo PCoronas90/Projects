@@ -23,7 +23,6 @@ public class SpectrumSensing {
 	 * @param args Rappresenta l'input
 	 * @throws Exception Pfa deve essere scelto in modo che 1-2pfa sia compreso tra -1 e 1
 	 * @see Signal
-	 * @see SecondaryUser
 	 * @see GraphGenerator#drawGraph(String, HashMap, int, int)
 	 * 
 	 * **/
@@ -58,15 +57,15 @@ public class SpectrumSensing {
 
 		
 		//Effettuo lo spectrum sensing
-		//BlockEnergyDetection = SU.spectrumSensingBlockEnergyDetector(pfa);
+		BlockEnergyDetection = SU.spectrumSensingBlockEnergyDetector(pfa);
 		TraditionalEnergyDetection=SU.spectrumSensingTraditionalEnergyDetector(pfa);
-		//MomentEnergyDetection=SU.spectrumSensingMomentEnergyDetector(pfa);
+		MomentEnergyDetection=SU.spectrumSensingMomentEnergyDetector(pfa);
 		ProposedDetection=SU.spectrumSensingProposedDetector(pfa);
 		
 
 		// Inizializzo la Mappa per il grafico
-		//DetectionGraph.put("Moment Energy Detection", MomentEnergyDetection);
-		//DetectionGraph.put("Block Energy Detection", BlockEnergyDetection);
+		DetectionGraph.put("Moment Energy Detection", MomentEnergyDetection);
+		DetectionGraph.put("Block Energy Detection", BlockEnergyDetection);
 		DetectionGraph.put("Traditional Energy Detection", TraditionalEnergyDetection);
 		DetectionGraph.put("Proposed Detection", ProposedDetection);
 

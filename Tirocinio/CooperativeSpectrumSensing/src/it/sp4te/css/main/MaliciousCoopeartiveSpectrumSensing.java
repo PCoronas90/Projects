@@ -62,12 +62,12 @@ public class MaliciousCoopeartiveSpectrumSensing {
         
         //Creo i vettori contenenti le decisioni binarie sulla presenza o assenza dell'utente primario.Le inserisco in una
         //mappa
-        userToBinaryDecisionPresence.put(FirstSU.toString(), FirstSU.computeBinaryDecision(pfa));
-        userToBinaryDecisionPresence.put(SecondSU.toString(), SecondSU.computeBinaryDecision(pfa));
-        userToBinaryDecisionPresence.put(ThirdSU.toString(), ThirdSU.computeBinaryDecision(pfa));
+        userToBinaryDecisionPresence.put(FirstSU.toString(), FirstSU.computeBinaryDecisionVector(pfa));
+        userToBinaryDecisionPresence.put(SecondSU.toString(), SecondSU.computeBinaryDecisionVector(pfa));
+        userToBinaryDecisionPresence.put(ThirdSU.toString(), ThirdSU.computeBinaryDecisionVector(pfa));
         //Gli utenti malevoli generano un vettore di decisioni in cui l'utente primario è sempre assente
-        userToBinaryDecisionPresence.put(firstMSU.toString(),  firstMSU.computeAbsenceBinaryDecision());
-        userToBinaryDecisionPresence.put(secondSMU.toString(), secondSMU.computeAbsenceBinaryDecision());
+        userToBinaryDecisionPresence.put(firstMSU.toString(),  firstMSU.computeAbsenceBinaryDecisionVector());
+        userToBinaryDecisionPresence.put(secondSMU.toString(), secondSMU.computeAbsenceBinaryDecisionVector());
         
       //Tutte le decisioni di tutti gli utenti secondari passano al fusion center che riporterà una decisione
         //globale secondo tre tecniche di fusione: AND OR e MAJORITY. 
@@ -103,12 +103,12 @@ public class MaliciousCoopeartiveSpectrumSensing {
 	     firstMSU2.listenChannel(null, length, SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 	     secondSMU2.listenChannel(null, length, SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
         
-	     userToBinaryDecisionAbsence.put(FirstSU2.toString(), FirstSU2.computeBinaryDecision(pfa));
-	     userToBinaryDecisionAbsence.put(SecondSU2.toString(), SecondSU2.computeBinaryDecision(pfa));
-	     userToBinaryDecisionAbsence.put(ThirdSU2.toString(), ThirdSU2.computeBinaryDecision(pfa));
+	     userToBinaryDecisionAbsence.put(FirstSU2.toString(), FirstSU2.computeBinaryDecisionVector(pfa));
+	     userToBinaryDecisionAbsence.put(SecondSU2.toString(), SecondSU2.computeBinaryDecisionVector(pfa));
+	     userToBinaryDecisionAbsence.put(ThirdSU2.toString(), ThirdSU2.computeBinaryDecisionVector(pfa));
 	   //Gli utenti malevoli generano un vettore di decisioni in cui l'utente primario è sempre presente
-	     userToBinaryDecisionAbsence.put(firstMSU2.toString(),  firstMSU2.computePresenceBinaryDecision());
-	     userToBinaryDecisionAbsence.put(secondSMU2.toString(), secondSMU2.computePresenceBinaryDecision());
+	     userToBinaryDecisionAbsence.put(firstMSU2.toString(),  firstMSU2.computePresenceBinaryDecisionVector());
+	     userToBinaryDecisionAbsence.put(secondSMU2.toString(), secondSMU2.computePresenceBinaryDecisionVector());
         
 	     CooperativeEnergyDetectionAndFusionAbsence=FC.decisionAndFusion(inf, sup,userToBinaryDecisionAbsence);
 	     CooperativeEnergyDetectionOrFusionAbsence=FC.decisionOrFusion(inf, sup,userToBinaryDecisionAbsence);
@@ -129,13 +129,13 @@ public class MaliciousCoopeartiveSpectrumSensing {
 	  userToBinaryDecisionPresence.clear();
 	  DetectionGraph.clear();
 	  
-	  userToBinaryDecisionPresence.put(FirstSU.toString(), FirstSU.computeBinaryDecision(pfa));
-      userToBinaryDecisionPresence.put(SecondSU.toString(), SecondSU.computeBinaryDecision(pfa));
-      userToBinaryDecisionPresence.put(ThirdSU.toString(), ThirdSU.computeBinaryDecision(pfa));
+	  userToBinaryDecisionPresence.put(FirstSU.toString(), FirstSU.computeBinaryDecisionVector(pfa));
+      userToBinaryDecisionPresence.put(SecondSU.toString(), SecondSU.computeBinaryDecisionVector(pfa));
+      userToBinaryDecisionPresence.put(ThirdSU.toString(), ThirdSU.computeBinaryDecisionVector(pfa));
       
       //Questo utente malevolo riporta l'opposto dell'emergy detector: riporta 1 se l'utente è assente, 0 se è presente
-      userToBinaryDecisionPresence.put(firstMSU.toString(),  firstMSU.computeOppositeBinaryDecision(pfa));
-      userToBinaryDecisionPresence.put(secondSMU.toString(), secondSMU.computeOppositeBinaryDecision(pfa));
+      userToBinaryDecisionPresence.put(firstMSU.toString(),  firstMSU.computeOppositeBinaryDecisionVector(pfa));
+      userToBinaryDecisionPresence.put(secondSMU.toString(), secondSMU.computeOppositeBinaryDecisionVector(pfa));
       
       CooperativeEnergyDetectionAndFusionPresence=FC.decisionAndFusion(inf, sup,userToBinaryDecisionPresence);
       CooperativeEnergyDetectionOrFusionPresence=FC.decisionOrFusion(inf, sup,userToBinaryDecisionPresence);
@@ -156,13 +156,13 @@ public class MaliciousCoopeartiveSpectrumSensing {
 		 userToBinaryDecisionAbsence.clear();
 		 DetectionGraph2.clear();
 		 
-		 userToBinaryDecisionAbsence.put(FirstSU2.toString(), FirstSU2.computeBinaryDecision(pfa));
-	     userToBinaryDecisionAbsence.put(SecondSU2.toString(), SecondSU2.computeBinaryDecision(pfa));
-	     userToBinaryDecisionAbsence.put(ThirdSU2.toString(), ThirdSU2.computeBinaryDecision(pfa));
+		 userToBinaryDecisionAbsence.put(FirstSU2.toString(), FirstSU2.computeBinaryDecisionVector(pfa));
+	     userToBinaryDecisionAbsence.put(SecondSU2.toString(), SecondSU2.computeBinaryDecisionVector(pfa));
+	     userToBinaryDecisionAbsence.put(ThirdSU2.toString(), ThirdSU2.computeBinaryDecisionVector(pfa));
 	     
 	      //Questo utente malevolo riporta l'opposto dell'emergy detector: riporta 1 se l'utente è assente, 0 se è presente
-	     userToBinaryDecisionAbsence.put(firstMSU2.toString(),  firstMSU2.computeOppositeBinaryDecision(pfa));
-	     userToBinaryDecisionAbsence.put(secondSMU2.toString(), secondSMU2.computeOppositeBinaryDecision(pfa));
+	     userToBinaryDecisionAbsence.put(firstMSU2.toString(),  firstMSU2.computeOppositeBinaryDecisionVector(pfa));
+	     userToBinaryDecisionAbsence.put(secondSMU2.toString(), secondSMU2.computeOppositeBinaryDecisionVector(pfa));
 	     
 	     CooperativeEnergyDetectionAndFusionAbsence=FC.decisionAndFusion(inf, sup,userToBinaryDecisionAbsence);
 	     CooperativeEnergyDetectionOrFusionAbsence=FC.decisionOrFusion(inf, sup,userToBinaryDecisionAbsence);
