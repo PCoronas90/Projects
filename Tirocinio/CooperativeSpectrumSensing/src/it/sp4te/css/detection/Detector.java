@@ -1,8 +1,6 @@
 package it.sp4te.css.detection;
 
 import java.util.ArrayList;
-
-import it.sp4te.css.fusioncenter.FusionCenter;
 import it.sp4te.css.signalprocessing.SignalProcessor;
 
 /** 
@@ -55,87 +53,148 @@ public class Detector {
 		}
 		return (double) 100 / (double) (energy.size() / cont);
 	}
-	
+
 	/**
 	 * Metodo la generazione della detection da parte Del fusion center secondo la tecnica AND.
 	 * 
 	 * @param decisionsVector Vettori di decisione degli utenti ad uno stesso SNR
 	 * @return Percentuale di Detection per un dato SNR
 	 **/
-	
+
 	public static  double andFusionDetection(ArrayList<ArrayList<Integer>> decisionsVector){
 		int cont=0;
 		for(int i=0;i<decisionsVector.get(0).size();i++){
 			ArrayList<Integer> decisions=new ArrayList<Integer>();
 			for(int j=0;j<decisionsVector.size();j++){		
-			 decisions.add(decisionsVector.get(j).get(i));
-			
+				decisions.add(decisionsVector.get(j).get(i));
+
 			}
-			 if(FusionCenter.andFusion(decisions)==1){cont++;
-		 
-	 }
-		
-	}
-		
+			if(andFusionRule(decisions)==1){cont++;
+
+			}
+
+		}
+
 		if(cont==0){return 0.0;}
 		else{
-		return (double) 100 / ((double) ((decisionsVector.get(0).size())  / (double) cont));}
+			return (double) 100 / ((double) ((decisionsVector.get(0).size())  / (double) cont));}
 
-}
-	
+	}
+
 	/**
 	 * Metodo la generazione della detection da parte Del fusion center secondo la tecnica Or.
 	 * 
 	 * @param decisionsVector Vettori di decisione degli utenti ad uno stesso SNR
 	 * @return Percentuale di Detection per un dato SNR
 	 **/
-	
-	
+
+
 	public static  double orFusionDetection(ArrayList<ArrayList<Integer>> decisionsVector){
 		int cont=0;
 		for(int i=0;i<decisionsVector.get(0).size();i++){
-			 ArrayList<Integer> decisions=new ArrayList<Integer>();
+			ArrayList<Integer> decisions=new ArrayList<Integer>();
 			for(int j=0;j<decisionsVector.size();j++){
-			
-			 decisions.add(decisionsVector.get(j).get(i));
-			 
+
+				decisions.add(decisionsVector.get(j).get(i));
+
 			}
-			if(FusionCenter.orFusion(decisions)==1){cont++;
-		 
-	 }
-		
-	}
+			if(orFusionRule(decisions)==1){cont++;
+
+			}
+
+		}
 		if(cont==0){return 0.0;}
 		else{
 			return (double) 100 / ((double) ((decisionsVector.get(0).size())  / (double) cont));}
 
-}
-	
+	}
+
 	/**
 	 * Metodo la generazione della detection da parte Del fusion center secondo la tecnica Majority.
 	 * 
 	 * @param decisionsVector Vettori di decisione degli utenti ad uno stesso SNR
 	 * @return Percentuale di Detection per un dato SNR
 	 **/
-	
+
 	public static  double majorityFusionDetection(ArrayList<ArrayList<Integer>> decisionsVector){
 		int cont=0;
 		for(int i=0;i<decisionsVector.get(0).size();i++){
-			 ArrayList<Integer> decisions=new ArrayList<Integer>();
+			ArrayList<Integer> decisions=new ArrayList<Integer>();
 			for(int j=0;j<decisionsVector.size();j++){
-			
-			 decisions.add(decisionsVector.get(j).get(i));
-			 
+
+				decisions.add(decisionsVector.get(j).get(i));
+
 			}
-			if(FusionCenter.majorityFusion(decisions)==1){cont++;
-	 }
-		
-	}
+			if(majorityFusionRule(decisions)==1){cont++;
+			}
+
+		}
 		if(cont==0){return 0.0;}
 		else{
 			return (double) 100 / ((double) ((decisionsVector.get(0).size())  / (double) cont));}
 
-}
-	
-	
+	}
+	/**Metodo di fusione con la tecnica and. Ritorna 1 (l'utente primario è presente) se tutte le decisioni
+	 * di tutti i dispositivi sono uguali ad 1, 0 altrimenti
+	 * @param decisions Un array contenente le decisioni binarie sulla presenza o assenza dell'utente primario per un dato SNR di
+	 * ogni utente secondario. La tenica di fusione AND prevede che sia dichiarata la presenza dell'utente primario se tutti gli utenti secondari 
+	 * ne verificano la presenza.
+	 * Questo metodo verrà iterato per ogni SNR
+	 * @return una decisione binaria risultato della fusione secondo la tecnica AND**/
+
+	public static int andFusionRule(ArrayList<Integer> decisions){
+		int fusionDecision=1;
+		for(int i=0;i<decisions.size();i++){
+			if(decisions.get(i)==0){
+				fusionDecision=0;
+			}
+		}
+		return fusionDecision;
+	}
+
+
+	/**Metodo di fusione con la tecnica or. Ritorna 1 (l'utente primario è presente) se almeno una delle decisioni
+	 * dei dispositivi sono uguali ad 1, 0 altrimenti
+	 *  @param decisions un array contenente le decisioni binarie sulla presenza o assenza dell'utente primario per un dato SNR di
+	 * ogni utente secondario. La tecnica di fusione OR prevede che sia dichiarata la presenza dell'utente se almeno un utente secondario
+	 * ne verifica la presenza
+	 * Questo metodo verrà iterato per ogni SNR
+	 * @return una decisione binaria risultato della fusione secondo la tecnica OR**/
+
+	public static int orFusionRule(ArrayList<Integer> decisions){
+		int fusionDecision=0;
+
+		for(int i=0;i<decisions.size();i++){
+			if(decisions.get(i)==1){
+				fusionDecision=1;
+			}
+		}
+		return fusionDecision;
+	}
+
+
+	/**Metodo di fusione con la tecnica or. Ritorna 1 (l'utente primario è presente) se almeno una delle decisioni
+	 * dei dispositivi sono uguali ad 1, 0 altrimenti
+	 *  @param decisions un array contenente le decisioni binarie sulla presenza o assenza dell'utente primario per un dato SNR di
+	 * ogni utente secondario. La tecnica di fusione MAJORITY prevede che sia dichiarata la presenza dell'utente se la metà più uno degli
+	 * utenti secondari ne verifica la presenza
+	 * Questo metodo verrà iterato per ogni SNR
+	 * @return una decisione binaria risultato della fusione secondo la tecnica MAJORITY**/
+
+	public static int majorityFusionRule(ArrayList<Integer> decisions){
+		int majority=(decisions.size()/2)+1;
+		int contPresence=0;
+		int fusionDecision = 0;
+		for(int i=0;i<decisions.size();i++){
+			if(decisions.get(i)==1){
+				contPresence++;
+			}
+		}
+		if(contPresence>=majority){
+			fusionDecision=1;
+		}
+
+
+		return fusionDecision;}
+
 }

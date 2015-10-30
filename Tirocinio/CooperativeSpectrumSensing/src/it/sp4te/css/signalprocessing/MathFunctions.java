@@ -48,7 +48,7 @@ public class MathFunctions {
 	 * @param signal Secondo vettore da sommare 
 	 * @return Il vettore risultante dalla somma
 	 **/
-	
+
 	public static ArrayList<Double> SumVector(ArrayList<Double> noise, ArrayList<Double> signal) {
 
 		if (signal == null) {
@@ -66,7 +66,7 @@ public class MathFunctions {
 	 * @param d In questo caso 1 - 2 * Pfa
 	 * @return Ritorna l'applicazione della funzione InvErf al parametro d
 	 * @throws Exception d deve essere compreso tra -1 e 1**/
-	
+
 	public static double InvErf(double d) throws Exception  {
 		if (Math.abs(d) > 1) {
 			throw new Exception("Allowed values for argument in [-1,1]");
@@ -90,7 +90,7 @@ public class MathFunctions {
 					"70358041406630998834159902148730577164631303295543",
 					"775752883029173334450858052496704319194646607263417",
 
-					"132034545522738294934559794712527229683368402215775110881" };
+			"132034545522738294934559794712527229683368402215775110881" };
 
 			String[] A092677 = { "1", "3", "30", "630", "22680", "178200", "97297200", "10216206000", "198486288000",
 					"237588086736000", "49893498214560000", "1803293578326240000", "222759794969712000000",
@@ -101,7 +101,7 @@ public class MathFunctions {
 					"28520159927721069946757116674341610685440000000000",
 
 					"259078091444256105986928093487086396226560000000000",
-					"36256424429074976496234665114956818633529712640000000000" };
+			"36256424429074976496234665114956818633529712640000000000" };
 
 			for (int i = 0; i < A092676.length; i++) {
 				BigDecimal num = new BigDecimal(new BigInteger(A092676[i]), 50);

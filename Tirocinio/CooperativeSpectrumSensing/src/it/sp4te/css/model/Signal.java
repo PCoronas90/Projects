@@ -35,7 +35,7 @@ public class Signal extends AbstractSignal{
 
 		}
 	}
-	
+
 	public Signal splitSignal(int start,int end){
 		Signal splittedSignal= new Signal(end-start);
 		ArrayList<Double> samplesRea=new ArrayList<Double>();
@@ -43,7 +43,7 @@ public class Signal extends AbstractSignal{
 		for(int i=start;i<end;i++){
 			samplesRea.add(this.getSamplesRe().get(i));
 			samplesImm.add(this.getSamplesIm().get(i));
-			
+
 		}
 		splittedSignal.setSamplesRe(samplesRea);
 		splittedSignal.setSamplesIm(samplesImm);

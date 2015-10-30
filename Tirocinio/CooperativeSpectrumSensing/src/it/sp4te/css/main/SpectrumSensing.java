@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import it.sp4te.css.agents.PrimaryUser;
-import it.sp4te.css.agents.BelievableSecondaryUser;
+import it.sp4te.css.agents.TrustedSecondaryUser;
 import it.sp4te.css.graphgenerator.GraphGenerator;
 import it.sp4te.css.model.Signal;
 import it.sp4te.css.signalprocessing.SignalProcessor;
@@ -43,25 +43,25 @@ public class SpectrumSensing {
 		int sup = 5;
 		int block=10; //blocchi energy Detector
 		double pfa=0.01; //probabilità di falso allarme
-		
+
 		//Creo l'utente primario e l'utente Secondario
-        PrimaryUser PU= new PrimaryUser();
-        BelievableSecondaryUser SU=new BelievableSecondaryUser();
-        
-        
+		PrimaryUser PU= new PrimaryUser();
+		TrustedSecondaryUser SU=new TrustedSecondaryUser();
+
+
 		// Genero il segnale
 		Signal s = PU.createAndSend(length);
 		System.out.println(SignalProcessor.computeEnergy(s));
 		//L'utente secondario si mette in ascolto sul canale
-		SU.listenChannel(s, length, SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		SU.listenChannel(s, s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 
-		
+
 		//Effettuo lo spectrum sensing
 		BlockEnergyDetection = SU.spectrumSensingBlockEnergyDetector(pfa);
 		TraditionalEnergyDetection=SU.spectrumSensingTraditionalEnergyDetector(pfa);
 		MomentEnergyDetection=SU.spectrumSensingMomentEnergyDetector(pfa);
 		ProposedDetection=SU.spectrumSensingProposedDetector(pfa);
-		
+
 
 		// Inizializzo la Mappa per il grafico
 		DetectionGraph.put("Moment Energy Detection", MomentEnergyDetection);

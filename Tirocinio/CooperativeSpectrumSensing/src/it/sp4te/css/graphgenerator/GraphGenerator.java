@@ -52,7 +52,7 @@ public class GraphGenerator {
 		// Definisco un array di Lines. In questo array inserisco i diversi
 		// grafici che voglio visualizzare
 		ArrayList<Line> lines = new ArrayList<Line>();
-        
+
 		for (String graphName : detection.keySet()) {
 			Line line = Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
 			line.setLineStyle(LineStyle.newLineStyle(2, 1, 0));
@@ -85,7 +85,7 @@ public class GraphGenerator {
 		// Etichetta asse y
 		AxisLabels yAxis3 = AxisLabelsFactory.newAxisLabels("% of Detection", 50.0);
 		yAxis3.setAxisStyle(AxisStyle.newAxisStyle(BLACK, 14, AxisTextAlignment.CENTER));
-		
+
 		// Aggiungo al chart
 		chart.addXAxisLabels(xAxis1);
 		chart.addYAxisLabels(yAxis);
@@ -96,7 +96,7 @@ public class GraphGenerator {
 		chart.setBackgroundFill(Fills.newSolidFill(ALICEBLUE));		chart.setAreaFill(Fills.newSolidFill(Color.newColor("708090")));
 		LinearGradientFill fill = Fills.newLinearGradientFill(0, LAVENDER, 100);
 		fill.addColorAndOffset(WHITE, 0);
-        chart.setAreaFill(fill);
+		chart.setAreaFill(fill);
 
 		// Mostro il grafico tramite java swing
 		displayUrlString(chart.toURLString());
@@ -106,7 +106,7 @@ public class GraphGenerator {
 	 * Metodo per visualizzare il grafico in una finestra Java Swing 
 	 * @param urlString Url dell'oggetto chart
 	 *  **/
-	
+
 	private static void displayUrlString(final String urlString) throws IOException {
 		JFrame frame = new JFrame();
 		JLabel label = new JLabel(new ImageIcon(ImageIO.read(new URL(urlString))));
@@ -122,7 +122,7 @@ public class GraphGenerator {
 	 *  @return Una lista di 5 colori da utilizzare per le curve. Un grafico con più di 5 curve
 	 *  diventa difficilmente leggibile
 	 *  **/
-	
+
 	private static ArrayList<Color> generateColor() {
 		ArrayList<Color> colorList= new ArrayList<Color>();
 		colorList.add(Color.BLUE);
@@ -130,9 +130,9 @@ public class GraphGenerator {
 		colorList.add(Color.GREEN);
 		colorList.add(Color.VIOLET);
 		colorList.add(Color.ORANGE);
-		
-		
-			return colorList;
+
+
+		return colorList;
 	}
 
 }

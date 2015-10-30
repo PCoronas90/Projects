@@ -52,7 +52,7 @@ public class Noise extends AbstractSignal {
 	 * @param end Indice di terminazione della sottoporzione
 	 * @return Sottoporzione del segnale passato come parametro
 	 * **/
-	
+
 	public Noise splitNoise(int start,int end){
 		Noise splittedNoise= new Noise(this.getSnr(),(end-start),SignalProcessor.computeEnergy(this));
 		ArrayList<Double> samplesRea=new ArrayList<Double>();
@@ -60,13 +60,13 @@ public class Noise extends AbstractSignal {
 		for(int i=start;i<end;i++){
 			samplesRea.add(this.getSamplesRe().get(i));
 			samplesImm.add(this.getSamplesIm().get(i));
-			
+
 		}
 		splittedNoise.setSamplesRe(samplesRea);
 		splittedNoise.setSamplesIm(samplesImm);
 		return splittedNoise;
 	}
-	
+
 	public double getVariance() {
 		return variance;
 	}
@@ -84,8 +84,8 @@ public class Noise extends AbstractSignal {
 	}
 
 
-	
-	
-	
+
+
+
 
 }

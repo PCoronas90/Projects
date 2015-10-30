@@ -1,0 +1,110 @@
+package it.sp4te.css.signalprocessing;
+
+import java.util.ArrayList;
+
+import it.sp4te.css.model.Noise;
+import it.sp4te.css.model.Signal;
+
+/** <p>Titolo:Moment</p>
+ * <p>Descrizione: Classe relativa ai momenti del secondo e quarto ordine </p>
+ * @author Pietro Coronas
+ * **/
+
+public class Moment {
+
+	public double snr;
+	public int attempts;
+	public Signal receivedSignal;
+	public ArrayList<Double> samplesRe;
+	public ArrayList<Double> samplesIm;
+	
+
+	/**
+	 * Costruttore dell'oggetto Momento. Ogni oggetto momento è composto da 4 attributi: I momenti del secondo ordine,
+	 * i Momenti del quarto ordine, l'energia del segnale e l'SNR su cui viene effettuato il calcolo dei momenti
+	 * 
+	 * @param s Il segnale
+	 * @param attempt_s Numero di prove su cui effettuare la simulazione
+	 * @param energy Energia del segnale
+	 * @param snr L'SNR di riferimento
+	 * @param length Lunghezza del segnale
+	 **/
+
+	public Moment(Signal s,double snr,int attempts) {
+		// Inizializza i parametri
+		this.receivedSignal=s;
+		this.snr = snr;
+		this.attempts=attempts;
+		if (s != null) {
+
+			samplesRe = s.getSamplesRe();
+			samplesIm = s.getSamplesIm();
+		}
+		//else {
+			//samplesRe = null;
+			//samplesIm = null;
+
+		//}
+		}
+	
+	public ArrayList<Double> computeSecondOrderMoment(){
+		ArrayList<Double>	secondOrder = new ArrayList<Double>();
+
+		for (int i = 0; i < attempts; i++) {
+			double j = 0.0;
+
+			Noise noise = new Noise(snr, receivedSignal.getLenght(), SignalProcessor.computeEnergy(receivedSignal));
+
+			Signal signal = new Signal(noise.getLenght());
+            
+			signal.setSamplesRe(MathFunctions.SumVector(noise.getSamplesRe(), samplesRe));
+			signal.setSamplesIm(MathFunctions.SumVector(noise.getSamplesIm(), samplesIm));
+
+			for (int k = 1; k < noise.getLenght() - 1; k++) {
+
+				j = (j + Math.pow(signal.getSamplesRe().get(k), 2) + Math.pow(signal.getSamplesIm().get(k), 2));
+			}
+
+			secondOrder.add(i, j * (1 / (double) signal.getLenght()));
+		}
+      return secondOrder;
+	}
+	
+	public ArrayList<Double> computeFourthOrderMoment(int attempts){
+		ArrayList<Double>	fourthOrder = new ArrayList<Double>();
+
+		for (int i = 0; i < attempts; i++) {
+			double h = 0.0;
+
+			Noise noise = new Noise(snr, receivedSignal.getLenght(), SignalProcessor.computeEnergy(receivedSignal));
+
+			Signal signal = new Signal(noise.getLenght());
+            
+			signal.setSamplesRe(MathFunctions.SumVector(noise.getSamplesRe(), samplesRe));
+			signal.setSamplesIm(MathFunctions.SumVector(noise.getSamplesIm(), samplesIm));
+
+			for (int k = 1; k < noise.getLenght() - 1; k++) {
+
+				h = (h + Math.pow(signal.getSamplesRe().get(k), 4) + Math.pow(signal.getSamplesIm().get(k), 4));
+			}
+
+			fourthOrder.add(i, h * (1 / (double) signal.getLenght()));
+		}
+      return fourthOrder;
+	}
+
+
+	
+	public double getSnr() {
+		return snr;
+	}
+
+	public void setSnr(double snr) {
+		this.snr = snr;
+	}
+
+
+	
+
+}
+

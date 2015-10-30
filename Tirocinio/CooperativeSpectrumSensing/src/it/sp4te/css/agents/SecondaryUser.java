@@ -13,10 +13,9 @@ public abstract class SecondaryUser {
 	Signal s;
 	int attempts,length,inf,sup,block;
 	double energy;
-	ArrayList<Moment> MomentsSignal;
-	ArrayList<Moment> MomentsNoise;
-	
-	
+
+
+
 	/**
 	 * Questo metodo inizializza i valori che saranno usati nei diversi tipi di
 	 * detection.
@@ -36,12 +35,7 @@ public abstract class SecondaryUser {
 	 **/
 
 
-	public void listenChannel(Signal s, int length, double energy, int attempts, int inf, int sup,int block){
-		//Oggetto momento nell'ipotesi Segnale più rumore
-		this.MomentsSignal = SignalProcessor.computeMoment(s, length, energy, attempts, inf, sup);
-		//Oggetto momento nell'ipotesi di solo Rumore
-		this.MomentsNoise =SignalProcessor.computeMoment(null, length, energy, attempts, inf, sup);
-		//Setto i parametri
+	public void listenChannel(Signal s,int length, double energy, int attempts, int inf, int sup,int block){
 		this.s=s;
 		this.length=length;
 		this.energy=energy;
@@ -49,6 +43,9 @@ public abstract class SecondaryUser {
 		this.inf=inf;
 		this.sup=sup;
 		this.block=block;
+
+
+
 
 	}
 	/**
@@ -65,24 +62,25 @@ public abstract class SecondaryUser {
 
 	public ArrayList<Double> spectrumSensingBlockEnergyDetector(Double pfa) throws Exception{
 		HashMap<Double, Double> EnergyDetection = new HashMap<Double, Double>();
+
 		ArrayList<ArrayList<Double>> MediumNoiseEnergy=SignalProcessor.computeMediumEnergy(null, length, energy, attempts, inf, sup, block);
 		ArrayList<ArrayList<Double>> MediumSignalEnergy;
 		if(s!=null){
 			MediumSignalEnergy=SignalProcessor.computeMediumEnergy(s, length, energy, attempts, inf, sup, block);
 		}
-		else{MediumSignalEnergy=MediumNoiseEnergy;}
-		
+		else{MediumSignalEnergy=SignalProcessor.computeMediumEnergy(null, length, energy, attempts, inf, sup, block);}
+		int snr=inf-1;
 		for (int i = 0; i < MediumSignalEnergy.size(); i++) {
 			Double ED = Detector.energyDetection(
 					SignalProcessor.computeEnergyDetectorThreshold(pfa, MediumNoiseEnergy.get(i)), MediumSignalEnergy.get(i));
-			EnergyDetection.put(this.MomentsSignal.get(i).getSnr(), ED);
+			EnergyDetection.put((double)snr++, ED);
 		}
 
 		return SignalProcessor.orderSignal(EnergyDetection);
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Metodo per lo Spectrum Senging dell'energy Detector effettuato senza dividere il segnale in blocchi,
 	 * calcolando l'energia a partire dai momenti del secondo e quarto ordine. 
@@ -94,18 +92,21 @@ public abstract class SecondaryUser {
 	 * @see SignalProcessor#orderSignal
 	 * @see  SignalProcessor#computeEnergyDetectorThreshold
 	 **/
-	
+
 	public ArrayList<Double> spectrumSensingMomentEnergyDetector(double pfa) throws Exception {
+		ArrayList<Moment> MomentsSignal = SignalProcessor.computeMoment(s, length, energy, attempts, inf, sup);
+		ArrayList<Moment> MomentsNoise =SignalProcessor.computeMoment(null, length, energy, attempts, inf, sup);
+
 		HashMap<Double, Double> EnergyDetection = new HashMap<Double, Double>();
 		ArrayList<ArrayList<Double>> MomentNoiseEnergy = SignalProcessor.computeMomentEnergy(MomentsNoise);
 		ArrayList<ArrayList<Double>> MomentSignalEnergy;
 		if(s!=null){MomentSignalEnergy = SignalProcessor.computeMomentEnergy(MomentsSignal);}
-		else{MomentSignalEnergy=MomentNoiseEnergy;}
-		
+		else{MomentSignalEnergy=SignalProcessor.computeMomentEnergy(MomentsNoise);}
+
 		for (int i = 0; i < MomentSignalEnergy.size(); i++) {
 			Double ED = Detector.energyDetection(
 					SignalProcessor.computeEnergyDetectorThreshold(pfa, MomentNoiseEnergy.get(i)), MomentSignalEnergy.get(i));
-			EnergyDetection.put(this.MomentsSignal.get(i).getSnr(), ED);
+			EnergyDetection.put(MomentsSignal.get(i).getSnr(), ED);
 		}
 
 		return SignalProcessor.orderSignal(EnergyDetection);
@@ -125,82 +126,86 @@ public abstract class SecondaryUser {
 	 **/
 
 	public ArrayList<Double> spectrumSensingProposedDetector(Double pfa) throws Exception {
+		ArrayList<Moment> MomentsSignal = SignalProcessor.computeMoment(s, length, energy, attempts, inf, sup);
+		ArrayList<Moment> MomentsNoise =SignalProcessor.computeMoment(null, length, energy, attempts, inf, sup);
+
 		HashMap<Double, Double> ProposedDetection = new HashMap<Double, Double>();
 		ArrayList<ArrayList<Double>> PrNoise = SignalProcessor.computePr(MomentsNoise);
 		ArrayList<ArrayList<Double>> PrSignal;
 		if(s!=null){PrSignal = SignalProcessor.computePr(MomentsSignal);}
-		else{PrSignal=PrNoise;}
-		
+		else{PrSignal=SignalProcessor.computePr(MomentsNoise);}
+
 		for (int i = 0; i < PrSignal.size(); i++) {
 			Double PD = Detector.proposedMethodDetection(SignalProcessor.computeProposedThreshold(pfa, PrNoise.get(i)),
 					PrSignal.get(i));
-			ProposedDetection.put(this.MomentsSignal.get(i).getSnr(), PD);
+			ProposedDetection.put(MomentsSignal.get(i).getSnr(), PD);
 		}
 		return SignalProcessor.orderSignal(ProposedDetection);
 	}
 
-	
+
 	/**Questo metodo rappresenta l'energy Detector tradizionale. Effettua il calcolo dell'energia del solo rumore su cui
 	 * calcola la soglia. Successivamente calcola l'energia del segnale+rumore ed effettua il confronto con la soglia
 	 * calcolata.
 	 * @param pfa Probabilità di falso allarme
 	 * @return Ritorna la percentuale di Detection calcolata sulle energie senza operazioni intermedie
 	 * @throws Exception **/
-	
+
 	public ArrayList<Double> spectrumSensingTraditionalEnergyDetector(double pfa) throws Exception {
+
 		HashMap<Double, Double> EnergyDetection = new HashMap<Double, Double>();
-		ArrayList<ArrayList<Double>> VectorNoiseEnergy=SignalProcessor.computeVectorEnergy(null, length, energy, attempts, inf, sup);	
+		ArrayList<ArrayList<Double>> VectorNoiseEnergy=SignalProcessor.computeVectorsEnergy(null, length, energy, attempts, inf, sup);	
 
 		ArrayList<ArrayList<Double>> VectorSignalEnergy;
 		if(s!=null){
-	    VectorSignalEnergy=SignalProcessor.computeVectorEnergy(s, length, energy, attempts, inf, sup);
+			VectorSignalEnergy=SignalProcessor.computeVectorsEnergy(s, length, energy, attempts, inf, sup);
 		}	
-		else{VectorSignalEnergy=VectorNoiseEnergy;}
-		
+		else{VectorSignalEnergy=SignalProcessor.computeVectorsEnergy(null, length, energy, attempts, inf, sup);}
+		int snr=(inf-1);
 		for (int i = 0; i < VectorSignalEnergy.size(); i++) {
 			Double ED = Detector.energyDetection(
 					SignalProcessor.computeEnergyDetectorThreshold(pfa, VectorNoiseEnergy.get(i)), VectorSignalEnergy.get(i));
-			EnergyDetection.put(this.MomentsSignal.get(i).getSnr(), ED);
+			EnergyDetection.put((double)(snr++), ED);
 		}
 
 		return SignalProcessor.orderSignal(EnergyDetection);
 	}
-	
+
 	/**Questo metodo ritorna, per ogni valore di SNR , una lista di decisioni lunga quanto il numero di prove contenente la presenza (1) o
 	 * l'assenza(0) dell'utente primario
 	 * @param pfa Probabilità di falso allarme
 	 * @return Una lista di liste contenente per ogni SNR, una lista decisioni binarie sulla presenza o assenza dell'utente primario di cardinalità pari al numero di prove
 	 * @throws Exception **/
-	
+
 	public ArrayList<ArrayList<Integer>> computeBinaryDecisionVector(double pfa) throws Exception{
 		ArrayList<ArrayList<Integer>> decisions= new  ArrayList<ArrayList<Integer>>();
 		for(int i=inf;i<sup;i++){
-			
-			ArrayList<ArrayList<Double>> VectorNoiseEnergy=SignalProcessor.computeVectorEnergy(null, length, energy, attempts, i, i+1);	
-			double threshold=SignalProcessor.computeEnergyDetectorThreshold(pfa, VectorNoiseEnergy.get(0));
-			
+
+			ArrayList<Double> VectorNoiseEnergy=SignalProcessor.computeVectorEnergy(null, length, energy, attempts, i);	
+			double threshold=SignalProcessor.computeEnergyDetectorThreshold(pfa, VectorNoiseEnergy);
+
 			ArrayList<Integer> snrDecisions= new  ArrayList<Integer>();
-			ArrayList<ArrayList<Double>> EnergyVector;
-			
+			ArrayList<Double> EnergyVector;
+
 			if(s!=null){
-			EnergyVector=SignalProcessor.computeVectorEnergy(s, length,energy,attempts, i,i+1);		}	
+				EnergyVector=SignalProcessor.computeVectorEnergy(s, length,energy,attempts, i);		}	
 			else{
-				EnergyVector=VectorNoiseEnergy;
+				EnergyVector=SignalProcessor.computeVectorEnergy(null, length,energy,attempts, i);	
 			}
-			for(int j=0;j<EnergyVector.get(0).size();j++){
-				if(EnergyVector.get(0).get(j)>threshold){
+			for(int j=0;j<EnergyVector.size();j++){
+				if(EnergyVector.get(j)>threshold){
 					snrDecisions.add(1);
 				}
 				else{snrDecisions.add(0);}
-				
+
 			}
 			decisions.add(snrDecisions);
-		
-			
+
+
 		}
 		return decisions;	
-		}
-		
-	
+	}
+
+
 
 }

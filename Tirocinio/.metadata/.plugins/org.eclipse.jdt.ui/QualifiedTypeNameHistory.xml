@@ -47,4 +47,6 @@
 <fullyQualifiedTypeName name="it.sp4te.css.model.Noise"/>
 <fullyQualifiedTypeName name="it.sp4te.css.agents.BelievableSecondaryUser"/>
 <fullyQualifiedTypeName name="it.sp4te.css.agents.MaliciousSecondaryUser"/>
+<fullyQualifiedTypeName name="it.sp4te.css.agents.SecondaryUser"/>
+<fullyQualifiedTypeName name="it.sp4te.css.agents.TrustedSecondaryUser"/>
 </qualifiedTypeNameHistroy>

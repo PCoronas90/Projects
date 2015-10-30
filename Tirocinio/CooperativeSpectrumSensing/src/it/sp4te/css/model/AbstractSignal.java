@@ -6,8 +6,8 @@ public abstract class AbstractSignal {
 	ArrayList<Double> samplesRe;
 	ArrayList<Double> samplesIm;
 	int lenght;
-	
-	
+
+
 	public ArrayList<Double> getSamplesRe() {
 		return samplesRe;
 	}
@@ -23,7 +23,7 @@ public abstract class AbstractSignal {
 	public void setSamplesIm(ArrayList<Double> samplesIm) {
 		this.samplesIm = samplesIm;
 	}
-	
+
 	public int getLenght() {
 		return lenght;
 	}
@@ -31,7 +31,7 @@ public abstract class AbstractSignal {
 	public void setLenght(int signalLenght) {
 		this.lenght = signalLenght;
 	}
-	
 
-	
+
+
 }
