@@ -9,6 +9,7 @@ import it.sp4te.css.agents.PrimaryUser;
 import it.sp4te.css.graphgenerator.GraphGenerator;
 import it.sp4te.css.model.Signal;
 import it.sp4te.css.signalprocessing.SignalProcessor;
+import it.sp4te.css.signalprocessing.Utils;
 
 /**Questa classe modella uno scenario cooperativo ideale in cui sono presenti solamente utenti secondari fidati,
  * utilizzando le tecniche di fusione AND,OR e MAJORITY nei casi in cui l'utente primario sia presente o assente**/
@@ -23,9 +24,10 @@ public class ClassicCooperativeSpectrumSensing {
 		ArrayList<Double> CooperativeEnergyDetectionMajorityFusion = new ArrayList<Double>();;
 
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+        HashMap<String, ArrayList<Double>> DetectionGraph = new HashMap<String, ArrayList<Double>>();
 
-		HashMap<String, ArrayList<Double>> DetectionGraph = new HashMap<String, ArrayList<Double>>();
-
+        ArrayList<TrustedSecondaryUser> TrustedSecondaryUsers;
+        
 		// Setto i parametri
 		int length = 1000; // poi 10000
 		int attempts = 100;
@@ -33,36 +35,23 @@ public class ClassicCooperativeSpectrumSensing {
 		int sup = 5;
 		int block=10; //blocchi energy Detector
 		double pfa=0.01; //probabilità di falso allarme
+		int numberTSU=5;//numero di utenti fidati
 
 		//Creo il Fusion center
 		FusionCenter FC=new FusionCenter();
 		//Creo l'utente primario
 		PrimaryUser PU= new PrimaryUser();
-		//Creo gli utenti secondari
-		TrustedSecondaryUser FirstSU=new TrustedSecondaryUser();
-		TrustedSecondaryUser SecondSU=new TrustedSecondaryUser();
-		TrustedSecondaryUser ThirdSU=new TrustedSecondaryUser();
-		TrustedSecondaryUser fourthSU=new TrustedSecondaryUser();
-		TrustedSecondaryUser fifthSU=new TrustedSecondaryUser();
-
 		//creo il segnale
 		Signal s = PU.createAndSend(length);
-
-		//Gli utenti secondari si mettono in ascolto sul canale
-		FirstSU.listenChannel(s, s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		SecondSU.listenChannel(s,s.getLenght(),  SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		ThirdSU.listenChannel(s, s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		fourthSU.listenChannel(s,s.getLenght(),  SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		fifthSU.listenChannel(s, s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-
+		
+		//Creo gli utenti secondari
+		TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 
 		//Creo i vettori contenenti le decisioni binarie sulla presenza o assenza dell'utente primario.Le inserisco in una
-		//mappa
-		userToBinaryDecision.put(FirstSU.toString(), FirstSU.computeBinaryDecisionVector(pfa));
-		userToBinaryDecision.put(SecondSU.toString(), SecondSU.computeBinaryDecisionVector(pfa));
-		userToBinaryDecision.put(ThirdSU.toString(), ThirdSU.computeBinaryDecisionVector(pfa));
-		userToBinaryDecision.put(fourthSU.toString(),  fourthSU.computeBinaryDecisionVector(pfa));
-		userToBinaryDecision.put(fifthSU.toString(), fifthSU.computeBinaryDecisionVector(pfa));
+				//mappa
+		for(int i=0;i<TrustedSecondaryUsers.size();i++){
+			userToBinaryDecision.put(TrustedSecondaryUsers.get(i).toString(), TrustedSecondaryUsers.get(i).computeBinaryDecisionVector(pfa));	
+		}
 
 		//Tutte le decisioni di tutti gli utenti secondari passano al fusion center che riporterà una decisione
 		//globale secondo tre tecniche di fusione: AND OR e MAJORITY. 
@@ -76,30 +65,20 @@ public class ClassicCooperativeSpectrumSensing {
 
 		GraphGenerator.drawGraph("Presence of PU in Cooperative Energy Detection (CED)",DetectionGraph, inf, sup);
 
+		
 		//------------------------------------------------Assenza utente primario-------------------//
 		ArrayList<Double> CooperativeEnergyDetectionAndFusionAbsence = new ArrayList<Double>();;
 		ArrayList<Double> CooperativeEnergyDetectionOrFusionAbsence = new ArrayList<Double>();;
 		ArrayList<Double> CooperativeEnergyDetectionMajorityFusionAbsence = new ArrayList<Double>();;
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionAbsence=new HashMap<String,ArrayList<ArrayList<Integer>>>();
 		HashMap<String, ArrayList<Double>> DetectionGraph2 = new HashMap<String, ArrayList<Double>>();
+        ArrayList<TrustedSecondaryUser> TrustedSecondaryUsers2;
+		
+        TrustedSecondaryUsers2= Utils.createTrustedSecondaryUsers(numberTSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 
-
-		TrustedSecondaryUser FirstSU2=new TrustedSecondaryUser();
-		TrustedSecondaryUser SecondSU2=new TrustedSecondaryUser();
-		TrustedSecondaryUser ThirdSU2=new TrustedSecondaryUser();
-		TrustedSecondaryUser fourthSU2=new TrustedSecondaryUser();
-		TrustedSecondaryUser fifthSU2=new TrustedSecondaryUser();
-		FirstSU2.listenChannel(null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		SecondSU2.listenChannel(null,s.getLenght(),  SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		ThirdSU2.listenChannel(null, s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		fourthSU2.listenChannel(null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		fifthSU2.listenChannel(null, s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-
-		userToBinaryDecisionAbsence.put(FirstSU2.toString(), FirstSU2.computeBinaryDecisionVector(pfa));
-		userToBinaryDecisionAbsence.put(SecondSU2.toString(), SecondSU2.computeBinaryDecisionVector(pfa));
-		userToBinaryDecisionAbsence.put(ThirdSU2.toString(), ThirdSU2.computeBinaryDecisionVector(pfa));
-		userToBinaryDecisionAbsence.put(fourthSU2.toString(),  fourthSU2.computeBinaryDecisionVector(pfa));
-		userToBinaryDecisionAbsence.put(fifthSU2.toString(), fifthSU2.computeBinaryDecisionVector(pfa));
+        for(int i=0;i<TrustedSecondaryUsers.size();i++){
+			userToBinaryDecisionAbsence.put(TrustedSecondaryUsers2.get(i).toString(), TrustedSecondaryUsers2.get(i).computeBinaryDecisionVector(pfa));	
+		}
 
 		CooperativeEnergyDetectionAndFusionAbsence=FC.andDecision(inf, sup,userToBinaryDecisionAbsence);
 		CooperativeEnergyDetectionOrFusionAbsence=FC.orDecision(inf, sup,userToBinaryDecisionAbsence);

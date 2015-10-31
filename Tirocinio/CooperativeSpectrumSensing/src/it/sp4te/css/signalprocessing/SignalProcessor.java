@@ -265,27 +265,6 @@ public class SignalProcessor {
 		return edThreshold;
 	}
 
-	/**
-	 * Metodo per ordinare una mappa in base alla chiave.
-	 * In questo caso è utilizzato su una mappa che ha come chiave l'SNR e come valore la % di Detection Relativa.
-	 * 
-	 * @param signalmapToOrder mappa con chiave SNR e valore la relativa % di detection 
-	 * @return la mappa ordinata in base all'SNR
-	 **/
-
-	public static ArrayList<Double> orderSignal(HashMap<Double, Double> signalmapToOrder) {
-
-		ArrayList<Double> snr = new ArrayList<Double>();
-		for (Double key : signalmapToOrder.keySet()) {
-			snr.add(key);
-		}
-		Collections.sort(snr);
-
-		ArrayList<Double> Edetection = new ArrayList<Double>();
-		for (Double key : snr) {
-			Edetection.add(signalmapToOrder.get(key));
-		}
-		return Edetection;
-	}
+	
 
 }

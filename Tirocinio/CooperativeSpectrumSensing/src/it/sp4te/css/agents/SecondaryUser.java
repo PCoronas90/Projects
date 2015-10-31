@@ -7,6 +7,7 @@ import it.sp4te.css.detection.Detector;
 import it.sp4te.css.model.Signal;
 import it.sp4te.css.signalprocessing.Moment;
 import it.sp4te.css.signalprocessing.SignalProcessor;
+import it.sp4te.css.signalprocessing.Utils;
 
 public abstract class SecondaryUser {
 
@@ -35,9 +36,9 @@ public abstract class SecondaryUser {
 	 **/
 
 
-	public void listenChannel(Signal s,int length, double energy, int attempts, int inf, int sup,int block){
+	public void listenChannel(Signal s,int signalLength, double energy, int attempts, int inf, int sup,int block){
 		this.s=s;
-		this.length=length;
+		this.length=signalLength;
 		this.energy=energy;
 		this.attempts=attempts;
 		this.inf=inf;
@@ -76,7 +77,7 @@ public abstract class SecondaryUser {
 			EnergyDetection.put((double)snr++, ED);
 		}
 
-		return SignalProcessor.orderSignal(EnergyDetection);
+		return Utils.orderSignal(EnergyDetection);
 	}
 
 
@@ -109,7 +110,7 @@ public abstract class SecondaryUser {
 			EnergyDetection.put(MomentsSignal.get(i).getSnr(), ED);
 		}
 
-		return SignalProcessor.orderSignal(EnergyDetection);
+		return Utils.orderSignal(EnergyDetection);
 	}
 
 	/**
@@ -140,7 +141,7 @@ public abstract class SecondaryUser {
 					PrSignal.get(i));
 			ProposedDetection.put(MomentsSignal.get(i).getSnr(), PD);
 		}
-		return SignalProcessor.orderSignal(ProposedDetection);
+		return Utils.orderSignal(ProposedDetection);
 	}
 
 
@@ -168,7 +169,7 @@ public abstract class SecondaryUser {
 			EnergyDetection.put((double)(snr++), ED);
 		}
 
-		return SignalProcessor.orderSignal(EnergyDetection);
+		return Utils.orderSignal(EnergyDetection);
 	}
 
 	/**Questo metodo ritorna, per ogni valore di SNR , una lista di decisioni lunga quanto il numero di prove contenente la presenza (1) o

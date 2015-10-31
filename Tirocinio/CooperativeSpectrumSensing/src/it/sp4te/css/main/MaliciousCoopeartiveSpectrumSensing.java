@@ -10,6 +10,7 @@ import it.sp4te.css.agents.PrimaryUser;
 import it.sp4te.css.graphgenerator.GraphGenerator;
 import it.sp4te.css.model.Signal;
 import it.sp4te.css.signalprocessing.SignalProcessor;
+import it.sp4te.css.signalprocessing.Utils;
 
 /**Questo classe modella 4 tipi di scenario : In uno è presente un numero di utenti malevoli che riportano sempre l'assenza dell'utente
  * primario in uno scenario in cui è presente. In un secondo scenario riportano sempre la presenza dell'utente primario in uno scenario in cui
@@ -28,6 +29,10 @@ public class MaliciousCoopeartiveSpectrumSensing {
 
 		HashMap<String, ArrayList<Double>> DetectionGraph = new HashMap<String, ArrayList<Double>>();
 
+		ArrayList<TrustedSecondaryUser> TrustedSecondaryUsers;
+		ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers;
+
+
 		// Setto i parametri
 		int length = 1000; // poi 10000
 		int attempts = 100;
@@ -35,39 +40,28 @@ public class MaliciousCoopeartiveSpectrumSensing {
 		int sup = 5;
 		int block=10; //blocchi energy Detector
 		double pfa=0.01; //probabilità di falso allarme
+		int numberTSU=3;
+		int numberMSU=2;
 
 		//Creo il Fusion center
 		FusionCenter FC=new FusionCenter();
 		//Creo l'utente primario
 		PrimaryUser PU= new PrimaryUser();
-		//Creo gli utenti secondari
-		TrustedSecondaryUser FirstSU=new TrustedSecondaryUser();
-		TrustedSecondaryUser SecondSU=new TrustedSecondaryUser();
-		TrustedSecondaryUser ThirdSU=new TrustedSecondaryUser();
-
-		//Utenti malevoli
-		MaliciousSecondaryUser firstMSU=new MaliciousSecondaryUser();
-		MaliciousSecondaryUser secondSMU=new MaliciousSecondaryUser();
 
 		//creo il segnale
 		Signal s = PU.createAndSend(length);
 
-		//Gli utenti secondari si mettono in ascolto sul canale
-		FirstSU.listenChannel(s, s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		SecondSU.listenChannel(s,s.getLenght(),  SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		ThirdSU.listenChannel(s, s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		//Creo gli utenti secondari
+		TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 
-		firstMSU.listenChannel(s,s.getLenght(),  SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		secondSMU.listenChannel(s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+
 
 		//Creo i vettori contenenti le decisioni binarie sulla presenza o assenza dell'utente primario.Le inserisco in una
 		//mappa
-		userToBinaryDecisionPresence.put(FirstSU.toString(), FirstSU.computeBinaryDecisionVector(pfa));
-		userToBinaryDecisionPresence.put(SecondSU.toString(), SecondSU.computeBinaryDecisionVector(pfa));
-		userToBinaryDecisionPresence.put(ThirdSU.toString(), ThirdSU.computeBinaryDecisionVector(pfa));
-		//Gli utenti malevoli generano un vettore di decisioni in cui l'utente primario è sempre assente
-		userToBinaryDecisionPresence.put(firstMSU.toString(),  firstMSU.computeAbsenceBinaryDecisionVector());
-		userToBinaryDecisionPresence.put(secondSMU.toString(), secondSMU.computeAbsenceBinaryDecisionVector());
+		userToBinaryDecisionPresence=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+		//Gli utenti malevoli di questa tipologia generano un vettore di decisioni in cui l'utente primario è sempre assente
+		userToBinaryDecisionPresence.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
 
 		//Tutte le decisioni di tutti gli utenti secondari passano al fusion center che riporterà una decisione
 		//globale secondo tre tecniche di fusione: AND OR e MAJORITY. 
@@ -89,26 +83,21 @@ public class MaliciousCoopeartiveSpectrumSensing {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionAbsence=new HashMap<String,ArrayList<ArrayList<Integer>>>();
 		HashMap<String, ArrayList<Double>> DetectionGraph2 = new HashMap<String, ArrayList<Double>>();
 
+		ArrayList<TrustedSecondaryUser> TrustedSecondaryUsers2;
+		ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers2;
 
-		TrustedSecondaryUser FirstSU2=new TrustedSecondaryUser();
-		TrustedSecondaryUser SecondSU2=new TrustedSecondaryUser();
-		TrustedSecondaryUser ThirdSU2=new TrustedSecondaryUser();
 
-		MaliciousSecondaryUser firstMSU2=new MaliciousSecondaryUser();
-		MaliciousSecondaryUser secondSMU2=new MaliciousSecondaryUser();
+		//Creo gli utenti secondari
+		TrustedSecondaryUsers2= Utils.createTrustedSecondaryUsers(numberTSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		MaliciousSecondaryUsers2=Utils.createMaliciousSecondaryUsers(numberMSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 
-		FirstSU2.listenChannel(null, s.getLenght(),SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		SecondSU2.listenChannel(null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		ThirdSU2.listenChannel(null, s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		firstMSU2.listenChannel(null,s.getLenght(),  SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		secondSMU2.listenChannel(null, s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		//Creo i vettori contenenti le decisioni binarie sulla presenza o assenza dell'utente primario.Le inserisco in una
+		//mappa
+		userToBinaryDecisionAbsence=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers2, pfa);		
+		//Gli utenti malevoli di questa tipologia generano un vettore di decisioni in cui l'utente primario è sempre presente
+		userToBinaryDecisionAbsence.putAll(Utils.generetePresenceBinaryDecisionVectors(MaliciousSecondaryUsers2));
 
-		userToBinaryDecisionAbsence.put(FirstSU2.toString(), FirstSU2.computeBinaryDecisionVector(pfa));
-		userToBinaryDecisionAbsence.put(SecondSU2.toString(), SecondSU2.computeBinaryDecisionVector(pfa));
-		userToBinaryDecisionAbsence.put(ThirdSU2.toString(), ThirdSU2.computeBinaryDecisionVector(pfa));
-		//Gli utenti malevoli generano un vettore di decisioni in cui l'utente primario è sempre presente
-		userToBinaryDecisionAbsence.put(firstMSU2.toString(),  firstMSU2.computePresenceBinaryDecisionVector());
-		userToBinaryDecisionAbsence.put(secondSMU2.toString(), secondSMU2.computePresenceBinaryDecisionVector());
+
 
 		CooperativeEnergyDetectionAndFusionAbsence=FC.andDecision(inf, sup,userToBinaryDecisionAbsence);
 		CooperativeEnergyDetectionOrFusionAbsence=FC.orDecision(inf, sup,userToBinaryDecisionAbsence);
@@ -129,13 +118,12 @@ public class MaliciousCoopeartiveSpectrumSensing {
 		userToBinaryDecisionPresence.clear();
 		DetectionGraph.clear();
 
-		userToBinaryDecisionPresence.put(FirstSU.toString(), FirstSU.computeBinaryDecisionVector(pfa));
-		userToBinaryDecisionPresence.put(SecondSU.toString(), SecondSU.computeBinaryDecisionVector(pfa));
-		userToBinaryDecisionPresence.put(ThirdSU.toString(), ThirdSU.computeBinaryDecisionVector(pfa));
 
-		//Questo utente malevolo riporta l'opposto dell'emergy detector: riporta 1 se l'utente è assente, 0 se è presente
-		userToBinaryDecisionPresence.put(firstMSU.toString(),  firstMSU.computeOppositeBinaryDecisionVector(pfa));
-		userToBinaryDecisionPresence.put(secondSMU.toString(), secondSMU.computeOppositeBinaryDecisionVector(pfa));
+		//Creo i vettori contenenti le decisioni binarie sulla presenza o assenza dell'utente primario.Le inserisco in una
+		//mappa
+		userToBinaryDecisionPresence=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+		//Gli utenti malevoli di questa tipologia generano l'opposto dell'energy detector: riporta 1 se l'utente è assente, 0 se è presente
+		userToBinaryDecisionPresence.putAll(Utils.genereteOppositeBinaryDecisionVectors(MaliciousSecondaryUsers, pfa)); 	
 
 		CooperativeEnergyDetectionAndFusionPresence=FC.andDecision(inf, sup,userToBinaryDecisionPresence);
 		CooperativeEnergyDetectionOrFusionPresence=FC.orDecision(inf, sup,userToBinaryDecisionPresence);
@@ -156,13 +144,12 @@ public class MaliciousCoopeartiveSpectrumSensing {
 		userToBinaryDecisionAbsence.clear();
 		DetectionGraph2.clear();
 
-		userToBinaryDecisionAbsence.put(FirstSU2.toString(), FirstSU2.computeBinaryDecisionVector(pfa));
-		userToBinaryDecisionAbsence.put(SecondSU2.toString(), SecondSU2.computeBinaryDecisionVector(pfa));
-		userToBinaryDecisionAbsence.put(ThirdSU2.toString(), ThirdSU2.computeBinaryDecisionVector(pfa));
+		//Creo i vettori contenenti le decisioni binarie sulla presenza o assenza dell'utente primario.Le inserisco in una
+		//mappa
+		userToBinaryDecisionAbsence=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers2, pfa);		
 
-		//Questo utente malevolo riporta l'opposto dell'emergy detector: riporta 1 se l'utente è assente, 0 se è presente
-		userToBinaryDecisionAbsence.put(firstMSU2.toString(),  firstMSU2.computeOppositeBinaryDecisionVector(pfa));
-		userToBinaryDecisionAbsence.put(secondSMU2.toString(), secondSMU2.computeOppositeBinaryDecisionVector(pfa));
+		//Gli utenti malevoli di questa tipologia generano l'opposto dell'energy detector: riporta 1 se l'utente è assente, 0 se è presente
+		userToBinaryDecisionAbsence.putAll(Utils.genereteOppositeBinaryDecisionVectors(MaliciousSecondaryUsers2, pfa)); 
 
 		CooperativeEnergyDetectionAndFusionAbsence=FC.andDecision(inf, sup,userToBinaryDecisionAbsence);
 		CooperativeEnergyDetectionOrFusionAbsence=FC.orDecision(inf, sup,userToBinaryDecisionAbsence);
