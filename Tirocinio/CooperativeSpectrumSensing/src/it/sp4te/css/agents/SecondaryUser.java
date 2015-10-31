@@ -22,7 +22,7 @@ public abstract class SecondaryUser {
 	 * detection.
 	 * 
 	 * @param s Segnale su cui effettuare la Detection
-	 * @param length lunghezza del segnale
+	 * @param signalLength lunghezza del segnale
 	 * @param energy Energia del segnale
 	 * @param attempts Numero di prove su cui viene effettuata la simulazione
 	 * @param inf Estremo inferiore di SNR su cui è stata effettuata la simulazione
@@ -56,9 +56,6 @@ public abstract class SecondaryUser {
 	 * @param pfa Probabilità di falso allarme
 	 * @return Array con le percentuali di detection ordinate per SNR
 	 * @throws Exception Pfa deve essere scelto in modo che 1-2pfa sia compreso tra -1 e 1
-	 * @see Detector#energyDetection
-	 * @see SignalProcessor#orderSignal
-	 * @see  SignalProcessor#computeEnergyDetectorThreshold
 	 **/
 
 	public ArrayList<Double> spectrumSensingBlockEnergyDetector(Double pfa) throws Exception{
@@ -89,9 +86,6 @@ public abstract class SecondaryUser {
 	 * @param pfa Probabilità di falso allarme
 	 * @return Array con le percentuali di detection ordinate per SNR
 	 * @throws Exception  Pfa deve essere scelto in modo che 1-2pfa sia compreso tra -1 e 1
-	 * @see Detector#energyDetection
-	 * @see SignalProcessor#orderSignal
-	 * @see  SignalProcessor#computeEnergyDetectorThreshold
 	 **/
 
 	public ArrayList<Double> spectrumSensingMomentEnergyDetector(double pfa) throws Exception {
@@ -120,9 +114,6 @@ public abstract class SecondaryUser {
 	 * @param pfa Probabilità di falso allarme
 	 * @return Array con le percentuali di detection ordinate per SNR
 	 * @throws Exception Pfa deve essere scelto in modo che 1-2pfa sia compreso tra -1 e 1
-	 * @see Detector#proposedMethodDetection
-	 * @see SignalProcessor#orderSignal
-	 * @see SignalProcessor#computeProposedThreshold
 	 * 
 	 **/
 

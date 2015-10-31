@@ -28,7 +28,7 @@ public class Moment {
 	 * i Momenti del quarto ordine, l'energia del segnale e l'SNR su cui viene effettuato il calcolo dei momenti
 	 * 
 	 * @param s Il segnale
-	 * @param attempt_s Numero di prove su cui effettuare la simulazione
+	 * @param attempts Numero di prove su cui effettuare la simulazione
 	 * @param energy Energia del segnale
 	 * @param snr L'SNR di riferimento
 	 * @param length Lunghezza del segnale

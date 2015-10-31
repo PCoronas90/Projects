@@ -9,9 +9,6 @@ public class MaliciousSecondaryUser extends SecondaryUser {
 
 	/**Questo metodo ritorna, per ogni valore di SNR , una lista di decisioni lunga quanto il numero di prove contenente l'assenza dell'utente
 	 * primario per ogni misurazione. E' utilizzato per la creazione del vettore di decisione dell'utente malevolo
-	 * @param attempts Numero di prove su cui effettuare la simulazione
-	 * @param inf Estremo inferiore di SNR su cui effettuare la simulazione
-	 * @param sup Estremo superiore di SNR su cui effettuare la simulazione 
 	 * @return Una lista di liste contenente per ogni SNR, una lista decisioni binarie che affermanol'assenza dell'utente primario di cardinalità pari al numero di prove
 	 * @throws Exception **/
 

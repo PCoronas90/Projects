@@ -39,7 +39,7 @@ public class Utils {
 	 * Metodo per generare una lista di utenti secondari fidati
 	 * @param number Numero di utenti secondari fidati da generare
 	 * @param s Segnale su cui effettuare la Detection
-	 * @param length lunghezza del segnale
+	 * @param SignalLength lunghezza del segnale
 	 * @param energy Energia del segnale
 	 * @param attempts Numero di prove su cui viene effettuata la simulazione
 	 * @param inf Estremo inferiore di SNR su cui è stata effettuata la simulazione
@@ -65,7 +65,7 @@ public class Utils {
 	 * Metodo per generare una lista di utenti secondari malevoli
 	 * @param number Numero di utenti secondari fidati da generare
 	 * @param s Segnale su cui effettuare la Detection
-	 * @param length lunghezza del segnale
+	 * @param SignalLength lunghezza del segnale
 	 * @param energy Energia del segnale
 	 * @param attempts Numero di prove su cui viene effettuata la simulazione
 	 * @param inf Estremo inferiore di SNR su cui è stata effettuata la simulazione
@@ -96,10 +96,11 @@ public class Utils {
 	 * @param pfa Probabilità di falso allarme
 	 * @return una mappa avente come chiave l'identificatore dell'utente secondario e come valore una lista di decisioni binarie
 	 * sulla presenza o assenza dell'utente primario per ogni valore di SNR
+	 * @throws Exception 
 	 * **/
 	
 	public static HashMap<String,ArrayList<ArrayList<Integer>>> genereteBinaryDecisionVectors(
-			ArrayList<TrustedSecondaryUser> TrustedSecondaryUsers,double pfa) throws Exception{
+			ArrayList<TrustedSecondaryUser> TrustedSecondaryUsers,double pfa) throws Exception {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
 
 		for(int i=0;i<TrustedSecondaryUsers.size();i++){
@@ -115,9 +116,10 @@ public class Utils {
 	 * @param MaliciousSecondaryUsers lista di utenti malevoli
 	 * @return una mappa avente come chiave l'identificatore dell'utente secondario e come valore una lista di decisioni binarie
 	 * contenente solo l'assenza dell'utente primario per ogni valore di SNR
+	 * @throws Exception 
 	 * **/
 	public static HashMap<String,ArrayList<ArrayList<Integer>>> genereteAbsenceBinaryDecisionVectors(
-			ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers) throws Exception{
+			ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers) throws Exception {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
 
 		for(int i=0;i<MaliciousSecondaryUsers.size();i++){
@@ -133,10 +135,11 @@ public class Utils {
 	 * @param MaliciousSecondaryUsers lista di utenti malevoli
 	 * @return una mappa avente come chiave l'identificatore dell'utente secondario e come valore una lista di decisioni binarie
 	 * contenente solo la presenza dell'utente primario per ogni valore di SNR
+	 * @throws Exception 
 	 * **/
 	
 	public static HashMap<String,ArrayList<ArrayList<Integer>>> generetePresenceBinaryDecisionVectors(
-			ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers) throws Exception{
+			ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers) throws Exception {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
 
 		for(int i=0;i<MaliciousSecondaryUsers.size();i++){
@@ -153,11 +156,12 @@ public class Utils {
 	 * @param pfa Probabilità di falso allarme
 	 * @return una mappa avente come chiave l'identificatore dell'utente secondario e come valore una lista di decisioni binarie
 	 * contenente l'opposto del risultato dell'energy detector (1 se l'utente è assente e 0 se è presente) per ogni valore di SNR
+	 * @throws Exception 
 	 * **/
 	
 	
 	public static HashMap<String,ArrayList<ArrayList<Integer>>> genereteOppositeBinaryDecisionVectors(
-			ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers,double pfa) throws Exception{
+			ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers,double pfa) throws Exception {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
 
 		for(int i=0;i<MaliciousSecondaryUsers.size();i++){
