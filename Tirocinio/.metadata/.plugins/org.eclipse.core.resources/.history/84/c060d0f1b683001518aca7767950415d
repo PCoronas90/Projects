@@ -170,6 +170,4 @@ public class Utils {
 		return userToBinaryDecision;
 	}
 	
-
-	
 }

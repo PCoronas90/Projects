@@ -99,7 +99,7 @@ HashMap<String,Integer> userReputation;
 	}
 	
 	public  ArrayList<Double> reputationBasedDecision(int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,int attempts){
-		ArrayList<Double> reputationBasedDetection=new ArrayList<Double>();
+		
 		//creo due mappe snr->lista di utenti che dichiarano la presenza/assenza del PU di cardinalità pari ad ogni prova
 		createSnrToUsers(inf,sup,userToBinaryDecision,attempts);
 		for(Integer snr: this.snrToPresenceUsers.keySet()){
@@ -111,11 +111,9 @@ HashMap<String,Integer> userReputation;
 						this.snrToAbsenceUsers.get(snr).get(attempt));
 			Integer globalDecision=computeGlobalDecision(binaryDecisions);
 			globalDecisions.add(globalDecision);
-			updateReputation(globalDecision,this.snrToPresenceUsers.get(snr).get(attempt),this.snrToAbsenceUsers.get(snr).get(attempt));
+			updateReputation(globalDecisions,this.snrToPresenceUsers.get(snr).get(attempt),this.snrToAbsenceUsers.get(snr).get(attempt));
 			}
-			reputationBasedDetection.add(Detector.reputationBasedDetection(globalDecisions));
 		}
-		return reputationBasedDetection;
 		
 	}
 	

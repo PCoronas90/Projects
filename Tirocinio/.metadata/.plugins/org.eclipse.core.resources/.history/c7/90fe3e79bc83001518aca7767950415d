@@ -134,17 +134,6 @@ public class Detector {
 			return (double) 100 / ((double) ((decisionsVector.get(0).size())  / (double) cont));}
 
 	}
-	
-	
-	public static double reputationBasedDetection(ArrayList<Integer> decisionsVector){
-		int cont=0;
-		for(int i=0;i<decisionsVector.size();i++){
-			if(decisionsVector.get(i)==1){
-				cont++;
-			}
-		}
-		return (double) 100 / ((double) ((decisionsVector.size())  / (double) cont));
-	}
 	/**Metodo di fusione con la tecnica and. Ritorna 1 (l'utente primario è presente) se tutte le decisioni
 	 * di tutti i dispositivi sono uguali ad 1, 0 altrimenti
 	 * @param decisions Un array contenente le decisioni binarie sulla presenza o assenza dell'utente primario per un dato SNR di

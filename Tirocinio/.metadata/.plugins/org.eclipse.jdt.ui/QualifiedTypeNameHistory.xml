@@ -46,7 +46,9 @@
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="it.sp4te.css.model.Noise"/>
 <fullyQualifiedTypeName name="it.sp4te.css.agents.BelievableSecondaryUser"/>
-<fullyQualifiedTypeName name="it.sp4te.css.agents.MaliciousSecondaryUser"/>
 <fullyQualifiedTypeName name="it.sp4te.css.agents.SecondaryUser"/>
 <fullyQualifiedTypeName name="it.sp4te.css.agents.TrustedSecondaryUser"/>
+<fullyQualifiedTypeName name="it.sp4te.css.model.Signal"/>
+<fullyQualifiedTypeName name="it.sp4te.css.agents.MaliciousSecondaryUser"/>
+<fullyQualifiedTypeName name="it.sp4te.css.signalprocessing.Utils"/>
 </qualifiedTypeNameHistroy>
