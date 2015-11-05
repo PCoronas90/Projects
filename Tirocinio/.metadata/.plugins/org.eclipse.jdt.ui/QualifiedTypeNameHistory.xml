@@ -8,7 +8,6 @@
 <fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.Detection.Threshold"/>
 <fullyQualifiedTypeName name="it.CooperativeSpectrumSensing.Agents.SecondaryUser"/>
 <fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions"/>
-<fullyQualifiedTypeName name="java.util.Set"/>
 <fullyQualifiedTypeName name="java.util.Collections"/>
 <fullyQualifiedTypeName name="com.googlecode.charts4j.Color"/>
 <fullyQualifiedTypeName name="com.googlecode.charts4j.Data"/>
@@ -50,5 +49,6 @@
 <fullyQualifiedTypeName name="it.sp4te.css.agents.TrustedSecondaryUser"/>
 <fullyQualifiedTypeName name="it.sp4te.css.model.Signal"/>
 <fullyQualifiedTypeName name="it.sp4te.css.agents.MaliciousSecondaryUser"/>
+<fullyQualifiedTypeName name="java.util.Set"/>
 <fullyQualifiedTypeName name="it.sp4te.css.signalprocessing.Utils"/>
 </qualifiedTypeNameHistroy>

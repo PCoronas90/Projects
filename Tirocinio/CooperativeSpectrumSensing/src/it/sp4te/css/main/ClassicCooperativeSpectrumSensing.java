@@ -49,9 +49,8 @@ public class ClassicCooperativeSpectrumSensing {
 
 		//Creo i vettori contenenti le decisioni binarie sulla presenza o assenza dell'utente primario.Le inserisco in una
 				//mappa
-		for(int i=0;i<TrustedSecondaryUsers.size();i++){
-			userToBinaryDecision.put(TrustedSecondaryUsers.get(i).toString(), TrustedSecondaryUsers.get(i).computeBinaryDecisionVector(pfa));	
-		}
+		userToBinaryDecision=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+
 
 		//Tutte le decisioni di tutti gli utenti secondari passano al fusion center che riporterà una decisione
 		//globale secondo tre tecniche di fusione: AND OR e MAJORITY. 

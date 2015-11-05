@@ -11,6 +11,8 @@ import it.sp4te.css.model.Signal;
 public class Utils {
 
 	
+	
+	
 	/**
 	 * Metodo per ordinare una mappa in base alla chiave.
 	 * In questo caso è utilizzato su una mappa che ha come chiave l'SNR e come valore la % di Detection Relativa.
@@ -104,7 +106,7 @@ public class Utils {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
 
 		for(int i=0;i<TrustedSecondaryUsers.size();i++){
-			userToBinaryDecision.put(TrustedSecondaryUsers.get(i).toString(), TrustedSecondaryUsers.get(i).computeBinaryDecisionVector(pfa));	
+			userToBinaryDecision.put("TrustedSecodaryUser"+i, TrustedSecondaryUsers.get(i).computeBinaryDecisionVector(pfa));	
 		}
 		return userToBinaryDecision;
 	}
@@ -123,7 +125,7 @@ public class Utils {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
 
 		for(int i=0;i<MaliciousSecondaryUsers.size();i++){
-			userToBinaryDecision.put(MaliciousSecondaryUsers.get(i).toString(), MaliciousSecondaryUsers.get(i).computeAbsenceBinaryDecisionVector());	
+			userToBinaryDecision.put("MaliciousAbsenceSecondaryUser"+i, MaliciousSecondaryUsers.get(i).computeAbsenceBinaryDecisionVector());	
 		}
 		return userToBinaryDecision;
 	}
@@ -143,7 +145,7 @@ public class Utils {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
 
 		for(int i=0;i<MaliciousSecondaryUsers.size();i++){
-			userToBinaryDecision.put(MaliciousSecondaryUsers.get(i).toString(), MaliciousSecondaryUsers.get(i).computePresenceBinaryDecisionVector());	
+			userToBinaryDecision.put("MaliciousPresenceSecondaryUser"+i, MaliciousSecondaryUsers.get(i).computePresenceBinaryDecisionVector());	
 		}
 		return userToBinaryDecision;
 	}
@@ -165,7 +167,7 @@ public class Utils {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
 
 		for(int i=0;i<MaliciousSecondaryUsers.size();i++){
-			userToBinaryDecision.put(MaliciousSecondaryUsers.get(i).toString(), MaliciousSecondaryUsers.get(i).computeOppositeBinaryDecisionVector(pfa));	
+			userToBinaryDecision.put("MaliciousOppositeSecondaryUser", MaliciousSecondaryUsers.get(i).computeOppositeBinaryDecisionVector(pfa));	
 		}
 		return userToBinaryDecision;
 	}

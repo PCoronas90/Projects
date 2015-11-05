@@ -136,6 +136,10 @@ public class Detector {
 	}
 	
 	
+	/** Semplice metodo che riporta, su un vettore di decisioni binarie, la % di Detection dell'utente primario
+	 * @param decisionsVector Vettore di decisioni binarie
+	 * @return La % di detection dell'utente primario
+	 */
 	public static double reputationBasedDetection(ArrayList<Integer> decisionsVector){
 		int cont=0;
 		for(int i=0;i<decisionsVector.size();i++){
