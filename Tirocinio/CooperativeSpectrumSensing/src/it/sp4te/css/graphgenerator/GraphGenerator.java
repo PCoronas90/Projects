@@ -27,6 +27,7 @@ import com.googlecode.charts4j.LineStyle;
 import com.googlecode.charts4j.LinearGradientFill;
 import com.googlecode.charts4j.Plots;
 import com.googlecode.charts4j.Shape;
+import com.googlecode.charts4j.XYLine;
 
 /**
  * <p>Titolo: GraphGenerator</p>
@@ -48,15 +49,20 @@ public class GraphGenerator {
 
 	public static void drawGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException {
 		ArrayList<Color> colorList=generateColor();
+		ArrayList<Shape> shapeList=generateShape();
 		int i=0;
 		// Definisco un array di Lines. In questo array inserisco i diversi
 		// grafici che voglio visualizzare
 		ArrayList<Line> lines = new ArrayList<Line>();
-
+        ArrayList<Integer> snr= new ArrayList<Integer>();
+		for(int j=inf;j<sup;j++){
+        	snr.add(j);
+        }
 		for (String graphName : detection.keySet()) {
-			Line line = Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
+			Line line=Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
+			//Line line = Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
 			line.setLineStyle(LineStyle.newLineStyle(2, 1, 0));
-			line.addShapeMarkers(Shape.CIRCLE, colorList.get(i), 8);
+			line.addShapeMarkers(shapeList.get(i), colorList.get(i), 8);
 			lines.add(line);
 			i++;
 		}
@@ -110,6 +116,8 @@ public class GraphGenerator {
 	private static void displayUrlString(final String urlString) throws IOException {
 		JFrame frame = new JFrame();
 		JLabel label = new JLabel(new ImageIcon(ImageIO.read(new URL(urlString))));
+		label.setSize(800, 800);
+		frame.setSize(800, 800);
 		frame.getContentPane().add(label, BorderLayout.CENTER);
 		frame.pack();
 		frame.setVisible(true);
@@ -133,6 +141,23 @@ public class GraphGenerator {
 
 
 		return colorList;
+	}
+	
+	
+	/**Metodo per la generazione di Shape random. Le shape, insieme ai colori, permettono di identificare le diverse "line"
+	 * appartenenti a grafici diversi;
+	 * @return Una lista di 6 shape da utilizzare per la creazione delle curve. Un grafico con più di 5 curve diventa difficilmente 
+	 * leggibile
+	 * **/
+	private static ArrayList<Shape> generateShape(){
+		ArrayList<Shape> shapeList= new ArrayList<Shape>();
+		shapeList.add(Shape.CIRCLE);
+		shapeList.add(Shape.DIAMOND);
+		shapeList.add(Shape.SQUARE);
+		shapeList.add(Shape.CROSS);
+		shapeList.add(Shape.HORIZONTAL_LINE);
+		
+		return shapeList;
 	}
 
 }

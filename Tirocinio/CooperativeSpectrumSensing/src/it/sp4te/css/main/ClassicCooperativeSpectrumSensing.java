@@ -14,6 +14,8 @@ import it.sp4te.css.signalprocessing.Utils;
 /**Questa classe modella uno scenario cooperativo ideale in cui sono presenti solamente utenti secondari fidati,
  * utilizzando le tecniche di fusione AND,OR e MAJORITY nei casi in cui l'utente primario sia presente o assente**/
 
+
+
 public class ClassicCooperativeSpectrumSensing {
 
 
@@ -58,40 +60,40 @@ public class ClassicCooperativeSpectrumSensing {
 		CooperativeEnergyDetectionOrFusion=FC.orDecision(inf, sup,userToBinaryDecision);
 		CooperativeEnergyDetectionMajorityFusion=FC.majorityDecision(inf, sup,userToBinaryDecision);
 
-		DetectionGraph.put("CED with AND fusion", CooperativeEnergyDetectionAndFusion);
-		DetectionGraph.put("CED with OR fusion", CooperativeEnergyDetectionOrFusion);
-		DetectionGraph.put("CED with MAJORITY fusion", CooperativeEnergyDetectionMajorityFusion);
+		DetectionGraph.put("CED AND fusion", CooperativeEnergyDetectionAndFusion);
+		DetectionGraph.put("CED OR fusion", CooperativeEnergyDetectionOrFusion);
+		DetectionGraph.put("CED MAJORITY fusion", CooperativeEnergyDetectionMajorityFusion);
 
 		GraphGenerator.drawGraph("Presence of PU in Cooperative Energy Detection (CED)",DetectionGraph, inf, sup);
 
 		
 		//------------------------------------------------Assenza utente primario-------------------//
-		ArrayList<Double> CooperativeEnergyDetectionAndFusionAbsence = new ArrayList<Double>();;
-		ArrayList<Double> CooperativeEnergyDetectionOrFusionAbsence = new ArrayList<Double>();;
-		ArrayList<Double> CooperativeEnergyDetectionMajorityFusionAbsence = new ArrayList<Double>();;
-		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionAbsence=new HashMap<String,ArrayList<ArrayList<Integer>>>();
-		HashMap<String, ArrayList<Double>> DetectionGraph2 = new HashMap<String, ArrayList<Double>>();
-        ArrayList<TrustedSecondaryUser> TrustedSecondaryUsers2;
+		//ArrayList<Double> CooperativeEnergyDetectionAndFusionAbsence = new ArrayList<Double>();;
+		//ArrayList<Double> CooperativeEnergyDetectionOrFusionAbsence = new ArrayList<Double>();;
+		//ArrayList<Double> CooperativeEnergyDetectionMajorityFusionAbsence = new ArrayList<Double>();;
+		//HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionAbsence=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+		//HashMap<String, ArrayList<Double>> DetectionGraph2 = new HashMap<String, ArrayList<Double>>();
+		//  ArrayList<TrustedSecondaryUser> TrustedSecondaryUsers2;
 		
-        TrustedSecondaryUsers2= Utils.createTrustedSecondaryUsers(numberTSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		//  TrustedSecondaryUsers2= Utils.createTrustedSecondaryUsers(numberTSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 
-        for(int i=0;i<TrustedSecondaryUsers.size();i++){
-			userToBinaryDecisionAbsence.put(TrustedSecondaryUsers2.get(i).toString(), TrustedSecondaryUsers2.get(i).computeBinaryDecisionVector(pfa));	
+		//   for(int i=0;i<TrustedSecondaryUsers.size();i++){
+        	//		userToBinaryDecisionAbsence.put(TrustedSecondaryUsers2.get(i).toString(), TrustedSecondaryUsers2.get(i).computeBinaryDecisionVector(pfa));	
+		//	}
+
+		//	CooperativeEnergyDetectionAndFusionAbsence=FC.andDecision(inf, sup,userToBinaryDecisionAbsence);
+		//	CooperativeEnergyDetectionOrFusionAbsence=FC.orDecision(inf, sup,userToBinaryDecisionAbsence);
+		//	CooperativeEnergyDetectionMajorityFusionAbsence=FC.majorityDecision(inf, sup,userToBinaryDecisionAbsence);
+
+
+		//	DetectionGraph2.put("CED with AND fusion", CooperativeEnergyDetectionAndFusionAbsence);
+		//	DetectionGraph2.put("CED with OR fusion", CooperativeEnergyDetectionOrFusionAbsence);
+		//	DetectionGraph2.put("CED with MAJORITY fusion", CooperativeEnergyDetectionMajorityFusionAbsence);
+
+		//	GraphGenerator.drawGraph("Absence of PU in Cooperative Energy Detection (CED)",DetectionGraph2, inf, sup);
+
+			}
+
+
 		}
-
-		CooperativeEnergyDetectionAndFusionAbsence=FC.andDecision(inf, sup,userToBinaryDecisionAbsence);
-		CooperativeEnergyDetectionOrFusionAbsence=FC.orDecision(inf, sup,userToBinaryDecisionAbsence);
-		CooperativeEnergyDetectionMajorityFusionAbsence=FC.majorityDecision(inf, sup,userToBinaryDecisionAbsence);
-
-
-		DetectionGraph2.put("CED with AND fusion", CooperativeEnergyDetectionAndFusionAbsence);
-		DetectionGraph2.put("CED with OR fusion", CooperativeEnergyDetectionOrFusionAbsence);
-		DetectionGraph2.put("CED with MAJORITY fusion", CooperativeEnergyDetectionMajorityFusionAbsence);
-
-		GraphGenerator.drawGraph("Absence of PU in Cooperative Energy Detection (CED)",DetectionGraph2, inf, sup);
-
-	}
-
-
-}
 

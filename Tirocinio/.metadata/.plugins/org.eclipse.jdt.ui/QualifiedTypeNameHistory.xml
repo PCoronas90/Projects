@@ -51,4 +51,5 @@
 <fullyQualifiedTypeName name="it.sp4te.css.agents.MaliciousSecondaryUser"/>
 <fullyQualifiedTypeName name="java.util.Set"/>
 <fullyQualifiedTypeName name="it.sp4te.css.signalprocessing.Utils"/>
+<fullyQualifiedTypeName name="com.googlecode.charts4j.XYLineChart"/>
 </qualifiedTypeNameHistroy>

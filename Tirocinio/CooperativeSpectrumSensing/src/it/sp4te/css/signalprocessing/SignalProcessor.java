@@ -1,8 +1,6 @@
 package it.sp4te.css.signalprocessing;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 
 import it.sp4te.css.model.AbstractSignal;
 import it.sp4te.css.model.Noise;

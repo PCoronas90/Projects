@@ -2,6 +2,7 @@ package it.sp4te.css.agents;
 
 import java.util.ArrayList;
 
+import it.sp4te.css.detection.Detector;
 import it.sp4te.css.signalprocessing.SignalProcessor;
 
 public class MaliciousSecondaryUser extends SecondaryUser {
@@ -55,31 +56,49 @@ public class MaliciousSecondaryUser extends SecondaryUser {
 	 * @throws Exception **/
 
 	public ArrayList<ArrayList<Integer>> computeOppositeBinaryDecisionVector(double pfa) throws Exception{
-		ArrayList<ArrayList<Integer>> decisions= new  ArrayList<ArrayList<Integer>>();
-		for(int i=inf;i<sup;i++){
+ArrayList<ArrayList<Integer>> decisions= new  ArrayList<ArrayList<Integer>>();
+		
+		ArrayList<ArrayList<Double>> VectorNoiseEnergy=SignalProcessor.computeVectorsEnergy(null, length, energy, attempts, inf, sup);	
 
-			ArrayList<Double> VectorNoiseEnergy=SignalProcessor.computeVectorEnergy(null, length, energy, attempts, i);	
-			double threshold=SignalProcessor.computeEnergyDetectorThreshold(pfa, VectorNoiseEnergy);
-
-			ArrayList<Integer> snrDecisions= new  ArrayList<Integer>();
-			ArrayList<Double> EnergyVector;
-
-			if(s!=null){
-				EnergyVector=SignalProcessor.computeVectorEnergy(s, length,energy,attempts, i);		}	
-			else{
-				EnergyVector=SignalProcessor.computeVectorEnergy(null, length,energy,attempts, i);
-			}
-			for(int j=0;j<EnergyVector.size();j++){
-				if(EnergyVector.get(j)>threshold){
-					snrDecisions.add(0);
-				}
-				else{snrDecisions.add(1);}
-
-			}
+		ArrayList<ArrayList<Double>> VectorSignalEnergy;
+		if(s!=null){
+			VectorSignalEnergy=SignalProcessor.computeVectorsEnergy(s, length, energy, attempts, inf, sup);
+		}	
+		else{VectorSignalEnergy=SignalProcessor.computeVectorsEnergy(null, length, energy, attempts, inf, sup);}
+		//int snr=(inf-1);
+		for (int i = 0; i < VectorSignalEnergy.size(); i++) {
+			//System.out.println(inf-1);
+			ArrayList<Integer> snrDecisions = Detector.oppositeBinaryDetector(
+					SignalProcessor.computeEnergyDetectorThreshold(pfa, VectorNoiseEnergy.get(i)), VectorSignalEnergy.get(i));
 			decisions.add(snrDecisions);
-
-
+			
 		}
-		return decisions;	
+
+		return decisions;
+	
 	}
+	
+	public ArrayList<ArrayList<Integer>> computeIntelligentBinaryDecisionVector(double pfa) throws Exception{
+ArrayList<ArrayList<Integer>> decisions= new  ArrayList<ArrayList<Integer>>();
+		
+		ArrayList<ArrayList<Double>> VectorNoiseEnergy=SignalProcessor.computeVectorsEnergy(null, length, energy, attempts, inf, sup);	
+
+		ArrayList<ArrayList<Double>> VectorSignalEnergy;
+		if(s!=null){
+			VectorSignalEnergy=SignalProcessor.computeVectorsEnergy(s, length, energy, attempts, inf, sup);
+		}	
+		else{VectorSignalEnergy=SignalProcessor.computeVectorsEnergy(null, length, energy, attempts, inf, sup);}
+		//int snr=(inf-1);
+		for (int i = 0; i < VectorSignalEnergy.size(); i++) {
+			//System.out.println(inf-1);
+			ArrayList<Integer> snrDecisions = Detector.intelligentMaliciousBinaryDetector(
+					SignalProcessor.computeEnergyDetectorThreshold(pfa, VectorNoiseEnergy.get(i)), VectorSignalEnergy.get(i));
+			decisions.add(snrDecisions);
+			
+		}
+
+		return decisions;
+	
+	}
+	
 }

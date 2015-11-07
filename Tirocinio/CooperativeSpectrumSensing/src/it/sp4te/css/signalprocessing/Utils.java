@@ -167,7 +167,17 @@ public class Utils {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
 
 		for(int i=0;i<MaliciousSecondaryUsers.size();i++){
-			userToBinaryDecision.put("MaliciousOppositeSecondaryUser", MaliciousSecondaryUsers.get(i).computeOppositeBinaryDecisionVector(pfa));	
+			userToBinaryDecision.put("MaliciousOppositeSecondaryUser"+i, MaliciousSecondaryUsers.get(i).computeOppositeBinaryDecisionVector(pfa));	
+		}
+		return userToBinaryDecision;
+	}
+	
+	public static HashMap<String,ArrayList<ArrayList<Integer>>> genereteIntelligentMaliciousBinaryDecisionVectors(
+			ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers,double pfa) throws Exception {
+		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+
+		for(int i=0;i<MaliciousSecondaryUsers.size();i++){
+			userToBinaryDecision.put("MaliciousIntelligentSecondaryUser"+i, MaliciousSecondaryUsers.get(i).computeIntelligentBinaryDecisionVector(pfa));	
 		}
 		return userToBinaryDecision;
 	}
