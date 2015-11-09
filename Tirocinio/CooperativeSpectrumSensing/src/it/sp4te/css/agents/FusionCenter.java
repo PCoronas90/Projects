@@ -17,11 +17,9 @@ public class FusionCenter {
 	HashMap<String,Double> usersReliabilities;
 	HashMap<Double,ArrayList<String>> maliciousUsers;
 	//soglia
-	double threshold;
-	boolean find=false;
+
 
 	public FusionCenter(){
-		threshold=0.5;
 		snrToPresenceUsers= new HashMap<Double,ArrayList<ArrayList<String>>>();
 		snrToAbsenceUsers= new HashMap<Double,ArrayList<ArrayList<String>>>();
 		usersReliabilities= new HashMap<String,Double>();
@@ -123,15 +121,12 @@ public class FusionCenter {
 		//la presenza o l'assenza dell'utente primario di cardinalità pari al numero di prove
 		createSnrToUsers(inf,sup,userToBinaryDecision,attempts);
 		//Per ogni SNR
-		inizializeReliabilities(userToBinaryDecision);
-		for(Double snr: this.snrToPresenceUsers.keySet()){
+		this.maliciousUsers.clear();
 		
-
-			System.out.println("   ");
+		for(Double snr: this.snrToPresenceUsers.keySet()){
+			//Inizializzo la reputazione a 5 ad ogni cambio di SNR
+			inizializeReliabilities(userToBinaryDecision);
 			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
-			//Inizializzo la reputazione a 5
-			
-			find=false;
 			for(int attempt=0;attempt<this.snrToPresenceUsers.get(snr).size();attempt++){
 				//Per ogni prova mi creo una mappa UTENTE->DECISIONE dei soli utenti che partecipano alla comunicazione, e quindi
 				//con reputazione >=1
@@ -149,7 +144,7 @@ public class FusionCenter {
 			    	
 			    
 			}
-			//Per ogni snr, agigungo alla mappa l'array di decisioni globali di cardinalità pari al numero di prove
+			//Per ogni snr, aggiungo alla mappa l'array di decisioni globali di cardinalità pari al numero di prove
 			double detection=Detector.reputationBasedDetection(globalDecisions);
 			reputationBasedDetection.put(snr,detection);
 		}
@@ -158,6 +153,7 @@ public class FusionCenter {
 			for(int i=0;i<this.maliciousUsers.get(snr).size();i++){
 			System.out.println("Snr: " + snr + " User: " + this.maliciousUsers.get(snr).get(i));
 		}}
+		System.out.println("            ");
 		return Utils.orderSignal(reputationBasedDetection);
 		
 
@@ -208,6 +204,7 @@ public class FusionCenter {
 	 */
 	
 	public void inizializeReliabilities(HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision){
+		this.usersReliabilities.clear();
 		for(String SU: userToBinaryDecision.keySet()){
 			this.usersReliabilities.put(SU, 5.0);
 		}
@@ -256,7 +253,7 @@ public class FusionCenter {
 		double maxReputation= getMaxReliability(binaryDecisions.keySet());
 		//sommatoria w'(j), la somma dei pesi parziali di tutti gli utenti che partecipano alla comunicazione
 		double totalPartialWeight= getPartialTotalWeigth(binaryDecisions.keySet(),maxReputation);
-		computeThreshold(binaryDecisions,maxReputation,totalPartialWeight);
+		
 		//System.out.println(this.threshold);
 		//Per ogni utente	
 		for(String SU: binaryDecisions.keySet()){
@@ -265,13 +262,21 @@ public class FusionCenter {
 			cont=cont+( binaryDecisions.get(SU)*computeWeight(SU,totalPartialWeight,maxReputation));
 		}
        // System.out.println("--------------------");
-		if(cont>=this.threshold){globalDecision=1;}
+		if(cont>=computeThreshold(binaryDecisions,maxReputation,totalPartialWeight)){globalDecision=1;}
 		else{globalDecision=0;}
 		return globalDecision;
 	}
 
 	
-	public void computeThreshold(HashMap<String,Integer> binaryDecisions,double maxReputation,double totalPartialWeight){
+	/**Metodo per il calcolo della soglia nel metodo basato su reputazione
+	
+	 * @param binaryDecisions Mappa contenente per ogni utente, la decisione relativa alla presenza o assenza dell'utente primario
+	 * ad un dato SNR
+	 * @param maxReputation La massima reputazione 
+	 * @param totalPartialWeight La somma dei pesi parziali
+	 */
+	
+	public double computeThreshold(HashMap<String,Integer> binaryDecisions,double maxReputation,double totalPartialWeight){
 		double threshold=0;
 		double minWeight=1;
 		for(String SU: binaryDecisions.keySet()){
@@ -280,7 +285,7 @@ public class FusionCenter {
 			if(weight<minWeight){minWeight=weight;}
 			
 		}
-		this.threshold=(threshold/2)-minWeight;
+		return (threshold/2)-minWeight;
 	}
 
 	
@@ -348,11 +353,16 @@ public class FusionCenter {
 			this.usersReliabilities.replace(presenceSU.get(i),newReliabilities);
 		}
 			else{
-			if(this.maliciousUsers.containsKey(snr)){
-				if(!this.maliciousUsers.get(snr).contains(presenceSU.get(i)));{
-					this.maliciousUsers.get(snr).add(presenceSU.get(i))	;
-				}}
-			else{ArrayList<String> MSU= new ArrayList<String>();
+				if(this.maliciousUsers.containsKey(snr)){
+					boolean find=false;
+					for(int h=0;h<this.maliciousUsers.get(snr).size();h++){
+						if(this.maliciousUsers.get(snr).get(h).equals(presenceSU.get(i))){find=true;}}
+							if(find==false){this.maliciousUsers.get(snr).add(presenceSU.get(i));}	;
+						}
+					
+					
+			else{
+				ArrayList<String> MSU= new ArrayList<String>();
 			MSU.add(presenceSU.get(i));
 			this.maliciousUsers.put(snr,MSU );}
 				
@@ -367,9 +377,15 @@ public class FusionCenter {
 			this.usersReliabilities.replace(absenceSU.get(i),newReliabilities);}
 			else{
 				if(this.maliciousUsers.containsKey(snr)){
-					if(!this.maliciousUsers.get(snr).contains(absenceSU.get(i)));{
-						this.maliciousUsers.get(snr).add(absenceSU.get(i))	;
-					}}
+					boolean find=false;
+					for(int h=0;h<this.maliciousUsers.get(snr).size();h++){
+						if(this.maliciousUsers.get(snr).get(h).equals(absenceSU.get(i))){
+							find=true;}}
+					if(find==false){
+							this.maliciousUsers.get(snr).add(absenceSU.get(i))	;}
+						
+					
+					}
 				else{ArrayList<String> MSU= new ArrayList<String>();
 				MSU.add(absenceSU.get(i));
 				this.maliciousUsers.put(snr,MSU );}

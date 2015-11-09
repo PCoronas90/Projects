@@ -15,6 +15,7 @@ public class FusionCenter {
 	HashMap<Double,ArrayList<ArrayList<String>>> snrToAbsenceUsers;
 	//Mappa idUtente->reputazione
 	HashMap<String,Double> usersReliabilities;
+	HashMap<Double,ArrayList<String>> maliciousUsers;
 	//soglia
 	double threshold;
 
@@ -23,6 +24,7 @@ public class FusionCenter {
 		snrToPresenceUsers= new HashMap<Double,ArrayList<ArrayList<String>>>();
 		snrToAbsenceUsers= new HashMap<Double,ArrayList<ArrayList<String>>>();
 		usersReliabilities= new HashMap<String,Double>();
+		maliciousUsers = new HashMap<Double,ArrayList<String>>();
 	}
 
 
@@ -44,7 +46,6 @@ public class FusionCenter {
 			for(String SU: userToBinaryDecision.keySet()){
 				ArrayList<Integer>snrDecisionVector= userToBinaryDecision.get(SU).get(i);
 				decisions.add(snrDecisionVector);}
-
 			EnergyDetection.add(Detector.andFusionDetection(decisions));
 		}
 		return EnergyDetection;
@@ -120,13 +121,14 @@ public class FusionCenter {
 		//Inizializzo le mappe SnrToPresenceUser e SnrToAbsenceUser. Queste mappe, per ogni snr, hanno una lista di utenti che affermano
 		//la presenza o l'assenza dell'utente primario di cardinalità pari al numero di prove
 		createSnrToUsers(inf,sup,userToBinaryDecision,attempts);
-		//Per ogni SNR 
+		//Per ogni SNR
+		this.maliciousUsers.clear();
 		for(Double snr: this.snrToPresenceUsers.keySet()){
-			System.out.println("   ");
-			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
-			//Inizializzo la reputazione a 5
-			
+			//Inizializzo la reputazione a 5 ad ogni cambio di SNR
 			inizializeReliabilities(userToBinaryDecision);
+			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
+			
+			find=false;
 			for(int attempt=0;attempt<this.snrToPresenceUsers.get(snr).size();attempt++){
 				//Per ogni prova mi creo una mappa UTENTE->DECISIONE dei soli utenti che partecipano alla comunicazione, e quindi
 				//con reputazione >=1
@@ -137,22 +139,23 @@ public class FusionCenter {
 				//Aggiungo alla decisione globale
 				globalDecisions.add(globalDecision);
 				//aggiorno la reputazione
-				updateReliabilities(globalDecision,this.snrToPresenceUsers.get(snr).get(attempt),this.snrToAbsenceUsers.get(snr).get(attempt));
+				updateReliabilities(globalDecision,this.snrToPresenceUsers.get(snr).get(attempt),
+						this.snrToAbsenceUsers.get(snr).get(attempt),snr,attempt);
 
 				
 			    	
 			    
 			}
 			//Per ogni snr, agigungo alla mappa l'array di decisioni globali di cardinalità pari al numero di prove
-			String s="";
-			System.out.println("------------------------------- "+ snr +" -------------------------");
-			for(int i=0;i<globalDecisions.size();i++){
-				s=s+" "+globalDecisions.get(i);
-			}
-			reputationBasedDetection.put(snr,Detector.reputationBasedDetection(globalDecisions));
+			double detection=Detector.reputationBasedDetection(globalDecisions);
+			reputationBasedDetection.put(snr,detection);
 		}
-		System.out.println("---------------------------------------------------------------");
-		//Ordino la detection
+		System.out.println("Malicious users find");
+		for(Double snr: this.maliciousUsers.keySet()){
+			for(int i=0;i<this.maliciousUsers.get(snr).size();i++){
+			System.out.println("Snr: " + snr + " User: " + this.maliciousUsers.get(snr).get(i));
+		}}
+		System.out.println("            ");
 		return Utils.orderSignal(reputationBasedDetection);
 		
 
@@ -253,13 +256,12 @@ public class FusionCenter {
 		double totalPartialWeight= getPartialTotalWeigth(binaryDecisions.keySet(),maxReputation);
 		computeThreshold(binaryDecisions,maxReputation,totalPartialWeight);
 		//System.out.println(this.threshold);
-		//Per ogni utente		
+		//Per ogni utente	
 		for(String SU: binaryDecisions.keySet()){
 			//Calcolo il peso*decisione locale e lo sommo al precedente
 			//System.out.println(SU+" Reputation: "+usersReliabilities.get(SU)+" Decision: "+binaryDecisions.get(SU));
 			cont=cont+( binaryDecisions.get(SU)*computeWeight(SU,totalPartialWeight,maxReputation));
 		}
-        //System.out.println("TotalCont: "+cont);
        // System.out.println("--------------------");
 		if(cont>=this.threshold){globalDecision=1;}
 		else{globalDecision=0;}
@@ -336,23 +338,53 @@ public class FusionCenter {
 	 * @param absenceSU Lista di utenti che affermano l'assenza dell'utente primario
 	 */
 
-	public void updateReliabilities(int globalDecision,ArrayList<String>  presenceSU,ArrayList<String>  absenceSU){
+	public void updateReliabilities(int globalDecision,ArrayList<String>  presenceSU,ArrayList<String>  absenceSU,double snr,int attempt){
 		for(int i=0;i<presenceSU.size();i++){
 			//Questo controllo fa si che una volta che un utente va sotto la soglia minima (1) non viene più considerato
 			if(this.usersReliabilities.get(presenceSU.get(i))>=1){
 			double newReliabilities=this.usersReliabilities.get(presenceSU.get(i))+ Math.pow(-1,(1+globalDecision));
 			this.usersReliabilities.replace(presenceSU.get(i),newReliabilities);
 		}
-			}
+			else{
+				if(this.maliciousUsers.containsKey(snr)){
+					boolean find=false;
+					for(int h=0;h<this.maliciousUsers.get(snr).size();h++){
+						if(this.maliciousUsers.get(snr).get(h).equals(presenceSU.get(i))){find=true;}}
+							if(find==false){this.maliciousUsers.get(snr).add(presenceSU.get(i));}	;
+						}
+					
+					
+			else{
+				ArrayList<String> MSU= new ArrayList<String>();
+			MSU.add(presenceSU.get(i));
+			this.maliciousUsers.put(snr,MSU );}
+				
+			//System.out.println
+				//("Malicious user: "+ presenceSU.get(i)+" Snr: "+ snr + " Attempt: " + attempt);
+			}} 
 
 		for(int i=0;i<absenceSU.size();i++){
 			//Questo controllo fa si che una volta che un utente va sotto la soglia minima (1) non viene più considerato
 			if(this.usersReliabilities.get(absenceSU.get(i))>=1){
 			double newReliabilities=this.usersReliabilities.get(absenceSU.get(i))+ Math.pow(-1,(0+globalDecision));
 			this.usersReliabilities.replace(absenceSU.get(i),newReliabilities);}
+			else{
+				if(this.maliciousUsers.containsKey(snr)){
+					boolean find=false;
+					for(int h=0;h<this.maliciousUsers.get(snr).size();h++){
+						if(this.maliciousUsers.get(snr).get(h).equals(absenceSU.get(i))){
+							find=true;}}
+					if(find==false){
+							this.maliciousUsers.get(snr).add(absenceSU.get(i))	;}
+						
+					
+					}
+				else{ArrayList<String> MSU= new ArrayList<String>();
+				MSU.add(absenceSU.get(i));
+				this.maliciousUsers.put(snr,MSU );}
 			
 }
-	}
+		}}
 
 }
 
