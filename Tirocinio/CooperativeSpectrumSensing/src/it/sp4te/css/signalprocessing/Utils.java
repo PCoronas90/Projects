@@ -172,6 +172,18 @@ public class Utils {
 		return userToBinaryDecision;
 	}
 	
+	
+	
+	/**
+	 * Prendendo in input una lista di utenti malevol e la probabilità di falso allarme, questo metodo riporta
+	 * una mappa avente come chiave l'identificatore dell'utente secondario e come valore una lista di decisioni binarie
+	 * contenente la deicisione errata, un numero di volte random, sulla presenza o assenza dell'utente primario
+	 * @param MaliciousSecondaryUsers lista di utenti malevoli
+	 * @param pfa Probabilità di falso allarme
+	 * @return una mappa avente come chiave l'identificatore dell'utente secondario e come valore una lista di decisioni binarie
+	 * contenente l'opposto del risultato dell'energy detector (1 se l'utente è assente e 0 se è presente) per ogni valore di SNR
+	 * @throws Exception 
+	 * **/
 	public static HashMap<String,ArrayList<ArrayList<Integer>>> genereteIntelligentMaliciousBinaryDecisionVectors(
 			ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers,double pfa) throws Exception {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();

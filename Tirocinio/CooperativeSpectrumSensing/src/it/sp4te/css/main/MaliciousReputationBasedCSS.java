@@ -19,6 +19,7 @@ public class MaliciousReputationBasedCSS {
 		ArrayList<Double> MaliciousAbsenceReputationBasedCSS = new ArrayList<Double>();;
 		ArrayList<Double> MaliciousPresenceReputationBasedCSS = new ArrayList<Double>();;
 		ArrayList<Double> MaliciousOppositeReputationBasedCSS = new ArrayList<Double>();;
+		ArrayList<Double> MaliciousIntelligentReputationBasedCSS = new ArrayList<Double>();;
 		
 
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
@@ -28,13 +29,13 @@ public class MaliciousReputationBasedCSS {
 
 		// Setto i parametri
 		int length = 1000; // poi 10000
-		int attempts = 200;
-		int inf = -30;
-		int sup = 5;
+		int attempts = 500;
+		int inf = -20;
+		int sup = -2;
 		int block=10; //blocchi energy Detector
 		double pfa=0.01; //probabilità di falso allarme
-		int numberTSU=10;//numero di utenti fidati
-		int numberMSU=5; //numero utenti malevoli
+		int numberTSU=30;//numero di utenti fidati
+		int numberMSU=15; //numero utenti malevoli
 
 		//Creo il Fusion center
 		FusionCenter FC=new FusionCenter();
@@ -43,7 +44,56 @@ public class MaliciousReputationBasedCSS {
 		//creo il segnale
 		Signal s = PU.createAndSend(length);
 
+		/**
+		
+		for(int i=0;i<45;i++){
+		 numberTSU=50-i;
+		 numberMSU=0+i;
+		 System.out.println(numberTSU+"        "+ numberMSU);
+		 TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		 MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		 userToBinaryDecision=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+		 userToBinaryDecision.putAll(Utils.genereteOppositeBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
+		 MaliciousOppositeReputationBasedCSS.add(FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts).get(0));
+         
 
+		}
+		DetectionGraph.put("Opposite Malicious users",  MaliciousOppositeReputationBasedCSS);
+	
+		for(int i=0;i<45;i++){
+			 numberTSU=50-i;
+			 numberMSU=0+i;
+			 System.out.println(numberTSU+"        "+ numberMSU);
+			 TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			 MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			 userToBinaryDecision=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+			 userToBinaryDecision.putAll(Utils.generetePresenceBinaryDecisionVectors(MaliciousSecondaryUsers));
+			 MaliciousAbsenceReputationBasedCSS.add(FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts).get(0));
+	         
+
+			}
+			DetectionGraph.put("Presence Malicious users",  MaliciousAbsenceReputationBasedCSS);
+
+		for(int i=0;i<45;i++){
+			 numberTSU=50-i;
+			 numberMSU=0+i;
+		
+			 TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			 MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			 userToBinaryDecision=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+			 userToBinaryDecision.putAll(Utils.genereteIntelligentMaliciousBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
+			 MaliciousIntelligentReputationBasedCSS.add(FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts).get(0));
+	         
+				 
+
+			}
+		DetectionGraph.put("Intelligent Malicious users", MaliciousIntelligentReputationBasedCSS);
+
+		GraphGenerator.drawMaliciousUsersToDetectionGraph("Reputation Based CSS: Presence of PU",DetectionGraph, inf, sup);
+**/
+		
+	
+		
 		//Creo gli utenti secondari
 		TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 		MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
@@ -85,14 +135,27 @@ public class MaliciousReputationBasedCSS {
 		MaliciousOppositeReputationBasedCSS= FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts);
 		DetectionGraph.put("With Opposite malicious users", MaliciousOppositeReputationBasedCSS);
 
+		userToBinaryDecision.clear();
+		TrustedSecondaryUsers.clear();
+		MaliciousSecondaryUsers.clear();
 
-		
+	
+		 TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		 MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		 userToBinaryDecision=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+		 userToBinaryDecision.putAll(Utils.genereteIntelligentMaliciousBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
+		 MaliciousIntelligentReputationBasedCSS=FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts);
+        
+
+	//	}
+	DetectionGraph.put("Intelligent Malicious users", MaliciousIntelligentReputationBasedCSS);
+
+	GraphGenerator.drawGraph("Reputation Based CSS: Presence of PU",DetectionGraph, inf, sup);
 
 
 
 
-		GraphGenerator.drawGraph("Reputation Based CSS: Presence of PU",DetectionGraph, inf, sup);
-
+/**
 		//--------------------------ABSENCE------------------------------
 		userToBinaryDecision.clear();
 		TrustedSecondaryUsers.clear();
@@ -139,7 +202,7 @@ public class MaliciousReputationBasedCSS {
 
 
 		GraphGenerator.drawGraph("Reputation Based CSS: Absence of PU",DetectionGraph, inf, sup);
-
+**/
 
 	}}
 

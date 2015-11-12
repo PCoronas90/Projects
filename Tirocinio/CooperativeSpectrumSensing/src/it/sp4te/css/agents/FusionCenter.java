@@ -190,8 +190,8 @@ public class FusionCenter {
 				listOfAbsenceUser.add(nonPresenceUser);
 			}
 
-			this.snrToPresenceUsers.put((double)(inf-sup)+i,listOfPresenceUser );
-			this.snrToAbsenceUsers.put((double)(inf-sup)+i, listOfAbsenceUser);
+			this.snrToPresenceUsers.put((double)inf+i,listOfPresenceUser );
+			this.snrToAbsenceUsers.put((double)inf+i, listOfAbsenceUser);
 
 
 		}
