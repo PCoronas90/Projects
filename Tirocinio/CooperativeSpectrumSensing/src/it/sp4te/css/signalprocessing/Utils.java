@@ -1,5 +1,8 @@
 package it.sp4te.css.signalprocessing;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -193,6 +196,25 @@ public class Utils {
 		}
 		return userToBinaryDecision;
 	}
+	
+	
+	public static void generateThreshold(int length,double energy,int attempts,int inf,int sup,double pfa) throws Exception{
+		 FileWriter w=new FileWriter("thresholds.txt");
+		 BufferedWriter b=new BufferedWriter(w);
+		 ArrayList<ArrayList<Double>> VectorNoiseEnergy=SignalProcessor.computeVectorsEnergy(null, length, energy, attempts, inf, sup);	
+         int snr=inf;
+         b.write(" ");
+         b.write(String.valueOf(pfa+" "));     
+         b.write("\n");
+         for (int i = 0; i < VectorNoiseEnergy.size(); i++) {
+        	 b.write(snr+" "+ SignalProcessor.computeEnergyDetectorThreshold(pfa, VectorNoiseEnergy.get(i)));
+        	 b.write("\n");
+        	snr++;
+         }
+         b.close();
+	}
+	
+
 	
 
 	

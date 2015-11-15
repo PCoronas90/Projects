@@ -58,20 +58,19 @@ public class MaliciousSecondaryUser extends SecondaryUser {
 	public ArrayList<ArrayList<Integer>> computeOppositeBinaryDecisionVector(double pfa) throws Exception{
 ArrayList<ArrayList<Integer>> decisions= new  ArrayList<ArrayList<Integer>>();
 		
-		ArrayList<ArrayList<Double>> VectorNoiseEnergy=SignalProcessor.computeVectorsEnergy(null, length, energy, attempts, inf, sup);	
 
 		ArrayList<ArrayList<Double>> VectorSignalEnergy;
 		if(s!=null){
 			VectorSignalEnergy=SignalProcessor.computeVectorsEnergy(s, length, energy, attempts, inf, sup);
 		}	
 		else{VectorSignalEnergy=SignalProcessor.computeVectorsEnergy(null, length, energy, attempts, inf, sup);}
-		//int snr=(inf-1);
+	    int snr=inf;
 		for (int i = 0; i < VectorSignalEnergy.size(); i++) {
 			//System.out.println(inf-1);
 			ArrayList<Integer> snrDecisions = Detector.oppositeBinaryDetector(
-					SignalProcessor.computeEnergyDetectorThreshold(pfa, VectorNoiseEnergy.get(i)), VectorSignalEnergy.get(i));
+					SignalProcessor.getEnergyDetectorThreshold(pfa, snr), VectorSignalEnergy.get(i));
 			decisions.add(snrDecisions);
-			
+			snr++;
 		}
 
 		return decisions;
@@ -89,19 +88,19 @@ ArrayList<ArrayList<Integer>> decisions= new  ArrayList<ArrayList<Integer>>();
 	public ArrayList<ArrayList<Integer>> computeIntelligentBinaryDecisionVector(double pfa) throws Exception{
 ArrayList<ArrayList<Integer>> decisions= new  ArrayList<ArrayList<Integer>>();
 		
-		ArrayList<ArrayList<Double>> VectorNoiseEnergy=SignalProcessor.computeVectorsEnergy(null, length, energy, attempts, inf, sup);	
 
 		ArrayList<ArrayList<Double>> VectorSignalEnergy;
 		if(s!=null){
 			VectorSignalEnergy=SignalProcessor.computeVectorsEnergy(s, length, energy, attempts, inf, sup);
 		}	
 		else{VectorSignalEnergy=SignalProcessor.computeVectorsEnergy(null, length, energy, attempts, inf, sup);}
-		//int snr=(inf-1);
+		int snr=inf;
 		for (int i = 0; i < VectorSignalEnergy.size(); i++) {
 			//System.out.println(inf-1);
 			ArrayList<Integer> snrDecisions = Detector.intelligentMaliciousBinaryDetector(
-					SignalProcessor.computeEnergyDetectorThreshold(pfa, VectorNoiseEnergy.get(i)), VectorSignalEnergy.get(i));
+					SignalProcessor.getEnergyDetectorThreshold(pfa, snr), VectorSignalEnergy.get(i));
 			decisions.add(snrDecisions);
+			snr++;
 			
 		}
 

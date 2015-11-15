@@ -1,0 +1,17 @@
+package it.sp4te.css.main;
+
+import it.sp4te.css.agents.PrimaryUser;
+import it.sp4te.css.model.Signal;
+import it.sp4te.css.signalprocessing.SignalProcessor;
+import it.sp4te.css.signalprocessing.Utils;
+
+public class ThresholdCreator {
+	public static void main(String args[]) throws Exception {
+
+		
+		double pfa=0.01;
+		for( int i=-20;i<4;i++){
+			System.out.println(SignalProcessor.getEnergyDetectorThreshold(pfa, i));
+		}
+	}
+}
