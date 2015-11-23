@@ -1,0 +1,21 @@
+package it.sp4te.css.main;
+
+public class ListCSS {
+
+	
+	public static void main(String args[]) throws Exception {
+		
+		// Setto i parametri
+		int length = 300; // poi 10000
+		int attempts = 100;
+		int inf = -30;
+		int sup = 5;
+		int block=10; //blocchi energy Detector
+		double pfa=0.01; //probabilità di falso allarme
+		int numberTSU=5;//numero di utenti fidati
+		int K=2;
+		int L=2;
+		int M=2;
+		int N=2;
+	}
+}

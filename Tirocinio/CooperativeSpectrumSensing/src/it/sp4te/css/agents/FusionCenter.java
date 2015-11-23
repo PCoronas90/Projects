@@ -1,5 +1,8 @@
 package it.sp4te.css.agents;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -15,7 +18,6 @@ public class FusionCenter {
 	HashMap<Double,ArrayList<ArrayList<String>>> snrToAbsenceUsers;
 	//Mappa idUtente->reputazione
 	HashMap<String,Double> usersReliabilities;
-	HashMap<Double,ArrayList<String>> maliciousUsers;
 	HashMap<String,Integer[]> usersToInfo;
 	int K,L,M,N;
 
@@ -24,7 +26,7 @@ public class FusionCenter {
 		snrToPresenceUsers= new HashMap<Double,ArrayList<ArrayList<String>>>();
 		snrToAbsenceUsers= new HashMap<Double,ArrayList<ArrayList<String>>>();
 		usersReliabilities= new HashMap<String,Double>();
-		maliciousUsers = new HashMap<Double,ArrayList<String>>();
+	
 		usersToInfo= new 	HashMap<String,Integer[]>();
 	}
 
@@ -119,22 +121,31 @@ public class FusionCenter {
 	 * @param N numero di errori necessario per il passaggio da lista grigia->lista nera
 	 * @return  Ritorna la % di Dectection calcolata utilizzando un metodo basato sulla divisione in liste degli utenti che tiene conto delle volte che sbagliano e delle volte
 	 * che concordano con la decisione globale in modo consecutivo.
+	 * @throws IOException 
 
 	 */
 	
 	public  ArrayList<Double> ListBasedDecision(int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,int attempts,
-			int K,int L,int M,int N){
+			int K,int L,int M,int N) throws IOException{
 		this.K=K; 
 		this.L=L;
 		this.M=M;
 		this.N=N;
+		FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+K+L+M+N+".txt");
+		 BufferedWriter b=new BufferedWriter(w);
 		HashMap<Double,Double> listBasedDetection=new HashMap<Double,Double>();
 		createSnrToUsers(inf,sup,userToBinaryDecision,attempts);
 		for(Double snr: this.snrToPresenceUsers.keySet()){
+			b.write(" ");
+			b.write("-------------------"+snr+"-------------------------"+" \n");
 			inizializeValue(userToBinaryDecision);
 			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
 			for(int attempt=0;attempt<this.snrToPresenceUsers.get(snr).size();attempt++){
-				
+				b.write("------------"+attempt+"-----------"+" \n");
+				for(String SU: this.usersToInfo.keySet()){
+					b.write(SU+" list: "+ this.usersToInfo.get(SU)[2]+" ConsecutiveHits: "+
+							 this.usersToInfo.get(SU)[0]+" ErrorCount: "+ this.usersToInfo.get(SU)[1] +" \n ");
+				}
 				HashMap<String,Integer> binaryDecisionsWhite=computeUserToDecisionWhite(this.snrToPresenceUsers.get(snr).get(attempt),
 						this.snrToAbsenceUsers.get(snr).get(attempt));
 				HashMap<String,Integer> binaryDecisionsGrey=computeUserToDecisionGrey(this.snrToPresenceUsers.get(snr).get(attempt),
@@ -149,6 +160,7 @@ public class FusionCenter {
 			double detection=Detector.reputationBasedDetection(globalDecisions);
 			listBasedDetection.put(snr,detection);
 		}
+		b.close();
 		return Utils.orderSignal(listBasedDetection);
 	}
 		
@@ -184,15 +196,15 @@ public class FusionCenter {
 	 */
 	public HashMap<String,Integer> computeUserToDecisionWhite(ArrayList<String> presenceUsers,ArrayList<String> absenceUsers){
 		HashMap<String,Integer> binaryDecisionsWhite= new HashMap<String,Integer>();
-		for(int SU=0;SU<presenceUsers.size();SU++){
+		for(String SU:presenceUsers){
 			int flag=this.usersToInfo.get(SU)[2];
 			if(flag==0){
-				binaryDecisionsWhite.put(presenceUsers.get(SU), 1);
+				binaryDecisionsWhite.put(SU, 1);
 			}}
-		for(int SU2=0;SU2<absenceUsers.size();SU2++){
+		for(String SU2:absenceUsers){
 			int flag=this.usersToInfo.get(SU2)[2];
 			if(flag==0){
-				binaryDecisionsWhite.put(absenceUsers.get(SU2),0);
+				binaryDecisionsWhite.put(SU2,0);
 			}
 		}
 
@@ -209,15 +221,15 @@ public class FusionCenter {
 	
 	public HashMap<String,Integer> computeUserToDecisionGrey(ArrayList<String> presenceUsers,ArrayList<String> absenceUsers){
 		HashMap<String,Integer> binaryDecisionsWhite= new HashMap<String,Integer>();
-		for(int SU=0;SU<presenceUsers.size();SU++){
+		for(String SU:presenceUsers){
 			int flag=this.usersToInfo.get(SU)[2];
 			if(flag==1){
-				binaryDecisionsWhite.put(presenceUsers.get(SU), 1);
+				binaryDecisionsWhite.put(SU, 1);
 			}}
-		for(int SU2=0;SU2<absenceUsers.size();SU2++){
+		for(String SU2:absenceUsers){
 			int flag=this.usersToInfo.get(SU2)[2];
 			if(flag==1){
-				binaryDecisionsWhite.put(absenceUsers.get(SU2),0);
+				binaryDecisionsWhite.put(SU2,0);
 			}
 		}
 
@@ -240,7 +252,8 @@ public class FusionCenter {
 		 for(int i=0;i<presenceSU.size();i++){
 			 Integer[] value=this.usersToInfo.get(presenceSU.get(i));
 			 //Incremento gli hits consecutivi
-			 value[0]=value[0]++;
+			 int hits=value[0]+1;
+			 value[0]=hits;
 			 //se gli hits superano K e si trova in lista grigia
 			 if(value[0]>=this.K & value[2]==1){
 				 //passa in lista bianca
@@ -263,7 +276,8 @@ public class FusionCenter {
 		 for(int j=0;j<absenceSU.size();j++){
 			 Integer[] value=this.usersToInfo.get(presenceSU.get(j));
 			 //incremento gli errori
-			 value[1]=value[1]++;
+			 int error=value[1]+1;
+			 value[1]=error;
 			 //azzero hits consecutivi
 			 value[0]=0;
 			 //se gli ERRORI superano M e si trova in lista bianca
@@ -290,7 +304,8 @@ public class FusionCenter {
 			for(int i=0;i<presenceSU.size();i++){
 				Integer[] value=this.usersToInfo.get(presenceSU.get(i));
 				 //incremento gli errori
-				 value[1]=value[1]++;
+				 int error=value[1]+1;
+				 value[1]=error;
 				 //azzero hits consecutivi
 				 value[0]=0;
 				 //se gli ERRORI superano M e si trova in lista bianca
@@ -309,9 +324,11 @@ public class FusionCenter {
 			}
 			for(int j=0;j<absenceSU.size();j++){
 				
-				Integer[] value=this.usersToInfo.get(presenceSU.get(j));
+				Integer[] value=this.usersToInfo.get(absenceSU.get(j));
 				 //Incremento gli hits consecutivi
-				 value[0]=value[0]++;
+				 int hits=value[0]+1;
+				 value[0]=hits;
+				 System.out.println(value[0]);
 				 //se gli hits superano K e si trova in lista grigia
 				 if(value[0]>=this.K & value[2]==1){
 					 value[2]=0;
@@ -371,7 +388,6 @@ public class FusionCenter {
 		//la presenza o l'assenza dell'utente primario di cardinalità pari al numero di prove
 		createSnrToUsers(inf,sup,userToBinaryDecision,attempts);
 		//Per ogni SNR
-		this.maliciousUsers.clear();
 		
 		for(Double snr: this.snrToPresenceUsers.keySet()){
 			//Inizializzo la reputazione a 5 ad ogni cambio di SNR
@@ -398,12 +414,7 @@ public class FusionCenter {
 			double detection=Detector.reputationBasedDetection(globalDecisions);
 			reputationBasedDetection.put(snr,detection);
 		}
-		System.out.println("Malicious users find");
-		for(Double snr: this.maliciousUsers.keySet()){
-			for(int i=0;i<this.maliciousUsers.get(snr).size();i++){
-			System.out.println("Snr: " + snr + " User: " + this.maliciousUsers.get(snr).get(i));
-		}}
-		System.out.println("            ");
+		
 		return Utils.orderSignal(reputationBasedDetection);
 		
 
@@ -602,46 +613,31 @@ public class FusionCenter {
 			double newReliabilities=this.usersReliabilities.get(presenceSU.get(i))+ Math.pow(-1,(1+globalDecision));
 			this.usersReliabilities.replace(presenceSU.get(i),newReliabilities);
 		}
-			else{
-				if(this.maliciousUsers.containsKey(snr)){
-					boolean find=false;
-					for(int h=0;h<this.maliciousUsers.get(snr).size();h++){
-						if(this.maliciousUsers.get(snr).get(h).equals(presenceSU.get(i))){find=true;}}
-							if(find==false){this.maliciousUsers.get(snr).add(presenceSU.get(i));}	;
-						}
+			
+				
 					
 					
 			else{
 				ArrayList<String> MSU= new ArrayList<String>();
 			MSU.add(presenceSU.get(i));
-			this.maliciousUsers.put(snr,MSU );}
+			}
 				
 			//System.out.println
 				//("Malicious user: "+ presenceSU.get(i)+" Snr: "+ snr + " Attempt: " + attempt);
-			}} 
+			}
 
 		for(int i=0;i<absenceSU.size();i++){
 			//Questo controllo fa si che una volta che un utente va sotto la soglia minima (1) non viene più considerato
 			if(this.usersReliabilities.get(absenceSU.get(i))>=1){
 			double newReliabilities=this.usersReliabilities.get(absenceSU.get(i))+ Math.pow(-1,(0+globalDecision));
 			this.usersReliabilities.replace(absenceSU.get(i),newReliabilities);}
-			else{
-				if(this.maliciousUsers.containsKey(snr)){
-					boolean find=false;
-					for(int h=0;h<this.maliciousUsers.get(snr).size();h++){
-						if(this.maliciousUsers.get(snr).get(h).equals(absenceSU.get(i))){
-							find=true;}}
-					if(find==false){
-							this.maliciousUsers.get(snr).add(absenceSU.get(i))	;}
-						
-					
-					}
+			
 				else{ArrayList<String> MSU= new ArrayList<String>();
 				MSU.add(absenceSU.get(i));
-				this.maliciousUsers.put(snr,MSU );}
+				}
 			
 }
 		}}
 
-}
+
 

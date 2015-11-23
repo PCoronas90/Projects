@@ -27,7 +27,8 @@ import com.googlecode.charts4j.LineStyle;
 import com.googlecode.charts4j.LinearGradientFill;
 import com.googlecode.charts4j.Plots;
 import com.googlecode.charts4j.Shape;
-import com.googlecode.charts4j.XYLine;
+
+import it.sp4te.css.signalprocessing.Utils;
 
 /**
  * <p>Titolo: GraphGenerator</p>
@@ -110,6 +111,81 @@ public class GraphGenerator {
 	
 	
 	/**
+	 * Metodo per la creazione del grafico SNR-Detection e il salvataggio al path specificato
+	 * 
+	 * @param title Titolo del grafico
+	 * @param detection Mappa che ha come chiave il nome della curva da visualizzare e come valore una lista con le percentuali di 
+	 * Detection al variare dell'SNR.
+	 * @param inf Estremo inferiore di SNR su cui è stata effettuata la simulazione
+	 * @param sup Estremo superiore di SNR su cui è stata effettuata la simulazione
+	 * @param path Destinazione in cui salvare l'immagine
+	 * @throws IOException 
+	 **/
+
+	public static void drawAndSalveGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path) throws IOException {
+		ArrayList<Color> colorList=generateColor();
+		ArrayList<Shape> shapeList=generateShape();
+		int i=0;
+		// Definisco un array di Lines. In questo array inserisco i diversi
+		// grafici che voglio visualizzare
+		ArrayList<Line> lines = new ArrayList<Line>();
+        ArrayList<Integer> snr= new ArrayList<Integer>();
+		for(int j=inf;j<sup;j++){
+        	snr.add(j);
+        }
+		for (String graphName : detection.keySet()) {
+			Line line=Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
+			//Line line = Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
+			line.setLineStyle(LineStyle.newLineStyle(2, 1, 0));
+			line.addShapeMarkers(shapeList.get(i), colorList.get(i), 8);
+			lines.add(line);
+			i++;
+		}
+
+		// Definisco il chart
+		LineChart chart = GCharts.newLineChart(lines);
+		chart.setSize(665, 450); // Massima dimensione
+		chart.setTitle(title, BLACK, 14);
+		chart.setGrid(5, 5, 3, 2);
+
+		// Definisco lo stile
+		AxisStyle axisStyle = AxisStyle.newAxisStyle(BLACK, 12, AxisTextAlignment.CENTER);
+
+		// Etichetta asse y(% di detection)
+		AxisLabels yAxis = AxisLabelsFactory.newNumericRangeAxisLabels(0, 100);
+		yAxis.setAxisStyle(axisStyle);
+
+		// Etichetta asse x(SNR in DB)
+		AxisLabels xAxis1 = AxisLabelsFactory.newNumericRangeAxisLabels(inf, sup);
+		xAxis1.setAxisStyle(axisStyle);
+
+		// Etichetta asse x
+		AxisLabels xAxis3 = AxisLabelsFactory.newAxisLabels("SNR (Decibel)", 50.0);
+		xAxis3.setAxisStyle(AxisStyle.newAxisStyle(BLACK, 14, AxisTextAlignment.CENTER));
+
+		// Etichetta asse y
+		AxisLabels yAxis3 = AxisLabelsFactory.newAxisLabels("% of Detection", 50.0);
+		yAxis3.setAxisStyle(AxisStyle.newAxisStyle(BLACK, 14, AxisTextAlignment.CENTER));
+
+		// Aggiungo al chart
+		chart.addXAxisLabels(xAxis1);
+		chart.addYAxisLabels(yAxis);
+		chart.addXAxisLabels(xAxis3);
+		chart.addYAxisLabels(yAxis3);
+
+		// Parametri generali su aspetto
+		chart.setBackgroundFill(Fills.newSolidFill(ALICEBLUE));		chart.setAreaFill(Fills.newSolidFill(Color.newColor("708090")));
+		LinearGradientFill fill = Fills.newLinearGradientFill(0, LAVENDER, 100);
+		fill.addColorAndOffset(WHITE, 0);
+		chart.setAreaFill(fill);
+
+		String imageUrl = chart.toURLString();
+		Utils.saveImage(imageUrl, path);
+
+	}
+	
+	
+	/**
 	 * Metodo per la creazione del grafico % Utenti Malevoli-Detection
 	 * 
 	 * @param title Titolo del grafico
@@ -179,6 +255,80 @@ public class GraphGenerator {
 		// Mostro il grafico tramite java swing
 		displayUrlString(chart.toURLString());
 	}
+	
+	/**
+	 * Metodo per la creazione del grafico % Utenti Malevoli-Detection e salvataggio su path specificata
+	 * 
+	 * @param title Titolo del grafico
+	 * @param detection Mappa che ha come chiave il nome della curva da visualizzare e come valore una lista con le percentuali di 
+	 * Detection al variare dell'SNR.
+	 * @param inf Estremo inferiore di SNR su cui è stata effettuata la simulazione
+	 * @param sup Estremo superiore di SNR su cui è stata effettuata la simulazione
+	 * @param path Destinazione in cui salvare l'immagine
+	 * @throws IOException 
+	 **/
+	public static void drawAndSalveMaliciousUsersToDetectionGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path) throws IOException {
+		ArrayList<Color> colorList=generateColor();
+		ArrayList<Shape> shapeList=generateShape();
+		int i=0;
+		// Definisco un array di Lines. In questo array inserisco i diversi
+		// grafici che voglio visualizzare
+		ArrayList<Line> lines = new ArrayList<Line>();
+        ArrayList<Integer> snr= new ArrayList<Integer>();
+		for(int j=inf;j<sup;j++){
+        	snr.add(j);
+        }
+		for (String graphName : detection.keySet()) {
+			Line line=Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
+			//Line line = Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
+			line.setLineStyle(LineStyle.newLineStyle(2, 1, 0));
+			line.addShapeMarkers(shapeList.get(i), colorList.get(i), 8);
+			lines.add(line);
+			i++;
+		}
+
+		// Definisco il chart
+		LineChart chart = GCharts.newLineChart(lines);
+		chart.setSize(665, 450); // Massima dimensione
+		chart.setTitle(title, BLACK, 14);
+		chart.setGrid(5, 5, 3, 2);
+
+		// Definisco lo stile
+		AxisStyle axisStyle = AxisStyle.newAxisStyle(BLACK, 12, AxisTextAlignment.CENTER);
+
+		// Etichetta asse y(% di detection)
+		AxisLabels yAxis = AxisLabelsFactory.newNumericRangeAxisLabels(0, 100);
+		yAxis.setAxisStyle(axisStyle);
+
+		// Etichetta asse x(SNR in DB)
+		AxisLabels xAxis1 = AxisLabelsFactory.newNumericRangeAxisLabels(0,90);
+		xAxis1.setAxisStyle(axisStyle);
+
+		// Etichetta asse x
+		AxisLabels xAxis3 = AxisLabelsFactory.newAxisLabels("% of Malicious Users", 50.0);
+		xAxis3.setAxisStyle(AxisStyle.newAxisStyle(BLACK, 14, AxisTextAlignment.CENTER));
+
+		// Etichetta asse y
+		AxisLabels yAxis3 = AxisLabelsFactory.newAxisLabels("% of Detection", 50.0);
+		yAxis3.setAxisStyle(AxisStyle.newAxisStyle(BLACK, 14, AxisTextAlignment.CENTER));
+
+		// Aggiungo al chart
+		chart.addXAxisLabels(xAxis1);
+		chart.addYAxisLabels(yAxis);
+		chart.addXAxisLabels(xAxis3);
+		chart.addYAxisLabels(yAxis3);
+
+		// Parametri generali su aspetto
+		chart.setBackgroundFill(Fills.newSolidFill(ALICEBLUE));		chart.setAreaFill(Fills.newSolidFill(Color.newColor("708090")));
+		LinearGradientFill fill = Fills.newLinearGradientFill(0, LAVENDER, 100);
+		fill.addColorAndOffset(WHITE, 0);
+		chart.setAreaFill(fill);
+
+		String imageUrl = chart.toURLString();
+		Utils.saveImage(imageUrl, path);
+	}
+	
+
 	
 
 	/** 
