@@ -274,7 +274,7 @@ public class FusionCenter {
 			 }
 		 }
 		 for(int j=0;j<absenceSU.size();j++){
-			 Integer[] value=this.usersToInfo.get(absenceSU.get(j));
+			 Integer[] value=this.usersToInfo.get(presenceSU.get(j));
 			 //incremento gli errori
 			 int error=value[1]+1;
 			 value[1]=error;

@@ -20,10 +20,7 @@ public class ListCSS {
 		ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers;
 
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
-		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionAbsence=new HashMap<String,ArrayList<ArrayList<Integer>>>();
-
 		ArrayList<Double> ListCooperativeEnergyDetection = new ArrayList<Double>();;
-		ArrayList<Double> ListCooperativeEnergyDetectionAbsence = new ArrayList<Double>();;
         HashMap<String, ArrayList<Double>> DetectionGraph = new HashMap<String, ArrayList<Double>>();
 
 
@@ -57,21 +54,13 @@ public class ListCSS {
 		ListCooperativeEnergyDetection= FC.ListBasedDecision(inf, sup, userToBinaryDecision, attempts, K, L, M, N);
 		DetectionGraph.put("Without malicious users", ListCooperativeEnergyDetection);
 		
-		TrustedSecondaryUsers.clear();
-		userToBinaryDecision.clear();
-		
 		TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 		MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		
-		userToBinaryDecisionAbsence=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-		//Gli utenti malevoli di questa tipologia generano un vettore di decisioni in cui l'utente primario è sempre assente
-		userToBinaryDecisionAbsence.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
-		ListCooperativeEnergyDetectionAbsence= FC.ListBasedDecision(inf, sup, userToBinaryDecisionAbsence, attempts, K, L, M, N);
 
-		DetectionGraph.put("With Absence MSU", ListCooperativeEnergyDetectionAbsence);
 
 		
-		GraphGenerator.drawGraph("Presence of PU in List Cooperative Energy Detection and K=L=M=N=2 ",DetectionGraph, inf, sup);
+		
+		GraphGenerator.drawAndSalveGraph("Presence of PU in List Cooperative Energy Detection and K=L=M=N=2 ",DetectionGraph, inf, sup,"C:/Users/Pietro/Desktop/Output/"+K+L+M+N+".jpg");
 
 	}
 }

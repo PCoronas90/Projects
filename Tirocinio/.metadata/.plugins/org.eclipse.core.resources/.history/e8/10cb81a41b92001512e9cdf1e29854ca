@@ -71,7 +71,7 @@ public class ListCSS {
 		DetectionGraph.put("With Absence MSU", ListCooperativeEnergyDetectionAbsence);
 
 		
-		GraphGenerator.drawGraph("Presence of PU in List Cooperative Energy Detection and K=L=M=N=2 ",DetectionGraph, inf, sup);
+		GraphGenerator.drawAndSalveGraph("Presence of PU in List Cooperative Energy Detection and K=L=M=N=2 ",DetectionGraph, inf, sup,"C:/Users/Pietro/Desktop/Output/"+K+L+M+N+".jpg");
 
 	}
 }

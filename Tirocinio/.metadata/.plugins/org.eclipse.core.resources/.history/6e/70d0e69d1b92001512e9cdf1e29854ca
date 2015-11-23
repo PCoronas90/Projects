@@ -66,12 +66,12 @@ public class ListCSS {
 		userToBinaryDecisionAbsence=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
 		//Gli utenti malevoli di questa tipologia generano un vettore di decisioni in cui l'utente primario è sempre assente
 		userToBinaryDecisionAbsence.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
-		ListCooperativeEnergyDetectionAbsence= FC.ListBasedDecision(inf, sup, userToBinaryDecisionAbsence, attempts, K, L, M, N);
+		ListCooperativeEnergyDetectionAbsence= FC.ListBasedDecision(inf, sup, userToBinaryDecision, attempts, K, L, M, N);
 
 		DetectionGraph.put("With Absence MSU", ListCooperativeEnergyDetectionAbsence);
 
 		
-		GraphGenerator.drawGraph("Presence of PU in List Cooperative Energy Detection and K=L=M=N=2 ",DetectionGraph, inf, sup);
+		GraphGenerator.drawAndSalveGraph("Presence of PU in List Cooperative Energy Detection and K=L=M=N=2 ",DetectionGraph, inf, sup,"C:/Users/Pietro/Desktop/Output/"+K+L+M+N+".jpg");
 
 	}
 }
