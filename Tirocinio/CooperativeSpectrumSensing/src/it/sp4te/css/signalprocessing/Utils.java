@@ -214,6 +214,24 @@ public class Utils {
          b.close();
 	}
 	
+	
+	
+	/** Dato un array di decisioni binarie, il metodo riporta 1 se la media dell'array supera 0.5, 0 altrimenti
+	 * @param binaryDecisions un array di Decisioni binarie
+	 * @return 1 se la media dell'array supera 0.5,0 altrimenti.
+	 */
+	public static int getMediumDecision(ArrayList<Integer> binaryDecisions){
+		if(binaryDecisions.size()==1){return binaryDecisions.get(0);}
+		else{
+		int tot=0;
+		for(int i=0;i<binaryDecisions.size();i++){
+			tot=tot+binaryDecisions.get(i);
+		}
+		double mediumValue=tot/binaryDecisions.size();
+		if(mediumValue>=0.5){return 1;}
+		else return 0;
+	}}
+	
 
 	
 

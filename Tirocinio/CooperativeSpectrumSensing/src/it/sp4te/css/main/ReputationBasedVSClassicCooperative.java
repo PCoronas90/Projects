@@ -36,12 +36,12 @@ import it.sp4te.css.agents.PrimaryUser;
 			// Setto i parametri
 			int length = 1000; // poi 10000
 			int attempts = 300;
-			int inf = -30;
-			int sup = 5;
+			int inf = -18;
+			int sup = 0;
 			int block=10; //blocchi energy Detector
 			double pfa=0.01; //probabilità di falso allarme
-			int numberTSU=10;
-			int numberMSU=5;//numero di utenti fidati
+			int numberTSU=15;
+			int numberMSU=35;//numero di utenti fidati
 
 			//Creo il Fusion center
 			FusionCenter FC=new FusionCenter();
@@ -51,7 +51,7 @@ import it.sp4te.css.agents.PrimaryUser;
 			Signal s = PU.createAndSend(length);
 			
 			
-			
+	/**		
 			
 			TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 			
@@ -68,7 +68,7 @@ import it.sp4te.css.agents.PrimaryUser;
 			DetectionGraph.put("CED MAJORITY fusion", CooperativeEnergyDetectionMajorityFusion);
 			DetectionGraph.put("Reputation Based", reputationBasedCSS);
 			GraphGenerator.drawGraph("Cooperative CSS VS Reputation Based CSS: Without Malicious users",DetectionGraph, inf, sup);
-			
+		**/	
 			
 		/**	//ABSENCE
 					
@@ -98,7 +98,7 @@ import it.sp4te.css.agents.PrimaryUser;
 			DetectionGraph.put("Reputation Based", reputationBasedCSS);
 			GraphGenerator.drawGraph("Cooperative CSS VS Reputation Based CSS: Absence Malicious User",DetectionGraph, inf, sup);
 			
-			**/
+			
 			//PRESENCE
 			TrustedSecondaryUsers.clear();
 			//MaliciousSecondaryUsers.clear();
@@ -128,34 +128,28 @@ import it.sp4te.css.agents.PrimaryUser;
 			DetectionGraph.put("CED MAJORITY fusion", CooperativeEnergyDetectionMajorityFusion);
 			DetectionGraph.put("Reputation Based", reputationBasedCSS);
 			GraphGenerator.drawGraph("Cooperative CSS VS Reputation Based CSS: Presence Malicious User",DetectionGraph, inf, sup);
-		
-			//OPPOSITE
-			TrustedSecondaryUsers.clear();
-			MaliciousSecondaryUsers.clear();
-			userToBinaryDecision.clear();
-			DetectionGraph.clear();
-			CooperativeEnergyDetectionAndFusion.clear();
-			CooperativeEnergyDetectionOrFusion.clear();
-			CooperativeEnergyDetectionMajorityFusion.clear();
-			reputationBasedCSS.clear();
+		**/
 			
-			TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-			MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			//OPPOSITE
+			
+			
+			TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 			
 			userToBinaryDecision=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-			userToBinaryDecision.putAll(Utils.genereteOppositeBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
+			userToBinaryDecision.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
 			
-			CooperativeEnergyDetectionAndFusion=FC.andDecision(inf, sup,userToBinaryDecision);
-			CooperativeEnergyDetectionOrFusion=FC.orDecision(inf, sup,userToBinaryDecision);
+			//CooperativeEnergyDetectionAndFusion=FC.andDecision(inf, sup,userToBinaryDecision);
+			//CooperativeEnergyDetectionOrFusion=FC.orDecision(inf, sup,userToBinaryDecision);
 			CooperativeEnergyDetectionMajorityFusion=FC.majorityDecision(inf, sup,userToBinaryDecision);
 			reputationBasedCSS= FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts);
 
 
-			DetectionGraph.put("CED AND fusion", CooperativeEnergyDetectionAndFusion);
-			DetectionGraph.put("CED OR fusion", CooperativeEnergyDetectionOrFusion);
+			//DetectionGraph.put("CED AND fusion", CooperativeEnergyDetectionAndFusion);
+			//DetectionGraph.put("CED OR fusion", CooperativeEnergyDetectionOrFusion);
 			DetectionGraph.put("CED MAJORITY fusion", CooperativeEnergyDetectionMajorityFusion);
 			DetectionGraph.put("Reputation Based", reputationBasedCSS);
-			GraphGenerator.drawGraph("Cooperative CSS VS Reputation Based CSS: Opposite Malicious User",DetectionGraph, inf, sup);			
+			GraphGenerator.drawGraph("Cooperative CSS VS Reputation Based CSS: 70% Absence Malicious User",DetectionGraph, inf, sup);			
 	
 			
 

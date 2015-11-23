@@ -16,7 +16,8 @@ public class FusionCenter {
 	//Mappa idUtente->reputazione
 	HashMap<String,Double> usersReliabilities;
 	HashMap<Double,ArrayList<String>> maliciousUsers;
-	//soglia
+	HashMap<String,Integer[]> usersToInfo;
+	int K,L,M,N;
 
 
 	public FusionCenter(){
@@ -24,6 +25,7 @@ public class FusionCenter {
 		snrToAbsenceUsers= new HashMap<Double,ArrayList<ArrayList<String>>>();
 		usersReliabilities= new HashMap<String,Double>();
 		maliciousUsers = new HashMap<Double,ArrayList<String>>();
+		usersToInfo= new 	HashMap<String,Integer[]>();
 	}
 
 
@@ -102,6 +104,253 @@ public class FusionCenter {
 	}
 
 
+	/** Questo metodo prende in input, oltre agli estremi snr,  una Mappa che ha come chiave il nome dell'utente primario. Come valore ha una lista di liste: per ogni SNR ha una lista
+	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario.
+	 * Ritorna la % di Dectection calcolata utilizzando un metodo basato sulla divisione in liste degli utenti che tiene conto delle volte che sbagliano e delle volte
+	 * che concordano con la decisione globale in modo consecutivo
+	 * @param inf Estremo inferiore SNR
+	 * @param sup Estremo superiore SNR 
+	 * @param userToBinaryDecision Mappa che ha come chiave il nome dell'uente primario. Come valore ha una lista di liste: per ogni SNR ha una lista
+	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario
+	 * @param attempts Numero di prove
+	 * @param K numero di hits consecutivi necessario per il passaggio da lista grigia->lista bianca
+	 * @param L numero di hits consecutivi necessario per il passaggio da lista nera->lista grigia
+	 * @param M numero di errori necessario per il passaggio da lista bianca->lista grigia
+	 * @param N numero di errori necessario per il passaggio da lista grigia->lista nera
+	 * @return  Ritorna la % di Dectection calcolata utilizzando un metodo basato sulla divisione in liste degli utenti che tiene conto delle volte che sbagliano e delle volte
+	 * che concordano con la decisione globale in modo consecutivo.
+
+	 */
+	
+	public  ArrayList<Double> ListBasedDecision(int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,int attempts,
+			int K,int L,int M,int N){
+		this.K=K; 
+		this.L=L;
+		this.M=M;
+		this.N=N;
+		HashMap<Double,Double> listBasedDetection=new HashMap<Double,Double>();
+		createSnrToUsers(inf,sup,userToBinaryDecision,attempts);
+		for(Double snr: this.snrToPresenceUsers.keySet()){
+			inizializeValue(userToBinaryDecision);
+			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
+			for(int attempt=0;attempt<this.snrToPresenceUsers.get(snr).size();attempt++){
+				
+				HashMap<String,Integer> binaryDecisionsWhite=computeUserToDecisionWhite(this.snrToPresenceUsers.get(snr).get(attempt),
+						this.snrToAbsenceUsers.get(snr).get(attempt));
+				HashMap<String,Integer> binaryDecisionsGrey=computeUserToDecisionGrey(this.snrToPresenceUsers.get(snr).get(attempt),
+						this.snrToAbsenceUsers.get(snr).get(attempt));
+				
+				Integer globalDecision=computeGlobalDecision(binaryDecisionsWhite,binaryDecisionsGrey);
+				globalDecisions.add(globalDecision);
+				updateValue(globalDecision,this.snrToPresenceUsers.get(snr).get(attempt),
+						this.snrToAbsenceUsers.get(snr).get(attempt));
+
+			}
+			double detection=Detector.reputationBasedDetection(globalDecisions);
+			listBasedDetection.put(snr,detection);
+		}
+		return Utils.orderSignal(listBasedDetection);
+	}
+		
+	
+
+	/** QUesto metodo inizializza la mappa userToINfo, inserendo come chiave l'identificativo dell'utente secondario, e come valore un 
+	 * array di 3 elementi contenente gli hits consecutivi, gli errori e la lista di appartenenza. Tutti questo valori vengono 
+	 * inizialmente posti a 0 (0 hits,0 errori e lista bianca)
+	 * @param userToBinaryDecision Mappa che ha come chiave il nome dell'uente primario. Come valore ha una lista di liste: per ogni SNR ha una lista
+	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario
+	  
+	 * **/
+	public void inizializeValue(HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision){
+		this.usersToInfo.clear();
+		for(String SU: userToBinaryDecision.keySet()){
+		 Integer[] value=new Integer[3];
+		 //HITS Consecutivi
+		 value[0]=0;
+		 //Errori
+		 value[1]=0;
+		 //flag: 0 bianca,1grigia,2nera
+		 value[2]=0;
+		 this.usersToInfo.put(SU, value);		 
+		}
+	}
+	
+	/** Questo metodo ritorna una mappa contenente come chiave l'utente secondario appartenente alla lista bianca e come valore
+	 * la decisione binaria relativa alla presenza o assenza dell'utente primario
+	 * @param presenceUsers lista di utenti che affermano la presenza dell'utente primario
+	 * @param absenceUsers Lista di utenti che affermano l'assenza dell'utente primario
+	 * @return Una mappa contenente come chiave l'utente secondario appartenente alla lista bianca e come valore la decisione binaria
+	 * relativa alla presenza o assenza dell'utente primario
+	 */
+	public HashMap<String,Integer> computeUserToDecisionWhite(ArrayList<String> presenceUsers,ArrayList<String> absenceUsers){
+		HashMap<String,Integer> binaryDecisionsWhite= new HashMap<String,Integer>();
+		for(int SU=0;SU<presenceUsers.size();SU++){
+			int flag=this.usersToInfo.get(SU)[2];
+			if(flag==0){
+				binaryDecisionsWhite.put(presenceUsers.get(SU), 1);
+			}}
+		for(int SU2=0;SU2<absenceUsers.size();SU2++){
+			int flag=this.usersToInfo.get(SU2)[2];
+			if(flag==0){
+				binaryDecisionsWhite.put(absenceUsers.get(SU2),0);
+			}
+		}
+
+		return binaryDecisionsWhite;
+	}
+	
+	/** Questo metodo ritorna una mappa contenente come chiave l'utente secondario appartenente alla lista grigia e come valore
+	 * la decisione binaria relativa alla presenza o assenza dell'utente primario
+	 * @param presenceUsers lista di utenti che affermano la presenza dell'utente primario
+	 * @param absenceUsers Lista di utenti che affermano l'assenza dell'utente primario
+	 * @return Una mappa contenente come chiave l'utente secondario appartenente alla lista grigia e come valore la decisione binaria
+	 * relativa alla presenza o assenza dell'utente primario
+	 */
+	
+	public HashMap<String,Integer> computeUserToDecisionGrey(ArrayList<String> presenceUsers,ArrayList<String> absenceUsers){
+		HashMap<String,Integer> binaryDecisionsWhite= new HashMap<String,Integer>();
+		for(int SU=0;SU<presenceUsers.size();SU++){
+			int flag=this.usersToInfo.get(SU)[2];
+			if(flag==1){
+				binaryDecisionsWhite.put(presenceUsers.get(SU), 1);
+			}}
+		for(int SU2=0;SU2<absenceUsers.size();SU2++){
+			int flag=this.usersToInfo.get(SU2)[2];
+			if(flag==1){
+				binaryDecisionsWhite.put(absenceUsers.get(SU2),0);
+			}
+		}
+
+		return binaryDecisionsWhite;
+	}
+
+
+	/** Questo metodo aggiorna la mappa usersToInfo. In particolare aggiorna gli hits consecutivi, gli errori e si occupa del cambio di lista
+	 * degli utenti in base ai valori KLMN.
+	 * Se un utente ha un numero di hits consecutivi maggiore o uguale a K e si trova in lista grigia->va in lista bianca
+	 * Se un utente ha un numero di hits consecutivi maggiore o uguale a L e si trova in lista nera->va in lista grigia
+	 * Se un utente ha un numero di errori maggiore o uguale a M e si trova in lista bianca-> va in lista grigia
+	 * Se un utente ha un numero di errori maggiore o uguale a N e si trova in lista grigia->va in lista nera
+	 * @param globalDecision decisione globale
+	 * @param presenceSU lista di utenti che affermano la presenza dell'utente primario
+	 * @param absenceSU lista di utenti che affermano l'assenza dell'utente primario
+	 */
+	public void updateValue(int globalDecision,ArrayList<String>  presenceSU,ArrayList<String>  absenceSU){
+		if(globalDecision==1){
+		 for(int i=0;i<presenceSU.size();i++){
+			 Integer[] value=this.usersToInfo.get(presenceSU.get(i));
+			 //Incremento gli hits consecutivi
+			 value[0]=value[0]++;
+			 //se gli hits superano K e si trova in lista grigia
+			 if(value[0]>=this.K & value[2]==1){
+				 //passa in lista bianca
+				 value[2]=0;
+				 //azzero gli errori
+				 value[1]=0;
+				 //azzero gli hits
+				 value[0]=0;
+			 }
+			 //se gli hits superano L e si trova in lista nera
+			 if(value[0]>=this.L & value[2]==2){
+				 //passa in lista grigia
+				 value[2]=1;
+				 //assero gli errori
+				 value[1]=0;
+				 //azzero gli hits
+				 value[0]=0;
+			 }
+		 }
+		 for(int j=0;j<absenceSU.size();j++){
+			 Integer[] value=this.usersToInfo.get(presenceSU.get(j));
+			 //incremento gli errori
+			 value[1]=value[1]++;
+			 //azzero hits consecutivi
+			 value[0]=0;
+			 //se gli ERRORI superano M e si trova in lista bianca
+			 if(value[1]>=this.M & value[2]==0){
+				 //passa in lista grigia
+				 value[2]=1;
+				 //azzero gli errori
+				 value[1]=0;
+				 //azzero gli hits
+				 value[0]=0;
+			 }
+			 //se gli errori superano L e si trova in lista grigia
+			 if(value[1]>=this.N & value[2]==1){
+				 //passa in lista nera
+				 value[2]=2;
+				 //azzero gli errori
+				 value[1]=0;
+				 //azzero gli hits
+				 value[0]=0;
+			 }
+		 }
+		}
+		if(globalDecision==0){
+			for(int i=0;i<presenceSU.size();i++){
+				Integer[] value=this.usersToInfo.get(presenceSU.get(i));
+				 //incremento gli errori
+				 value[1]=value[1]++;
+				 //azzero hits consecutivi
+				 value[0]=0;
+				 //se gli ERRORI superano M e si trova in lista bianca
+				 if(value[1]>=this.M & value[2]==0){
+					 value[2]=1;
+					 value[1]=0;
+					 value[0]=0;
+				 }
+				 //se gli errori superano L e si trova in lista grigia
+				 if(value[1]>=this.N & value[2]==1){
+					 value[2]=2;
+					 value[1]=0;
+					 value[0]=0;
+				 }
+			 }
+			}
+			for(int j=0;j<absenceSU.size();j++){
+				
+				Integer[] value=this.usersToInfo.get(presenceSU.get(j));
+				 //Incremento gli hits consecutivi
+				 value[0]=value[0]++;
+				 //se gli hits superano K e si trova in lista grigia
+				 if(value[0]>=this.K & value[2]==1){
+					 value[2]=0;
+					 value[1]=0;
+					 value[0]=0;
+				 }
+				 //se gli hits superano L e si trova in lista nera
+				 if(value[0]>=this.L & value[2]==2){
+					 value[2]=1;
+					 value[1]=0;
+					 value[0]=0;
+				 
+			}
+		}
+	
+	}
+	
+	
+	
+	/** Questo metodo prende in input le decisioni binarie degli utenti presenti in lista grigia e lista bianca e ritorna
+	 * una decisione globale sulla presenza o assenza dell'utente primario.
+	 * @param binaryDecisionsWhite Mappa contenente le decisioni binarie degli utenti appartenenti alla lista bianca
+	 * @param binaryDecisionsGrey Mappa contenente le decisioni binarie degli utenti appartenenti alla lsita grigia
+	 * @return la decisione globale
+	 */
+	public int computeGlobalDecision(HashMap<String,Integer> binaryDecisionsWhite,HashMap<String,Integer> binaryDecisionsGrey){
+		ArrayList<Integer> binaryDecisionAllList=new ArrayList<Integer>();
+		if(binaryDecisionsWhite.size()!=0){
+		binaryDecisionAllList.addAll(binaryDecisionsWhite.values());}
+		if(binaryDecisionsGrey.size()!=0){
+			ArrayList<Integer> greyDecisions= new ArrayList<Integer>();
+			for(String SU: binaryDecisionsGrey.keySet() ){
+				greyDecisions.add( binaryDecisionsGrey.get(SU));
+			}
+		binaryDecisionAllList.add(Utils.getMediumDecision(greyDecisions));
+		}
+		return Detector.majorityFusionRule(binaryDecisionAllList);
+}
+
 
 	/** Questo metodo prende in input, oltre agli estremi snr,  una Mappa che ha come chiave il nome dell'utente primario. Come valore ha una lista di liste: per ogni SNR ha una lista
 	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario.
@@ -114,6 +363,7 @@ public class FusionCenter {
 	 * @return  Ritorna la % di Dectection calcolata utilizzando un meccanismo di reputazione per gli utenti secondari.
 
 	 */
+
 
 	public  ArrayList<Double> reputationBasedDecision(int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,int attempts){
 		HashMap<Double,Double> reputationBasedDetection=new HashMap<Double,Double>();
@@ -138,7 +388,7 @@ public class FusionCenter {
 				globalDecisions.add(globalDecision);
 				//aggiorno la reputazione
 				updateReliabilities(globalDecision,this.snrToPresenceUsers.get(snr).get(attempt),
-						this.snrToAbsenceUsers.get(snr).get(attempt),snr,attempt);
+						this.snrToAbsenceUsers.get(snr).get(attempt),snr);
 
 				
 			    	
@@ -262,7 +512,7 @@ public class FusionCenter {
 			cont=cont+( binaryDecisions.get(SU)*computeWeight(SU,totalPartialWeight,maxReputation));
 		}
        // System.out.println("--------------------");
-		if(cont>=computeThreshold(binaryDecisions,maxReputation,totalPartialWeight)){globalDecision=1;}
+		if(cont>=0.5){globalDecision=1;}
 		else{globalDecision=0;}
 		return globalDecision;
 	}
@@ -345,7 +595,7 @@ public class FusionCenter {
 	 * @param absenceSU Lista di utenti che affermano l'assenza dell'utente primario
 	 */
 
-	public void updateReliabilities(int globalDecision,ArrayList<String>  presenceSU,ArrayList<String>  absenceSU,double snr,int attempt){
+	public void updateReliabilities(int globalDecision,ArrayList<String>  presenceSU,ArrayList<String>  absenceSU,double snr){
 		for(int i=0;i<presenceSU.size();i++){
 			//Questo controllo fa si che una volta che un utente va sotto la soglia minima (1) non viene più considerato
 			if(this.usersReliabilities.get(presenceSU.get(i))>=1){
