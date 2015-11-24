@@ -365,7 +365,7 @@ public class FusionCenter {
 			}
 		binaryDecisionAllList.add(Utils.getMediumDecision(greyDecisions));
 		}
-		return Detector.majorityFusionRule(binaryDecisionAllList);
+		return Detector.orFusionRule(binaryDecisionAllList);
 }
 
 

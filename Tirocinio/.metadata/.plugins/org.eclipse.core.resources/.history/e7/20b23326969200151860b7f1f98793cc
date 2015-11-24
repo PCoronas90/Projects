@@ -126,12 +126,12 @@ public class FusionCenter {
 	 */
 	
 	public  ArrayList<Double> ListBasedDecision(int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,int attempts,
-			int K,int L,int M,int N,String type) throws IOException{
+			int K,int L,int M,int N) throws IOException{
 		this.K=K; 
 		this.L=L;
 		this.M=M;
 		this.N=N;
-		FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_"+type+".txt");
+		FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+K+L+M+N+".txt");
 		 BufferedWriter b=new BufferedWriter(w);
 		HashMap<Double,Double> listBasedDetection=new HashMap<Double,Double>();
 		createSnrToUsers(inf,sup,userToBinaryDecision,attempts);

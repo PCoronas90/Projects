@@ -35,14 +35,14 @@ public class ListCSS {
 		// Setto i parametri
 		int length = 1000; // poi 10000
 		int attempts = 800;
-		int inf = -13;
-		int sup = -12;
+		int inf = -20;
+		int sup = 2;
 		int block=10; //blocchi energy Detector
 		double pfa=0.01; //probabilità di falso allarme
 		int numberTSU=20;
 		int numberMSU=9;//numero di utenti fidati
-		int K=2; //GRIGIA->BIANCA
-		int L=2;// NERA->BIANCA
+		int K=4; //GRIGIA->BIANCA
+		int L=4;// NERA->BIANCA
 		int M=2; //BIANCA->GRIGIA
 		int N=2;//GRIGIA->NERA
 
@@ -53,7 +53,6 @@ public class ListCSS {
 		//creo il segnale
 		Signal s = PU.createAndSend(length);
 
-		/**
 		//Creo gli utenti secondari
 		TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 
@@ -103,12 +102,9 @@ public class ListCSS {
 		DetectionGraph.put("With Intelligent MSU", ListCooperativeEnergyDetectionIntelligent);
 
 		
-		GraphGenerator.drawGraph("Presence of PU in List Cooperative Energy Detection.K=L=2,M=N=4 AND 30% MSU ",DetectionGraph, inf, sup);
-		**/
-		for(int h=0;h<4;h++){
-			inf=inf+h;
-			sup=sup+h;
-		for(int i=0;i<45;i++){
+		GraphGenerator.drawGraph("Presence of PU in List Cooperative Energy Detection.K=L=M=N=2 AND 30% MSU ",DetectionGraph, inf, sup);
+		
+		/**for(int i=0;i<45;i++){
 		 numberTSU=50-i;
 		 numberMSU=0+i;
 		 System.out.println(numberTSU+"        "+ numberMSU);
@@ -116,13 +112,13 @@ public class ListCSS {
 		 MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 		 userToBinaryDecision=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
 		 userToBinaryDecision.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
-		 ListCooperativeEnergyDetection.add(FC.ListBasedDecision(inf, sup, userToBinaryDecisionAbsence, attempts, K, L, M, N,"Absence_-11Db").get(0));
+		 ListCooperativeEnergyDetection.add(FC.ListBasedDecision(inf, sup, userToBinaryDecisionAbsence, attempts, K, L, M, N,"Absence_-16Db").get(0));
         
 
 		}
-	DetectionGraph.put("List CSS: Absence MSU at+"+inf+"Db",  ListCooperativeEnergyDetection);
+	DetectionGraph.put("List CSS: K=L=M=N=2.",  ListCooperativeEnergyDetection);
 	
-GraphGenerator.drawMaliciousUsersToDetectionGraph("List CSS:K=L=M=N=2",DetectionGraph, inf, sup);
-
-	}}
+GraphGenerator.drawMaliciousUsersToDetectionGraph("List CSS: Absence MSU",DetectionGraph, inf, sup);
+**/
+	}
 }

@@ -35,8 +35,8 @@ public class ListCSS {
 		// Setto i parametri
 		int length = 1000; // poi 10000
 		int attempts = 800;
-		int inf = -13;
-		int sup = -12;
+		int inf = -12;
+		int sup = -11;
 		int block=10; //blocchi energy Detector
 		double pfa=0.01; //probabilità di falso allarme
 		int numberTSU=20;
@@ -105,9 +105,6 @@ public class ListCSS {
 		
 		GraphGenerator.drawGraph("Presence of PU in List Cooperative Energy Detection.K=L=2,M=N=4 AND 30% MSU ",DetectionGraph, inf, sup);
 		**/
-		for(int h=0;h<4;h++){
-			inf=inf+h;
-			sup=sup+h;
 		for(int i=0;i<45;i++){
 		 numberTSU=50-i;
 		 numberMSU=0+i;
@@ -120,9 +117,9 @@ public class ListCSS {
         
 
 		}
-	DetectionGraph.put("List CSS: Absence MSU at+"+inf+"Db",  ListCooperativeEnergyDetection);
+	DetectionGraph.put("List CSS: Absence MSU at -12Db",  ListCooperativeEnergyDetection);
 	
 GraphGenerator.drawMaliciousUsersToDetectionGraph("List CSS:K=L=M=N=2",DetectionGraph, inf, sup);
 
-	}}
+	}
 }

@@ -126,25 +126,25 @@ public class FusionCenter {
 	 */
 	
 	public  ArrayList<Double> ListBasedDecision(int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,int attempts,
-			int K,int L,int M,int N,String type) throws IOException{
+			int K,int L,int M,int N) throws IOException{
 		this.K=K; 
 		this.L=L;
 		this.M=M;
 		this.N=N;
-		FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_"+type+".txt");
-		 BufferedWriter b=new BufferedWriter(w);
+		//FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+K+L+M+N+".txt");
+		// BufferedWriter b=new BufferedWriter(w);
 		HashMap<Double,Double> listBasedDetection=new HashMap<Double,Double>();
 		createSnrToUsers(inf,sup,userToBinaryDecision,attempts);
 		for(Double snr: this.snrToPresenceUsers.keySet()){
-			b.write(" ");
-			b.write("-------------------"+snr+"-------------------------"+" \n");
+		//	b.write(" ");
+			//b.write("-------------------"+snr+"-------------------------"+" \n");
 			inizializeValue(userToBinaryDecision);
 			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
 			for(int attempt=0;attempt<this.snrToPresenceUsers.get(snr).size();attempt++){
-				b.write("------------"+attempt+"-----------"+" \n");
+				//b.write("------------"+attempt+"-----------"+" \n");
 				for(String SU: this.usersToInfo.keySet()){
-					b.write(SU+" list: "+ this.usersToInfo.get(SU)[2]+" ConsecutiveHits: "+
-							 this.usersToInfo.get(SU)[0]+" ErrorCount: "+ this.usersToInfo.get(SU)[1] +" \n ");
+				//	b.write(SU+" list: "+ this.usersToInfo.get(SU)[2]+" ConsecutiveHits: "+
+					//		 this.usersToInfo.get(SU)[0]+" ErrorCount: "+ this.usersToInfo.get(SU)[1] +" \n ");
 				}
 				HashMap<String,Integer> binaryDecisionsWhite=computeUserToDecisionWhite(this.snrToPresenceUsers.get(snr).get(attempt),
 						this.snrToAbsenceUsers.get(snr).get(attempt));
@@ -160,7 +160,7 @@ public class FusionCenter {
 			double detection=Detector.reputationBasedDetection(globalDecisions);
 			listBasedDetection.put(snr,detection);
 		}
-		b.close();
+		//b.close();
 		return Utils.orderSignal(listBasedDetection);
 	}
 		
