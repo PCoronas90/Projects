@@ -35,16 +35,16 @@ public class ListCSS {
 		// Setto i parametri
 		int length = 1000; // poi 10000
 		int attempts = 800;
-		int inf=-18;
-		int sup=0 ;
+		int inf=-12;
+		int sup=-11 ;
 		int block=10; //blocchi energy Detector
 		double pfa=0.01; //probabilità di falso allarme
-		int numberTSU=21;
-		int numberMSU=9;//numero di utenti fidati
-		int K=2; //GRIGIA->BIANCA
+		int numberTSU;
+		int numberMSU;//numero di utenti fidati
+		int K; //GRIGIA->BIANCA
 		int L=2;// NERA->BIANCA
 		int M=2; //BIANCA->GRIGIA
-		int N;//GRIGIA->NERA
+		int N=2;//GRIGIA->NERA
 
 		//Creo il Fusion center
 		FusionCenter FC=new FusionCenter();
@@ -54,11 +54,10 @@ public class ListCSS {
 		Signal s = PU.createAndSend(length);
 
 		
-		for(int i=0;i<8;i++){
-			N=2+i;
+		for(int i=0;i<10;i++){
+			K=2+i;
 		
-		/**
-		 TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		/**TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 
 		//Creo i vettori contenenti le decisioni binarie sulla presenza o assenza dell'utente primario.Le inserisco in una
 		//mappa
@@ -105,9 +104,9 @@ public class ListCSS {
 
 		DetectionGraph.put("With Intelligent MSU", ListCooperativeEnergyDetectionIntelligent);
 
-		GraphGenerator.drawAndSaveGraph("Presence of PU in List Cooperative Energy Detection.30% MSU ",DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+".jpg");;
-		//GraphGenerator.drawGraph("Presence of PU in List Cooperative Energy Detection.30% MSU ",DetectionGraph, inf, sup);
-		}}}
+		
+		GraphGenerator.drawGraph("Presence of PU in List Cooperative Energy Detection.30% MSU ",DetectionGraph, inf, sup);
+		}
 /**
 		for(int i=0;i<45;i++){
 		 numberTSU=50-i;
@@ -126,4 +125,4 @@ public class ListCSS {
 GraphGenerator.drawMaliciousUsersToDetectionGraph("List CSS:K=L=M=N=2",DetectionGraph, inf, sup);
 
 	}**/
-
+}

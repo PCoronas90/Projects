@@ -36,15 +36,15 @@ public class ListCSS {
 		int length = 1000; // poi 10000
 		int attempts = 800;
 		int inf=-18;
-		int sup=0 ;
+		int sup=-0 ;
 		int block=10; //blocchi energy Detector
 		double pfa=0.01; //probabilità di falso allarme
 		int numberTSU=21;
 		int numberMSU=9;//numero di utenti fidati
 		int K=2; //GRIGIA->BIANCA
-		int L=2;// NERA->BIANCA
+		int L;// NERA->BIANCA
 		int M=2; //BIANCA->GRIGIA
-		int N;//GRIGIA->NERA
+		int N=2;//GRIGIA->NERA
 
 		//Creo il Fusion center
 		FusionCenter FC=new FusionCenter();
@@ -55,7 +55,7 @@ public class ListCSS {
 
 		
 		for(int i=0;i<8;i++){
-			N=2+i;
+			L=2+i;
 		
 		/**
 		 TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);

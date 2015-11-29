@@ -122,7 +122,7 @@ public class GraphGenerator {
 	 * @throws IOException 
 	 **/
 
-	public static void drawAndSaveGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path) throws IOException {
+	public static void drawAndSalveGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path) throws IOException {
 		ArrayList<Color> colorList=generateColor();
 		ArrayList<Shape> shapeList=generateShape();
 		int i=0;
