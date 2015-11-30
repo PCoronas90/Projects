@@ -1,7 +1,6 @@
 package it.sp4te.css.main;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
 
 import it.sp4te.css.agents.FusionCenter;
@@ -13,8 +12,6 @@ import it.sp4te.css.model.Signal;
 import it.sp4te.css.signalprocessing.SignalProcessor;
 import it.sp4te.css.signalprocessing.Utils;
 
-/**Questa classe modella uno scenario cooperativo  in cui sono presenti  utenti secondari fidati e non,
- * utilizzando la tecnica basata sulla divisione in liste degli utenti**/
 public class ListCSS {
 
 	

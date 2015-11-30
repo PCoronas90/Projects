@@ -11,8 +11,9 @@ import it.sp4te.css.signalprocessing.SignalProcessor;
 
 /**
  * <p>Titolo: SpectrumSensing</p>
- * <p> Descrizione della classe: La classe si occupa di creare il segnale e l'utente secondario . Tramite l'utente secondario effettua i diversi
- * tipi di Detection. Infine passa alla creazione del grafico.</p>
+ * <p> Descrizione della classe: Questa classe effettua la simulazione di identificazione dell'utente primario tramite 4 metodi
+ * di detection: Energy Detector tradizionale, Energy Detector con divisione in blocchi, Energy Detector tramite momenti
+ * del secondo e quarto ordine e infine tramite metodo proposto.</p>
  * @author Pietro Coronas
  **/
 

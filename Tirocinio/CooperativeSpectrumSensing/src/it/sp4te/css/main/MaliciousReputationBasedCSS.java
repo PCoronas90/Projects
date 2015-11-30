@@ -12,6 +12,8 @@ import it.sp4te.css.model.Signal;
 import it.sp4te.css.signalprocessing.SignalProcessor;
 import it.sp4te.css.signalprocessing.Utils;
 
+/**Questa classe modella uno scenario cooperativo in cui sono presenti  utenti secondari fidati e malevoli,
+ * utilizzando la tecnica basata sulla reputazione degli utenti**/
 public class MaliciousReputationBasedCSS {
 
 	public static void main(String args[]) throws Exception {

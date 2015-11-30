@@ -18,8 +18,12 @@ public class FusionCenter {
 	HashMap<Double,ArrayList<ArrayList<String>>> snrToAbsenceUsers;
 	//Mappa idUtente->reputazione
 	HashMap<String,Double> usersReliabilities;
+	//Mappa idUtente->array di informazioni (lista,hitsConsecutivi,Errori)
 	HashMap<String,Integer[]> usersToInfo;
+	//Valori per il passaggio tra liste
 	int K,L,M,N;
+	//Mappa utente->volte che è stato in lista nera
+	HashMap<String,Integer> blackListCount;
 
 
 	public FusionCenter(){
@@ -175,7 +179,10 @@ public class FusionCenter {
 	 * **/
 	public void inizializeValue(HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision){
 		this.usersToInfo.clear();
+		this.blackListCount.clear();
 		for(String SU: userToBinaryDecision.keySet()){
+		//Aggiorno il contatore della lista nera per ogni utente a 0
+			this.blackListCount.put(SU, 0);
 		 Integer[] value=new Integer[3];
 		 //HITS Consecutivi
 		 value[0]=0;
@@ -291,6 +298,9 @@ public class FusionCenter {
 			 }
 			 //se gli errori superano L e si trova in lista grigia
 			 if(value[1]>=this.N & value[2]==1){
+				 int blackCount=this.blackListCount.get(absenceSU.get(j));
+				 //Aggiorno le volte che è stato in lista grigia
+				 this.blackListCount.replace(absenceSU.get(j), blackCount, blackCount++);
 				 //passa in lista nera
 				 value[2]=2;
 				 //azzero gli errori

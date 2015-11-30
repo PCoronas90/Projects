@@ -1,7 +1,6 @@
 package it.sp4te.css.main;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
 
 import it.sp4te.css.agents.FusionCenter;
@@ -13,8 +12,6 @@ import it.sp4te.css.model.Signal;
 import it.sp4te.css.signalprocessing.SignalProcessor;
 import it.sp4te.css.signalprocessing.Utils;
 
-/**Questa classe modella uno scenario cooperativo  in cui sono presenti  utenti secondari fidati e non,
- * utilizzando la tecnica basata sulla divisione in liste degli utenti**/
 public class ListCSS {
 
 	
@@ -37,18 +34,18 @@ public class ListCSS {
 
 		// Setto i parametri
 		int length = 1000; // poi 10000
-		int attempts = 1000;
+		int attempts = 800;
 		int inf=-18;
 		int sup=0 ;
 		int block=10; //blocchi energy Detector
 		double pfa=0.01; //probabilità di falso allarme
-		int numberTSU=35;
-		int numberMSU=15;//numero di utenti fidati
-		int K; //GRIGIA->BIANCA
-		int L;// NERA->BIANCA
-		int M=3; //BIANCA->GRIGIA
-		int N=5;//GRIGIA->NERA
-        int j=2;
+		int numberTSU=21;
+		int numberMSU=9;//numero di utenti fidati
+		int K=2; //GRIGIA->BIANCA
+		int L=2;// NERA->BIANCA
+		int M=2; //BIANCA->GRIGIA
+		int N;//GRIGIA->NERA
+
 		//Creo il Fusion center
 		FusionCenter FC=new FusionCenter();
 		//Creo l'utente primario
@@ -57,9 +54,8 @@ public class ListCSS {
 		Signal s = PU.createAndSend(length);
 
 		
-		for(int delta=1;delta<8;delta++){
-			L=N+(delta*j);
-			K=M+delta;
+		for(int i=0;i<8;i++){
+			N=2+i;
 		
 		/**
 		 TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
