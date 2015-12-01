@@ -1,14 +1,12 @@
 package it.sp4te.css.agents;
 
-
-/**Questa classe modella un oggetto reputazione, che appresenta le informazioni che il fusion center ha su ogni utente
- * che partecipa alla comunicazione**/
-
 public class Reputation {
+   
 	int consecutiveHits;
+
 	int errorCount;
 	int flag;
-
+	
 	public Reputation(){
 		this.consecutiveHits=0;
 		this.errorCount=0;
@@ -36,24 +34,24 @@ public class Reputation {
 	}
 
 	public void setFlag(int flag) {
-		this.consecutiveHits=0;
+this.consecutiveHits=0;
 		this.errorCount=0;
 		this.flag = flag;
 	}
-
+		
 	public void incrementConsecutiveHits(){
 		this.consecutiveHits++;
 	}
-
-
+	
+	
 	public void incrementErrorCount(){
 		this.consecutiveHits=0;
 		this.errorCount++;
-
+	
 	}
-
-
-
-
-
+	
+	
+	
+	
+	
 }

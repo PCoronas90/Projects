@@ -5,7 +5,9 @@ package it.sp4te.css.agents;
  * che partecipa alla comunicazione**/
 
 public class Reputation {
+
 	int consecutiveHits;
+
 	int errorCount;
 	int flag;
 
