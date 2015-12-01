@@ -46,6 +46,7 @@ this.consecutiveHits=0;
 	
 	public void incrementErrorCount(){
 		this.consecutiveHits=0;
+		this.setConsecutiveHits(0);
 		this.errorCount++;
 	
 	}

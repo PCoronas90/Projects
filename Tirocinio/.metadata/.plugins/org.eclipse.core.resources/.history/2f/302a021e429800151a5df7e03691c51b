@@ -254,14 +254,16 @@ public class FusionCenter {
 			 //se gli hits superano K e si trova in lista grigia
 			 if(reputation.getConsecutiveHits()>=this.K & reputation.getFlag()==1){
 				 reputation.setFlag(0);
-				
+				 reputation.setConsecutiveHits(0);
+					reputation.setErrorCount(0);
 				
 			 }
 			 //se gli hits superano L e si trova in lista nera
 			 else if(reputation.getConsecutiveHits()>=this.L & reputation.getFlag()==2){
 				 //passa in lista grigia
 				 reputation.setFlag(1);
-				 
+				 reputation.setConsecutiveHits(0);
+					reputation.setErrorCount(0);
 				
 			 }
 		 }
@@ -269,20 +271,22 @@ public class FusionCenter {
 			 Reputation reputation=this.usersToInfo.get(absenceSU.get(j));
 			 //incremento gli errori
 			reputation.incrementErrorCount();
-		
+			reputation.setConsecutiveHits(0);
 			
 			
 			 //se gli ERRORI superano M e si trova in lista bianca
 			 if(reputation.getErrorCount()>=this.M & reputation.getFlag()==0){
 				 //passa in lista grigia
 				 reputation.setFlag(1);
-				
+				 reputation.setConsecutiveHits(0);
+					reputation.setErrorCount(0);
 				
 			 }
 			 //se gli errori superano L e si trova in lista grigia
 			 else if(reputation.getErrorCount()>=this.N & reputation.getFlag()==1){
 	              reputation.setFlag(2);;
-	             
+	              reputation.setConsecutiveHits(0);
+					reputation.setErrorCount(0);
 
 			 }
 			
@@ -293,18 +297,20 @@ public class FusionCenter {
 				 Reputation reputation=this.usersToInfo.get(presenceSU.get(i));
 				 //incremento gli errori
 				 reputation.incrementErrorCount();
-					
+					reputation.setConsecutiveHits(0);
 
 				
 				 //se gli ERRORI superano M e si trova in lista bianca
 				 if(reputation.getErrorCount()>=this.M & reputation.getFlag()==0){
 					reputation.setFlag(1);
-					
+					reputation.setConsecutiveHits(0);
+					reputation.setErrorCount(0);
 				 }
 				 //se gli errori superano L e si trova in lista grigia
 				 else if(reputation.getErrorCount()>=this.N & reputation.getFlag()==1){
 					reputation.setFlag(2);
-					
+					reputation.setConsecutiveHits(0);
+					reputation.setErrorCount(0);
 				 }
 			 }
 			
@@ -317,12 +323,14 @@ public class FusionCenter {
 				 //se gli hits superano K e si trova in lista grigia
 				 if(reputation.getConsecutiveHits()>=this.K & reputation.getFlag()==1){
 					 reputation.setFlag(0);;
-					
+					 reputation.setConsecutiveHits(0);
+						reputation.setErrorCount(0);
 				 }
 				 //se gli hits superano L e si trova in lista nera
 				 else if(reputation.getConsecutiveHits()>=this.L & reputation.getFlag()==2){
 					 reputation.setFlag(1);
-					
+					 reputation.setConsecutiveHits(0);
+						reputation.setErrorCount(0);
 				 
 			}
 		}
