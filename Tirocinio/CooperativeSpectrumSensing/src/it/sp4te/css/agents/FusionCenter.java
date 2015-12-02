@@ -145,17 +145,33 @@ public class FusionCenter {
 			inizializeValue(userToBinaryDecision);
 			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
 			for(int attempt=0;attempt<this.snrToPresenceUsers.get(snr).size();attempt++){
-				b.write("------------SNR="+snr+" Prova="+attempt+"-----------"+" \n");
+				b.write("-------------------SNR="+snr+" Prova="+attempt+"-------------------------"+" \n");
+				int whiteNumber=0;
+				int blackNumber=0;
+				int greyNumber=0;
 				for(String SU: this.usersToInfo.keySet()){
+					if(this.usersToInfo.get(SU).getFlag()==0){whiteNumber++;}
+					if(this.usersToInfo.get(SU).getFlag()==1){greyNumber++;}
+					if(this.usersToInfo.get(SU).getFlag()==2){blackNumber++;}
+					
 					b.write(SU+" list: "+ this.usersToInfo.get(SU).getFlag()+" ConsecutiveHits: "+
 							 this.usersToInfo.get(SU).getConsecutiveHits()+" ErrorCount: "+ this.usersToInfo.get(SU).getErrorCount() +" \n ");
 				}
+				
 				HashMap<String,Integer> binaryDecisionsWhite=computeUserToDecisionWhite(this.snrToPresenceUsers.get(snr).get(attempt),
 						this.snrToAbsenceUsers.get(snr).get(attempt));
 				HashMap<String,Integer> binaryDecisionsGrey=computeUserToDecisionGrey(this.snrToPresenceUsers.get(snr).get(attempt),
 						this.snrToAbsenceUsers.get(snr).get(attempt));
 				
 				Integer globalDecision=computeGlobalDecision(binaryDecisionsWhite,binaryDecisionsGrey);
+				b.write("Global Decision: "+globalDecision+" |");
+				b.write(" Presence: "+ this.snrToPresenceUsers.get(snr).get(attempt).size()+"| ");
+				b.write(" Absence: "+ this.snrToAbsenceUsers.get(snr).get(attempt).size()+"| ");
+				b.write(" White list: "+ whiteNumber+"| ");
+				b.write(" Grey list: "+ greyNumber+"| ");
+				b.write(" Black list: "+ blackNumber+"| ");
+				b.write(" \n");
+				
 				globalDecisions.add(globalDecision);
 				updateValue(globalDecision,this.snrToPresenceUsers.get(snr).get(attempt),
 						this.snrToAbsenceUsers.get(snr).get(attempt));
@@ -167,7 +183,6 @@ public class FusionCenter {
 		b.close();
 		return Utils.orderSignal(listBasedDetection);
 	}
-		
 	
 
 	/** QUesto metodo inizializza la mappa userToINfo, inserendo come chiave l'identificativo dell'utente secondario, e come valore un 

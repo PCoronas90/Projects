@@ -18,8 +18,12 @@ public class FusionCenter {
 	HashMap<Double,ArrayList<ArrayList<String>>> snrToAbsenceUsers;
 	//Mappa idUtente->reputazione
 	HashMap<String,Double> usersReliabilities;
-	HashMap<String,Integer[]> usersToInfo;
+	//Mappa idUtente->array di informazioni (lista,hitsConsecutivi,Errori)
+	HashMap<String,Reputation> usersToInfo;
+	//Valori per il passaggio tra liste
 	int K,L,M,N;
+	//Mappa utente->volte che è stato in lista nera
+	//HashMap<String,Integer> blackListCount;
 
 
 	public FusionCenter(){
@@ -27,7 +31,7 @@ public class FusionCenter {
 		snrToAbsenceUsers= new HashMap<Double,ArrayList<ArrayList<String>>>();
 		usersReliabilities= new HashMap<String,Double>();
 	
-		usersToInfo= new 	HashMap<String,Integer[]>();
+		usersToInfo= new 	HashMap<String,Reputation>();
 	}
 
 
@@ -126,25 +130,25 @@ public class FusionCenter {
 	 */
 	
 	public  ArrayList<Double> ListBasedDecision(int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,int attempts,
-			int K,int L,int M,int N) throws IOException{
+			int K,int L,int M,int N,String type) throws IOException{
 		this.K=K; 
 		this.L=L;
 		this.M=M;
 		this.N=N;
-		//FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+K+L+M+N+".txt");
-		// BufferedWriter b=new BufferedWriter(w);
+		FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_"+type+".txt");
+		 BufferedWriter b=new BufferedWriter(w);
 		HashMap<Double,Double> listBasedDetection=new HashMap<Double,Double>();
 		createSnrToUsers(inf,sup,userToBinaryDecision,attempts);
 		for(Double snr: this.snrToPresenceUsers.keySet()){
-		//	b.write(" ");
-			//b.write("-------------------"+snr+"-------------------------"+" \n");
+			b.write(" ");
+			b.write("------------------- SNR="+snr+" -------------------------"+" \n");
 			inizializeValue(userToBinaryDecision);
 			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
 			for(int attempt=0;attempt<this.snrToPresenceUsers.get(snr).size();attempt++){
-				//b.write("------------"+attempt+"-----------"+" \n");
+				b.write("------------SNR="+snr+" Prova="+attempt+"-----------"+" \n");
 				for(String SU: this.usersToInfo.keySet()){
-				//	b.write(SU+" list: "+ this.usersToInfo.get(SU)[2]+" ConsecutiveHits: "+
-					//		 this.usersToInfo.get(SU)[0]+" ErrorCount: "+ this.usersToInfo.get(SU)[1] +" \n ");
+					b.write(SU+" list: "+ this.usersToInfo.get(SU).getFlag()+" ConsecutiveHits: "+
+							 this.usersToInfo.get(SU).getConsecutiveHits()+" ErrorCount: "+ this.usersToInfo.get(SU).getErrorCount() +" \n ");
 				}
 				HashMap<String,Integer> binaryDecisionsWhite=computeUserToDecisionWhite(this.snrToPresenceUsers.get(snr).get(attempt),
 						this.snrToAbsenceUsers.get(snr).get(attempt));
@@ -160,7 +164,7 @@ public class FusionCenter {
 			double detection=Detector.reputationBasedDetection(globalDecisions);
 			listBasedDetection.put(snr,detection);
 		}
-		//b.close();
+		b.close();
 		return Utils.orderSignal(listBasedDetection);
 	}
 		
@@ -175,15 +179,9 @@ public class FusionCenter {
 	 * **/
 	public void inizializeValue(HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision){
 		this.usersToInfo.clear();
+		
 		for(String SU: userToBinaryDecision.keySet()){
-		 Integer[] value=new Integer[3];
-		 //HITS Consecutivi
-		 value[0]=0;
-		 //Errori
-		 value[1]=0;
-		 //flag: 0 bianca,1grigia,2nera
-		 value[2]=0;
-		 this.usersToInfo.put(SU, value);		 
+		 this.usersToInfo.put(SU, new Reputation());		 
 		}
 	}
 	
@@ -197,12 +195,12 @@ public class FusionCenter {
 	public HashMap<String,Integer> computeUserToDecisionWhite(ArrayList<String> presenceUsers,ArrayList<String> absenceUsers){
 		HashMap<String,Integer> binaryDecisionsWhite= new HashMap<String,Integer>();
 		for(String SU:presenceUsers){
-			int flag=this.usersToInfo.get(SU)[2];
+			int flag=this.usersToInfo.get(SU).getFlag();
 			if(flag==0){
 				binaryDecisionsWhite.put(SU, 1);
 			}}
 		for(String SU2:absenceUsers){
-			int flag=this.usersToInfo.get(SU2)[2];
+			int flag=this.usersToInfo.get(SU2).getFlag();
 			if(flag==0){
 				binaryDecisionsWhite.put(SU2,0);
 			}
@@ -222,12 +220,12 @@ public class FusionCenter {
 	public HashMap<String,Integer> computeUserToDecisionGrey(ArrayList<String> presenceUsers,ArrayList<String> absenceUsers){
 		HashMap<String,Integer> binaryDecisionsWhite= new HashMap<String,Integer>();
 		for(String SU:presenceUsers){
-			int flag=this.usersToInfo.get(SU)[2];
+			int flag=this.usersToInfo.get(SU).getFlag();
 			if(flag==1){
 				binaryDecisionsWhite.put(SU, 1);
 			}}
 		for(String SU2:absenceUsers){
-			int flag=this.usersToInfo.get(SU2)[2];
+			int flag=this.usersToInfo.get(SU2).getFlag();
 			if(flag==1){
 				binaryDecisionsWhite.put(SU2,0);
 			}
@@ -250,100 +248,85 @@ public class FusionCenter {
 	public void updateValue(int globalDecision,ArrayList<String>  presenceSU,ArrayList<String>  absenceSU){
 		if(globalDecision==1){
 		 for(int i=0;i<presenceSU.size();i++){
-			 Integer[] value=this.usersToInfo.get(presenceSU.get(i));
+			 Reputation reputation=this.usersToInfo.get(presenceSU.get(i));
 			 //Incremento gli hits consecutivi
-			 int hits=value[0]+1;
-			 value[0]=hits;
+			 reputation.incrementConsecutiveHits();
 			 //se gli hits superano K e si trova in lista grigia
-			 if(value[0]>=this.K & value[2]==1){
-				 //passa in lista bianca
-				 value[2]=0;
-				 //azzero gli errori
-				 value[1]=0;
-				 //azzero gli hits
-				 value[0]=0;
+			 if(reputation.getConsecutiveHits()>=this.K & reputation.getFlag()==1){
+				 reputation.setFlag(0);
+				
+				
 			 }
 			 //se gli hits superano L e si trova in lista nera
-			 if(value[0]>=this.L & value[2]==2){
+			 else if(reputation.getConsecutiveHits()>=this.L & reputation.getFlag()==2){
 				 //passa in lista grigia
-				 value[2]=1;
-				 //assero gli errori
-				 value[1]=0;
-				 //azzero gli hits
-				 value[0]=0;
+				 reputation.setFlag(1);
+				 
+				
 			 }
 		 }
 		 for(int j=0;j<absenceSU.size();j++){
-			 Integer[] value=this.usersToInfo.get(absenceSU.get(j));
+			 Reputation reputation=this.usersToInfo.get(absenceSU.get(j));
 			 //incremento gli errori
-			 int error=value[1]+1;
-			 value[1]=error;
-			 //azzero hits consecutivi
-			 value[0]=0;
+			reputation.incrementErrorCount();
+		
+			
+			
 			 //se gli ERRORI superano M e si trova in lista bianca
-			 if(value[1]>=this.M & value[2]==0){
+			 if(reputation.getErrorCount()>=this.M & reputation.getFlag()==0){
 				 //passa in lista grigia
-				 value[2]=1;
-				 //azzero gli errori
-				 value[1]=0;
-				 //azzero gli hits
-				 value[0]=0;
+				 reputation.setFlag(1);
+				
+				
 			 }
 			 //se gli errori superano L e si trova in lista grigia
-			 if(value[1]>=this.N & value[2]==1){
-				 //passa in lista nera
-				 value[2]=2;
-				 //azzero gli errori
-				 value[1]=0;
-				 //azzero gli hits
-				 value[0]=0;
+			 else if(reputation.getErrorCount()>=this.N & reputation.getFlag()==1){
+	              reputation.setFlag(2);;
+	             
+
 			 }
+			
 		 }
 		}
-		if(globalDecision==0){
+		else if(globalDecision==0){
 			for(int i=0;i<presenceSU.size();i++){
-				Integer[] value=this.usersToInfo.get(presenceSU.get(i));
+				 Reputation reputation=this.usersToInfo.get(presenceSU.get(i));
 				 //incremento gli errori
-				 int error=value[1]+1;
-				 value[1]=error;
-				 //azzero hits consecutivi
-				 value[0]=0;
+				 reputation.incrementErrorCount();
+					
+
+				
 				 //se gli ERRORI superano M e si trova in lista bianca
-				 if(value[1]>=this.M & value[2]==0){
-					 value[2]=1;
-					 value[1]=0;
-					 value[0]=0;
+				 if(reputation.getErrorCount()>=this.M & reputation.getFlag()==0){
+					reputation.setFlag(1);
+					
 				 }
 				 //se gli errori superano L e si trova in lista grigia
-				 if(value[1]>=this.N & value[2]==1){
-					 value[2]=2;
-					 value[1]=0;
-					 value[0]=0;
+				 else if(reputation.getErrorCount()>=this.N & reputation.getFlag()==1){
+					reputation.setFlag(2);
+					
 				 }
 			 }
-			}
+			
 			for(int j=0;j<absenceSU.size();j++){
 				
-				Integer[] value=this.usersToInfo.get(absenceSU.get(j));
+				 Reputation reputation=this.usersToInfo.get(absenceSU.get(j));
 				 //Incremento gli hits consecutivi
-				 int hits=value[0]+1;
-				 value[0]=hits;
-				 System.out.println(value[0]);
+				 reputation.incrementConsecutiveHits();
+			
 				 //se gli hits superano K e si trova in lista grigia
-				 if(value[0]>=this.K & value[2]==1){
-					 value[2]=0;
-					 value[1]=0;
-					 value[0]=0;
+				 if(reputation.getConsecutiveHits()>=this.K & reputation.getFlag()==1){
+					 reputation.setFlag(0);;
+					
 				 }
 				 //se gli hits superano L e si trova in lista nera
-				 if(value[0]>=this.L & value[2]==2){
-					 value[2]=1;
-					 value[1]=0;
-					 value[0]=0;
+				 else if(reputation.getConsecutiveHits()>=this.L & reputation.getFlag()==2){
+					 reputation.setFlag(1);
+					
 				 
 			}
 		}
-	
+		}
 	}
 	
 	
