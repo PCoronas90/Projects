@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.Detection.Detection"/>
-<fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.Detection.Threshold"/>
 <fullyQualifiedTypeName name="it.CooperativeSpectrumSensing.Agents.SecondaryUser"/>
 <fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions"/>
 <fullyQualifiedTypeName name="java.util.Collections"/>
@@ -60,4 +58,6 @@
 <fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="java.io.FileOutputStream"/>
 <fullyQualifiedTypeName name="it.sp4te.css.signalprocessing.Utils"/>
+<fullyQualifiedTypeName name="it.sp4te.css.graphgenerator.GraphGenerator2"/>
+<fullyQualifiedTypeName name="it.sp4te.css.graphgenerator.Chart4jGraphGenerator"/>
 </qualifiedTypeNameHistroy>

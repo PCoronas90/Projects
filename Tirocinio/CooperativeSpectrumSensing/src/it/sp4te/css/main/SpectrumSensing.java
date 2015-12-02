@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import it.sp4te.css.agents.PrimaryUser;
 import it.sp4te.css.agents.TrustedSecondaryUser;
-import it.sp4te.css.graphgenerator.GraphGenerator;
+import it.sp4te.css.graphgenerator.Chart4jGraphGenerator;
 import it.sp4te.css.model.Signal;
 import it.sp4te.css.signalprocessing.SignalProcessor;
 
@@ -70,7 +70,7 @@ public class SpectrumSensing {
 		DetectionGraph.put("Traditional Energy Detection", TraditionalEnergyDetection);
 		DetectionGraph.put("Proposed Detection", ProposedDetection);
 
-		GraphGenerator.drawGraph("Detection Methods",DetectionGraph, inf, sup);
+		Chart4jGraphGenerator.drawGraph("Detection Methods",DetectionGraph, inf, sup);
 
 	}
 }

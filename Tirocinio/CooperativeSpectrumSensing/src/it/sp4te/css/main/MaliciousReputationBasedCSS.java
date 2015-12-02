@@ -3,11 +3,13 @@ package it.sp4te.css.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.jfree.ui.RefineryUtilities;
+
 import it.sp4te.css.agents.FusionCenter;
 import it.sp4te.css.agents.MaliciousSecondaryUser;
 import it.sp4te.css.agents.PrimaryUser;
 import it.sp4te.css.agents.TrustedSecondaryUser;
-import it.sp4te.css.graphgenerator.GraphGenerator;
+import it.sp4te.css.graphgenerator.Chart4jGraphGenerator;
 import it.sp4te.css.model.Signal;
 import it.sp4te.css.signalprocessing.SignalProcessor;
 import it.sp4te.css.signalprocessing.Utils;
@@ -35,9 +37,9 @@ public class MaliciousReputationBasedCSS {
 
 		// Setto i parametri
 		int length = 1000; // poi 10000
-		int attempts = 1000;
-		int inf = -16;
-		int sup = -15 ;
+		int attempts = 10;
+		int inf = -5;
+		int sup = -4 ;
 		int block=10; //blocchi energy Detector
 		double pfa=0.01; //probabilità di falso allarme
 		int numberTSU;//numero di utenti fidati
@@ -52,7 +54,7 @@ public class MaliciousReputationBasedCSS {
 
 		
 		
-		for(int i=0;i<45;i++){
+		/**for(int i=0;i<45;i++){
 		 numberTSU=50-i;
 		 numberMSU=0+i;
 		 System.out.println(numberTSU+"        "+ numberMSU);
@@ -65,7 +67,7 @@ public class MaliciousReputationBasedCSS {
 
 		}
 		DetectionGraph.put("Reputation Based",  MaliciousIntelligentReputationBasedCSS1);
-		
+		**/
 		for(int i=0;i<45;i++){
 			 numberTSU=50-i;
 			 numberMSU=0+i;
@@ -81,8 +83,8 @@ public class MaliciousReputationBasedCSS {
 		DetectionGraph.put("Majority Fusion",  MaliciousIntelligentReputationBasedCSS2);
 			
 		
+		Chart4jGraphGenerator.drawGraph("Reputation Based CSS: Intelligent MSU",DetectionGraph, inf, sup);
 		
-		GraphGenerator.drawMaliciousUsersToDetectionGraph("Reputation Based CSS: Intelligent MSU",DetectionGraph, inf, sup);
 
 /**		
 		for(int i=0;i<45;i++){

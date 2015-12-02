@@ -7,7 +7,7 @@ package it.sp4te.css.main;
 import it.sp4te.css.agents.MaliciousSecondaryUser;
 import it.sp4te.css.agents.PrimaryUser;
 	import it.sp4te.css.agents.TrustedSecondaryUser;
-	import it.sp4te.css.graphgenerator.GraphGenerator;
+	import it.sp4te.css.graphgenerator.Chart4jGraphGenerator;
 	import it.sp4te.css.model.Signal;
 	import it.sp4te.css.signalprocessing.SignalProcessor;
 	import it.sp4te.css.signalprocessing.Utils;
@@ -149,7 +149,7 @@ import it.sp4te.css.agents.PrimaryUser;
 			//DetectionGraph.put("CED OR fusion", CooperativeEnergyDetectionOrFusion);
 			DetectionGraph.put("CED MAJORITY fusion", CooperativeEnergyDetectionMajorityFusion);
 			DetectionGraph.put("Reputation Based", reputationBasedCSS);
-			GraphGenerator.drawGraph("Cooperative CSS VS Reputation Based CSS: 70% Absence Malicious User",DetectionGraph, inf, sup);			
+			Chart4jGraphGenerator.drawGraph("Cooperative CSS VS Reputation Based CSS: 70% Absence Malicious User",DetectionGraph, inf, sup);			
 	
 			
 

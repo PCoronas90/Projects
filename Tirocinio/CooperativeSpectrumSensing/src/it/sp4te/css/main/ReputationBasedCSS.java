@@ -6,7 +6,7 @@ import java.util.HashMap;
 import it.sp4te.css.agents.FusionCenter;
 import it.sp4te.css.agents.PrimaryUser;
 import it.sp4te.css.agents.TrustedSecondaryUser;
-import it.sp4te.css.graphgenerator.GraphGenerator;
+import it.sp4te.css.graphgenerator.Chart4jGraphGenerator;
 import it.sp4te.css.model.Signal;
 import it.sp4te.css.signalprocessing.SignalProcessor;
 import it.sp4te.css.signalprocessing.Utils;
@@ -53,7 +53,7 @@ public class ReputationBasedCSS {
 		reputationBasedCSS= FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts);
 		DetectionGraph.put("RB CSS", reputationBasedCSS);
 
-		GraphGenerator.drawGraph("Reputation Based CSS: Presence of PU",DetectionGraph, inf, sup);
+		Chart4jGraphGenerator.drawGraph("Reputation Based CSS: Presence of PU",DetectionGraph, inf, sup);
 
 		
 		//-----------------------------------------------------------
@@ -73,6 +73,6 @@ public class ReputationBasedCSS {
 		reputationBasedCSS= FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts);
 		DetectionGraph.put("RB CSS", reputationBasedCSS);
 
-		GraphGenerator.drawGraph("Reputation Based CSS: Absence of PU",DetectionGraph, inf, sup);
+		Chart4jGraphGenerator.drawGraph("Reputation Based CSS: Absence of PU",DetectionGraph, inf, sup);
 
 	}}

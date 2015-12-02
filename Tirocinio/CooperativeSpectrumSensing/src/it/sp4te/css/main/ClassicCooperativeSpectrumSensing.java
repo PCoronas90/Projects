@@ -6,7 +6,7 @@ import java.util.HashMap;
 import it.sp4te.css.agents.TrustedSecondaryUser;
 import it.sp4te.css.agents.FusionCenter;
 import it.sp4te.css.agents.PrimaryUser;
-import it.sp4te.css.graphgenerator.GraphGenerator;
+import it.sp4te.css.graphgenerator.Chart4jGraphGenerator;
 import it.sp4te.css.model.Signal;
 import it.sp4te.css.signalprocessing.SignalProcessor;
 import it.sp4te.css.signalprocessing.Utils;
@@ -64,7 +64,7 @@ public class ClassicCooperativeSpectrumSensing {
 		DetectionGraph.put("CED OR fusion", CooperativeEnergyDetectionOrFusion);
 		DetectionGraph.put("CED MAJORITY fusion", CooperativeEnergyDetectionMajorityFusion);
 
-		GraphGenerator.drawGraph("Presence of PU in Cooperative Energy Detection (CED)",DetectionGraph, inf, sup);
+		Chart4jGraphGenerator.drawGraph("Presence of PU in Cooperative Energy Detection (CED)",DetectionGraph, inf, sup);
 
 		
 		//------------------------------------------------Assenza utente primario-------------------//
