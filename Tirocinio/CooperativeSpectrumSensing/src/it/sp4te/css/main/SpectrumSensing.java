@@ -70,7 +70,8 @@ public class SpectrumSensing {
 		DetectionGraph.put("Traditional Energy Detection", TraditionalEnergyDetection);
 		DetectionGraph.put("Proposed Detection", ProposedDetection);
 
-		Chart4jGraphGenerator.drawGraph("Detection Methods",DetectionGraph, inf, sup);
+		Chart4jGraphGenerator SpectrumSensingGraph= new Chart4jGraphGenerator();
+		SpectrumSensingGraph.drawGraph("Detection Methods",DetectionGraph, inf, sup);
 
 	}
 }

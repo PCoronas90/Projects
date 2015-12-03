@@ -53,7 +53,8 @@ public class ReputationBasedCSS {
 		reputationBasedCSS= FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts);
 		DetectionGraph.put("RB CSS", reputationBasedCSS);
 
-		Chart4jGraphGenerator.drawGraph("Reputation Based CSS: Presence of PU",DetectionGraph, inf, sup);
+		Chart4jGraphGenerator reputationPresenceGraph= new Chart4jGraphGenerator();
+		reputationPresenceGraph.drawGraph("Reputation Based CSS: Presence of PU",DetectionGraph, inf, sup);
 
 		
 		//-----------------------------------------------------------
@@ -72,7 +73,8 @@ public class ReputationBasedCSS {
 		//globale secondo un meccanismo di reputazione
 		reputationBasedCSS= FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts);
 		DetectionGraph.put("RB CSS", reputationBasedCSS);
-
-		Chart4jGraphGenerator.drawGraph("Reputation Based CSS: Absence of PU",DetectionGraph, inf, sup);
+		
+		Chart4jGraphGenerator reputationAbsenceGraph= new Chart4jGraphGenerator();
+		reputationAbsenceGraph.drawGraph("Reputation Based CSS: Absence of PU",DetectionGraph, inf, sup);
 
 	}}

@@ -1,11 +1,7 @@
 package it.sp4te.css.main;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
-
-import org.jfree.ui.RefineryUtilities;
-
 import it.sp4te.css.agents.FusionCenter;
 import it.sp4te.css.agents.MaliciousSecondaryUser;
 import it.sp4te.css.agents.PrimaryUser;
@@ -34,11 +30,11 @@ public class ListCSS {
 		
 	//	ArrayList<Double> ListCooperativeEnergyDetection = new ArrayList<Double>();;
 		ArrayList<Double> ListCooperativeEnergyDetectionAbsence = new ArrayList<Double>();;
-		ArrayList<Double> CooperativeEnergyDetectionAbsence = new ArrayList<Double>();;
+		ArrayList<Double> ReputationEnergyDetectionAbsence = new ArrayList<Double>();;
 		ArrayList<Double> ListCooperativeEnergyDetectionIntelligent = new ArrayList<Double>();;
-		ArrayList<Double> CooperativeEnergyDetectionIntelligent = new ArrayList<Double>();;
+		ArrayList<Double> ReputationEnergyDetectionIntelligent = new ArrayList<Double>();;
 		ArrayList<Double> ListCooperativeEnergyDetectionOpposite = new ArrayList<Double>();;
-		ArrayList<Double> CooperativeEnergyDetectionOpposite = new ArrayList<Double>();;
+		ArrayList<Double> ReputationEnergyDetectionOpposite = new ArrayList<Double>();;
 
 		//ArrayList<Double> ListCooperativeEnergyDetectionOpposite = new ArrayList<Double>();;
 		//ArrayList<Double> ListCooperativeEnergyDetectionIntelligent = new ArrayList<Double>();;
@@ -74,13 +70,13 @@ public class ListCSS {
 			MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 			userToBinaryDecisionIntelligent2=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
 			userToBinaryDecisionIntelligent2.putAll(Utils.genereteIntelligentMaliciousBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
-			CooperativeEnergyDetectionIntelligent=FC.majorityDecision(inf, sup, userToBinaryDecisionIntelligent2);
+			ReputationEnergyDetectionIntelligent=FC.reputationBasedDecision(inf, sup, userToBinaryDecisionIntelligent2,attempts);
 			
 			TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 			MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 			userToBinaryDecisionOpposite2=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
 			userToBinaryDecisionOpposite2.putAll(Utils.genereteOppositeBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
-			CooperativeEnergyDetectionOpposite=FC.majorityDecision(inf, sup, userToBinaryDecisionOpposite2);
+			ReputationEnergyDetectionOpposite=FC.reputationBasedDecision(inf, sup, userToBinaryDecisionOpposite2,attempts);
 			
 			TrustedSecondaryUsers.clear();
 			MaliciousSecondaryUsers.clear();
@@ -89,7 +85,7 @@ public class ListCSS {
 			MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 			userToBinaryDecisionAbsence2=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
 			userToBinaryDecisionAbsence2.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
-			CooperativeEnergyDetectionAbsence=FC.majorityDecision(inf, sup, userToBinaryDecisionAbsence2);
+			ReputationEnergyDetectionAbsence=FC.reputationBasedDecision(inf, sup, userToBinaryDecisionAbsence2,attempts);
 			
 			
 		for(int delta=1;delta<10;delta++){
@@ -108,10 +104,10 @@ public class ListCSS {
 		ListCooperativeEnergyDetectionIntelligent= FC.ListBasedDecision(inf, sup, userToBinaryDecisionIntelligent, attempts, K, L, M, N,"_MSU"+numberMSU+"Intelligent");
 
 		DetectionGraph.put("ListBased", ListCooperativeEnergyDetectionIntelligent);
-		DetectionGraph.put("Majority", CooperativeEnergyDetectionIntelligent);
+		DetectionGraph.put("Reputation", ReputationEnergyDetectionIntelligent);
 
 		JFreeChartGraphGenerator graphIntelligent= new JFreeChartGraphGenerator("Presence of PU in Cooperative ED");
-		graphIntelligent.drawAndSaveGraph(DetectionGraph, inf, sup, "/home/sp4te/Scrivania/Output/"+K+L+M+N+"_IntelligentMSU"+numberMSU+".jpg");;
+		graphIntelligent.drawAndSaveGraph("",DetectionGraph, inf, sup, "/home/sp4te/Scrivania/Output/"+K+L+M+N+"_IntelligentMSU"+numberMSU+".jpg");;
 
 		DetectionGraph.clear();
 		TrustedSecondaryUsers.clear();
@@ -126,10 +122,10 @@ public class ListCSS {
 		ListCooperativeEnergyDetectionOpposite= FC.ListBasedDecision(inf, sup, userToBinaryDecisionOpposite, attempts, K, L, M, N,"MSU"+numberMSU+"_Opposite");
 
 		DetectionGraph.put("ListBased", ListCooperativeEnergyDetectionOpposite);
-		DetectionGraph.put("Majority", CooperativeEnergyDetectionOpposite);
+		DetectionGraph.put("Reputation", ReputationEnergyDetectionOpposite);
 
 		JFreeChartGraphGenerator graphOpposite= new JFreeChartGraphGenerator("Presence of PU in Cooperative ED");
-		graphOpposite.drawAndSaveGraph(DetectionGraph, inf, sup, "/home/sp4te/Scrivania/Output/"+K+L+M+N+"_OppositeMSU"+numberMSU+".jpg");;
+		graphOpposite.drawAndSaveGraph("",DetectionGraph, inf, sup, "/home/sp4te/Scrivania/Output/"+K+L+M+N+"_OppositeMSU"+numberMSU+".jpg");;
 		//GraphGenerator.drawGraph("Presence of PU in List Cooperative Energy Detection.30% MSU ",DetectionGraph, inf, sup);
 
 		DetectionGraph.clear();
@@ -146,11 +142,11 @@ public class ListCSS {
 		ListCooperativeEnergyDetectionAbsence= FC.ListBasedDecision(inf, sup, userToBinaryDecisionAbsence, attempts, K, L, M, N,"MSU"+numberMSU+"_Absence");
 
 		DetectionGraph.put("ListBased", ListCooperativeEnergyDetectionAbsence);
-		DetectionGraph.put("Majority", CooperativeEnergyDetectionAbsence);
+		DetectionGraph.put("Reputation", ReputationEnergyDetectionAbsence);
 
 		JFreeChartGraphGenerator graphAbsence= new JFreeChartGraphGenerator("Presence of PU in Cooperative ED");
 
-		graphAbsence.drawAndSaveGraph(DetectionGraph, inf, sup, "/home/sp4te/Scrivania/Output/"+K+L+M+N+"_AbsenceMSU"+numberMSU+".jpg");;
+		graphAbsence.drawAndSaveGraph("",DetectionGraph, inf, sup, "/home/sp4te/Scrivania/Output/"+K+L+M+N+"_AbsenceMSU"+numberMSU+".jpg");;
 
 
 

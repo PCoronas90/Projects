@@ -149,7 +149,8 @@ import it.sp4te.css.agents.PrimaryUser;
 			//DetectionGraph.put("CED OR fusion", CooperativeEnergyDetectionOrFusion);
 			DetectionGraph.put("CED MAJORITY fusion", CooperativeEnergyDetectionMajorityFusion);
 			DetectionGraph.put("Reputation Based", reputationBasedCSS);
-			Chart4jGraphGenerator.drawGraph("Cooperative CSS VS Reputation Based CSS: 70% Absence Malicious User",DetectionGraph, inf, sup);			
+			Chart4jGraphGenerator MSUGraph= new Chart4jGraphGenerator();
+			MSUGraph.drawGraph("Cooperative CSS VS Reputation Based CSS: 70% Absence Malicious User",DetectionGraph, inf, sup);			
 	
 			
 

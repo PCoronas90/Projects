@@ -73,7 +73,8 @@ public class MaliciousCoopeartiveSpectrumSensing {
 		DetectionGraph.put("CED with OR fusion", CooperativeEnergyDetectionOrFusionPresence);
 		DetectionGraph.put("CED with MAJORITY fusion", CooperativeEnergyDetectionMajorityFusionPresence);
 
-		Chart4jGraphGenerator.drawGraph("Presence of PU in Cooperative Energy Detection (CED) with Malicious User",DetectionGraph, inf, sup);
+		Chart4jGraphGenerator presenceGraph= new Chart4jGraphGenerator();
+		presenceGraph.drawGraph("Presence of PU in Cooperative Energy Detection (CED) with Malicious User",DetectionGraph, inf, sup);
 
 
 		//------------------------------------------------Assenza utente primario-------------------//
@@ -108,8 +109,8 @@ public class MaliciousCoopeartiveSpectrumSensing {
 		DetectionGraph2.put("CED with OR fusion", CooperativeEnergyDetectionOrFusionAbsence);
 		DetectionGraph2.put("CED with MAJORITY fusion", CooperativeEnergyDetectionMajorityFusionAbsence);
 
-
-		Chart4jGraphGenerator.drawGraph("Absence of PU in Cooperative Energy Detection (CED) with Malicious User",DetectionGraph2, inf, sup);
+		Chart4jGraphGenerator absenceGraph= new Chart4jGraphGenerator();
+		absenceGraph.drawGraph("Absence of PU in Cooperative Energy Detection (CED) with Malicious User",DetectionGraph2, inf, sup);
 
 		//------------------------------------------------Presenz autente primario con utente malevolo intelligente-------------------//
 		CooperativeEnergyDetectionAndFusionPresence.clear() ;
@@ -133,7 +134,8 @@ public class MaliciousCoopeartiveSpectrumSensing {
 		DetectionGraph.put("CED with OR fusion", CooperativeEnergyDetectionOrFusionPresence);
 		DetectionGraph.put("CED with MAJORITY fusion", CooperativeEnergyDetectionMajorityFusionPresence);
 
-		Chart4jGraphGenerator.drawGraph("Presence of PU in Cooperative Energy Detection (CED) with Intelligent Malicious User",DetectionGraph, inf, sup);
+		Chart4jGraphGenerator MSUIntelligentPresenceGraph= new Chart4jGraphGenerator();
+		MSUIntelligentPresenceGraph.drawGraph("Presence of PU in Cooperative Energy Detection (CED) with Intelligent Malicious User",DetectionGraph, inf, sup);
 
 		//------------------------------------------------Assenza utente primario con utente malevolo intelligente-------------------//
 
@@ -159,8 +161,8 @@ public class MaliciousCoopeartiveSpectrumSensing {
 		DetectionGraph2.put("CED with OR fusion", CooperativeEnergyDetectionOrFusionAbsence);
 		DetectionGraph2.put("CED with MAJORITY fusion", CooperativeEnergyDetectionMajorityFusionAbsence);
 
-
-		Chart4jGraphGenerator.drawGraph("Absence of PU in Cooperative Energy Detection (CED) with Intelligent Malicious User",DetectionGraph2, inf, sup);
+		Chart4jGraphGenerator MSUIntelligentAbsenceGraph= new Chart4jGraphGenerator();
+		 MSUIntelligentAbsenceGraph.drawGraph("Absence of PU in Cooperative Energy Detection (CED) with Intelligent Malicious User",DetectionGraph2, inf, sup);
 	}
 
 

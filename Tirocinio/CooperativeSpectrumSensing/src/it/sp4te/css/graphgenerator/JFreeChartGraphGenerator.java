@@ -22,7 +22,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
-public class JFreeChartGraphGenerator extends ApplicationFrame {
+public class JFreeChartGraphGenerator extends ApplicationFrame implements GraphGenerator{
 
 	/**
 	 * 
@@ -37,7 +37,7 @@ public class JFreeChartGraphGenerator extends ApplicationFrame {
 	    }
 	
 	 
-	 public  void drawGraph(HashMap<String, ArrayList<Double>> detection, int inf, int sup){
+	 public void drawGraph(String title, HashMap<String, ArrayList<Double>> detection, int inf, int sup){
 		 final XYDataset dataset = createSnrDataset(inf,sup,detection);
 	        final JFreeChart chart = createChart(dataset,super.getTitle(),"SNR","% Detection");
 	        final ChartPanel chartPanel = new ChartPanel(chart);
@@ -50,7 +50,7 @@ public class JFreeChartGraphGenerator extends ApplicationFrame {
 			}
 	 
 	 
-	 public  void drawAndSaveGraph(HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path){
+	 public  void drawAndSaveGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path){
 		 final XYDataset dataset = createSnrDataset(inf,sup,detection);
 	        final JFreeChart chart = createChart(dataset,super.getTitle(),"SNR","% Detection");
 	        final ChartPanel chartPanel = new ChartPanel(chart);
@@ -68,7 +68,8 @@ public class JFreeChartGraphGenerator extends ApplicationFrame {
 			}}
 	 
 	 
-	 public  void drawMaliciousUsersToDetectionGraph(HashMap<String, ArrayList<Double>> detection){
+	 public void drawMaliciousUsersToDetectionGraph(String title, HashMap<String, ArrayList<Double>> detection,
+				int inf, int sup) throws IOException {
 		 final XYDataset dataset = createMSUDataset(detection);
 	        final JFreeChart chart = createChart(dataset,super.getTitle(),"% MSU","% Detection");
 	        final ChartPanel chartPanel = new ChartPanel(chart);
@@ -81,7 +82,8 @@ public class JFreeChartGraphGenerator extends ApplicationFrame {
 			}
 	 
 	 
-	 public  void drawAndSaveMaliciousUsersToDetectionGraph(HashMap<String, ArrayList<Double>> detection,String path){
+	 public void drawAndSaveMaliciousUsersToDetectionGraph(String title,
+				HashMap<String, ArrayList<Double>> detection, int inf, int sup, String path) throws IOException {
 		 final XYDataset dataset = createMSUDataset(detection);
 	        final JFreeChart chart = createChart(dataset,super.getTitle(),"% MSU","% Detection");
 	        final ChartPanel chartPanel = new ChartPanel(chart);
@@ -223,4 +225,16 @@ public class JFreeChartGraphGenerator extends ApplicationFrame {
 
 			return colorList;
 		}
+
+
+		
+
+
+
+
+
+		
+
+
+		
 }

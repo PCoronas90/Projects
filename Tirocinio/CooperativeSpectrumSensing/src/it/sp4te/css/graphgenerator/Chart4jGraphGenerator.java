@@ -35,7 +35,7 @@ import it.sp4te.css.signalprocessing.Utils;
  * <p>Descrizione: Classe per la creazione dei grafici </p>
  * @author Pietro Coronas**/
 
-public class Chart4jGraphGenerator {
+public class Chart4jGraphGenerator implements GraphGenerator{
 
 	/**
 	 * Metodo per la creazione del grafico SNR-Detection
@@ -48,7 +48,7 @@ public class Chart4jGraphGenerator {
 	 * @throws IOException 
 	 **/
 
-	public static void drawGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException {
+	public  void drawGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException {
 		ArrayList<Color> colorList=generateColor();
 		ArrayList<Shape> shapeList=generateShape();
 		int i=0;
@@ -122,7 +122,7 @@ public class Chart4jGraphGenerator {
 	 * @throws IOException 
 	 **/
 
-	public static void drawAndSaveGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path) throws IOException {
+	public  void drawAndSaveGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path) throws IOException {
 		ArrayList<Color> colorList=generateColor();
 		ArrayList<Shape> shapeList=generateShape();
 		int i=0;
@@ -195,7 +195,7 @@ public class Chart4jGraphGenerator {
 	 * @param sup Estremo superiore di SNR su cui è stata effettuata la simulazione
 	 * @throws IOException 
 	 **/
-	public static void drawMaliciousUsersToDetectionGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException {
+	public  void drawMaliciousUsersToDetectionGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException {
 		ArrayList<Color> colorList=generateColor();
 		ArrayList<Shape> shapeList=generateShape();
 		int i=0;
@@ -267,7 +267,7 @@ public class Chart4jGraphGenerator {
 	 * @param path Destinazione in cui salvare l'immagine
 	 * @throws IOException 
 	 **/
-	public static void drawAndSalveMaliciousUsersToDetectionGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path) throws IOException {
+	public  void drawAndSaveMaliciousUsersToDetectionGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path) throws IOException {
 		ArrayList<Color> colorList=generateColor();
 		ArrayList<Shape> shapeList=generateShape();
 		int i=0;

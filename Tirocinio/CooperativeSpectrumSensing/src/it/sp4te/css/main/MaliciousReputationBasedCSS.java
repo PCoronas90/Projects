@@ -82,8 +82,8 @@ public class MaliciousReputationBasedCSS {
 			}
 		DetectionGraph.put("Majority Fusion",  MaliciousIntelligentReputationBasedCSS2);
 			
-		
-		Chart4jGraphGenerator.drawGraph("Reputation Based CSS: Intelligent MSU",DetectionGraph, inf, sup);
+		Chart4jGraphGenerator intelligentMSUGraph= new Chart4jGraphGenerator();
+		intelligentMSUGraph.drawGraph("Reputation Based CSS: Intelligent MSU",DetectionGraph, inf, sup);
 		
 
 /**		
