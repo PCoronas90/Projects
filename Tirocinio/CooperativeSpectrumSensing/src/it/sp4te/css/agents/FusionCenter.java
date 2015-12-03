@@ -119,10 +119,11 @@ public class FusionCenter {
 	 * @param userToBinaryDecision Mappa che ha come chiave il nome dell'uente primario. Come valore ha una lista di liste: per ogni SNR ha una lista
 	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario
 	 * @param attempts Numero di prove
-	 * @param K numero di hits consecutivi necessario per il passaggio da lista grigia->lista bianca
-	 * @param L numero di hits consecutivi necessario per il passaggio da lista nera->lista grigia
-	 * @param M numero di errori necessario per il passaggio da lista bianca->lista grigia
-	 * @param N numero di errori necessario per il passaggio da lista grigia->lista nera
+	 * @param K numero di hits consecutivi necessario per il passaggio da lista grigia lista bianca
+	 * @param L numero di hits consecutivi necessario per il passaggio da lista nera lista grigia
+	 * @param M numero di errori necessario per il passaggio da lista bianca lista grigia
+	 * @param N numero di errori necessario per il passaggio da lista grigia lista nera
+	 * @param typeMSU Tipo di MSU presente nella comunicazione. Parametro necessario per il salvatagigo del file di testo
 	 * @return  Ritorna la % di Dectection calcolata utilizzando un metodo basato sulla divisione in liste degli utenti che tiene conto delle volte che sbagliano e delle volte
 	 * che concordano con la decisione globale in modo consecutivo.
 	 * @throws IOException 
@@ -130,12 +131,12 @@ public class FusionCenter {
 	 */
 	
 	public  ArrayList<Double> ListBasedDecision(int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,int attempts,
-			int K,int L,int M,int N,String type) throws IOException{
+			int K,int L,int M,int N,String typeMSU) throws IOException{
 		this.K=K; 
 		this.L=L;
 		this.M=M;
 		this.N=N;
-		FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_"+type+".txt");
+		FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_"+typeMSU+".txt");
 		 BufferedWriter b=new BufferedWriter(w);
 		HashMap<Double,Double> listBasedDetection=new HashMap<Double,Double>();
 		createSnrToUsers(inf,sup,userToBinaryDecision,attempts);
@@ -252,10 +253,10 @@ public class FusionCenter {
 
 	/** Questo metodo aggiorna la mappa usersToInfo. In particolare aggiorna gli hits consecutivi, gli errori e si occupa del cambio di lista
 	 * degli utenti in base ai valori KLMN.
-	 * Se un utente ha un numero di hits consecutivi maggiore o uguale a K e si trova in lista grigia->va in lista bianca
-	 * Se un utente ha un numero di hits consecutivi maggiore o uguale a L e si trova in lista nera->va in lista grigia
-	 * Se un utente ha un numero di errori maggiore o uguale a M e si trova in lista bianca-> va in lista grigia
-	 * Se un utente ha un numero di errori maggiore o uguale a N e si trova in lista grigia->va in lista nera
+	 * Se un utente ha un numero di hits consecutivi maggiore o uguale a K e si trova in lista grigia va in lista bianca
+	 * Se un utente ha un numero di hits consecutivi maggiore o uguale a L e si trova in lista nera va in lista grigia
+	 * Se un utente ha un numero di errori maggiore o uguale a M e si trova in lista bianca va in lista grigia
+	 * Se un utente ha un numero di errori maggiore o uguale a N e si trova in lista grigia va in lista nera
 	 * @param globalDecision decisione globale
 	 * @param presenceSU lista di utenti che affermano la presenza dell'utente primario
 	 * @param absenceSU lista di utenti che affermano l'assenza dell'utente primario
@@ -476,7 +477,7 @@ public class FusionCenter {
 	 * utenti con reputazione maggiore o uguale ad 1
 	 * @param presenceUsers Lista di utenti che affermano la presenza dell'utente primario
 	 * @param absenceUsers Lista di utenti che affermano l'assenza dell'utente primario
-	 * @return Una mappa utente->decisione
+	 * @return Una mappa utente decisione
 	 **/
 
 	public HashMap<String,Integer> computeUserToDecision(ArrayList<String> presenceUsers,ArrayList<String> absenceUsers){
@@ -498,10 +499,10 @@ public class FusionCenter {
 
 
 
-	/** Questo metodo calcola la decisione globale prendendo in input una mappa utente->decisione . Il calcolo della decisione
+	/** Questo metodo calcola la decisione globale prendendo in input una mappa utente decisione . Il calcolo della decisione
 	 * globale si basa su un peso associato ad ogni utente che tiene conto della sua reputazione, dell'utente con la massima reputazione
 	 * e delle reputazione di tutti gli altri utenti.
-	 * @param binaryDecisions Mappa utente->Decisione
+	 * @param binaryDecisions Mappa utente Decisione
 	 * @return La decisione globale basa sul peso di ogni utente
 	 */
 
@@ -533,6 +534,7 @@ public class FusionCenter {
 	 * ad un dato SNR
 	 * @param maxReputation La massima reputazione 
 	 * @param totalPartialWeight La somma dei pesi parziali
+	 * @return Ritorma la soglia
 	 */
 	
 	public double computeThreshold(HashMap<String,Integer> binaryDecisions,double maxReputation,double totalPartialWeight){
@@ -602,6 +604,7 @@ public class FusionCenter {
 	 * @param globalDecision Decisione globale
 	 * @param presenceSU Lista di utenti che affermano la presenza dell'utente primario
 	 * @param absenceSU Lista di utenti che affermano l'assenza dell'utente primario
+	 * @param snr L'SNR a cui si sta effettuando l'aggiornamento della reputazione
 	 */
 
 	public void updateReliabilities(int globalDecision,ArrayList<String>  presenceSU,ArrayList<String>  absenceSU,double snr){

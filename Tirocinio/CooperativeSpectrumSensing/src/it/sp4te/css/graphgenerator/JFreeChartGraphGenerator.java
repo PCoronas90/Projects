@@ -24,217 +24,225 @@ import org.jfree.ui.RefineryUtilities;
 
 public class JFreeChartGraphGenerator extends ApplicationFrame implements GraphGenerator{
 
-	/**
-	 * 
-	 */
+
+
 	private static final long serialVersionUID = 1L;
 	static int numberOfGraph;
-	 public JFreeChartGraphGenerator(String title) {
-		 super(title);
+	public JFreeChartGraphGenerator(String title) {
+		super(title);
+	}
 
-	   
+	/**
+	 * Metodo per la creazione del grafico SNR-Detection
+	 * 
+	 * @param title Titolo del grafico
+	 * @param detection Mappa che ha come chiave il nome della curva da visualizzare e come valore una lista con le percentuali di 
+	 * Detection al variare dell'SNR.
+	 * @param inf Estremo inferiore di SNR su cui è stata effettuata la simulazione
+	 * @param sup Estremo superiore di SNR su cui è stata effettuata la simulazione
+	 * @throws IOException 
+	 **/
+	public void drawGraph(String title, HashMap<String, ArrayList<Double>> detection, int inf, int sup){
+		final XYDataset dataset = createSnrDataset(inf,sup,detection);
+		final JFreeChart chart = createChart(dataset,super.getTitle(),"SNR","% Detection");
+		final ChartPanel chartPanel = new ChartPanel(chart);
+		chartPanel.setPreferredSize(new java.awt.Dimension(650, 500));
+		setContentPane(chartPanel);
+		this.pack();
+		RefineryUtilities.centerFrameOnScreen(this);
+		this.setVisible(true);
 
-	    }
-	
-	 
-	 public void drawGraph(String title, HashMap<String, ArrayList<Double>> detection, int inf, int sup){
-		 final XYDataset dataset = createSnrDataset(inf,sup,detection);
-	        final JFreeChart chart = createChart(dataset,super.getTitle(),"SNR","% Detection");
-	        final ChartPanel chartPanel = new ChartPanel(chart);
-	       chartPanel.setPreferredSize(new java.awt.Dimension(650, 500));
-	        setContentPane(chartPanel);
-	        this.pack();
-		     RefineryUtilities.centerFrameOnScreen(this);
-		      this.setVisible(true);
+	}
 
-			}
-	 
-	 
-	 public  void drawAndSaveGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path){
-		 final XYDataset dataset = createSnrDataset(inf,sup,detection);
-	        final JFreeChart chart = createChart(dataset,super.getTitle(),"SNR","% Detection");
-	        final ChartPanel chartPanel = new ChartPanel(chart);
-	        setContentPane(chartPanel);
 
-			try {
+	/**
+	 * Metodo per la creazione del grafico SNR-Detection e il salvataggio al path specificato
+	 * 
+	 * @param title Titolo del grafico
+	 * @param detection Mappa che ha come chiave il nome della curva da visualizzare e come valore una lista con le percentuali di 
+	 * Detection al variare dell'SNR.
+	 * @param inf Estremo inferiore di SNR su cui è stata effettuata la simulazione
+	 * @param sup Estremo superiore di SNR su cui è stata effettuata la simulazione
+	 * @param path Destinazione in cui salvare l'immagine
+	 * @throws IOException 
+	 **/
+	public  void drawAndSaveGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path){
+		final XYDataset dataset = createSnrDataset(inf,sup,detection);
+		final JFreeChart chart = createChart(dataset,super.getTitle(),"SNR","% Detection");
+		final ChartPanel chartPanel = new ChartPanel(chart);
+		setContentPane(chartPanel);
+
+		try {
 
 
 			ChartUtilities.saveChartAsPNG(new File(path), chart, 750, 490);
 
-			} catch (IOException ex) {
+		} catch (IOException ex) {
 
 			System.out.println(ex.getLocalizedMessage());
 
-			}}
-	 
-	 
-	 public void drawMaliciousUsersToDetectionGraph(String title, HashMap<String, ArrayList<Double>> detection,
-				int inf, int sup) throws IOException {
-		 final XYDataset dataset = createMSUDataset(detection);
-	        final JFreeChart chart = createChart(dataset,super.getTitle(),"% MSU","% Detection");
-	        final ChartPanel chartPanel = new ChartPanel(chart);
-	       chartPanel.setPreferredSize(new java.awt.Dimension(650, 500));
-	        setContentPane(chartPanel);
-	        this.pack();
-		     RefineryUtilities.centerFrameOnScreen(this);
-		      this.setVisible(true);
+		}}
+
+
+	/**
+	 * Metodo per la creazione del grafico % Utenti Malevoli-Detection
+	 * 
+	 * @param title Titolo del grafico
+	 * @param detection Mappa che ha come chiave il nome della curva da visualizzare e come valore una lista con le percentuali di 
+	 * Detection al variare dell'SNR.
+	 * @param totalUser Utenti totali coinvolti nella comunicazione
+	 * @param totalMaliciousUser Utenti malevoli totali coinvolti nella comunicazione
+	 * @throws IOException 
+	 **/
+	public void drawMaliciousUsersToDetectionGraph(String title, HashMap<String, ArrayList<Double>> detection,
+			int totalUser, int totalMaliciousUser) throws IOException {
+		final XYDataset dataset = createMSUDataset(detection,totalUser);
+		final JFreeChart chart = createChart(dataset,super.getTitle(),"% MSU","% Detection");
+		final ChartPanel chartPanel = new ChartPanel(chart);
+		chartPanel.setPreferredSize(new java.awt.Dimension(650, 500));
+		setContentPane(chartPanel);
+		this.pack();
+		RefineryUtilities.centerFrameOnScreen(this);
+		this.setVisible(true);
+
+	}
+
+	/**
+	 * Metodo per la creazione del grafico % Utenti Malevoli-Detection e salvataggio su path specifico
+	 * 
+	 * @param title Titolo del grafico
+	 * @param detection Mappa che ha come chiave il nome della curva da visualizzare e come valore una lista con le percentuali di 
+	 * Detection al variare dell'SNR.
+	 * @param totalUser Utenti totali coinvolti nella comunicazione
+	 * @param totalMaliciousUser Utenti malevoli totali coinvolti nella comunicazione
+	 * @param path Destinazione in cui salvare l'immagine
+	 * @throws IOException 
+	 **/
+	public void drawAndSaveMaliciousUsersToDetectionGraph(String title,
+			HashMap<String, ArrayList<Double>> detection, int totalUser, int totalMaliciousUser, String path) throws IOException {
+		final XYDataset dataset = createMSUDataset(detection,totalUser);
+		final JFreeChart chart = createChart(dataset,super.getTitle(),"% MSU","% Detection");
+		final ChartPanel chartPanel = new ChartPanel(chart);
+
+		setContentPane(chartPanel);
+
+		try {
+			ChartUtilities.saveChartAsPNG(new File(path), chart, 750, 490);
+		} catch (IOException ex) {
+			System.out.println(ex.getLocalizedMessage());
+		}}
+
+
+
+
+
+	/** Metodo per la creazione del dataset del grafico Detection-SNR
+	 * @param inf Estremo inferiore di snr
+	 * @param sup Estremo superiore di SNR
+	 * @param detection Mappa con nome del grafico e lista delle detection da rappresentare
+	 * @return Un dataset formato da SNR e rispettiva probabilità di detection
+	 */
+	private  XYDataset createSnrDataset(int inf, int sup,HashMap<String, ArrayList<Double>> detection) {
+		numberOfGraph=0;
+		final XYSeriesCollection dataset = new XYSeriesCollection();
+		for (String graphName : detection.keySet()) {
+			numberOfGraph++;
+			final XYSeries series = new XYSeries(graphName);
+			for(int i=0;i<detection.get(graphName).size();i++){
+				series.add((double)inf+i, detection.get(graphName).get(i));
 
 			}
-	 
-	 
-	 public void drawAndSaveMaliciousUsersToDetectionGraph(String title,
-				HashMap<String, ArrayList<Double>> detection, int inf, int sup, String path) throws IOException {
-		 final XYDataset dataset = createMSUDataset(detection);
-	        final JFreeChart chart = createChart(dataset,super.getTitle(),"% MSU","% Detection");
-	        final ChartPanel chartPanel = new ChartPanel(chart);
-	       
-	        setContentPane(chartPanel);
-	        
-	        try {
 
-
-				ChartUtilities.saveChartAsPNG(new File(path), chart, 750, 490);
-
-				} catch (IOException ex) {
-
-				System.out.println(ex.getLocalizedMessage());
-
-				}}
-
-			
-	 
-	 
-	 
-	 /**
-	     * Creates a sample dataset.
-	     * 
-	     * @return a sample dataset.
-	     */
-	    private  XYDataset createSnrDataset(int inf, int sup,HashMap<String, ArrayList<Double>> detection) {
-	    	 numberOfGraph=0;
-	    	final XYSeriesCollection dataset = new XYSeriesCollection();
-	    	for (String graphName : detection.keySet()) {
-	    		numberOfGraph++;
-	    		final XYSeries series = new XYSeries(graphName);
-	    		for(int i=0;i<detection.get(graphName).size();i++){
-	    			series.add((double)inf+i, detection.get(graphName).get(i));
-	    		
-	    		}
-	    		
-	    		dataset.addSeries(series);
-	    	}
-	    	
-	                
-	        return dataset;
-	        
-	    }
-	    
-	    
-	    private static XYDataset createMSUDataset(HashMap<String, ArrayList<Double>> detection) {
-	    	 numberOfGraph=0;
-	    	final XYSeriesCollection dataset = new XYSeriesCollection();
-	    	for (String graphName : detection.keySet()) {
-	    		numberOfGraph++;
-	    		final XYSeries series = new XYSeries(graphName);
-	    		for(int i=0;i<detection.get(graphName).size();i++){
-	    			series.add(i, detection.get(graphName).get(i));
-	    		
-	    		}
-	    		
-	    		dataset.addSeries(series);
-	    	}
-	    	
-	                
-	        return dataset;
-	        
-	    }
-	    
-	    /**
-	     * Creates a chart.
-	     * 
-	     * @param dataset  the data for the chart.
-	     * 
-	     * @return a chart.
-	     */
-	    private static JFreeChart createChart(final XYDataset dataset,String title,String xAxis,String yAxis) {
-	        
-	        // create the chart...
-	        final JFreeChart chart = ChartFactory.createXYLineChart(
-	            title,      // chart title
-	            xAxis,                      // x axis label
-	            yAxis,                      // y axis label
-	            dataset,                  // data
-	            PlotOrientation.VERTICAL,
-	            true,                     // include legend
-	            true,                     // tooltips
-	            false                     // urls
-	        );
-
-            XYPlot plot = (XYPlot) chart.getPlot();
-	        
-			XYLineAndShapeRenderer renderer =  new XYLineAndShapeRenderer(true, true);
-	         
-			plot.setRenderer(renderer);
-		
-			ArrayList<Color> colorList=generateColor();
-			for(int i=0;i<numberOfGraph;i++){
-				plot.getRenderer().setSeriesPaint(i, colorList.get(i));	
-				
-			}
-		
-			
-			
-			
-			
-	        
-			
-			renderer.setBaseShapesVisible(true);
-
-			renderer.setBaseShapesFilled(true);
-	
-
-			NumberFormat format = NumberFormat.getNumberInstance();
-
-			format.setMaximumFractionDigits(2);
-			
-
-			XYItemLabelGenerator generator =
-
-					new StandardXYItemLabelGenerator(
-
-							StandardXYItemLabelGenerator.DEFAULT_ITEM_LABEL_FORMAT,
-
-							format, format);
-
-			renderer.setBaseItemLabelGenerator(generator);
-
-			renderer.setBaseItemLabelsVisible(true);
-
-			return chart;
-
-		}
-
-	   
-	    private static ArrayList<Color> generateColor() {
-			ArrayList<Color> colorList= new ArrayList<Color>();
-			colorList.add(Color.BLUE);
-			colorList.add(Color.RED);
-			colorList.add(Color.GREEN);
-			colorList.add(Color.ORANGE);
-
-
-			return colorList;
+			dataset.addSeries(series);
 		}
 
 
+		return dataset;
+
+	}
+
+
+	/** Metodo per la creazione del dataset del grafico %Utenti malevoli-Detection
+	 * @param inf Estremo inferiore di snr
+	 * @param sup Estremo superiore di SNR
+	 * @param detection Mappa con nome del grafico e lista delle detection da rappresentare
+	 * @param totalUser Utenti totali coinvolti nella comunicazione
+	 * @return Un dataset formato da % di teunti malevoli e rispettiva probabilità di detection
+	 */
+	private static XYDataset createMSUDataset(HashMap<String, ArrayList<Double>> detection,int totalUser) {
+		numberOfGraph=0;
+		final XYSeriesCollection dataset = new XYSeriesCollection();
+		for (String graphName : detection.keySet()) {
+			numberOfGraph++;
+			final XYSeries series = new XYSeries(graphName);
+			for(int i=0;i<detection.get(graphName).size();i++){
+				System.out.println(((double)i/(double)totalUser)*100);
+				System.out.println(totalUser);
+				series.add(((double)i/(double)totalUser)*100, detection.get(graphName).get(i));
+
+			}
+
+			dataset.addSeries(series);
+		}
+
+
+		return dataset;
+
+	}
+
+	/**
+	 * Metodo per la creazione del chart 
+	 * @param dataset  Dataset contenente i dati da rappresentare
+	 * @param title titolo del grafico
+	 * @xAxis label dell'asse x
+	 * @yAxis label asse y 
+	 * @return Un chart.
+	 */
+	private static JFreeChart createChart(final XYDataset dataset,String title,String xAxis,String yAxis) {
+		final JFreeChart chart = ChartFactory.createXYLineChart(
+				title,      // chart title
+				xAxis,                      // x axis label
+				yAxis,                      // y axis label
+				dataset,                  // data
+				PlotOrientation.VERTICAL,
+				true,                     // include legend
+				true,                     // tooltips
+				false                     // urls
+				);
+
+		XYPlot plot = (XYPlot) chart.getPlot();
+		XYLineAndShapeRenderer renderer =  new XYLineAndShapeRenderer(true, true);
+		plot.setRenderer(renderer);
+		ArrayList<Color> colorList=generateColor();
 		
+		for(int i=0;i<numberOfGraph;i++){
+			plot.getRenderer().setSeriesPaint(i, colorList.get(i));	
+		}
+		renderer.setBaseShapesVisible(true);
+		renderer.setBaseShapesFilled(true);
+		NumberFormat format = NumberFormat.getNumberInstance();
+		format.setMaximumFractionDigits(2);
+		XYItemLabelGenerator generator =
+		new StandardXYItemLabelGenerator(StandardXYItemLabelGenerator.DEFAULT_ITEM_LABEL_FORMAT,format, format);
+		renderer.setBaseItemLabelGenerator(generator);
+		renderer.setBaseItemLabelsVisible(true);
+		return chart;
+
+	}
 
 
+	/** 
+	 * Metodo per la generazione del colore Random.	 * 
+	 *  @return Una lista di 5 colori da utilizzare per le curve. Un grafico con più di 5 curve
+	 *  diventa difficilmente leggibile
+	 *  **/
+	private static ArrayList<Color> generateColor() {
+		ArrayList<Color> colorList= new ArrayList<Color>();
+		colorList.add(Color.BLUE);
+		colorList.add(Color.RED);
+		colorList.add(Color.GREEN);
+		colorList.add(Color.ORANGE);
+		return colorList;
+	}
 
-
-
-		
-
-
-		
 }

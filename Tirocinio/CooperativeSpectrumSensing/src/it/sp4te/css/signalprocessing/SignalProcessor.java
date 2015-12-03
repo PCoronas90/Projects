@@ -274,6 +274,16 @@ public class SignalProcessor {
 	}
 
 	
+	
+	
+	/** Metodo che riporta la soglia dell'energy Detector in base alla probabilità di falso allarme e all'SNR. La soglia viene presa da un
+	 * file di testo generato precedentemente.
+	 * @param Pfa probabilità di falso allarme
+	 * @param snr SNR specifico a cui prendere la soglia
+	 * @return Una soglia
+	 * @see Utils#generateThreshold
+	 * @throws Exception
+	 */
 	public static double getEnergyDetectorThreshold(double Pfa, int snr) throws Exception {
 		
 		FileReader f=new FileReader("threshold.txt");

@@ -202,6 +202,17 @@ public class Utils {
 	}
 	
 	
+	
+	
+	/** Metodo per la creazione di un file di testo contenente le soglie per l'energy detector. 
+	 * @param length Lunghezza del rumore su cui calcolare le soglie
+	 * @param energy Energia a cui generale il rumore
+	 * @param attempts Numero di tentativi
+	 * @param inf Estremo inferiore di SNR
+	 * @param sup Estremo superiore di SNR
+	 * @param pfa Probabilità di falso allarme
+	 * @throws Exception
+	 */
 	public static void generateThreshold(int length,double energy,int attempts,int inf,int sup,double pfa) throws Exception{
 		 FileWriter w=new FileWriter("thresholds.txt");
 		 BufferedWriter b=new BufferedWriter(w);
@@ -217,6 +228,8 @@ public class Utils {
          }
          b.close();
 	}
+	
+	 
 	
 	
 	
