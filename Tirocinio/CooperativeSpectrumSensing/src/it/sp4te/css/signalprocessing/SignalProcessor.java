@@ -1,24 +1,15 @@
 package it.sp4te.css.signalprocessing;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import it.sp4te.css.model.AbstractSignal;
 import it.sp4te.css.model.Noise;
 import it.sp4te.css.model.Signal;
 
 /**
- * <p>Titolo:SignalFunctions</p>
- * <p>Descrizione: Classe che contiene Funzioni utili da applicare sul segnale: -Calcolo
- * dell'energia -Generazione Momenti -Generazione PR -Calcolo dell'energia dei
- * momenti</p>
+ * <p>Titolo:SignalProcessor</p>
+ * <p>Descrizione: Classe che contiene Funzioni utili da applicare sul segnale.</p>
  * @author Pietro Coronas
  **/
 
@@ -49,7 +40,6 @@ public class SignalProcessor {
 	 * @param inf Estremo inferiore di SNR su cui effettuare la simulazione
 	 * @param sup Estremo superiore di SNR su cui effettuare la simulazione 
 	 * @return Una lista di Momenti**/
-
 
 	public static ArrayList<Moment> computeMoment(Signal s, int length, double energy,int attempts, int inf,
 			int sup) {
@@ -112,7 +102,6 @@ public class SignalProcessor {
 	 * @param block Numero di blocchi M in cui dividere il segnale
 	 * @return Una lista di liste contenente per ogni SNR, una lista di energie medie di cardinalità pari al numero di prove**/
 
-
 	public static ArrayList<ArrayList<Double>> computeMediumEnergy(Signal s, int length, double energy, int attempts, int inf,
 			int sup,int block) {
 
@@ -158,7 +147,6 @@ public class SignalProcessor {
 		return MediumEnergy;
 	}
 
-
 	/**Metodo per il calcolo dei vettori di Energia in un intervallo SNR nelle ipotesi di segnale+rumore e di solo rumore.
 	 * Questo metodo calcola i valori necessari per l'energy Detector tradizionale, in quanto effettua il
 	 * calcolo dell'energya diretto sui segnali senza operazioni intermedie
@@ -197,7 +185,6 @@ public class SignalProcessor {
 			EnergyVector.add(EnergyVectorTemp);
 		}
 		return EnergyVector;}
-
 
 	/**Metodo per il calcolo del vettore di Energia ad uno specifico SNR nelle ipotesi di segnale+rumore e di solo rumore.
 	 * Questo metodo calcola i valori necessari per l'energy Detector tradizionale, in quanto effettua il
@@ -253,8 +240,6 @@ public class SignalProcessor {
 		return implThreshold;
 	}
 
-	
-	
 	/**
 	 * Metodo per il calcolo della soglia necessaria per l'energy Detector.
 	 * 
@@ -265,7 +250,7 @@ public class SignalProcessor {
 	 **/
 
 	public static double computeEnergyDetectorThreshold(double Pfa, ArrayList<Double> energy) throws Exception {
-        
+
 		double M = MathFunctions.Mean(energy);
 		double V = MathFunctions.Variance(energy);
 
@@ -273,9 +258,6 @@ public class SignalProcessor {
 		return edThreshold;
 	}
 
-	
-	
-	
 	/** Metodo che riporta la soglia dell'energy Detector in base alla probabilità di falso allarme e all'SNR. La soglia viene presa da un
 	 * file di testo generato precedentemente.
 	 * @param Pfa probabilità di falso allarme
@@ -284,28 +266,29 @@ public class SignalProcessor {
 	 * @see Utils#generateThreshold
 	 * @throws Exception
 	 */
+
 	public static double getEnergyDetectorThreshold(double Pfa, int snr) throws Exception {
-		
+
 		FileReader f=new FileReader("threshold.txt");
-		 BufferedReader reader=new BufferedReader(f);
-		 String s=null;
-		 boolean find=false;
-	        String line = reader.readLine();
-	        while(line!=null & find==false) {
-	            if((line.substring(0,String.valueOf(snr).length())).equals(String.valueOf(snr)) & (line.charAt(String.valueOf(snr).length())==' ')){
-	            	s=line;
-	            	find=true;
-	            }
-	            line = reader.readLine();
-	        }
-	      
-	       s=s.substring(String.valueOf(snr).length(),s.length());
-	      
-	       reader.close();
-	       return Double.valueOf(s);
-		 }
-		 
-	
-	
+		BufferedReader reader=new BufferedReader(f);
+		String s=null;
+		boolean find=false;
+		String line = reader.readLine();
+		while(line!=null & find==false) {
+			if((line.substring(0,String.valueOf(snr).length())).equals(String.valueOf(snr)) & (line.charAt(String.valueOf(snr).length())==' ')){
+				s=line;
+				find=true;
+			}
+			line = reader.readLine();
+		}
+
+		s=s.substring(String.valueOf(snr).length(),s.length());
+
+		reader.close();
+		return Double.valueOf(s);
+	}
+
+
+
 
 }

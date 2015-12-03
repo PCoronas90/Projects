@@ -15,15 +15,17 @@ import it.sp4te.css.agents.MaliciousSecondaryUser;
 import it.sp4te.css.agents.TrustedSecondaryUser;
 import it.sp4te.css.model.Signal;
 
+
+/**
+ * <p>Titolo: Utils</p>
+ * <p>Descrizione: Classe che contiene funzioni utili necessarie alla generazione rapidaW di simulazioni. </p>
+ * @author Pietro Coronas**/
+
 public class Utils {
 
-	
-	
-	
 	/**
 	 * Metodo per ordinare una mappa in base alla chiave.
 	 * In questo caso è utilizzato su una mappa che ha come chiave l'SNR e come valore la % di Detection Relativa.
-	 * 
 	 * @param signalmapToOrder mappa con chiave SNR e valore la relativa % di detection 
 	 * @return la mappa ordinata in base all'SNR
 	 **/
@@ -42,8 +44,7 @@ public class Utils {
 		}
 		return Edetection;
 	}
-	
-	
+
 	/**
 	 * Metodo per generare una lista di utenti secondari fidati
 	 * @param number Numero di utenti secondari fidati da generare
@@ -56,20 +57,21 @@ public class Utils {
 	 * @param block Blocchi in cui dividere il segnale per l'energy Detector
 	 * @return una lista di utenti secondari fidati
 	 * **/
+
 	public static ArrayList<TrustedSecondaryUser> createTrustedSecondaryUsers(int number,Signal s,
 			int SignalLength, double energy, int attempts, int inf, int sup,int block){
-		
+
 		ArrayList<TrustedSecondaryUser> TrustedSecondaryUsers = new ArrayList<TrustedSecondaryUser>();
 		for(int i=0;i<number;i++){
 			TrustedSecondaryUser TSU=new TrustedSecondaryUser();
 			TSU.listenChannel(s, SignalLength, energy, attempts, inf, sup, block);
 			TrustedSecondaryUsers.add(TSU);
 		}
-		
+
 		return TrustedSecondaryUsers;
-		
+
 	}
-	
+
 	/**
 	 * Metodo per generare una lista di utenti secondari malevoli
 	 * @param number Numero di utenti secondari fidati da generare
@@ -82,21 +84,21 @@ public class Utils {
 	 * @param block Blocchi in cui dividere il segnale per l'energy Detector
 	 * @return una lista di utenti secondari malevoli
 	 * **/
-	
+
 	public static ArrayList<MaliciousSecondaryUser> createMaliciousSecondaryUsers(int number,Signal s,
 			int SignalLength, double energy, int attempts, int inf, int sup,int block){
-		
+
 		ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers = new ArrayList<MaliciousSecondaryUser>();
 		for(int i=0;i<number;i++){
 			MaliciousSecondaryUser MSU=new MaliciousSecondaryUser();
 			MSU.listenChannel(s, SignalLength, energy, attempts, inf, sup, block);
 			MaliciousSecondaryUsers.add(MSU);
 		}
-		
+
 		return MaliciousSecondaryUsers;
-		
+
 	}
-	
+
 	/**
 	 * Prendendo in input una lista di utenti secondari fidati e la probabilità di falso allarma, questo metodo riporta
 	 * una mappa avente come chiave l'identificatore dell'utente secondario e come valore una lista di decisioni binarie
@@ -107,7 +109,7 @@ public class Utils {
 	 * sulla presenza o assenza dell'utente primario per ogni valore di SNR
 	 * @throws Exception 
 	 * **/
-	
+
 	public static HashMap<String,ArrayList<ArrayList<Integer>>> genereteBinaryDecisionVectors(
 			ArrayList<TrustedSecondaryUser> TrustedSecondaryUsers,double pfa) throws Exception {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
@@ -117,7 +119,7 @@ public class Utils {
 		}
 		return userToBinaryDecision;
 	}
-	
+
 	/**
 	 * Prendendo in input una lista di utenti malevoli, questo metodo riporta
 	 * una mappa avente come chiave l'identificatore dell'utente secondario e come valore una lista di decisioni binarie
@@ -127,6 +129,7 @@ public class Utils {
 	 * contenente solo l'assenza dell'utente primario per ogni valore di SNR
 	 * @throws Exception 
 	 * **/
+
 	public static HashMap<String,ArrayList<ArrayList<Integer>>> genereteAbsenceBinaryDecisionVectors(
 			ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers) throws Exception {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
@@ -136,7 +139,7 @@ public class Utils {
 		}
 		return userToBinaryDecision;
 	}
-	
+
 	/**
 	 * Prendendo in input una lista di utenti malevoli, questo metodo riporta
 	 * una mappa avente come chiave l'identificatore dell'utente secondario e come valore una lista di decisioni binarie
@@ -146,7 +149,7 @@ public class Utils {
 	 * contenente solo la presenza dell'utente primario per ogni valore di SNR
 	 * @throws Exception 
 	 * **/
-	
+
 	public static HashMap<String,ArrayList<ArrayList<Integer>>> generetePresenceBinaryDecisionVectors(
 			ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers) throws Exception {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
@@ -156,7 +159,7 @@ public class Utils {
 		}
 		return userToBinaryDecision;
 	}
-	
+
 	/**
 	 * Prendendo in input una lista di utenti malevol e la probabilità di falso allarme, questo metodo riporta
 	 * una mappa avente come chiave l'identificatore dell'utente secondario e come valore una lista di decisioni binarie
@@ -167,8 +170,7 @@ public class Utils {
 	 * contenente l'opposto del risultato dell'energy detector (1 se l'utente è assente e 0 se è presente) per ogni valore di SNR
 	 * @throws Exception 
 	 * **/
-	
-	
+
 	public static HashMap<String,ArrayList<ArrayList<Integer>>> genereteOppositeBinaryDecisionVectors(
 			ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers,double pfa) throws Exception {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
@@ -177,10 +179,8 @@ public class Utils {
 			userToBinaryDecision.put("MaliciousOppositeSecondaryUser"+i, MaliciousSecondaryUsers.get(i).computeOppositeBinaryDecisionVector(pfa));	
 		}
 		return userToBinaryDecision;
-	}
-	
-	
-	
+	}	
+
 	/**
 	 * Prendendo in input una lista di utenti malevol e la probabilità di falso allarme, questo metodo riporta
 	 * una mappa avente come chiave l'identificatore dell'utente secondario e come valore una lista di decisioni binarie
@@ -191,6 +191,7 @@ public class Utils {
 	 * contenente l'opposto del risultato dell'energy detector (1 se l'utente è assente e 0 se è presente) per ogni valore di SNR
 	 * @throws Exception 
 	 * **/
+
 	public static HashMap<String,ArrayList<ArrayList<Integer>>> genereteIntelligentMaliciousBinaryDecisionVectors(
 			ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers,double pfa) throws Exception {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
@@ -200,10 +201,7 @@ public class Utils {
 		}
 		return userToBinaryDecision;
 	}
-	
-	
-	
-	
+
 	/** Metodo per la creazione di un file di testo contenente le soglie per l'energy detector. 
 	 * @param length Lunghezza del rumore su cui calcolare le soglie
 	 * @param energy Energia a cui generale il rumore
@@ -213,48 +211,46 @@ public class Utils {
 	 * @param pfa Probabilità di falso allarme
 	 * @throws Exception
 	 */
+
 	public static void generateThreshold(int length,double energy,int attempts,int inf,int sup,double pfa) throws Exception{
-		 FileWriter w=new FileWriter("thresholds.txt");
-		 BufferedWriter b=new BufferedWriter(w);
-		 ArrayList<ArrayList<Double>> VectorNoiseEnergy=SignalProcessor.computeVectorsEnergy(null, length, energy, attempts, inf, sup);	
-         int snr=inf;
-         b.write(" ");
-         b.write(String.valueOf(pfa+" "));     
-         b.write("\n");
-         for (int i = 0; i < VectorNoiseEnergy.size(); i++) {
-        	 b.write(snr+" "+ SignalProcessor.computeEnergyDetectorThreshold(pfa, VectorNoiseEnergy.get(i)));
-        	 b.write("\n");
-        	snr++;
-         }
-         b.close();
+		FileWriter w=new FileWriter("thresholds.txt");
+		BufferedWriter b=new BufferedWriter(w);
+		ArrayList<ArrayList<Double>> VectorNoiseEnergy=SignalProcessor.computeVectorsEnergy(null, length, energy, attempts, inf, sup);	
+		int snr=inf;
+		b.write(" ");
+		b.write(String.valueOf(pfa+" "));     
+		b.write("\n");
+		for (int i = 0; i < VectorNoiseEnergy.size(); i++) {
+			b.write(snr+" "+ SignalProcessor.computeEnergyDetectorThreshold(pfa, VectorNoiseEnergy.get(i)));
+			b.write("\n");
+			snr++;
+		}
+		b.close();
 	}
-	
-	 
-	
-	
-	
+
 	/** Dato un array di decisioni binarie, il metodo riporta 1 se la media dell'array supera 0.5, 0 altrimenti
 	 * @param binaryDecisions un array di Decisioni binarie
 	 * @return 1 se la media dell'array supera 0.5,0 altrimenti.
 	 */
+
 	public static int getMediumDecision(ArrayList<Integer> binaryDecisions){
 		if(binaryDecisions.size()==1){return binaryDecisions.get(0);}
 		else{
-		int tot=0;
-		for(int i=0;i<binaryDecisions.size();i++){
-			tot=tot+binaryDecisions.get(i);
-		}
-		double mediumValue=tot/binaryDecisions.size();
-		if(mediumValue>=0.5){return 1;}
-		else return 0;
-	}}
-	
-	
+			int tot=0;
+			for(int i=0;i<binaryDecisions.size();i++){
+				tot=tot+binaryDecisions.get(i);
+			}
+			double mediumValue=tot/binaryDecisions.size();
+			if(mediumValue>=0.5){return 1;}
+			else return 0;
+		}}
+
 	/** Salva l'immagine all'url specificato e lo salva nella destinazione
 	 * @param imageUrl Url dell'immagine da salvare
 	 * @param destinationFile path della destinazione.
 	 * @throws IOException
 	 */
+
 	public static void saveImage(String imageUrl, String destinationFile) throws IOException {
 		URL url = new URL(imageUrl);
 		InputStream is = url.openStream();
@@ -271,9 +267,5 @@ public class Utils {
 		os.close();
 	}
 
-	
 
-	
-
-	
 }

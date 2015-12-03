@@ -9,6 +9,10 @@ import java.util.Set;
 
 import it.sp4te.css.detection.Detector;
 import it.sp4te.css.signalprocessing.Utils;
+/** <p>Titolo:FusionCenter</p>
+ * <p>Descrizione: Classe che modella il Fusion Center, l'unica centrale nella cooperazione tra dispositivi cognitivi </p>
+ * @author Pietro Coronas
+ * **/
 
 public class FusionCenter {
 
@@ -193,6 +197,7 @@ public class FusionCenter {
 	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario
 	  
 	 * **/
+	
 	public void inizializeValue(HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision){
 		this.usersToInfo.clear();
 		
@@ -208,6 +213,7 @@ public class FusionCenter {
 	 * @return Una mappa contenente come chiave l'utente secondario appartenente alla lista bianca e come valore la decisione binaria
 	 * relativa alla presenza o assenza dell'utente primario
 	 */
+	
 	public HashMap<String,Integer> computeUserToDecisionWhite(ArrayList<String> presenceUsers,ArrayList<String> absenceUsers){
 		HashMap<String,Integer> binaryDecisionsWhite= new HashMap<String,Integer>();
 		for(String SU:presenceUsers){
@@ -261,6 +267,7 @@ public class FusionCenter {
 	 * @param presenceSU lista di utenti che affermano la presenza dell'utente primario
 	 * @param absenceSU lista di utenti che affermano l'assenza dell'utente primario
 	 */
+
 	public void updateValue(int globalDecision,ArrayList<String>  presenceSU,ArrayList<String>  absenceSU){
 		if(globalDecision==1){
 		 for(int i=0;i<presenceSU.size();i++){
@@ -353,6 +360,7 @@ public class FusionCenter {
 	 * @param binaryDecisionsGrey Mappa contenente le decisioni binarie degli utenti appartenenti alla lsita grigia
 	 * @return la decisione globale
 	 */
+	
 	public int computeGlobalDecision(HashMap<String,Integer> binaryDecisionsWhite,HashMap<String,Integer> binaryDecisionsGrey){
 		ArrayList<Integer> binaryDecisionAllList=new ArrayList<Integer>();
 		if(binaryDecisionsWhite.size()!=0){
@@ -379,7 +387,6 @@ public class FusionCenter {
 	 * @return  Ritorna la % di Dectection calcolata utilizzando un meccanismo di reputazione per gli utenti secondari.
 
 	 */
-
 
 	public  ArrayList<Double> reputationBasedDecision(int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,int attempts){
 		HashMap<Double,Double> reputationBasedDetection=new HashMap<Double,Double>();
@@ -614,10 +621,6 @@ public class FusionCenter {
 			double newReliabilities=this.usersReliabilities.get(presenceSU.get(i))+ Math.pow(-1,(1+globalDecision));
 			this.usersReliabilities.replace(presenceSU.get(i),newReliabilities);
 		}
-			
-				
-					
-					
 			else{
 				ArrayList<String> MSU= new ArrayList<String>();
 			MSU.add(presenceSU.get(i));

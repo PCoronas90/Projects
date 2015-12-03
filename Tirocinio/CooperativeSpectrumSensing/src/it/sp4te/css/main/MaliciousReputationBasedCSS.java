@@ -2,14 +2,10 @@ package it.sp4te.css.main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import org.jfree.ui.RefineryUtilities;
-
 import it.sp4te.css.agents.FusionCenter;
 import it.sp4te.css.agents.MaliciousSecondaryUser;
 import it.sp4te.css.agents.PrimaryUser;
 import it.sp4te.css.agents.TrustedSecondaryUser;
-import it.sp4te.css.graphgenerator.Chart4jGraphGenerator;
 import it.sp4te.css.graphgenerator.JFreeChartGraphGenerator;
 import it.sp4te.css.model.Signal;
 import it.sp4te.css.signalprocessing.SignalProcessor;
@@ -20,14 +16,15 @@ import it.sp4te.css.signalprocessing.Utils;
 public class MaliciousReputationBasedCSS {
 
 	public static void main(String args[]) throws Exception {
-		ArrayList<Double> reputationBasedCSS = new ArrayList<Double>();;
+		/**ArrayList<Double> reputationBasedCSS = new ArrayList<Double>();;
 		ArrayList<Double> MaliciousAbsenceReputationBasedCSS1 = new ArrayList<Double>();;
 		ArrayList<Double> MaliciousAbsenceReputationBasedCSS2 = new ArrayList<Double>();;
 		ArrayList<Double> MaliciousPresenceReputationBasedCSS = new ArrayList<Double>();;
 		ArrayList<Double> MaliciousOppositeReputationBasedCSS1 = new ArrayList<Double>();;
 		ArrayList<Double> MaliciousOppositeReputationBasedCSS2 = new ArrayList<Double>();;
 
-		ArrayList<Double> MaliciousIntelligentReputationBasedCSS1 = new ArrayList<Double>();;
+		ArrayList<Double> MaliciousIntelligentReputationBasedCSS1 = new ArrayList<Double>();;**/
+		
 		ArrayList<Double> MaliciousIntelligentReputationBasedCSS2 = new ArrayList<Double>();;
 		
 
@@ -55,20 +52,7 @@ public class MaliciousReputationBasedCSS {
 
 		
 		
-		/**for(int i=0;i<45;i++){
-		 numberTSU=50-i;
-		 numberMSU=0+i;
-		 System.out.println(numberTSU+"        "+ numberMSU);
-		 TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		 MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
-		 userToBinaryDecision=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-		 userToBinaryDecision.putAll(Utils.genereteIntelligentMaliciousBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
-		 MaliciousIntelligentReputationBasedCSS1.add(FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts).get(0));
-         
-
-		}
-		DetectionGraph.put("Reputation Based",  MaliciousIntelligentReputationBasedCSS1);
-		**/
+		
 		for(int i=0;i<45;i++){
 			 numberTSU=50-i;
 			 numberMSU=0+i;
@@ -86,7 +70,20 @@ public class MaliciousReputationBasedCSS {
 		JFreeChartGraphGenerator intelligentMSUGraph= new JFreeChartGraphGenerator("Reputation Based CSS: Intelligent MSU");
 		intelligentMSUGraph.drawMaliciousUsersToDetectionGraph("Reputation Based CSS: Intelligent MSU",DetectionGraph, 50, sup);
 		
+		/**for(int i=0;i<45;i++){
+		 numberTSU=50-i;
+		 numberMSU=0+i;
+		 System.out.println(numberTSU+"        "+ numberMSU);
+		 TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		 MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		 userToBinaryDecision=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+		 userToBinaryDecision.putAll(Utils.genereteIntelligentMaliciousBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
+		 MaliciousIntelligentReputationBasedCSS1.add(FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts).get(0));
+        
 
+		}
+		DetectionGraph.put("Reputation Based",  MaliciousIntelligentReputationBasedCSS1);
+		**/
 /**		
 		for(int i=0;i<45;i++){
 			 numberTSU=50-i;

@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * <p>Titolo:GraphGenerator</p>
+ * <p>Descrizione: Interfaccia per le classi di creazione dei grafici</p>
+ * @author Pietro Coronas**/
 
 public interface GraphGenerator {
 
@@ -17,6 +21,7 @@ public interface GraphGenerator {
 	 * @param sup Estremo superiore di SNR su cui è stata effettuata la simulazione
 	 * @throws IOException 
 	 **/
+	
 	public  void drawGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException;
 
 	/**
@@ -30,6 +35,7 @@ public interface GraphGenerator {
 	 * @param path Destinazione in cui salvare l'immagine
 	 * @throws IOException 
 	 **/
+	
 	public  void drawAndSaveGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path) throws IOException;
 	
 	/**
@@ -42,6 +48,7 @@ public interface GraphGenerator {
 	 * @param sup Estremo superiore di SNR su cui è stata effettuata la simulazione
 	 * @throws IOException 
 	 **/
+	
 	public  void drawMaliciousUsersToDetectionGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException;
 	
 	/**
@@ -55,5 +62,6 @@ public interface GraphGenerator {
 	 * @param path Destinazione in cui salvare l'immagine
 	 * @throws IOException 
 	 **/
+	
 	public  void drawAndSaveMaliciousUsersToDetectionGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path) throws IOException;
 }

@@ -31,8 +31,8 @@ import com.googlecode.charts4j.Shape;
 import it.sp4te.css.signalprocessing.Utils;
 
 /**
- * <p>Titolo: GraphGenerator</p>
- * <p>Descrizione: Classe per la creazione dei grafici </p>
+ * <p>Titolo: Chart4jGraphGenerator</p>
+ * <p>Descrizione: Classe per la creazione dei grafici con la libreria Chart4j </p>
  * @author Pietro Coronas**/
 
 public class Chart4jGraphGenerator implements GraphGenerator{
@@ -55,10 +55,10 @@ public class Chart4jGraphGenerator implements GraphGenerator{
 		// Definisco un array di Lines. In questo array inserisco i diversi
 		// grafici che voglio visualizzare
 		ArrayList<Line> lines = new ArrayList<Line>();
-        ArrayList<Integer> snr= new ArrayList<Integer>();
+		ArrayList<Integer> snr= new ArrayList<Integer>();
 		for(int j=inf;j<sup;j++){
-        	snr.add(j);
-        }
+			snr.add(j);
+		}
 		for (String graphName : detection.keySet()) {
 			Line line=Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
 			//Line line = Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
@@ -108,8 +108,8 @@ public class Chart4jGraphGenerator implements GraphGenerator{
 		// Mostro il grafico tramite java swing
 		displayUrlString(chart.toURLString());
 	}
-	
-	
+
+
 	/**
 	 * Metodo per la creazione del grafico SNR-Detection e il salvataggio al path specificato
 	 * 
@@ -129,10 +129,10 @@ public class Chart4jGraphGenerator implements GraphGenerator{
 		// Definisco un array di Lines. In questo array inserisco i diversi
 		// grafici che voglio visualizzare
 		ArrayList<Line> lines = new ArrayList<Line>();
-        ArrayList<Integer> snr= new ArrayList<Integer>();
+		ArrayList<Integer> snr= new ArrayList<Integer>();
 		for(int j=inf;j<sup;j++){
-        	snr.add(j);
-        }
+			snr.add(j);
+		}
 		for (String graphName : detection.keySet()) {
 			Line line=Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
 			//Line line = Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
@@ -183,8 +183,8 @@ public class Chart4jGraphGenerator implements GraphGenerator{
 		Utils.saveImage(imageUrl, path);
 
 	}
-	
-	
+
+
 	/**
 	 * Metodo per la creazione del grafico % Utenti Malevoli-Detection
 	 * 
@@ -195,6 +195,7 @@ public class Chart4jGraphGenerator implements GraphGenerator{
 	 * @param sup Estremo superiore di SNR su cui è stata effettuata la simulazione
 	 * @throws IOException 
 	 **/
+
 	public  void drawMaliciousUsersToDetectionGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException {
 		ArrayList<Color> colorList=generateColor();
 		ArrayList<Shape> shapeList=generateShape();
@@ -202,10 +203,10 @@ public class Chart4jGraphGenerator implements GraphGenerator{
 		// Definisco un array di Lines. In questo array inserisco i diversi
 		// grafici che voglio visualizzare
 		ArrayList<Line> lines = new ArrayList<Line>();
-        ArrayList<Integer> snr= new ArrayList<Integer>();
+		ArrayList<Integer> snr= new ArrayList<Integer>();
 		for(int j=inf;j<sup;j++){
-        	snr.add(j);
-        }
+			snr.add(j);
+		}
 		for (String graphName : detection.keySet()) {
 			Line line=Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
 			//Line line = Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
@@ -255,7 +256,7 @@ public class Chart4jGraphGenerator implements GraphGenerator{
 		// Mostro il grafico tramite java swing
 		displayUrlString(chart.toURLString());
 	}
-	
+
 	/**
 	 * Metodo per la creazione del grafico % Utenti Malevoli-Detection e salvataggio su path specificata
 	 * 
@@ -267,6 +268,7 @@ public class Chart4jGraphGenerator implements GraphGenerator{
 	 * @param path Destinazione in cui salvare l'immagine
 	 * @throws IOException 
 	 **/
+
 	public  void drawAndSaveMaliciousUsersToDetectionGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path) throws IOException {
 		ArrayList<Color> colorList=generateColor();
 		ArrayList<Shape> shapeList=generateShape();
@@ -274,10 +276,10 @@ public class Chart4jGraphGenerator implements GraphGenerator{
 		// Definisco un array di Lines. In questo array inserisco i diversi
 		// grafici che voglio visualizzare
 		ArrayList<Line> lines = new ArrayList<Line>();
-        ArrayList<Integer> snr= new ArrayList<Integer>();
+		ArrayList<Integer> snr= new ArrayList<Integer>();
 		for(int j=inf;j<sup;j++){
-        	snr.add(j);
-        }
+			snr.add(j);
+		}
 		for (String graphName : detection.keySet()) {
 			Line line=Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
 			//Line line = Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
@@ -327,9 +329,9 @@ public class Chart4jGraphGenerator implements GraphGenerator{
 		String imageUrl = chart.toURLString();
 		Utils.saveImage(imageUrl, path);
 	}
-	
 
-	
+
+
 
 	/** 
 	 * Metodo per visualizzare il grafico in una finestra Java Swing 
@@ -365,13 +367,14 @@ public class Chart4jGraphGenerator implements GraphGenerator{
 
 		return colorList;
 	}
-	
-	
+
+
 	/**Metodo per la generazione di Shape random. Le shape, insieme ai colori, permettono di identificare le diverse "line"
 	 * appartenenti a grafici diversi;
 	 * @return Una lista di 6 shape da utilizzare per la creazione delle curve. Un grafico con più di 5 curve diventa difficilmente 
 	 * leggibile
 	 * **/
+
 	private static ArrayList<Shape> generateShape(){
 		ArrayList<Shape> shapeList= new ArrayList<Shape>();
 		shapeList.add(Shape.CIRCLE);
@@ -379,7 +382,7 @@ public class Chart4jGraphGenerator implements GraphGenerator{
 		shapeList.add(Shape.SQUARE);
 		shapeList.add(Shape.CROSS);
 		shapeList.add(Shape.X);
-		
+
 		return shapeList;
 	}
 

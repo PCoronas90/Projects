@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import it.sp4te.css.detection.Detector;
 import it.sp4te.css.signalprocessing.SignalProcessor;
 
+/** <p>Titolo:MaliciousSecondaryUser</p>
+ * <p>Descrizione: Classe che modella utenti secondari malevoli </p>
+ * @author Pietro Coronas
+ * **/
+
 public class MaliciousSecondaryUser extends SecondaryUser {
 
 

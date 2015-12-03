@@ -53,7 +53,7 @@ public class ListCSS {
 		int K; //GRIGIA->BIANCA
 		int L;// NERA->BIANCA
 		int M=4; //BIANCA->GRIGIA
-		int N=6;//GRIGIA->NERA
+		int N=5;//GRIGIA->NERA
         int j=3;
 		//Creo il Fusion center
 		FusionCenter FC=new FusionCenter();

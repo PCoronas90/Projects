@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import it.sp4te.css.signalprocessing.SignalProcessor;
 
 /** 
- * <p>Titolo: Detection</p>
+ * <p>Titolo: Detector</p>
  * <p>Descrizione: Classe per il calcolo dei Diversi tipi di Detection </p>
  * @author Pietro Coronas
  **/
@@ -53,8 +53,8 @@ public class Detector {
 		}
 		return (double) 100 / (double) (energy.size() / cont);
 	}
-	
-	
+
+
 	/**
 	 * Metodo per la creazione di un array di decisioni . Prende in input la soglia e un array di
 	 * energia. Per ogni valore dell'array che supera la soglia inserisce 1 (utente primario trovato), altrimenti 0. 
@@ -63,9 +63,9 @@ public class Detector {
 	 * secondo e quarto ordine
 	 * @return Un array di decisioni binarie di cardinalità pari al numero di prove, per uno stesso snr
 	 **/
-	
+
 	public static ArrayList<Integer> binaryDetector(double threshold, ArrayList<Double> energy) {
-		 ArrayList<Integer> snrDecisions= new ArrayList<Integer>();
+		ArrayList<Integer> snrDecisions= new ArrayList<Integer>();
 		for (int i = 0; i < energy.size(); i++) {
 			if (energy.get(i) > threshold) {
 				snrDecisions.add(1);
@@ -74,7 +74,7 @@ public class Detector {
 		}
 		return snrDecisions;
 	}
-	
+
 	/**
 	 * Metodo per la creazione di un array di decisioni da parte di un dispositivo malevolo . Prende in input la soglia e un array di
 	 * energia. Per ogni valore dell'array che supera la soglia inserisce 0 (utente primario non trovato), altrimenti 1.
@@ -84,9 +84,9 @@ public class Detector {
 	 * secondo e quarto ordine
 	 * @return Un array di decisioni binarie di cardinalità pari al numero di prove, per uno stesso snr
 	 **/
-	
+
 	public static ArrayList<Integer> oppositeBinaryDetector(double threshold, ArrayList<Double> energy) {
-		 ArrayList<Integer> snrDecisions= new ArrayList<Integer>();
+		ArrayList<Integer> snrDecisions= new ArrayList<Integer>();
 		for (int i = 0; i < energy.size(); i++) {
 			if (energy.get(i) > threshold) {
 				snrDecisions.add(0);
@@ -95,7 +95,7 @@ public class Detector {
 		}
 		return snrDecisions;
 	}
-	
+
 	/**
 	 * Metodo per la creazione di un array di decisioni da parte di un dispositivo malevolo . Prende in input la soglia e un array di
 	 * energia. In modo randomico, riporta l'opposto dell'energy detector. Può sbagliare una volta ogni 10 prove, una volta
@@ -105,54 +105,54 @@ public class Detector {
 	 * secondo e quarto ordine
 	 * @return Un array di decisioni binarie di cardinalità pari al numero di prove, per uno stesso snr
 	 **/
-	
+
 	public static ArrayList<Integer> intelligentMaliciousBinaryDetector(double threshold, ArrayList<Double> energy) {
-		 ArrayList<Integer> snrDecisions= new ArrayList<Integer>();
-	     double random= Math.random()*10;
-	     //Sbaglia circa 33 volte ogni 100 prove
-	     if(random>0 & random<3.5){
-	    	 for (int i = 0; i < energy.size(); i++) {
-	    		 if(i%3!=0){
-	    			 if(energy.get(i)>threshold){snrDecisions.add(1);}
-	    			 else{snrDecisions.add(0);}
-	    		 }
-	    		 else{
-	    			 if(energy.get(i)>threshold){snrDecisions.add(0);}
-	    			 else{snrDecisions.add(1);} 
-	    		 }
-	 		} 
-	     }
-	     //sbaglia 20 volte ogni 100 prove circa
-	     if(random>3.5 & random<7.1){
-	    	 for (int i = 0; i < energy.size(); i++) {
-	    		 if(i%5!=0){
-	    			 if(energy.get(i)>threshold){snrDecisions.add(1);}
-	    			 else{snrDecisions.add(0);}
-	    		 }
-	    		 else{
-	    			 if(energy.get(i)>threshold){snrDecisions.add(0);}
-	    			 else{snrDecisions.add(1);}  
-	    	 } 
-	     }
-	     }
-	     //sbaglia 16 volte ogni 100 prove circa
-	     else{
-	    	 for (int i = 0; i < energy.size(); i++) {
-	    		 if(i%6!=0){
-	    			 if(energy.get(i)>threshold){snrDecisions.add(1);}
-	    			 else{snrDecisions.add(0);}
-	    		 }
-	    		 else{
-	    			 if(energy.get(i)>threshold){snrDecisions.add(0);}
-	    			 else{snrDecisions.add(1);} 
-	    		 }
-	 		}
-	     
-	     }
-		
-		 
-			return snrDecisions;
+		ArrayList<Integer> snrDecisions= new ArrayList<Integer>();
+		double random= Math.random()*10;
+		//Sbaglia circa 33 volte ogni 100 prove
+		if(random>0 & random<3.5){
+			for (int i = 0; i < energy.size(); i++) {
+				if(i%3!=0){
+					if(energy.get(i)>threshold){snrDecisions.add(1);}
+					else{snrDecisions.add(0);}
+				}
+				else{
+					if(energy.get(i)>threshold){snrDecisions.add(0);}
+					else{snrDecisions.add(1);} 
+				}
+			} 
 		}
+		//sbaglia 20 volte ogni 100 prove circa
+		if(random>3.5 & random<7.1){
+			for (int i = 0; i < energy.size(); i++) {
+				if(i%5!=0){
+					if(energy.get(i)>threshold){snrDecisions.add(1);}
+					else{snrDecisions.add(0);}
+				}
+				else{
+					if(energy.get(i)>threshold){snrDecisions.add(0);}
+					else{snrDecisions.add(1);}  
+				} 
+			}
+		}
+		//sbaglia 16 volte ogni 100 prove circa
+		else{
+			for (int i = 0; i < energy.size(); i++) {
+				if(i%6!=0){
+					if(energy.get(i)>threshold){snrDecisions.add(1);}
+					else{snrDecisions.add(0);}
+				}
+				else{
+					if(energy.get(i)>threshold){snrDecisions.add(0);}
+					else{snrDecisions.add(1);} 
+				}
+			}
+
+		}
+
+
+		return snrDecisions;
+	}
 
 	/**
 	 * Metodo la generazione della detection da parte Del fusion center secondo la tecnica AND.
@@ -168,7 +168,7 @@ public class Detector {
 			ArrayList<Integer> decisions=new ArrayList<Integer>();
 			for(int j=0;j<decisionsVector.size();j++){		
 				decisions.add(decisionsVector.get(j).get(i));
-               
+
 			}
 			Finaldecisions.add(andFusionRule(decisions));
 			//if(andFusionRule(decisions)==1){cont++;
@@ -193,7 +193,6 @@ public class Detector {
 	 * @param decisionsVector Vettori di decisione degli utenti ad uno stesso SNR
 	 * @return Percentuale di Detection per un dato SNR
 	 **/
-
 
 	public static  double orFusionDetection(ArrayList<ArrayList<Integer>> decisionsVector){
 		int cont=0;
@@ -240,12 +239,13 @@ public class Detector {
 			return (double) 100 / ((double) ((decisionsVector.get(0).size())  / (double) cont));}
 
 	}
-	
-	
+
+
 	/** Semplice metodo che riporta, su un vettore di decisioni binarie, la % di Detection dell'utente primario
 	 * @param decisionsVector Vettore di decisioni binarie
 	 * @return La % di detection dell'utente primario
 	 */
+
 	public static double reputationBasedDetection(ArrayList<Integer> decisionsVector){
 		int cont=0;
 		for(int i=0;i<decisionsVector.size();i++){
@@ -256,6 +256,7 @@ public class Detector {
 		//System.out.println(decisionsVector.size()+"     "+(double) cont);
 		return (double) 100 / ((double) ((decisionsVector.size())  / (double) cont));
 	}
+
 	/**Metodo di fusione con la tecnica and. Ritorna 1 (l'utente primario è presente) se tutte le decisioni
 	 * di tutti i dispositivi sono uguali ad 1, 0 altrimenti
 	 * @param decisions Un array contenente le decisioni binarie sulla presenza o assenza dell'utente primario per un dato SNR di

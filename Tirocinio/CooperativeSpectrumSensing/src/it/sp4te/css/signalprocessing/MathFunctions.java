@@ -19,6 +19,7 @@ public class MathFunctions {
 	 * @param a Vettore su cui calcolare la media
 	 * @return La media del vettore
 	 * **/
+	
 	public static double Mean(ArrayList<Double> a) {
 		double sum = 0;
 		for (int i = 0; i < a.size(); i++) {

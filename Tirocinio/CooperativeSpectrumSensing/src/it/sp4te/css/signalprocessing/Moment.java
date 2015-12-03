@@ -53,6 +53,12 @@ public class Moment {
 		//}
 	}
 
+
+
+	/** Metodo per il calcolo dei momenti del secondo  ordine
+	 * @return Una lista di momenti del secondo ordine di cardinalità pari al numero di prove
+	 */
+
 	public ArrayList<Double> computeSecondOrderMoment(){
 		ArrayList<Double>	secondOrder = new ArrayList<Double>();
 
@@ -75,6 +81,11 @@ public class Moment {
 		}
 		return secondOrder;
 	}
+
+
+	/** Metodo per il calcolo dei momenti del se quarto ordine
+	 * @return Una lista di momenti del quarto ordine di cardinalità pari al numero di prove
+	 */
 
 	public ArrayList<Double> computeFourthOrderMoment(){
 		ArrayList<Double>	fourthOrder = new ArrayList<Double>();
@@ -101,15 +112,13 @@ public class Moment {
 
 
 
+	/**  Metodo che ritorna l'snr a cui sono stati calcolati i momenti del secondo e quarto ordine
+	 * @return Ritorna l'snr a cui sono stati calcolati i momenti del secondo e quarto ordine
+	 */
+
 	public double getSnr() {
 		return snr;
 	}
-
-	public void setSnr(double snr) {
-		this.snr = snr;
-	}
-
-
 
 
 }

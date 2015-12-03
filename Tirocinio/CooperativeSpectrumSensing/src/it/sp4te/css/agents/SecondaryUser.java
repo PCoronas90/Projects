@@ -9,13 +9,16 @@ import it.sp4te.css.signalprocessing.Moment;
 import it.sp4te.css.signalprocessing.SignalProcessor;
 import it.sp4te.css.signalprocessing.Utils;
 
+/** <p>Titolo:SecondaryUser</p>
+ * <p>Descrizione: Classe atratta per utenti secondari</p>
+ * @author Pietro Coronas
+ * **/
+
 public abstract class SecondaryUser {
 
 	Signal s;
 	int attempts,length,inf,sup,block;
 	double energy;
-
-
 
 	/**
 	 * Questo metodo inizializza i valori che saranno usati nei diversi tipi di
@@ -34,7 +37,6 @@ public abstract class SecondaryUser {
 	 * @see SignalProcessor#computeMediumEnergy
 	 * 
 	 **/
-
 
 	public void listenChannel(Signal s,int signalLength, double energy, int attempts, int inf, int sup,int block){
 		this.s=s;
@@ -76,8 +78,6 @@ public abstract class SecondaryUser {
 
 		return Utils.orderSignal(EnergyDetection);
 	}
-
-
 
 	/**
 	 * Metodo per lo Spectrum Senging dell'energy Detector effettuato senza dividere il segnale in blocchi,
@@ -169,7 +169,7 @@ public abstract class SecondaryUser {
 	 * @param pfa Probabilità di falso allarme
 	 * @return Una lista di liste contenente per ogni SNR, una lista decisioni binarie sulla presenza o assenza dell'utente primario di cardinalità pari al numero di prove
 	 * @throws Exception **/
-	
+
 	public ArrayList<ArrayList<Integer>> computeBinaryDecisionVector(double pfa) throws Exception {
 		ArrayList<ArrayList<Integer>> decisions= new  ArrayList<ArrayList<Integer>>();
 		ArrayList<ArrayList<Double>> VectorSignalEnergy;
@@ -183,7 +183,7 @@ public abstract class SecondaryUser {
 					SignalProcessor.getEnergyDetectorThreshold(pfa, snr), VectorSignalEnergy.get(i));
 			decisions.add(snrDecisions);
 			snr++;
-			
+
 		}
 
 		return decisions;

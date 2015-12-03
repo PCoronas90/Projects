@@ -22,6 +22,12 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
+
+/**
+ * <p>Titolo: JFreeChartGraphGenerator</p>
+ * <p>Descrizione: Classe per la creazione dei grafici con la libreria JFreeChart </p>
+ * @author Pietro Coronas**/
+
 public class JFreeChartGraphGenerator extends ApplicationFrame implements GraphGenerator{
 
 
@@ -42,6 +48,7 @@ public class JFreeChartGraphGenerator extends ApplicationFrame implements GraphG
 	 * @param sup Estremo superiore di SNR su cui è stata effettuata la simulazione
 	 * @throws IOException 
 	 **/
+
 	public void drawGraph(String title, HashMap<String, ArrayList<Double>> detection, int inf, int sup){
 		final XYDataset dataset = createSnrDataset(inf,sup,detection);
 		final JFreeChart chart = createChart(dataset,super.getTitle(),"SNR","% Detection");
@@ -66,6 +73,7 @@ public class JFreeChartGraphGenerator extends ApplicationFrame implements GraphG
 	 * @param path Destinazione in cui salvare l'immagine
 	 * @throws IOException 
 	 **/
+
 	public  void drawAndSaveGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path){
 		final XYDataset dataset = createSnrDataset(inf,sup,detection);
 		final JFreeChart chart = createChart(dataset,super.getTitle(),"SNR","% Detection");
@@ -94,6 +102,7 @@ public class JFreeChartGraphGenerator extends ApplicationFrame implements GraphG
 	 * @param totalMaliciousUser Utenti malevoli totali coinvolti nella comunicazione
 	 * @throws IOException 
 	 **/
+
 	public void drawMaliciousUsersToDetectionGraph(String title, HashMap<String, ArrayList<Double>> detection,
 			int totalUser, int totalMaliciousUser) throws IOException {
 		final XYDataset dataset = createMSUDataset(detection,totalUser);
@@ -118,6 +127,7 @@ public class JFreeChartGraphGenerator extends ApplicationFrame implements GraphG
 	 * @param path Destinazione in cui salvare l'immagine
 	 * @throws IOException 
 	 **/
+
 	public void drawAndSaveMaliciousUsersToDetectionGraph(String title,
 			HashMap<String, ArrayList<Double>> detection, int totalUser, int totalMaliciousUser, String path) throws IOException {
 		final XYDataset dataset = createMSUDataset(detection,totalUser);
@@ -132,16 +142,13 @@ public class JFreeChartGraphGenerator extends ApplicationFrame implements GraphG
 			System.out.println(ex.getLocalizedMessage());
 		}}
 
-
-
-
-
 	/** Metodo per la creazione del dataset del grafico Detection-SNR
 	 * @param inf Estremo inferiore di snr
 	 * @param sup Estremo superiore di SNR
 	 * @param detection Mappa con nome del grafico e lista delle detection da rappresentare
 	 * @return Un dataset formato da SNR e rispettiva probabilità di detection
 	 */
+
 	private  XYDataset createSnrDataset(int inf, int sup,HashMap<String, ArrayList<Double>> detection) {
 		numberOfGraph=0;
 		final XYSeriesCollection dataset = new XYSeriesCollection();
@@ -169,6 +176,7 @@ public class JFreeChartGraphGenerator extends ApplicationFrame implements GraphG
 	 * @param totalUser Utenti totali coinvolti nella comunicazione
 	 * @return Un dataset formato da % di teunti malevoli e rispettiva probabilità di detection
 	 */
+
 	private static XYDataset createMSUDataset(HashMap<String, ArrayList<Double>> detection,int totalUser) {
 		numberOfGraph=0;
 		final XYSeriesCollection dataset = new XYSeriesCollection();
@@ -198,6 +206,7 @@ public class JFreeChartGraphGenerator extends ApplicationFrame implements GraphG
 	 * @yAxis label asse y 
 	 * @return Un chart.
 	 */
+
 	private static JFreeChart createChart(final XYDataset dataset,String title,String xAxis,String yAxis) {
 		final JFreeChart chart = ChartFactory.createXYLineChart(
 				title,      // chart title
@@ -214,7 +223,7 @@ public class JFreeChartGraphGenerator extends ApplicationFrame implements GraphG
 		XYLineAndShapeRenderer renderer =  new XYLineAndShapeRenderer(true, true);
 		plot.setRenderer(renderer);
 		ArrayList<Color> colorList=generateColor();
-		
+
 		for(int i=0;i<numberOfGraph;i++){
 			plot.getRenderer().setSeriesPaint(i, colorList.get(i));	
 		}
@@ -223,7 +232,7 @@ public class JFreeChartGraphGenerator extends ApplicationFrame implements GraphG
 		NumberFormat format = NumberFormat.getNumberInstance();
 		format.setMaximumFractionDigits(2);
 		XYItemLabelGenerator generator =
-		new StandardXYItemLabelGenerator(StandardXYItemLabelGenerator.DEFAULT_ITEM_LABEL_FORMAT,format, format);
+				new StandardXYItemLabelGenerator(StandardXYItemLabelGenerator.DEFAULT_ITEM_LABEL_FORMAT,format, format);
 		renderer.setBaseItemLabelGenerator(generator);
 		renderer.setBaseItemLabelsVisible(true);
 		return chart;
@@ -236,6 +245,7 @@ public class JFreeChartGraphGenerator extends ApplicationFrame implements GraphG
 	 *  @return Una lista di 5 colori da utilizzare per le curve. Un grafico con più di 5 curve
 	 *  diventa difficilmente leggibile
 	 *  **/
+
 	private static ArrayList<Color> generateColor() {
 		ArrayList<Color> colorList= new ArrayList<Color>();
 		colorList.add(Color.BLUE);

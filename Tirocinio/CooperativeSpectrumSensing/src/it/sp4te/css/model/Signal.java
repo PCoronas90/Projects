@@ -36,6 +36,13 @@ public class Signal extends AbstractSignal{
 		}
 	}
 
+	
+	/** Metodo per dividere il segnale in una porzione.
+	 * @param start Inizio della porzione di interesse
+	 * @param end Fine della porzione di interesse
+	 * @return Una porzione di segnale ottenuta specificando inizio e fine della parte di interesse
+	 */
+	
 	public Signal splitSignal(int start,int end){
 		Signal splittedSignal= new Signal(end-start);
 		ArrayList<Double> samplesRea=new ArrayList<Double>();

@@ -67,18 +67,37 @@ public class Noise extends AbstractSignal {
 		return splittedNoise;
 	}
 
+	
+	
+	/** Metodo per ottenere la varianza dell' Oggetto rumore
+	 * @return la varianza dell'oggetto rumore
+	 */
+	
 	public double getVariance() {
 		return variance;
 	}
 
+	
+	/** Metodo per settare la varianza dell'oggetto rumore
+	 * @param variance La varianza da impostare all'oggetto rumore
+	 */
+	
 	public void setVariance(double variance) {
 		this.variance = variance;
 	}
+
+	/** Metodo per ottenere l'SNR a cui è stato creato l'oggetto rumore
+	 * @return l'snr a cui è stato creato l'oggetto rumore
+	 */
 
 	public double getSnr() {
 		return snr;
 	}
 
+	/** Metod per settare l'SNR dell'oggetto rumore
+	 * @param snr Snr a cui settare l'oggetto rumore.
+	 */
+	 
 	public void setSnr(double snr) {
 		this.snr = snr;
 	}

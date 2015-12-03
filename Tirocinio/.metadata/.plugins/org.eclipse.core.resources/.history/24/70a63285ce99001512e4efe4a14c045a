@@ -1,0 +1,10 @@
+package it.sp4te.css.agents;
+
+/** <p>Titolo:TrustedSecondaryUser</p>
+ * <p>Descrizione: </p>
+ * @author Pietro Coronas
+ * **/
+
+public class TrustedSecondaryUser extends SecondaryUser{
+
+}
