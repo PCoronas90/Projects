@@ -50,7 +50,7 @@ public class ReputationBasedCSS {
 
 		//Tutte le decisioni di tutti gli utenti secondari passano al fusion center che riporterà una decisione
 		//globale secondo un meccanismo di reputazione
-		reputationBasedCSS= FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts);
+		reputationBasedCSS= FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts,"none");
 		DetectionGraph.put("RB CSS", reputationBasedCSS);
 
 		Chart4jGraphGenerator reputationPresenceGraph= new Chart4jGraphGenerator();
@@ -71,7 +71,7 @@ public class ReputationBasedCSS {
 
 		//Tutte le decisioni di tutti gli utenti secondari passano al fusion center che riporterà una decisione
 		//globale secondo un meccanismo di reputazione
-		reputationBasedCSS= FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts);
+		reputationBasedCSS= FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts,"none");
 		DetectionGraph.put("RB CSS", reputationBasedCSS);
 		
 		Chart4jGraphGenerator reputationAbsenceGraph= new Chart4jGraphGenerator();

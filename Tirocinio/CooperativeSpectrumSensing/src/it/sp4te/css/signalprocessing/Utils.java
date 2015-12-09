@@ -192,12 +192,54 @@ public class Utils {
 	 * @throws Exception 
 	 * **/
 
-	public static HashMap<String,ArrayList<ArrayList<Integer>>> genereteIntelligentMaliciousBinaryDecisionVectors(
+	public static HashMap<String,ArrayList<ArrayList<Integer>>> genereteIntelligentOppositeMaliciousBinaryDecisionVectors(
 			ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers,double pfa) throws Exception {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
 
 		for(int i=0;i<MaliciousSecondaryUsers.size();i++){
-			userToBinaryDecision.put("MaliciousIntelligentSecondaryUser"+i, MaliciousSecondaryUsers.get(i).computeIntelligentBinaryDecisionVector(pfa));	
+			userToBinaryDecision.put("MaliciousIntelligentOppositeSecondaryUser"+i, MaliciousSecondaryUsers.get(i).computeIntelligentOppositeBinaryDecisionVector(pfa));	
+		}
+		return userToBinaryDecision;
+	}
+	
+	/**
+	 * Prendendo in input una lista di utenti malevol e la probabilità di falso allarme, questo metodo riporta
+	 * una mappa avente come chiave l'identificatore dell'utente secondario e come valore una lista di decisioni binarie
+	 * contenente la decisione errata (in questo caso l'assenza del PU), un numero di volte random, sulla presenza o assenza dell'utente primario
+	 * @param MaliciousSecondaryUsers lista di utenti malevoli
+	 * @param pfa Probabilità di falso allarme
+	 * @return una mappa avente come chiave l'identificatore dell'utente secondario e come valore una lista di decisioni binarie
+	 * contenente l'opposto del risultato dell'energy detector (1 se l'utente è assente e 0 se è presente) per ogni valore di SNR
+	 * @throws Exception 
+	 * **/
+
+	public static HashMap<String,ArrayList<ArrayList<Integer>>> genereteIntelligentAbsenceMaliciousBinaryDecisionVectors(
+			ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers,double pfa) throws Exception {
+		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+
+		for(int i=0;i<MaliciousSecondaryUsers.size();i++){
+			userToBinaryDecision.put("MaliciousIntelligentAbsenceSecondaryUser"+i, MaliciousSecondaryUsers.get(i).computeIntelligentAbsenceBinaryDecisionVector(pfa));	
+		}
+		return userToBinaryDecision;
+	}
+	
+	/**
+	 * Prendendo in input una lista di utenti malevol e la probabilità di falso allarme, questo metodo riporta
+	 * una mappa avente come chiave l'identificatore dell'utente secondario e come valore una lista di decisioni binarie
+	 * contenente la decisione errata (in questo caso la presenza del PU), un numero di volte random, sulla presenza o assenza dell'utente primario
+	 * @param MaliciousSecondaryUsers lista di utenti malevoli
+	 * @param pfa Probabilità di falso allarme
+	 * @return una mappa avente come chiave l'identificatore dell'utente secondario e come valore una lista di decisioni binarie
+	 * contenente l'opposto del risultato dell'energy detector (1 se l'utente è assente e 0 se è presente) per ogni valore di SNR
+	 * @throws Exception 
+	 * **/
+
+	public static HashMap<String,ArrayList<ArrayList<Integer>>> genereteIntelligentPresenceMaliciousBinaryDecisionVectors(
+			ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers,double pfa) throws Exception {
+		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+
+		for(int i=0;i<MaliciousSecondaryUsers.size();i++){
+			userToBinaryDecision.put("MaliciousIntelligentPresenceSecondaryUser"+i, MaliciousSecondaryUsers.get(i).computeIntelligentPresenceBinaryDecisionVector(pfa));	
 		}
 		return userToBinaryDecision;
 	}
@@ -244,6 +286,57 @@ public class Utils {
 			if(mediumValue>=0.5){return 1;}
 			else return 0;
 		}}
+	
+	public static ArrayList<Integer> getGreyDecision(ArrayList<Integer> binaryDecisions){
+		ArrayList<Integer> result= new ArrayList<Integer>();
+		int presence=0;
+		int absence=0;
+		if(binaryDecisions.size()==1){result.add(binaryDecisions.get(0));}
+		else{
+			for(int i=0;i<binaryDecisions.size();i++){
+				if(binaryDecisions.get(i)==0){ absence++;}
+				else if (binaryDecisions.get(i)==1){ presence++;}
+			}
+			
+			if(absence%2==0 && presence%2==0){
+				for(int i=0;i<(absence/2);i++){
+					result.add(0);
+				}
+				for(int i=0;i<(presence/2);i++){
+					result.add(1);
+				}
+			}
+			else if(absence%2!=0 && presence%2==0){
+				for(int i=0;i<((absence-1)/2);i++){
+					result.add(0);
+				}
+				for(int i=0;i<(presence/2);i++){
+					result.add(1);
+				}
+			}
+			else if(absence%2==0 && presence%2!=0){
+				for(int i=0;i<(absence/2);i++){
+					result.add(0);
+				}
+				for(int i=0;i<((presence-1)/2);i++){
+					result.add(1);
+				}
+			}
+			
+			else if(absence%2!=0 && presence%2!=0){
+				for(int i=0;i<((absence-1)/2);i++){
+					result.add(0);
+				}
+				for(int i=0;i<((presence-1)/2);i++){
+					result.add(1);
+				}
+				result.add(0);
+			}
+			
+		}
+		
+		return result;
+	}
 
 	/** Salva l'immagine all'url specificato e lo salva nella destinazione
 	 * @param imageUrl Url dell'immagine da salvare

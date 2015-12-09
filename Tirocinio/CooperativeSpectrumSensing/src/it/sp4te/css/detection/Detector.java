@@ -106,7 +106,7 @@ public class Detector {
 	 * @return Un array di decisioni binarie di cardinalità pari al numero di prove, per uno stesso snr
 	 **/
 
-	public static ArrayList<Integer> intelligentMaliciousBinaryDetector(double threshold, ArrayList<Double> energy) {
+	public static ArrayList<Integer> intelligentOppositeMaliciousBinaryDetector(double threshold, ArrayList<Double> energy) {
 		ArrayList<Integer> snrDecisions= new ArrayList<Integer>();
 		double random= Math.random()*10;
 		//Sbaglia circa 33 volte ogni 100 prove
@@ -145,6 +145,116 @@ public class Detector {
 				else{
 					if(energy.get(i)>threshold){snrDecisions.add(0);}
 					else{snrDecisions.add(1);} 
+				}
+			}
+
+		}
+
+
+		return snrDecisions;
+	}
+	
+	/**
+	 * Metodo per la creazione di un array di decisioni da parte di un dispositivo malevolo . Prende in input la soglia e un array di
+	 * energia. In modo randomico, riporta l'assenza dell'utente primario. Può sbagliare una volta ogni 10 prove, una volta
+	 * ogni 30 prove,una volta ogni 50 prove o due volte ogni 10 prove
+	 *@param threshold Soglia utilizzata per la Detection
+	 * @param energy Array di energia. Nello specifico è un vettore di oggetti momento, contenente momenti del 
+	 * secondo e quarto ordine
+	 * @return Un array di decisioni binarie di cardinalità pari al numero di prove, per uno stesso snr
+	 **/
+
+	public static ArrayList<Integer> intelligentAbsenceMaliciousBinaryDetector(double threshold, ArrayList<Double> energy) {
+		ArrayList<Integer> snrDecisions= new ArrayList<Integer>();
+		double random= Math.random()*10;
+		//Sbaglia circa 33 volte ogni 100 prove
+		if(random>0 & random<3.5){
+			for (int i = 0; i < energy.size(); i++) {
+				if(i%3!=0){
+					if(energy.get(i)>threshold){snrDecisions.add(1);}
+					else{snrDecisions.add(0);}
+				}
+				else{
+					snrDecisions.add(0); 
+				}
+			} 
+		}
+		//sbaglia 20 volte ogni 100 prove circa
+		if(random>3.5 & random<7.1){
+			for (int i = 0; i < energy.size(); i++) {
+				if(i%5!=0){
+					if(energy.get(i)>threshold){snrDecisions.add(1);}
+					else{snrDecisions.add(0);}
+				}
+				else{
+					snrDecisions.add(0); 
+				} 
+			}
+		}
+		//sbaglia 16 volte ogni 100 prove circa
+		else{
+			for (int i = 0; i < energy.size(); i++) {
+				if(i%6!=0){
+					if(energy.get(i)>threshold){snrDecisions.add(1);}
+					else{snrDecisions.add(0);}
+				}
+				else{
+					snrDecisions.add(0);
+				}
+			}
+
+		}
+
+
+		return snrDecisions;
+	}
+	
+	/**
+	 * Metodo per la creazione di un array di decisioni da parte di un dispositivo malevolo . Prende in input la soglia e un array di
+	 * energia. In modo randomico, riporta la presenza dell'utente primario. Può sbagliare una volta ogni 10 prove, una volta
+	 * ogni 30 prove,una volta ogni 50 prove o due volte ogni 10 prove
+	 *@param threshold Soglia utilizzata per la Detection
+	 * @param energy Array di energia. Nello specifico è un vettore di oggetti momento, contenente momenti del 
+	 * secondo e quarto ordine
+	 * @return Un array di decisioni binarie di cardinalità pari al numero di prove, per uno stesso snr
+	 **/
+
+	public static ArrayList<Integer> intelligentPresenceMaliciousBinaryDetector(double threshold, ArrayList<Double> energy) {
+		ArrayList<Integer> snrDecisions= new ArrayList<Integer>();
+		double random= Math.random()*10;
+		//Sbaglia circa 33 volte ogni 100 prove
+		if(random>0 & random<3.5){
+			for (int i = 0; i < energy.size(); i++) {
+				if(i%3!=0){
+					if(energy.get(i)>threshold){snrDecisions.add(1);}
+					else{snrDecisions.add(0);}
+				}
+				else{
+					snrDecisions.add(1);
+				}
+			} 
+		}
+		//sbaglia 20 volte ogni 100 prove circa
+		if(random>3.5 & random<7.1){
+			for (int i = 0; i < energy.size(); i++) {
+				if(i%5!=0){
+					if(energy.get(i)>threshold){snrDecisions.add(1);}
+					else{snrDecisions.add(0);}
+				}
+				else{
+					snrDecisions.add(1); 
+				} 
+			}
+		}
+		//sbaglia 16 volte ogni 100 prove circa
+		else{
+			for (int i = 0; i < energy.size(); i++) {
+				if(i%6!=0){
+					if(energy.get(i)>threshold){snrDecisions.add(1);}
+					else{snrDecisions.add(0);}
+				}
+				else{
+					snrDecisions.add(1); 
 				}
 			}
 

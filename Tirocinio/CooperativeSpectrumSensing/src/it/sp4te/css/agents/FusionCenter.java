@@ -26,6 +26,7 @@ public class FusionCenter {
 	HashMap<String,Reputation> usersToInfo;
 	//Valori per il passaggio tra liste
 	int K,L,M,N;
+	ArrayList<String> excludedUsers;
 	//Mappa utente->volte che è stato in lista nera
 	//HashMap<String,Integer> blackListCount;
 
@@ -34,6 +35,7 @@ public class FusionCenter {
 		snrToPresenceUsers= new HashMap<Double,ArrayList<ArrayList<String>>>();
 		snrToAbsenceUsers= new HashMap<Double,ArrayList<ArrayList<String>>>();
 		usersReliabilities= new HashMap<String,Double>();
+		excludedUsers= new ArrayList<String>();
 	
 		usersToInfo= new 	HashMap<String,Reputation>();
 	}
@@ -140,7 +142,7 @@ public class FusionCenter {
 		this.L=L;
 		this.M=M;
 		this.N=N;
-		FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_"+typeMSU+".txt");
+	FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_"+typeMSU+".txt");
 		 BufferedWriter b=new BufferedWriter(w);
 		HashMap<Double,Double> listBasedDetection=new HashMap<Double,Double>();
 		createSnrToUsers(inf,sup,userToBinaryDecision,attempts);
@@ -159,9 +161,9 @@ public class FusionCenter {
 					if(this.usersToInfo.get(SU).getFlag()==1){greyNumber++;}
 					if(this.usersToInfo.get(SU).getFlag()==2){blackNumber++;}
 					
-					b.write(SU+" list: "+ this.usersToInfo.get(SU).getFlag()+" ConsecutiveHits: "+
-							 this.usersToInfo.get(SU).getConsecutiveHits()+" ErrorCount: "+ this.usersToInfo.get(SU).getErrorCount() +" \n ");
-				}
+				b.write(SU+" list: "+ this.usersToInfo.get(SU).getFlag()+" ConsecutiveHits: "+
+						 this.usersToInfo.get(SU).getConsecutiveHits()+" ErrorCount: "+ this.usersToInfo.get(SU).getErrorCount() +" \n ");
+					}
 				
 				HashMap<String,Integer> binaryDecisionsWhite=computeUserToDecisionWhite(this.snrToPresenceUsers.get(snr).get(attempt),
 						this.snrToAbsenceUsers.get(snr).get(attempt));
@@ -370,7 +372,8 @@ public class FusionCenter {
 			for(String SU: binaryDecisionsGrey.keySet() ){
 				greyDecisions.add( binaryDecisionsGrey.get(SU));
 			}
-		binaryDecisionAllList.add(Utils.getMediumDecision(greyDecisions));
+		
+		binaryDecisionAllList.addAll(Utils.getGreyDecision(greyDecisions));
 		}
 		return Detector.majorityFusionRule(binaryDecisionAllList);
 }
@@ -385,17 +388,20 @@ public class FusionCenter {
 	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario
 	 * @param attempts Numero di prove
 	 * @return  Ritorna la % di Dectection calcolata utilizzando un meccanismo di reputazione per gli utenti secondari.
+	 * @throws IOException 
 
 	 */
 
-	public  ArrayList<Double> reputationBasedDecision(int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,int attempts){
+	public  ArrayList<Double> reputationBasedDecision(int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,int attempts,	String typeMSU) throws IOException{
 		HashMap<Double,Double> reputationBasedDetection=new HashMap<Double,Double>();
 		//Inizializzo le mappe SnrToPresenceUser e SnrToAbsenceUser. Queste mappe, per ogni snr, hanno una lista di utenti che affermano
 		//la presenza o l'assenza dell'utente primario di cardinalità pari al numero di prove
 		createSnrToUsers(inf,sup,userToBinaryDecision,attempts);
 		//Per ogni SNR
-		
+		FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+"cooperative"+"_"+typeMSU+".txt");
+		 BufferedWriter b=new BufferedWriter(w);
 		for(Double snr: this.snrToPresenceUsers.keySet()){
+			this.excludedUsers.clear();
 			//Inizializzo la reputazione a 5 ad ogni cambio di SNR
 			inizializeReliabilities(userToBinaryDecision);
 			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
@@ -416,11 +422,17 @@ public class FusionCenter {
 			    	
 			    
 			}
+			b.write("------------------- SNR="+snr+" -------------------------"+" \n");
+			b.write("User Excluded: "+this.excludedUsers.size()+" \n");	
+			for(int i=0;i<this.excludedUsers.size();i++){
+			b.write(this.excludedUsers.get(i)+" \n");}
+			
 			//Per ogni snr, aggiungo alla mappa l'array di decisioni globali di cardinalità pari al numero di prove
 			double detection=Detector.reputationBasedDetection(globalDecisions);
 			reputationBasedDetection.put(snr,detection);
 		}
 		
+		b.close();
 		return Utils.orderSignal(reputationBasedDetection);
 		
 
@@ -622,8 +634,8 @@ public class FusionCenter {
 			this.usersReliabilities.replace(presenceSU.get(i),newReliabilities);
 		}
 			else{
-				ArrayList<String> MSU= new ArrayList<String>();
-			MSU.add(presenceSU.get(i));
+				if(!this.excludedUsers.contains(presenceSU.get(i))){
+					excludedUsers.add(presenceSU.get(i));}
 			}
 				
 			//System.out.println
@@ -636,8 +648,9 @@ public class FusionCenter {
 			double newReliabilities=this.usersReliabilities.get(absenceSU.get(i))+ Math.pow(-1,(0+globalDecision));
 			this.usersReliabilities.replace(absenceSU.get(i),newReliabilities);}
 			
-				else{ArrayList<String> MSU= new ArrayList<String>();
-				MSU.add(absenceSU.get(i));
+				else{
+					if(!this.excludedUsers.contains(absenceSU.get(i))){
+					excludedUsers.add(absenceSU.get(i));}
 				}
 			
 }

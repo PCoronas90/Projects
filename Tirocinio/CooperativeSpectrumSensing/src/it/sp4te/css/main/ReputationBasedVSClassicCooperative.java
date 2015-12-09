@@ -63,7 +63,7 @@ public class ReputationBasedVSClassicCooperative {
 		//CooperativeEnergyDetectionAndFusion=FC.andDecision(inf, sup,userToBinaryDecision);
 		//CooperativeEnergyDetectionOrFusion=FC.orDecision(inf, sup,userToBinaryDecision);
 		CooperativeEnergyDetectionMajorityFusion=FC.majorityDecision(inf, sup,userToBinaryDecision);
-		reputationBasedCSS= FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts);
+		reputationBasedCSS= FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts,"Opposite");
 
 
 		//DetectionGraph.put("CED AND fusion", CooperativeEnergyDetectionAndFusion);

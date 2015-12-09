@@ -91,6 +91,9 @@ public class Reputation {
 
 	public void incrementConsecutiveHits(){
 		this.consecutiveHits++;
+		if(this.errorCount>0){
+			this.errorCount--;
+		}
 	}
 
 	/** Incrementa di uno il parametro error count dell'oggetto reputation
