@@ -287,15 +287,7 @@ public class Utils {
 			else return 0;
 		}}
 	
-	
-	
-	/**Dato un array di decisioni binarie, il metodo riporta una una lista di decisioni binarie dando peso 0.5 a ciascun utente.
-	 * Occorrono due utenti concordi su una decisione per riportare la presenza o l'assenza dell'utente primario
-	 
-	 * @param binaryDecisions un array di Decisioni binarie
-	 * @return una una lista di decisioni binarie dando peso 0.5 a ciascun utente.
-	 */
-	public static ArrayList<Integer> getGreyListDecision(ArrayList<Integer> binaryDecisions){
+	public static ArrayList<Integer> getGreyDecision(ArrayList<Integer> binaryDecisions){
 		ArrayList<Integer> result= new ArrayList<Integer>();
 		int presence=0;
 		int absence=0;
