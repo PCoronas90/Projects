@@ -1,0 +1,300 @@
+package it.sp4te.css.main;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import it.sp4te.css.agents.FusionCenter;
+import it.sp4te.css.agents.MaliciousSecondaryUser;
+import it.sp4te.css.agents.PrimaryUser;
+import it.sp4te.css.agents.TrustedNode;
+import it.sp4te.css.agents.TrustedSecondaryUser;
+import it.sp4te.css.graphgenerator.*;
+import it.sp4te.css.model.Signal;
+import it.sp4te.css.signalprocessing.SignalProcessor;
+import it.sp4te.css.signalprocessing.Utils;
+
+/**Questa classe modella uno scenario cooperativo  in cui sono presenti  utenti secondari fidati e non,
+ * utilizzando la tecnica basata sulla divisione in liste degli utenti**/
+
+
+public class ListCSS {
+
+	
+	public static void main(String args[]) throws Exception {
+		
+		ArrayList<TrustedSecondaryUser> TrustedSecondaryUsers;
+		ArrayList<TrustedNode> TrustedNode;
+		ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers;
+
+		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionAbsence=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionOpposite=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionIntelligent=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+		
+		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionAbsenceReputation=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionOppositeReputation=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionIntelligentReputation=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+		
+		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionAbsenceReputationTN=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionOppositeReputationTN=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionIntelligentReputationTN=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+		
+		ArrayList<Double> ListCooperativeEnergyDetectionAbsence = new ArrayList<Double>();;
+		ArrayList<Double> ReputationEnergyDetectionAbsence = new ArrayList<Double>();;
+		ArrayList<Double> ReputationTNEnergyDetectionAbsence = new ArrayList<Double>();;
+		
+		ArrayList<Double> ListCooperativeEnergyDetectionIntelligent = new ArrayList<Double>();;
+		ArrayList<Double> ReputationEnergyDetectionIntelligent = new ArrayList<Double>();;
+		ArrayList<Double> ReputationTNEnergyDetectionIntelligent = new ArrayList<Double>();;
+
+		ArrayList<Double> ListCooperativeEnergyDetectionOpposite = new ArrayList<Double>();;
+		ArrayList<Double> ReputationEnergyDetectionOpposite = new ArrayList<Double>();;
+		ArrayList<Double> ReputationTNEnergyDetectionOpposite = new ArrayList<Double>();;
+
+
+        HashMap<String, ArrayList<Double>> DetectionGraph = new HashMap<String, ArrayList<Double>>();
+
+
+		// Setto i parametri
+		int length = 1000; // poi 10000
+		int attempts = 500;
+		int inf=-15;
+		int sup=-8 ;
+		int block=10; //blocchi energy Detector
+		double pfa=0.01; //probabilità di falso allarme
+		int numberTSU=20;
+		int numberMSU=10;//numero di utenti fidati
+		int K; //GRIGIA->BIANCA
+		int L;// NERA->BIANCA
+		int M=10; //BIANCA->GRIGIA
+		int N=12;//GRIGIA->NERA
+        int j=3;
+		//Creo il Fusion center
+		FusionCenter FC=new FusionCenter();
+		//Creo l'utente primario
+		PrimaryUser PU= new PrimaryUser();
+		//creo il segnale
+		Signal s = PU.createAndSend(length);
+ for(int i=1;i<4;i++){
+			numberTSU=30-i;
+			numberMSU=i;
+			
+			TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			
+			userToBinaryDecisionIntelligentReputation=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+			userToBinaryDecisionIntelligentReputation.putAll(Utils.genereteIntelligentOppositeMaliciousBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
+			ReputationEnergyDetectionIntelligent=FC.reputationBasedDecision(inf, sup, userToBinaryDecisionIntelligentReputation,attempts,"intelligent"+"MSU"+numberMSU);
+			
+			TrustedSecondaryUsers.clear();
+			MaliciousSecondaryUsers.clear();
+			
+			TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			userToBinaryDecisionOppositeReputation=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+			userToBinaryDecisionOppositeReputation.putAll(Utils.genereteOppositeBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
+			ReputationEnergyDetectionOpposite=FC.reputationBasedDecision(inf, sup, userToBinaryDecisionOppositeReputation,attempts,"opposite"+"MSU"+numberMSU);
+			
+			TrustedSecondaryUsers.clear();
+			MaliciousSecondaryUsers.clear();
+			
+			TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			userToBinaryDecisionAbsenceReputation=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+			userToBinaryDecisionAbsenceReputation.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
+			ReputationEnergyDetectionAbsence=FC.reputationBasedDecision(inf, sup, userToBinaryDecisionAbsenceReputation,attempts,"absence"+"MSU"+numberMSU);
+			
+			//----------------------------------------------------- With trusted Node-----------------------------------------------------------------//
+			TrustedSecondaryUsers.clear();
+			MaliciousSecondaryUsers.clear();
+			
+			TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			TrustedNode= Utils.createTrustedNode(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			
+			userToBinaryDecisionIntelligentReputationTN=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+			userToBinaryDecisionIntelligentReputationTN.putAll(Utils.genereteIntelligentOppositeMaliciousBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
+			ReputationTNEnergyDetectionIntelligent=FC.reputationBasedWithTrustedNodeDecision(inf, sup, userToBinaryDecisionIntelligentReputationTN,
+					Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa),attempts,"TN_intelligent"+"MSU"+numberMSU);
+			
+			TrustedSecondaryUsers.clear();
+			MaliciousSecondaryUsers.clear();
+			TrustedNode.clear();
+			
+			TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			TrustedNode= Utils.createTrustedNode(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			
+			userToBinaryDecisionOppositeReputationTN=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+			userToBinaryDecisionOppositeReputationTN.putAll(Utils.genereteOppositeBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
+			ReputationTNEnergyDetectionOpposite=FC.reputationBasedWithTrustedNodeDecision(inf, sup, userToBinaryDecisionOppositeReputationTN,
+					Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa),attempts,"TN_opposite"+"MSU"+numberMSU);
+			
+			TrustedSecondaryUsers.clear();
+			MaliciousSecondaryUsers.clear();
+			TrustedNode.clear();
+			
+			TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			TrustedNode= Utils.createTrustedNode(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			
+			userToBinaryDecisionAbsenceReputationTN=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+			userToBinaryDecisionAbsenceReputationTN.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
+			ReputationTNEnergyDetectionAbsence=FC.reputationBasedWithTrustedNodeDecision(inf, sup, userToBinaryDecisionAbsenceReputationTN,
+					Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa),attempts,"TN_absence"+"MSU"+numberMSU);
+			
+			
+		for(int delta=5;delta<10;delta++){
+			L=N+(delta*j);
+			K=M+delta;
+		
+			DetectionGraph.clear();
+			TrustedSecondaryUsers.clear();
+			MaliciousSecondaryUsers.clear();
+			
+		TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		
+		userToBinaryDecisionIntelligent=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+		userToBinaryDecisionIntelligent.putAll(Utils.genereteIntelligentOppositeMaliciousBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
+		ListCooperativeEnergyDetectionIntelligent= FC.ListBasedDecision(inf, sup, userToBinaryDecisionIntelligent, attempts, K, L, M, N,"_MSU"+numberMSU+"Intelligent");
+
+		DetectionGraph.put("ListBased", ListCooperativeEnergyDetectionIntelligent);
+		DetectionGraph.put("Reputation", ReputationEnergyDetectionIntelligent);
+		DetectionGraph.put("Reputation with TN", ReputationTNEnergyDetectionIntelligent);
+
+		JFreeChartGraphGenerator graphIntelligent= new JFreeChartGraphGenerator("Presence of PU in Cooperative ED");
+		graphIntelligent.drawAndSaveGraph("",DetectionGraph, inf, sup,"C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_IntelligentMSU"+numberMSU+".jpg");;
+
+		DetectionGraph.clear();
+		TrustedSecondaryUsers.clear();
+		MaliciousSecondaryUsers.clear();
+
+		TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+
+		userToBinaryDecisionOpposite=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+		
+		//Gli utenti malevoli di questa tipologia generano un vettore di decisioni in cui l'utente primario è sempre assente
+		userToBinaryDecisionOpposite.putAll(Utils.genereteOppositeBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
+		ListCooperativeEnergyDetectionOpposite= FC.ListBasedDecision(inf, sup, userToBinaryDecisionOpposite, attempts, K, L, M, N,"MSU"+numberMSU+"_Opposite");
+
+		DetectionGraph.put("ListBased", ListCooperativeEnergyDetectionOpposite);
+		DetectionGraph.put("Reputation", ReputationEnergyDetectionOpposite);
+		DetectionGraph.put("Reputation with TN", ReputationTNEnergyDetectionOpposite);
+
+		JFreeChartGraphGenerator graphOpposite= new JFreeChartGraphGenerator("Presence of PU in Cooperative ED");
+		graphOpposite.drawAndSaveGraph("",DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_OppositeMSU"+numberMSU+".jpg");;
+
+		DetectionGraph.clear();
+		TrustedSecondaryUsers.clear();
+		MaliciousSecondaryUsers.clear();
+
+
+		TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+
+		userToBinaryDecisionAbsence=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+		
+		//Gli utenti malevoli di questa tipologia generano un vettore di decisioni in cui l'utente primario è sempre assente
+		userToBinaryDecisionAbsence.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
+		ListCooperativeEnergyDetectionAbsence= FC.ListBasedDecision(inf, sup, userToBinaryDecisionAbsence, attempts, K, L, M, N,"MSU"+numberMSU+"_Absence");
+
+		DetectionGraph.put("ListBased", ListCooperativeEnergyDetectionAbsence);
+		DetectionGraph.put("Reputation", ReputationEnergyDetectionAbsence);
+		DetectionGraph.put("Reputation with TN", ReputationTNEnergyDetectionAbsence);
+
+
+		JFreeChartGraphGenerator graphAbsence= new JFreeChartGraphGenerator("Presence of PU in Cooperative ED");
+
+		graphAbsence.drawAndSaveGraph("",DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_AbsenceMSU"+numberMSU+".jpg");;
+		
+		}}}}/**
+		for(int i=12;i<15;i++){
+			numberTSU=30-i;
+			numberMSU=i;
+			
+			TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			userToBinaryDecisionIntelligent2=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+			userToBinaryDecisionIntelligent2.putAll(Utils.genereteIntelligentPresenceMaliciousBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
+			ReputationEnergyDetectionIntelligent=FC.reputationBasedDecision(inf, sup, userToBinaryDecisionIntelligent2,attempts,"intelligent"+"MSU"+numberMSU);
+			
+			TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			userToBinaryDecisionOpposite2=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+			userToBinaryDecisionOpposite2.putAll(Utils.genereteOppositeBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
+			ReputationEnergyDetectionOpposite=FC.reputationBasedDecision(inf, sup, userToBinaryDecisionOpposite2,attempts,"opposite"+"MSU"+numberMSU);
+			
+			TrustedSecondaryUsers.clear();
+			MaliciousSecondaryUsers.clear();
+			
+			TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			userToBinaryDecisionPresence2=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+			userToBinaryDecisionPresence2.putAll(Utils.generetePresenceBinaryDecisionVectors(MaliciousSecondaryUsers));
+			ReputationEnergyDetectionPresence=FC.reputationBasedDecision(inf, sup, userToBinaryDecisionPresence2,attempts,"presence"+"MSU"+numberMSU);
+			
+			
+		for(int delta=7;delta<8;delta++){
+			L=N+(delta*j);
+			K=M+delta;
+		
+			DetectionGraph.clear();
+			TrustedSecondaryUsers.clear();
+			MaliciousSecondaryUsers.clear();
+			
+		TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		
+		userToBinaryDecisionIntelligent=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+		userToBinaryDecisionIntelligent.putAll(Utils.genereteIntelligentPresenceMaliciousBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
+		ListCooperativeEnergyDetectionIntelligent= FC.ListBasedDecision(inf, sup, userToBinaryDecisionIntelligent, attempts, K, L, M, N,"_MSU"+numberMSU+"Intelligent");
+
+		DetectionGraph.put("ListBased", ListCooperativeEnergyDetectionIntelligent);
+		DetectionGraph.put("Reputation", ReputationEnergyDetectionIntelligent);
+
+		JFreeChartGraphGenerator graphIntelligent= new JFreeChartGraphGenerator("Absence of PU in Cooperative ED");
+		graphIntelligent.drawAndSaveGraph("",DetectionGraph, inf, sup,"C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_IntelligentMSU"+numberMSU+".jpg");;
+
+		DetectionGraph.clear();
+		TrustedSecondaryUsers.clear();
+		MaliciousSecondaryUsers.clear();
+
+		TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+
+		userToBinaryDecisionOpposite=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+		
+		//Gli utenti malevoli di questa tipologia generano un vettore di decisioni in cui l'utente primario è sempre assente
+		userToBinaryDecisionOpposite.putAll(Utils.genereteOppositeBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
+		ListCooperativeEnergyDetectionOpposite= FC.ListBasedDecision(inf, sup, userToBinaryDecisionOpposite, attempts, K, L, M, N,"MSU"+numberMSU+"_Opposite");
+
+		DetectionGraph.put("ListBased", ListCooperativeEnergyDetectionOpposite);
+		DetectionGraph.put("Reputation", ReputationEnergyDetectionOpposite);
+
+		JFreeChartGraphGenerator graphOpposite= new JFreeChartGraphGenerator("Absence of PU in Cooperative ED");
+		graphOpposite.drawAndSaveGraph("",DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_OppositeMSU"+numberMSU+".jpg");;
+
+		DetectionGraph.clear();
+		TrustedSecondaryUsers.clear();
+		MaliciousSecondaryUsers.clear();
+
+
+		TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,null,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+
+		userToBinaryDecisionPresence=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+		
+		//Gli utenti malevoli di questa tipologia generano un vettore di decisioni in cui l'utente primario è sempre assente
+		userToBinaryDecisionPresence.putAll(Utils.generetePresenceBinaryDecisionVectors(MaliciousSecondaryUsers));
+		ListCooperativeEnergyDetectionPresence= FC.ListBasedDecision(inf, sup, userToBinaryDecisionPresence, attempts, K, L, M, N,"MSU"+numberMSU+"_Presence");
+
+		DetectionGraph.put("ListBased", ListCooperativeEnergyDetectionPresence);
+		DetectionGraph.put("Reputation", ReputationEnergyDetectionPresence);
+
+		JFreeChartGraphGenerator graphAbsence= new JFreeChartGraphGenerator("Absence of PU in Cooperative ED");
+
+		graphAbsence.drawAndSaveGraph("",DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_PresenceMSU"+numberMSU+".jpg");;
+		
+		}}}}
+
+**/

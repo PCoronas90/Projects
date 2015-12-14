@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.Functions.SignalFunctions"/>
 <fullyQualifiedTypeName name="java.util.Collections"/>
 <fullyQualifiedTypeName name="com.googlecode.charts4j.Color"/>
 <fullyQualifiedTypeName name="com.googlecode.charts4j.Data"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="it.sp4te.css.graphgenerator.GraphGenerator2"/>
 <fullyQualifiedTypeName name="it.sp4te.css.graphgenerator.Chart4jGraphGenerator"/>
 <fullyQualifiedTypeName name="it.sp4te.css.graphgenerator.JFreeChartGraphGenerator"/>
+<fullyQualifiedTypeName name="it.sp4te.css.agents.TrustedNode"/>
 </qualifiedTypeNameHistroy>

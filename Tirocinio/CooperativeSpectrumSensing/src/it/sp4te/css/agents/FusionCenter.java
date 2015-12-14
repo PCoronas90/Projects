@@ -26,18 +26,29 @@ public class FusionCenter {
 	HashMap<String,Reputation> usersToInfo;
 	//Valori per il passaggio tra liste
 	int K,L,M,N;
+	int Nb,Na;
+	//Lista utenti Esclusi
 	ArrayList<String> excludedUsers;
-	//Mappa utente->volte che è stato in lista nera
-	//HashMap<String,Integer> blackListCount;
+
+	ArrayList<String> reliableState;
+	ArrayList<String> pendingState;
+	ArrayList<String> discardedState;
+	
+	
 
 
 	public FusionCenter(){
 		snrToPresenceUsers= new HashMap<Double,ArrayList<ArrayList<String>>>();
 		snrToAbsenceUsers= new HashMap<Double,ArrayList<ArrayList<String>>>();
 		usersReliabilities= new HashMap<String,Double>();
-		excludedUsers= new ArrayList<String>();
-	
+		excludedUsers= new ArrayList<String>();	
 		usersToInfo= new 	HashMap<String,Reputation>();
+		reliableState= new ArrayList<String> ();
+		pendingState= new ArrayList<String> ();
+		discardedState= new ArrayList<String> ();
+		this.Na=1;
+		this.Nb=9;
+		
 	}
 
 
@@ -444,7 +455,7 @@ public class FusionCenter {
 	la presenza o l'assenza dell'utente primario di cardinalità pari al numero di prove
 	 * @param inf Estremo SNR inferiore
 	 * @param sup Estremo SNR superiore
-	 * @param userToBinaryDecision Mappa che ha come chiave il nome dell'uente primario. Come valore ha una lista di liste: per ogni SNR ha una lista
+	 * @param userToBinaryDecision Mappa che ha come chiave il nome dell'utente secondario. Come valore ha una lista di liste: per ogni SNR ha una lista
 	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario
 	 * @param attempts Numero di prove
 	 */
@@ -478,7 +489,7 @@ public class FusionCenter {
 
 
 	/** Inizializza la reputazione di tutti gli utenti presenti a 5
-	 * @param userToBinaryDecision Mappa che ha come chiave il nome dell'uente primario. Come valore ha una lista di liste: per ogni SNR ha una lista
+	 * @param userToBinaryDecision Mappa che ha come chiave il nome dell'utente secondario. Come valore ha una lista di liste: per ogni SNR ha una lista
 	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario
 	 */
 	
@@ -654,7 +665,225 @@ public class FusionCenter {
 				}
 			
 }
-		}}
+		}
+	
+
+	public  ArrayList<Double> reputationBasedWithTrustedNodeDecision(int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,HashMap<String,ArrayList<ArrayList<Integer>>> trustedNodeToBinaryDecision,int attempts,	String typeMSU) throws IOException{
+		HashMap<Double,Double> reputationBasedDetection=new HashMap<Double,Double>();
+		//Inizializzo le mappe SnrToPresenceUser e SnrToAbsenceUser. Queste mappe, per ogni snr, hanno una lista di utenti che affermano
+		//la presenza o l'assenza dell'utente primario di cardinalità pari al numero di prove
+		createSnrToUsers(inf,sup,userToBinaryDecision,trustedNodeToBinaryDecision,attempts);
+		//Per ogni SNR
+		FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+"TrustedNodecooperative"+"_"+typeMSU+".txt");
+		 BufferedWriter b=new BufferedWriter(w);
+		for(Double snr: this.snrToPresenceUsers.keySet()){
+			//Inizializzo la reputazione a 5 ad ogni cambio di SNR
+			inizializeReliabilitiesAndState(userToBinaryDecision,trustedNodeToBinaryDecision);
+			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
+			for(int attempt=0;attempt<this.snrToPresenceUsers.get(snr).size();attempt++){
+				//Per ogni prova mi creo una mappa UTENTE->DECISIONE dei soli utenti che partecipano alla comunicazione, e quindi
+				//con reputazione >=1
+				HashMap<String,Integer> binaryDecisions=computeReliableUserToDecision(this.snrToPresenceUsers.get(snr).get(attempt),
+						this.snrToAbsenceUsers.get(snr).get(attempt));
+				//Mi calcolo la decisione globale
+				Integer globalDecision=computeGlobalDecision(binaryDecisions);
+				//Aggiungo alla decisione globale
+				globalDecisions.add(globalDecision);
+				//aggiorno la reputazione
+				updateReliabilitiesAndState(globalDecision,this.snrToPresenceUsers.get(snr).get(attempt),
+						this.snrToAbsenceUsers.get(snr).get(attempt),snr);
+
+				
+			    	
+			    
+			}
+			b.write("------------------- SNR="+snr+" -------------------------"+" \n");
+			b.write("User Excluded: "+this.discardedState.size()+" \n");	
+			for(int i=0;i<this.discardedState.size();i++){
+			b.write(this.discardedState.get(i)+" \n");}
+			b.write("\n");
+			b.write("Reliable User: "+this.reliableState.size()+" \n");	
+			for(int i=0;i<this.reliableState.size();i++){
+			b.write(this.reliableState.get(i)+" \n");}
+			b.write("\n");
+			b.write("Pending User: "+this.pendingState.size()+" \n");	
+			for(int i=0;i<this.pendingState.size();i++){
+			b.write(this.pendingState.get(i)+" \n");}
+			
+			//Per ogni snr, aggiungo alla mappa l'array di decisioni globali di cardinalità pari al numero di prove
+			double detection=Detector.reputationBasedDetection(globalDecisions);
+			reputationBasedDetection.put(snr,detection);
+		}
+		
+		b.close();
+		return Utils.orderSignal(reputationBasedDetection);
+		
+
+	}
+	
+	/**Questo metodo Inizializza le mappe SnrToPresenceUser e SnrToAbsenceUser. Queste mappe, per ogni snr, hanno una lista di utenti che affermano
+	la presenza o l'assenza dell'utente primario di cardinalità pari al numero di prove. In questo modo sono compresi anche i trusted Node.
+	 * @param inf Estremo SNR inferiore
+	 * @param sup Estremo SNR superiore
+	 * @param trustedNodeToBinaryDecision Mappa che ha come chiave il nome del trusted node. Come valore ha una lista di liste: per ogni SNR ha una lista
+	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario
+	
+	 * @param userToBinaryDecision Mappa che ha come chiave il nome dell'utente secondario. Come valore ha una lista di liste: per ogni SNR ha una lista
+	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario
+	 * @param attempts Numero di prove
+	 */
+	
+	public void createSnrToUsers(int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,HashMap<String,ArrayList<ArrayList<Integer>>> trustedNodeToBinaryDecision,int attempts){
+		//Per ogni SNR
+		for(int i=0;i<(sup-inf);i++){
+			ArrayList<ArrayList<String>> listOfPresenceUser =new ArrayList<ArrayList<String>>();	
+			ArrayList<ArrayList<String>> listOfAbsenceUser=new ArrayList<ArrayList<String>>();	
+			//Per ogni prova
+			for(int j=0;j<attempts;j++){
+				ArrayList<String> presenceUser =new ArrayList<String>();	
+				ArrayList<String> nonPresenceUser=new ArrayList<String>();	
+				//Per ogni utente
+				for(String SU: userToBinaryDecision.keySet()){
+					if(userToBinaryDecision.get(SU).get(i).get(j)==0){
+						nonPresenceUser.add(SU);}
+					else{
+						presenceUser.add(SU);}
+				}
+				
+				for(String TN: trustedNodeToBinaryDecision.keySet()){
+					if(trustedNodeToBinaryDecision.get(TN).get(i).get(j)==0){
+						nonPresenceUser.add(TN);}
+					else{
+						presenceUser.add(TN);}
+				}
+				listOfPresenceUser.add(presenceUser);
+				listOfAbsenceUser.add(nonPresenceUser);
+			}
+
+			this.snrToPresenceUsers.put((double)inf+i,listOfPresenceUser );
+			this.snrToAbsenceUsers.put((double)inf+i, listOfAbsenceUser);
+
+
+		}
+	}
+
+	/** Inizializza la reputazione di tutti gli utenti presenti a 5, quella dei trusted node a 13. Inoltre divide gli utenti in 2 liste
+	 *  * @param trustedNodeToBinaryDecision Mappa che ha come chiave il nome del trusted node. Come valore ha una lista di liste: per ogni SNR ha una lista
+	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario
+	 
+	 * @param userToBinaryDecision Mappa che ha come chiave il nome dell'utente secondario. Come valore ha una lista di liste: per ogni SNR ha una lista
+	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario
+	 */
+	
+	public void inizializeReliabilitiesAndState(HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,HashMap<String,ArrayList<ArrayList<Integer>>> trustedNodeToBinaryDecision){
+		this.usersReliabilities.clear();
+		this.pendingState.clear();
+		this.discardedState.clear();
+		this.reliableState.clear();
+		for(String SU: userToBinaryDecision.keySet()){
+			this.usersReliabilities.put(SU, 5.0);
+			this.pendingState.add(SU);
+		}
+		for(String TN: trustedNodeToBinaryDecision.keySet()){
+			this.usersReliabilities.put(TN, 13.0);
+			this.reliableState.add(TN);
+		}
+
+	}
+	
+	/**Questo metodo ritorna una mappa contenente come chiave il nome dell'utente e come valore la decisione relativa alla
+	 * presenza o assenza dell'utente primario. Considera solamente gli utenti che partecipano alla conversazione, ovvero
+	 * utenti contenuti della lista reliableState
+	 * @param presenceUsers Lista di utenti che affermano la presenza dell'utente primario
+	 * @param absenceUsers Lista di utenti che affermano l'assenza dell'utente primario
+	 * @return Una mappa utente decisione
+	 **/
+
+	public HashMap<String,Integer> computeReliableUserToDecision(ArrayList<String> presenceUsers,ArrayList<String> absenceUsers){
+		HashMap<String,Integer> binaryDecisions= new HashMap<String,Integer>();
+		for(String SU:presenceUsers){
+			
+			if(this.reliableState.contains(SU)){
+				binaryDecisions.put(SU, 1);
+			}}
+		for(String SU2:absenceUsers){
+			
+			if(this.reliableState.contains(SU2)){
+				binaryDecisions.put(SU2,0);
+			}
+		}
+
+		return binaryDecisions;
+	}
+	
+	/** Questo metodo aggiorna la reputazione di ogni utente, sia di quelli che partecipano alla comunicazione sia di
+	 * quelli che non partecipano. Per fare ciò, si basa sulla decisione locale e la confronta con quella globale.
+	 * Se coincidono, la reputazione viene incrementata di 1, altrimenti decrementata.
+	 * @param globalDecision Decisione globale
+	 * @param presenceSU Lista di utenti che affermano la presenza dell'utente primario
+	 * @param absenceSU Lista di utenti che affermano l'assenza dell'utente primario
+	 * @param snr L'SNR a cui si sta effettuando l'aggiornamento della reputazione
+	 */
+
+	public void updateReliabilitiesAndState(int globalDecision,ArrayList<String>  presenceSU,ArrayList<String>  absenceSU,double snr){
+		for(String SU: presenceSU){
+			//Questo controllo fa si che una volta che un utente va sotto la soglia minima (1) non viene più considerato
+			if(!this.discardedState.contains(SU)){
+			double newReliabilities=this.usersReliabilities.get(SU)+ Math.pow(-1,(1+globalDecision));
+			this.usersReliabilities.replace(SU,newReliabilities);
+		}
+			
+				
+			}
+
+		for(String SU: absenceSU){
+			//Questo controllo fa si che una volta che un utente va sotto la soglia minima (1) non viene più considerato
+			if(!this.discardedState.contains(SU)){
+			double newReliabilities=this.usersReliabilities.get(SU)+ Math.pow(-1,(0+globalDecision));
+			this.usersReliabilities.replace(SU,newReliabilities);}
+			
+				
+			
+}
+		
+		ArrayList<String> reliableStateTemp= new ArrayList<String>();
+		reliableStateTemp.addAll(this.reliableState);
+		for(String SU: reliableStateTemp){
+			if(this.usersReliabilities.get(SU)<Nb){
+				this.reliableState.remove(SU);
+				this.pendingState.add(SU);
+			}
+			if(this.usersReliabilities.get(SU)<Na){
+				this.reliableState.remove(SU);
+				this.discardedState.add(SU);
+			}
+			
+	    ArrayList<String> pendingStateTemp= new ArrayList<String>();
+		pendingStateTemp.addAll(this.pendingState);
+		for(String SU2: pendingStateTemp){
+				if(this.usersReliabilities.get(SU2)<Na){
+					this.pendingState.remove(SU2);
+					this.discardedState.add(SU2);
+				}	
+				else if(this.usersReliabilities.get(SU2)>=Nb){
+					this.pendingState.remove(SU2);
+					this.reliableState.add(SU2);
+				}
+			
+			
+		}
+		
+		}
+	
+	
+
+	}
+	
+	
+
+
+
+}
 
 
 

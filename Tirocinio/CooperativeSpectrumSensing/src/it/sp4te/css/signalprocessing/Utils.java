@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import it.sp4te.css.agents.MaliciousSecondaryUser;
+import it.sp4te.css.agents.TrustedNode;
 import it.sp4te.css.agents.TrustedSecondaryUser;
 import it.sp4te.css.model.Signal;
 
@@ -71,6 +72,33 @@ public class Utils {
 		return TrustedSecondaryUsers;
 
 	}
+	
+	/**
+	 * Metodo per generare una lista di trusted Node
+	 * @param number Numero di utenti secondari fidati da generare
+	 * @param s Segnale su cui effettuare la Detection
+	 * @param SignalLength lunghezza del segnale
+	 * @param energy Energia del segnale
+	 * @param attempts Numero di prove su cui viene effettuata la simulazione
+	 * @param inf Estremo inferiore di SNR su cui è stata effettuata la simulazione
+	 * @param sup Estremo superiore di SNR su cui è stata effettuata la simulazione
+	 * @param block Blocchi in cui dividere il segnale per l'energy Detector
+	 * @return una lista di utenti secondari fidati
+	 * **/
+	
+	public static ArrayList<TrustedNode> createTrustedNode(int number,Signal s,
+			int SignalLength, double energy, int attempts, int inf, int sup,int block){
+
+		ArrayList<TrustedNode> TrustedNode = new ArrayList<TrustedNode>();
+		for(int i=0;i<number;i++){
+			TrustedNode TSU=new TrustedNode();
+			TSU.listenChannel(s, SignalLength, energy, attempts, inf, sup, block);
+			TrustedNode.add(TSU);
+		}
+
+		return TrustedNode;
+
+	}
 
 	/**
 	 * Metodo per generare una lista di utenti secondari malevoli
@@ -115,10 +143,32 @@ public class Utils {
 		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
 
 		for(int i=0;i<TrustedSecondaryUsers.size();i++){
-			userToBinaryDecision.put("TrustedSecodaryUser"+i, TrustedSecondaryUsers.get(i).computeBinaryDecisionVector(pfa));	
+			userToBinaryDecision.put("TrustedSecondaryUser"+i, TrustedSecondaryUsers.get(i).computeBinaryDecisionVector(pfa));	
 		}
 		return userToBinaryDecision;
 	}
+	
+	/**
+	 * Prendendo in input una lista di trusted Node e la probabilità di falso allarma, questo metodo riporta
+	 * una mappa avente come chiave l'identificatore del trusted Node e come valore una lista di decisioni binarie
+	 * sulla presenza o assenza dell'utente primario per ogni valore di SNR
+	 * @param TrustedNode Lista di trusted Node
+	 * @param pfa Probabilità di falso allarme
+	 * @return una mappa avente come chiave l'identificatore dell'utente secondario e come valore una lista di decisioni binarie
+	 * sulla presenza o assenza dell'utente primario per ogni valore di SNR
+	 * @throws Exception 
+	 * **/
+
+	public static HashMap<String,ArrayList<ArrayList<Integer>>> genereteTrustedNodeBinaryDecisionVectors(
+			ArrayList<TrustedNode> TrustedNode,double pfa) throws Exception {
+		HashMap<String,ArrayList<ArrayList<Integer>>> trustedNodeToBinaryDecision=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+
+		for(int i=0;i<TrustedNode.size();i++){
+			trustedNodeToBinaryDecision.put("TrustedNode_"+i, TrustedNode.get(i).computeBinaryDecisionVector(pfa));	
+		}
+		return trustedNodeToBinaryDecision;
+	}
+
 
 	/**
 	 * Prendendo in input una lista di utenti malevoli, questo metodo riporta
