@@ -127,8 +127,8 @@ public class FusionCenter {
 	}
 
 
-	/** Questo metodo prende in input, oltre agli estremi snr,  una Mappa che ha come chiave il nome dell'utente secondario. Come valore ha una lista di liste: per ogni SNR ha una lista
-	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario .
+	/** Questo metodo prende in input, oltre agli estremi snr,  una Mappa che ha come chiave il nome dell'utente primario. Come valore ha una lista di liste: per ogni SNR ha una lista
+	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario.
 	 * Ritorna la % di Dectection calcolata utilizzando un metodo basato sulla divisione in liste degli utenti che tiene conto delle volte che sbagliano e delle volte
 	 * che concordano con la decisione globale in modo consecutivo
 	 * @param inf Estremo inferiore SNR
@@ -203,11 +203,11 @@ public class FusionCenter {
 	}
 	
 
-	/** QUesto metodo inizializza la mappa userToInfo, inserendo come chiave l'identificativo dell'utente secondario, e come valore un 
+	/** QUesto metodo inizializza la mappa userToINfo, inserendo come chiave l'identificativo dell'utente secondario, e come valore un 
 	 * array di 3 elementi contenente gli hits consecutivi, gli errori e la lista di appartenenza. Tutti questo valori vengono 
 	 * inizialmente posti a 0 (0 hits,0 errori e lista bianca)
-	 * @param userToBinaryDecision Mappa che ha come chiave il nome dell'uente secondario. Come valore ha una lista di liste: per ogni SNR ha una lista
-	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario.
+	 * @param userToBinaryDecision Mappa che ha come chiave il nome dell'uente primario. Come valore ha una lista di liste: per ogni SNR ha una lista
+	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario
 	  
 	 * **/
 	
@@ -390,8 +390,8 @@ public class FusionCenter {
 }
 
 
-	/** Questo metodo prende in input, oltre agli estremi snr,  una Mappa che ha come chiave il nome dell'utente secondario e Come valore  una lista di liste: per ogni SNR ha una lista
-	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario.
+	/** Questo metodo prende in input, oltre agli estremi snr,  una Mappa che ha come chiave il nome dell'utente primario. Come valore ha una lista di liste: per ogni SNR ha una lista
+	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario.
 	 * Ritorna la % di Dectection calcolata utilizzando un meccanismo di reputazione per gli utenti secondari.
 	 * @param inf Estremo inferiore SNR
 	 * @param sup Estremo superiore SNR 
@@ -668,18 +668,6 @@ public class FusionCenter {
 		}
 	
 
-	/** Questo metodo Ritorna la % di Dectection calcolata utilizzando un meccanismo di reputazione per gli utenti secondari con utilizzo di Trusted Node
-	 * @param inf Estremo inferiore SNR
-	 * @param sup Estremo superiore SNR 
-	 * @param userToBinaryDecision Mappa che ha come chiave il nome dell'uente secondario. Come valore ha una lista di liste: per ogni SNR ha una lista
-	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario
-	 * @param trustedNodeToBinaryDecision Mappa che ha come chiave il nome del trusted Node. Come valore ha una lista di liste: per ogni SNR ha una lista
-	 * di lunghezza pari al numero di prove contenente la decisione binaria sulla presenza o assenza dell'utente primario da parte dell'utente secondario
-	 * @param attempts Numero di prove
-	 * @return  Ritorna la % di Dectection calcolata utilizzando un meccanismo di reputazione per gli utenti secondari.
-	 * @throws IOException 
-
-	 */
 	public  ArrayList<Double> reputationBasedWithTrustedNodeDecision(int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,HashMap<String,ArrayList<ArrayList<Integer>>> trustedNodeToBinaryDecision,int attempts,	String typeMSU) throws IOException{
 		HashMap<Double,Double> reputationBasedDetection=new HashMap<Double,Double>();
 		//Inizializzo le mappe SnrToPresenceUser e SnrToAbsenceUser. Queste mappe, per ogni snr, hanno una lista di utenti che affermano
@@ -828,8 +816,8 @@ public class FusionCenter {
 		return binaryDecisions;
 	}
 	
-	/** Questo metodo aggiorna la reputazione di ogni utente, esclusi quelli esclusi dalla comunicazione contenuti nella lista
-	 * discardedState. Per fare ciò, si basa sulla decisione locale e la confronta con quella globale.
+	/** Questo metodo aggiorna la reputazione di ogni utente, sia di quelli che partecipano alla comunicazione sia di
+	 * quelli che non partecipano. Per fare ciò, si basa sulla decisione locale e la confronta con quella globale.
 	 * Se coincidono, la reputazione viene incrementata di 1, altrimenti decrementata.
 	 * @param globalDecision Decisione globale
 	 * @param presenceSU Lista di utenti che affermano la presenza dell'utente primario

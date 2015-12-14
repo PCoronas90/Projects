@@ -75,7 +75,7 @@ public class Utils {
 	
 	/**
 	 * Metodo per generare una lista di trusted Node
-	 * @param number Numero di trusted node da generare
+	 * @param number Numero di utenti secondari fidati da generare
 	 * @param s Segnale su cui effettuare la Detection
 	 * @param SignalLength lunghezza del segnale
 	 * @param energy Energia del segnale
@@ -154,7 +154,7 @@ public class Utils {
 	 * sulla presenza o assenza dell'utente primario per ogni valore di SNR
 	 * @param TrustedNode Lista di trusted Node
 	 * @param pfa Probabilità di falso allarme
-	 * @return una mappa avente come chiave l'identificatore del trusted node e come valore una lista di decisioni binarie
+	 * @return una mappa avente come chiave l'identificatore dell'utente secondario e come valore una lista di decisioni binarie
 	 * sulla presenza o assenza dell'utente primario per ogni valore di SNR
 	 * @throws Exception 
 	 * **/
