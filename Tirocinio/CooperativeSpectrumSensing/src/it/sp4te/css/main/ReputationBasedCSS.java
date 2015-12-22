@@ -54,7 +54,7 @@ public class ReputationBasedCSS {
 		DetectionGraph.put("RB CSS", reputationBasedCSS);
 
 		Chart4jGraphGenerator reputationPresenceGraph= new Chart4jGraphGenerator();
-		reputationPresenceGraph.drawGraph("Reputation Based CSS: Presence of PU",DetectionGraph, inf, sup);
+		reputationPresenceGraph.drawSNRtoDetectionGraph("Reputation Based CSS: Presence of PU",DetectionGraph, inf, sup);
 
 		
 		//-----------------------------------------------------------
@@ -75,6 +75,6 @@ public class ReputationBasedCSS {
 		DetectionGraph.put("RB CSS", reputationBasedCSS);
 		
 		Chart4jGraphGenerator reputationAbsenceGraph= new Chart4jGraphGenerator();
-		reputationAbsenceGraph.drawGraph("Reputation Based CSS: Absence of PU",DetectionGraph, inf, sup);
+		reputationAbsenceGraph.drawSNRtoDetectionGraph("Reputation Based CSS: Absence of PU",DetectionGraph, inf, sup);
 
 	}}

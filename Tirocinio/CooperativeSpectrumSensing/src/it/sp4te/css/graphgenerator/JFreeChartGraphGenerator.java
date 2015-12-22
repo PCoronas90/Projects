@@ -22,6 +22,8 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
+import it.sp4te.css.signalprocessing.Utils;
+
 
 /**
  * <p>Titolo: JFreeChartGraphGenerator</p>
@@ -49,7 +51,7 @@ public class JFreeChartGraphGenerator extends ApplicationFrame implements GraphG
 	 * @throws IOException 
 	 **/
 
-	public void drawGraph(String title, HashMap<String, ArrayList<Double>> detection, int inf, int sup){
+	public void drawSNRtoDetectionGraph(String title, HashMap<String, ArrayList<Double>> detection, int inf, int sup){
 		final XYDataset dataset = createSnrDataset(inf,sup,detection);
 		final JFreeChart chart = createChart(dataset,super.getTitle(),"SNR","% Detection");
 		final ChartPanel chartPanel = new ChartPanel(chart);
@@ -74,7 +76,7 @@ public class JFreeChartGraphGenerator extends ApplicationFrame implements GraphG
 	 * @throws IOException 
 	 **/
 
-	public  void drawAndSaveGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path){
+	public  void drawAndSaveSNRtoDetectionGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path){
 		final XYDataset dataset = createSnrDataset(inf,sup,detection);
 		final JFreeChart chart = createChart(dataset,super.getTitle(),"SNR","% Detection");
 		final ChartPanel chartPanel = new ChartPanel(chart);
@@ -142,6 +144,85 @@ public class JFreeChartGraphGenerator extends ApplicationFrame implements GraphG
 			System.out.println(ex.getLocalizedMessage());
 		}}
 
+	
+	/**
+	 * Metodo per la creazione del grafico SNR-MDT
+	 * 
+	 * @param title Titolo del grafico
+	 * @param detection Mappa che ha come chiave il nome della curva da visualizzare e come valore una lista con le percentuali di 
+	 * Detection al variare dell'SNR.
+	 * @param inf Estremo inferiore di SNR su cui è stata effettuata la simulazione
+	 * @param sup Estremo superiore di SNR su cui è stata effettuata la simulazione
+	 * @throws IOException 
+	 **/
+
+	public void drawMDTtoSNRGraph(String title, HashMap<String, ArrayList<Double>> detection, int inf, int sup){
+		final XYDataset dataset = createMDTDataset(inf,sup,detection);
+		final JFreeChart chart = createChart(dataset,super.getTitle(),"SNR","MTD");
+		final ChartPanel chartPanel = new ChartPanel(chart);
+		chartPanel.setPreferredSize(new java.awt.Dimension(650, 500));
+		setContentPane(chartPanel);
+		this.pack();
+		RefineryUtilities.centerFrameOnScreen(this);
+		this.setVisible(true);
+
+	}
+	
+	/**
+	 * Metodo per la creazione del grafico SNR-MDT e salvataggio su path specifico
+	 * 
+	 * @param title Titolo del grafico
+	 * @param detection Mappa che ha come chiave il nome della curva da visualizzare e come valore una lista con le percentuali di 
+	 * Detection al variare dell'SNR.
+	 * @param totalUser Utenti totali coinvolti nella comunicazione
+	 * @param totalMaliciousUser Utenti malevoli totali coinvolti nella comunicazione
+	 * @param path Destinazione in cui salvare l'immagine
+	 * @throws IOException 
+	 **/
+
+	public  void drawAndSaveMDTtoSNRGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path){
+		final XYDataset dataset = createMDTDataset(inf,sup,detection);
+		final JFreeChart chart = createChart(dataset,super.getTitle(),"SNR","MTD");
+		final ChartPanel chartPanel = new ChartPanel(chart);
+		setContentPane(chartPanel);
+
+		try {
+
+
+			ChartUtilities.saveChartAsPNG(new File(path), chart, 750, 490);
+
+		} catch (IOException ex) {
+
+			System.out.println(ex.getLocalizedMessage());
+
+		}}
+	
+	/** Metodo per la creazione del dataset del grafico MTD-SNR
+	 * @param inf Estremo inferiore di snr
+	 * @param sup Estremo superiore di SNR
+	 * @param detection Mappa con nome del grafico e lista delle detection da rappresentare
+	 * @return Un dataset formato da SNR e rispettiva probabilità di detection
+	 */
+
+	private  XYDataset createMDTDataset(int inf, int sup,HashMap<String, ArrayList<Double>> detection) {
+		numberOfGraph=0;
+		final XYSeriesCollection dataset = new XYSeriesCollection();
+		for (String graphName : detection.keySet()) {
+			numberOfGraph++;
+			final XYSeries series = new XYSeries(graphName);
+			for(int i=0;i<detection.get(graphName).size();i++){
+				series.add((double)inf+i, Utils.computeMDT(detection.get(graphName).get(i)));
+
+			}
+
+			dataset.addSeries(series);
+		}
+
+
+		return dataset;
+
+	}
+	
 	/** Metodo per la creazione del dataset del grafico Detection-SNR
 	 * @param inf Estremo inferiore di snr
 	 * @param sup Estremo superiore di SNR

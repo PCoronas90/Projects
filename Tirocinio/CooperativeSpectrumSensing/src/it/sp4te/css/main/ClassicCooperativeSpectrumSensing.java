@@ -65,7 +65,7 @@ public class ClassicCooperativeSpectrumSensing {
 		DetectionGraph.put("CED MAJORITY fusion", CooperativeEnergyDetectionMajorityFusion);
 
 		Chart4jGraphGenerator graphPresence= new Chart4jGraphGenerator();
-		graphPresence.drawGraph("Presence of PU in Cooperative Energy Detection (CED)",DetectionGraph, inf, sup);
+		graphPresence.drawSNRtoDetectionGraph("Presence of PU in Cooperative Energy Detection (CED)",DetectionGraph, inf, sup);
 
 		
 		//------------------------------------------------Assenza utente primario-------------------//

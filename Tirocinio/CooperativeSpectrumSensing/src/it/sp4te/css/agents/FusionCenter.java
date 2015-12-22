@@ -29,10 +29,12 @@ public class FusionCenter {
 	int Nb,Na;
 	//Lista utenti Esclusi
 	ArrayList<String> excludedUsers;
+	HashMap<String,Integer> excludedUsersStamp;
 
 	ArrayList<String> reliableState;
 	ArrayList<String> pendingState;
 	ArrayList<String> discardedState;
+	HashMap<String,Integer> discardedStateStamp;
 	
 	
 
@@ -46,6 +48,8 @@ public class FusionCenter {
 		reliableState= new ArrayList<String> ();
 		pendingState= new ArrayList<String> ();
 		discardedState= new ArrayList<String> ();
+		discardedStateStamp=new HashMap<String,Integer>();
+		excludedUsersStamp=new HashMap<String,Integer>();
 		this.Na=1;
 		this.Nb=9;
 		
@@ -413,6 +417,7 @@ public class FusionCenter {
 		 BufferedWriter b=new BufferedWriter(w);
 		for(Double snr: this.snrToPresenceUsers.keySet()){
 			this.excludedUsers.clear();
+			this.excludedUsersStamp.clear();
 			//Inizializzo la reputazione a 5 ad ogni cambio di SNR
 			inizializeReliabilities(userToBinaryDecision);
 			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
@@ -427,7 +432,7 @@ public class FusionCenter {
 				globalDecisions.add(globalDecision);
 				//aggiorno la reputazione
 				updateReliabilities(globalDecision,this.snrToPresenceUsers.get(snr).get(attempt),
-						this.snrToAbsenceUsers.get(snr).get(attempt),snr);
+						this.snrToAbsenceUsers.get(snr).get(attempt),snr,attempt);
 
 				
 			    	
@@ -435,8 +440,9 @@ public class FusionCenter {
 			}
 			b.write("------------------- SNR="+snr+" -------------------------"+" \n");
 			b.write("User Excluded: "+this.excludedUsers.size()+" \n");	
-			for(int i=0;i<this.excludedUsers.size();i++){
-			b.write(this.excludedUsers.get(i)+" \n");}
+			for(String key: this.excludedUsersStamp.keySet()){
+				b.write("User: " + key+ " Prova: " + this.excludedUsersStamp.get(key)+" \n");
+			}
 			
 			//Per ogni snr, aggiungo alla mappa l'array di decisioni globali di cardinalità pari al numero di prove
 			double detection=Detector.reputationBasedDetection(globalDecisions);
@@ -637,7 +643,7 @@ public class FusionCenter {
 	 * @param snr L'SNR a cui si sta effettuando l'aggiornamento della reputazione
 	 */
 
-	public void updateReliabilities(int globalDecision,ArrayList<String>  presenceSU,ArrayList<String>  absenceSU,double snr){
+	public void updateReliabilities(int globalDecision,ArrayList<String>  presenceSU,ArrayList<String>  absenceSU,double snr,int attempt){
 		for(int i=0;i<presenceSU.size();i++){
 			//Questo controllo fa si che una volta che un utente va sotto la soglia minima (1) non viene più considerato
 			if(this.usersReliabilities.get(presenceSU.get(i))>=1){
@@ -646,7 +652,9 @@ public class FusionCenter {
 		}
 			else{
 				if(!this.excludedUsers.contains(presenceSU.get(i))){
-					excludedUsers.add(presenceSU.get(i));}
+					excludedUsers.add(presenceSU.get(i));
+					if(!excludedUsersStamp.containsKey(presenceSU.get(i)))
+					this.excludedUsersStamp.put(presenceSU.get(i), attempt);}
 			}
 				
 			//System.out.println
@@ -661,7 +669,9 @@ public class FusionCenter {
 			
 				else{
 					if(!this.excludedUsers.contains(absenceSU.get(i))){
-					excludedUsers.add(absenceSU.get(i));}
+					excludedUsers.add(absenceSU.get(i));
+					if(!excludedUsersStamp.containsKey(absenceSU.get(i)))
+					this.excludedUsersStamp.put(absenceSU.get(i), attempt);}
 				}
 			
 }
@@ -689,12 +699,15 @@ public class FusionCenter {
 		FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+"TrustedNodecooperative"+"_"+typeMSU+".txt");
 		 BufferedWriter b=new BufferedWriter(w);
 		for(Double snr: this.snrToPresenceUsers.keySet()){
+			this.discardedStateStamp.clear();
+			
 			//Inizializzo la reputazione a 5 ad ogni cambio di SNR
 			inizializeReliabilitiesAndState(userToBinaryDecision,trustedNodeToBinaryDecision);
 			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
 			for(int attempt=0;attempt<this.snrToPresenceUsers.get(snr).size();attempt++){
 				//Per ogni prova mi creo una mappa UTENTE->DECISIONE dei soli utenti che partecipano alla comunicazione, e quindi
 				//con reputazione >=1
+				
 				HashMap<String,Integer> binaryDecisions=computeReliableUserToDecision(this.snrToPresenceUsers.get(snr).get(attempt),
 						this.snrToAbsenceUsers.get(snr).get(attempt));
 				//Mi calcolo la decisione globale
@@ -703,7 +716,7 @@ public class FusionCenter {
 				globalDecisions.add(globalDecision);
 				//aggiorno la reputazione
 				updateReliabilitiesAndState(globalDecision,this.snrToPresenceUsers.get(snr).get(attempt),
-						this.snrToAbsenceUsers.get(snr).get(attempt),snr);
+						this.snrToAbsenceUsers.get(snr).get(attempt),snr,attempt);
 
 				
 			    	
@@ -711,8 +724,10 @@ public class FusionCenter {
 			}
 			b.write("------------------- SNR="+snr+" -------------------------"+" \n");
 			b.write("User Excluded: "+this.discardedState.size()+" \n");	
-			for(int i=0;i<this.discardedState.size();i++){
-			b.write(this.discardedState.get(i)+" \n");}
+			for(String key: this.discardedStateStamp.keySet()){
+				b.write("User :" + key+" prova: "+ this.discardedStateStamp.get(key)+" \n");	
+				
+			}
 			b.write("\n");
 			b.write("Reliable User: "+this.reliableState.size()+" \n");	
 			for(int i=0;i<this.reliableState.size();i++){
@@ -837,7 +852,7 @@ public class FusionCenter {
 	 * @param snr L'SNR a cui si sta effettuando l'aggiornamento della reputazione
 	 */
 
-	public void updateReliabilitiesAndState(int globalDecision,ArrayList<String>  presenceSU,ArrayList<String>  absenceSU,double snr){
+	public void updateReliabilitiesAndState(int globalDecision,ArrayList<String>  presenceSU,ArrayList<String>  absenceSU,double snr,int attempt){
 		for(String SU: presenceSU){
 			//Questo controllo fa si che una volta che un utente va sotto la soglia minima (1) non viene più considerato
 			if(!this.discardedState.contains(SU)){
@@ -868,6 +883,8 @@ public class FusionCenter {
 			if(this.usersReliabilities.get(SU)<Na){
 				this.reliableState.remove(SU);
 				this.discardedState.add(SU);
+				if(!this.discardedStateStamp.containsKey(SU))
+				this.discardedStateStamp.put(SU, attempt);
 			}
 			
 	    ArrayList<String> pendingStateTemp= new ArrayList<String>();
@@ -876,6 +893,8 @@ public class FusionCenter {
 				if(this.usersReliabilities.get(SU2)<Na){
 					this.pendingState.remove(SU2);
 					this.discardedState.add(SU2);
+					if(!this.discardedStateStamp.containsKey(SU))
+					this.discardedStateStamp.put(SU2, attempt);
 				}	
 				else if(this.usersReliabilities.get(SU2)>=Nb){
 					this.pendingState.remove(SU2);

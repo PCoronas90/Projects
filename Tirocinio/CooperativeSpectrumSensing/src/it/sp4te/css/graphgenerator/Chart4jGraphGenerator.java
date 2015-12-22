@@ -48,7 +48,7 @@ public class Chart4jGraphGenerator implements GraphGenerator{
 	 * @throws IOException 
 	 **/
 
-	public  void drawGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException {
+	public  void drawSNRtoDetectionGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException {
 		ArrayList<Color> colorList=generateColor();
 		ArrayList<Shape> shapeList=generateShape();
 		int i=0;
@@ -122,7 +122,7 @@ public class Chart4jGraphGenerator implements GraphGenerator{
 	 * @throws IOException 
 	 **/
 
-	public  void drawAndSaveGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path) throws IOException {
+	public  void drawAndSaveSNRtoDetectionGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path) throws IOException {
 		ArrayList<Color> colorList=generateColor();
 		ArrayList<Shape> shapeList=generateShape();
 		int i=0;
@@ -386,4 +386,142 @@ public class Chart4jGraphGenerator implements GraphGenerator{
 		return shapeList;
 	}
 
+
+	public  void drawAndSaveMDTtoSNRGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path) throws IOException{
+    ArrayList<Color> colorList=generateColor();
+	ArrayList<Shape> shapeList=generateShape();
+	int i=0;
+	// Definisco un array di Lines. In questo array inserisco i diversi
+	// grafici che voglio visualizzare
+	ArrayList<Line> lines = new ArrayList<Line>();
+	ArrayList<Integer> snr= new ArrayList<Integer>();
+	for(int j=inf;j<sup;j++){
+		snr.add(j);
+	}
+	for (String graphName : detection.keySet()) {
+		ArrayList<Double> mdt= new ArrayList<Double>();
+		for(int h=0;h<detection.get(graphName).size();h++){
+			mdt.add(Utils.computeMDT(detection.get(graphName).get(h)));
+		}
+		
+		Line line=Plots.newLine(Data.newData(mdt), colorList.get(i), graphName);
+		//Line line = Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
+		line.setLineStyle(LineStyle.newLineStyle(2, 1, 0));
+		line.addShapeMarkers(shapeList.get(i), colorList.get(i), 8);
+		lines.add(line);
+		i++;
+	}
+
+	// Definisco il chart
+	LineChart chart = GCharts.newLineChart(lines);
+	chart.setSize(665, 450); // Massima dimensione
+	chart.setTitle(title, BLACK, 14);
+	chart.setGrid(5, 5, 3, 2);
+
+	// Definisco lo stile
+	AxisStyle axisStyle = AxisStyle.newAxisStyle(BLACK, 12, AxisTextAlignment.CENTER);
+
+	// Etichetta asse y(% di detection)
+	AxisLabels yAxis = AxisLabelsFactory.newNumericRangeAxisLabels(0, 100);
+	yAxis.setAxisStyle(axisStyle);
+
+	// Etichetta asse x(SNR in DB)
+	AxisLabels xAxis1 = AxisLabelsFactory.newNumericRangeAxisLabels(inf, sup);
+	xAxis1.setAxisStyle(axisStyle);
+
+	// Etichetta asse x
+	AxisLabels xAxis3 = AxisLabelsFactory.newAxisLabels("SNR (Decibel)", 50.0);
+	xAxis3.setAxisStyle(AxisStyle.newAxisStyle(BLACK, 14, AxisTextAlignment.CENTER));
+
+	// Etichetta asse y
+	AxisLabels yAxis3 = AxisLabelsFactory.newAxisLabels("MDT", 50.0);
+	yAxis3.setAxisStyle(AxisStyle.newAxisStyle(BLACK, 14, AxisTextAlignment.CENTER));
+
+	// Aggiungo al chart
+	chart.addXAxisLabels(xAxis1);
+	chart.addYAxisLabels(yAxis);
+	chart.addXAxisLabels(xAxis3);
+	chart.addYAxisLabels(yAxis3);
+
+	// Parametri generali su aspetto
+	chart.setBackgroundFill(Fills.newSolidFill(ALICEBLUE));		chart.setAreaFill(Fills.newSolidFill(Color.newColor("708090")));
+	LinearGradientFill fill = Fills.newLinearGradientFill(0, LAVENDER, 100);
+	fill.addColorAndOffset(WHITE, 0);
+	chart.setAreaFill(fill);
+
+	String imageUrl = chart.toURLString();
+	Utils.saveImage(imageUrl, path);
+
+}
+		
+	
+
+
+
+	public void drawMDTtoSNRGraph(String title, HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException {
+		ArrayList<Color> colorList=generateColor();
+		ArrayList<Shape> shapeList=generateShape();
+		int i=0;
+		// Definisco un array di Lines. In questo array inserisco i diversi
+		// grafici che voglio visualizzare
+		ArrayList<Line> lines = new ArrayList<Line>();
+		ArrayList<Integer> snr= new ArrayList<Integer>();
+		for(int j=inf;j<sup;j++){
+			snr.add(j);
+		}
+		for (String graphName : detection.keySet()) {
+			ArrayList<Double> mdt= new ArrayList<Double>();
+			for(int h=0;h<detection.get(graphName).size();h++){
+				mdt.add(Utils.computeMDT(detection.get(graphName).get(h)));
+			}
+			Line line=Plots.newLine(Data.newData(mdt), colorList.get(i), graphName);
+			//Line line = Plots.newLine(Data.newData(detection.get(graphName)), colorList.get(i), graphName);
+			line.setLineStyle(LineStyle.newLineStyle(2, 1, 0));
+			line.addShapeMarkers(shapeList.get(i), colorList.get(i), 8);
+			lines.add(line);
+			i++;
+		}
+
+		// Definisco il chart
+		LineChart chart = GCharts.newLineChart(lines);
+		chart.setSize(665, 450); // Massima dimensione
+		chart.setTitle(title, BLACK, 14);
+		chart.setGrid(5, 5, 3, 2);
+
+		// Definisco lo stile
+		AxisStyle axisStyle = AxisStyle.newAxisStyle(BLACK, 12, AxisTextAlignment.CENTER);
+
+		// Etichetta asse y(% di detection)
+		AxisLabels yAxis = AxisLabelsFactory.newNumericRangeAxisLabels(0, 100);
+		yAxis.setAxisStyle(axisStyle);
+
+		// Etichetta asse x(SNR in DB)
+		AxisLabels xAxis1 = AxisLabelsFactory.newNumericRangeAxisLabels(inf, sup);
+		xAxis1.setAxisStyle(axisStyle);
+
+		// Etichetta asse x
+		AxisLabels xAxis3 = AxisLabelsFactory.newAxisLabels("SNR (Decibel)", 50.0);
+		xAxis3.setAxisStyle(AxisStyle.newAxisStyle(BLACK, 14, AxisTextAlignment.CENTER));
+
+		// Etichetta asse y
+		AxisLabels yAxis3 = AxisLabelsFactory.newAxisLabels("MDT", 50.0);
+		yAxis3.setAxisStyle(AxisStyle.newAxisStyle(BLACK, 14, AxisTextAlignment.CENTER));
+
+		// Aggiungo al chart
+		chart.addXAxisLabels(xAxis1);
+		chart.addYAxisLabels(yAxis);
+		chart.addXAxisLabels(xAxis3);
+		chart.addYAxisLabels(yAxis3);
+
+		// Parametri generali su aspetto
+		chart.setBackgroundFill(Fills.newSolidFill(ALICEBLUE));		chart.setAreaFill(Fills.newSolidFill(Color.newColor("708090")));
+		LinearGradientFill fill = Fills.newLinearGradientFill(0, LAVENDER, 100);
+		fill.addColorAndOffset(WHITE, 0);
+		chart.setAreaFill(fill);
+
+		// Mostro il grafico tramite java swing
+		displayUrlString(chart.toURLString());
+	}
+		
+	
 }

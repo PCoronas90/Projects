@@ -395,6 +395,19 @@ public class Utils {
 		
 		return result;
 	}
+	
+	
+	
+	/** Metodo per il calcolo del mean detection time
+	 * @param detection Probabilità di detection
+	 * @return tempo medio di detection
+	 */
+	
+	public static double computeMDT(double detection){
+		return  (2 - detection) / (2*detection);
+
+
+	}
 
 	/** Salva l'immagine all'url specificato e lo salva nella destinazione
 	 * @param imageUrl Url dell'immagine da salvare

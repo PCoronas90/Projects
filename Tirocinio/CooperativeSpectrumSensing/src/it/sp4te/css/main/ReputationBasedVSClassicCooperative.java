@@ -71,7 +71,7 @@ public class ReputationBasedVSClassicCooperative {
 		DetectionGraph.put("CED MAJORITY fusion", CooperativeEnergyDetectionMajorityFusion);
 		DetectionGraph.put("Reputation Based", reputationBasedCSS);
 		Chart4jGraphGenerator MSUGraph= new Chart4jGraphGenerator();
-		MSUGraph.drawGraph("Cooperative CSS VS Reputation Based CSS: 70% Absence Malicious User",DetectionGraph, inf, sup);			
+		MSUGraph.drawSNRtoDetectionGraph("Cooperative CSS VS Reputation Based CSS: 70% Absence Malicious User",DetectionGraph, inf, sup);			
 
 
 		/**		

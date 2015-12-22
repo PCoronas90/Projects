@@ -69,7 +69,7 @@ public class SpectrumSensing {
 		DetectionGraph.put("Proposed Detection", ProposedDetection);
 
 		Chart4jGraphGenerator SpectrumSensingGraph= new Chart4jGraphGenerator();
-		SpectrumSensingGraph.drawGraph("Detection Methods",DetectionGraph, inf, sup);
+		SpectrumSensingGraph.drawSNRtoDetectionGraph("Detection Methods",DetectionGraph, inf, sup);
 
 	}
 }
