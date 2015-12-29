@@ -92,4 +92,6 @@ public interface GraphGenerator {
 	 **/
 	public void drawMDTtoSNRGraph(String title, HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException;
 
+	public  void drawAndSaveMDTtoSNRRatioGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path)throws IOException;
+	public  void drawMDTtoSNRRatioGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path)throws IOException;
 }

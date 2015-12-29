@@ -404,10 +404,57 @@ public class Utils {
 	 */
 	
 	public static double computeMDT(double detection){
-		return  (2 - detection) / (2*detection);
+		double pd,mtd=0.0;
+		if(detection==0){
+		pd= 0.000001;
+		}
+		else{
+		pd=detection/100;}
+		mtd=((2-pd)/(2*pd));
+		return  mtd;
 
 
 	}
+	
+	
+	
+	/** Metodo per il calcolo del rapporto tra i mean detection time di due metodi
+	 * @param detectionDividend Vettore di detection del metodo dividendo
+	 * @param detectionDivisor Vettore di detection del metodo divisore
+	 * @return Vettore contenente il rapporto tra i mean detection time dei vettori delle detection
+	 */
+	public static ArrayList<Double> computeMDTRatio(ArrayList<Double> detectionDividend,ArrayList<Double> detectionDivisor){
+		ArrayList<Double> mtdDividend= new ArrayList<Double>();
+		ArrayList<Double> mtdDivisor= new ArrayList<Double>();
+		ArrayList<Double> mtdRatio= new ArrayList<Double>();
+		for(double pdDividen: detectionDividend){
+		double pd,mtd=0.0;
+		if(pdDividen==0){
+		pd= 0.01;
+		}
+		else{
+		pd=pdDividen/100;}
+		mtd=((2-pd)/(2*pd));
+		mtdDividend.add(mtd);}
+		
+		for(double pdDivisor: detectionDivisor){
+			double pd,mtd=0.0;
+			if(pdDivisor==0){
+			pd= 0.01;
+			}
+			else{
+			pd=pdDivisor/100;}
+			mtd=((2-pd)/(2*pd));
+			mtdDivisor.add(mtd);}
+
+       for(int i=0;i<mtdDividend.size();i++){
+    	   double res=mtdDividend.get(i)/mtdDivisor.get(i);
+    	   mtdRatio.add(res);  
+       }
+		return mtdRatio;
+	}
+
+	
 
 	/** Salva l'immagine all'url specificato e lo salva nella destinazione
 	 * @param imageUrl Url dell'immagine da salvare

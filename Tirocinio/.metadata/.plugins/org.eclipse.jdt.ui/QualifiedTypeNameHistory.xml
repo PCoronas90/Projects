@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.util.Collections"/>
 <fullyQualifiedTypeName name="com.googlecode.charts4j.Color"/>
 <fullyQualifiedTypeName name="com.googlecode.charts4j.Data"/>
 <fullyQualifiedTypeName name="com.googlecode.charts4j.Plots"/>
@@ -55,9 +54,10 @@
 <fullyQualifiedTypeName name="java.net.URL"/>
 <fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="java.io.FileOutputStream"/>
-<fullyQualifiedTypeName name="it.sp4te.css.signalprocessing.Utils"/>
 <fullyQualifiedTypeName name="it.sp4te.css.graphgenerator.GraphGenerator2"/>
 <fullyQualifiedTypeName name="it.sp4te.css.graphgenerator.Chart4jGraphGenerator"/>
 <fullyQualifiedTypeName name="it.sp4te.css.graphgenerator.JFreeChartGraphGenerator"/>
 <fullyQualifiedTypeName name="it.sp4te.css.agents.TrustedNode"/>
+<fullyQualifiedTypeName name="it.sp4te.css.signalprocessing.Utils"/>
+<fullyQualifiedTypeName name="org.jfree.chart.axis.ValueAxis"/>
 </qualifiedTypeNameHistroy>

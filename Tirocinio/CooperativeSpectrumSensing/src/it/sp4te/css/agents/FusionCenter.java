@@ -157,28 +157,28 @@ public class FusionCenter {
 		this.L=L;
 		this.M=M;
 		this.N=N;
-	FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_"+typeMSU+".txt");
-		 BufferedWriter b=new BufferedWriter(w);
+	//FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_"+typeMSU+".txt");
+		// BufferedWriter b=new BufferedWriter(w);
 		HashMap<Double,Double> listBasedDetection=new HashMap<Double,Double>();
 		createSnrToUsers(inf,sup,userToBinaryDecision,attempts);
 		for(Double snr: this.snrToPresenceUsers.keySet()){
-			b.write(" ");
-			b.write("------------------- SNR="+snr+" -------------------------"+" \n");
+			//	b.write(" ");
+			//	b.write("------------------- SNR="+snr+" -------------------------"+" \n");
 			inizializeValue(userToBinaryDecision);
 			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
 			for(int attempt=0;attempt<this.snrToPresenceUsers.get(snr).size();attempt++){
-				b.write("-------------------SNR="+snr+" Prova="+attempt+"-------------------------"+" \n");
-				int whiteNumber=0;
-				int blackNumber=0;
-				int greyNumber=0;
-				for(String SU: this.usersToInfo.keySet()){
-					if(this.usersToInfo.get(SU).getFlag()==0){whiteNumber++;}
-					if(this.usersToInfo.get(SU).getFlag()==1){greyNumber++;}
-					if(this.usersToInfo.get(SU).getFlag()==2){blackNumber++;}
+			//	b.write("-------------------SNR="+snr+" Prova="+attempt+"-------------------------"+" \n");
+			//	int whiteNumber=0;
+			//	int blackNumber=0;
+			//	int greyNumber=0;
+			//for(String SU: this.usersToInfo.keySet()){
+			//	if(this.usersToInfo.get(SU).getFlag()==0){whiteNumber++;}
+			//	if(this.usersToInfo.get(SU).getFlag()==1){greyNumber++;}
+			//	if(this.usersToInfo.get(SU).getFlag()==2){blackNumber++;}
 					
-				b.write(SU+" list: "+ this.usersToInfo.get(SU).getFlag()+" ConsecutiveHits: "+
-						 this.usersToInfo.get(SU).getConsecutiveHits()+" ErrorCount: "+ this.usersToInfo.get(SU).getErrorCount() +" \n ");
-					}
+			//	b.write(SU+" list: "+ this.usersToInfo.get(SU).getFlag()+" ConsecutiveHits: "+
+			//		 this.usersToInfo.get(SU).getConsecutiveHits()+" ErrorCount: "+ this.usersToInfo.get(SU).getErrorCount() +" \n ");
+			//	}
 				
 				HashMap<String,Integer> binaryDecisionsWhite=computeUserToDecisionWhite(this.snrToPresenceUsers.get(snr).get(attempt),
 						this.snrToAbsenceUsers.get(snr).get(attempt));
@@ -186,13 +186,13 @@ public class FusionCenter {
 						this.snrToAbsenceUsers.get(snr).get(attempt));
 				
 				Integer globalDecision=computeGlobalDecision(binaryDecisionsWhite,binaryDecisionsGrey);
-				b.write("Global Decision: "+globalDecision+" |");
-				b.write(" Presence: "+ this.snrToPresenceUsers.get(snr).get(attempt).size()+"| ");
-				b.write(" Absence: "+ this.snrToAbsenceUsers.get(snr).get(attempt).size()+"| ");
-				b.write(" White list: "+ whiteNumber+"| ");
-				b.write(" Grey list: "+ greyNumber+"| ");
-				b.write(" Black list: "+ blackNumber+"| ");
-				b.write(" \n");
+				//b.write("Global Decision: "+globalDecision+" |");
+				//b.write(" Presence: "+ this.snrToPresenceUsers.get(snr).get(attempt).size()+"| ");
+				//b.write(" Absence: "+ this.snrToAbsenceUsers.get(snr).get(attempt).size()+"| ");
+				//b.write(" White list: "+ whiteNumber+"| ");
+				//b.write(" Grey list: "+ greyNumber+"| ");
+				//b.write(" Black list: "+ blackNumber+"| ");
+				//b.write(" \n");
 				
 				globalDecisions.add(globalDecision);
 				updateValue(globalDecision,this.snrToPresenceUsers.get(snr).get(attempt),
@@ -202,7 +202,7 @@ public class FusionCenter {
 			double detection=Detector.reputationBasedDetection(globalDecisions);
 			listBasedDetection.put(snr,detection);
 		}
-		b.close();
+		//	b.close();
 		return Utils.orderSignal(listBasedDetection);
 	}
 	
@@ -413,8 +413,8 @@ public class FusionCenter {
 		//la presenza o l'assenza dell'utente primario di cardinalità pari al numero di prove
 		createSnrToUsers(inf,sup,userToBinaryDecision,attempts);
 		//Per ogni SNR
-		FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+"cooperative"+"_"+typeMSU+".txt");
-		 BufferedWriter b=new BufferedWriter(w);
+		//FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+"cooperative"+"_"+typeMSU+".txt");
+		// BufferedWriter b=new BufferedWriter(w);
 		for(Double snr: this.snrToPresenceUsers.keySet()){
 			this.excludedUsers.clear();
 			this.excludedUsersStamp.clear();
@@ -438,18 +438,18 @@ public class FusionCenter {
 			    	
 			    
 			}
-			b.write("------------------- SNR="+snr+" -------------------------"+" \n");
-			b.write("User Excluded: "+this.excludedUsers.size()+" \n");	
-			for(String key: this.excludedUsersStamp.keySet()){
-				b.write("User: " + key+ " Prova: " + this.excludedUsersStamp.get(key)+" \n");
-			}
+			//	b.write("------------------- SNR="+snr+" -------------------------"+" \n");
+			//	b.write("User Excluded: "+this.excludedUsers.size()+" \n");	
+			//	for(String key: this.excludedUsersStamp.keySet()){
+			//		b.write("User: " + key+ " Prova: " + this.excludedUsersStamp.get(key)+" \n");
+			//}
 			
 			//Per ogni snr, aggiungo alla mappa l'array di decisioni globali di cardinalità pari al numero di prove
 			double detection=Detector.reputationBasedDetection(globalDecisions);
 			reputationBasedDetection.put(snr,detection);
 		}
 		
-		b.close();
+		//b.close();
 		return Utils.orderSignal(reputationBasedDetection);
 		
 
@@ -696,8 +696,8 @@ public class FusionCenter {
 		//la presenza o l'assenza dell'utente primario di cardinalità pari al numero di prove
 		createSnrToUsers(inf,sup,userToBinaryDecision,trustedNodeToBinaryDecision,attempts);
 		//Per ogni SNR
-		FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+"TrustedNodecooperative"+"_"+typeMSU+".txt");
-		 BufferedWriter b=new BufferedWriter(w);
+		//FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+"TrustedNodecooperative"+"_"+typeMSU+".txt");
+		// BufferedWriter b=new BufferedWriter(w);
 		for(Double snr: this.snrToPresenceUsers.keySet()){
 			this.discardedStateStamp.clear();
 			
@@ -722,27 +722,27 @@ public class FusionCenter {
 			    	
 			    
 			}
-			b.write("------------------- SNR="+snr+" -------------------------"+" \n");
-			b.write("User Excluded: "+this.discardedState.size()+" \n");	
-			for(String key: this.discardedStateStamp.keySet()){
-				b.write("User :" + key+" prova: "+ this.discardedStateStamp.get(key)+" \n");	
+			//b.write("------------------- SNR="+snr+" -------------------------"+" \n");
+			//b.write("User Excluded: "+this.discardedState.size()+" \n");	
+			//for(String key: this.discardedStateStamp.keySet()){
+			//	b.write("User :" + key+" prova: "+ this.discardedStateStamp.get(key)+" \n");	
 				
-			}
-			b.write("\n");
-			b.write("Reliable User: "+this.reliableState.size()+" \n");	
-			for(int i=0;i<this.reliableState.size();i++){
-			b.write(this.reliableState.get(i)+" \n");}
-			b.write("\n");
-			b.write("Pending User: "+this.pendingState.size()+" \n");	
-			for(int i=0;i<this.pendingState.size();i++){
-			b.write(this.pendingState.get(i)+" \n");}
+			//}
+			//b.write("\n");
+			//b.write("Reliable User: "+this.reliableState.size()+" \n");	
+			//for(int i=0;i<this.reliableState.size();i++){
+			//b.write(this.reliableState.get(i)+" \n");}
+			//b.write("\n");
+			//b.write("Pending User: "+this.pendingState.size()+" \n");	
+			//for(int i=0;i<this.pendingState.size();i++){
+			//b.write(this.pendingState.get(i)+" \n");}
 			
 			//Per ogni snr, aggiungo alla mappa l'array di decisioni globali di cardinalità pari al numero di prove
 			double detection=Detector.reputationBasedDetection(globalDecisions);
 			reputationBasedDetection.put(snr,detection);
 		}
 		
-		b.close();
+		//b.close();
 		return Utils.orderSignal(reputationBasedDetection);
 		
 
