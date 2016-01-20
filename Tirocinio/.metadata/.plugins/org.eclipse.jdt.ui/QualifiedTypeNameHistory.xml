@@ -58,6 +58,6 @@
 <fullyQualifiedTypeName name="it.sp4te.css.graphgenerator.Chart4jGraphGenerator"/>
 <fullyQualifiedTypeName name="it.sp4te.css.graphgenerator.JFreeChartGraphGenerator"/>
 <fullyQualifiedTypeName name="it.sp4te.css.agents.TrustedNode"/>
-<fullyQualifiedTypeName name="it.sp4te.css.signalprocessing.Utils"/>
 <fullyQualifiedTypeName name="org.jfree.chart.axis.ValueAxis"/>
+<fullyQualifiedTypeName name="it.sp4te.css.signalprocessing.Utils"/>
 </qualifiedTypeNameHistroy>

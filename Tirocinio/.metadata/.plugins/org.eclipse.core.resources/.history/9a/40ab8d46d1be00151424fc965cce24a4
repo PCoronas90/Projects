@@ -1,0 +1,98 @@
+package it.sp4te.css.main;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import it.sp4te.css.agents.FusionCenter;
+import it.sp4te.css.agents.MaliciousSecondaryUser;
+import it.sp4te.css.agents.PrimaryUser;
+import it.sp4te.css.agents.TrustedNode;
+import it.sp4te.css.agents.TrustedSecondaryUser;
+import it.sp4te.css.graphgenerator.JFreeChartGraphGenerator;
+import it.sp4te.css.model.Signal;
+import it.sp4te.css.signalprocessing.SignalProcessor;
+import it.sp4te.css.signalprocessing.Utils;
+
+public class ListTNCss {
+	public static void main(String args[]) throws Exception {
+		int length = 1000; // poi 10000
+		int attempts =600;
+		int inf=-15;
+		int sup=-5 ;
+		int block=10; //blocchi energy Detector
+		double pfa=0.01; //probabilità di falso allarme
+		int numberTSU;
+		int numberMSU;
+		int numberTN=10;//numero di utenti fidati
+		int L= 28; //N+(delta*j);
+		int K= 14; //M+delta;
+		int M=8; //BIANCA->GRIGIA
+		int N=10;//GRIGIA->NERA
+		numberTSU=24;
+		numberMSU=3;
+		numberTN=3;
+		
+        //int j=3;
+		//Creo il Fusion center
+		FusionCenter FC=new FusionCenter();
+		//Creo l'utente primario
+		PrimaryUser PU= new PrimaryUser();
+		//creo il segnale
+		Signal s = PU.createAndSend(length);
+		
+		ArrayList<TrustedSecondaryUser> TrustedSecondaryUsers;
+		ArrayList<TrustedNode> TrustedNode;
+		ArrayList<MaliciousSecondaryUser> MaliciousSecondaryUsers;
+		
+		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionAbsenceReputation=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionAbsenceList=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionAbsenceReputationTN=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+		HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecisionAbsenceListTN=new HashMap<String,ArrayList<ArrayList<Integer>>>();
+        HashMap<String, ArrayList<Double>> DetectionGraph = new HashMap<String, ArrayList<Double>>();
+        HashMap<String, ArrayList<Double>> DetectionGraphTN = new HashMap<String, ArrayList<Double>>();
+
+
+		
+		ArrayList<Double> ListCooperativeEnergyDetectionAbsence= new ArrayList<Double>();;
+		ArrayList<Double> ReputationEnergyDetectionAbsence = new ArrayList<Double>();;
+		ArrayList<Double> ReputationTNEnergyDetectionAbsence = new ArrayList<Double>();;
+		ArrayList<Double> ListCooperativeTNEnergyDetectionAbsence= new ArrayList<Double>();;
+	
+		
+		TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		TrustedNode= Utils.createTrustedNode(numberTN,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+
+		userToBinaryDecisionAbsenceReputation=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+		userToBinaryDecisionAbsenceReputation.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
+		ReputationEnergyDetectionAbsence=FC.reputationBasedDecision(inf, sup, userToBinaryDecisionAbsenceReputation,attempts,"absence"+"MSU"+numberMSU);
+		
+		userToBinaryDecisionAbsenceReputationTN=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+		userToBinaryDecisionAbsenceReputationTN.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
+		ReputationTNEnergyDetectionAbsence=FC.reputationBasedWithTrustedNodeDecision(inf, sup, userToBinaryDecisionAbsenceReputationTN,
+		Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa),attempts,"absence"+"MSU"+numberMSU);
+		
+		userToBinaryDecisionAbsenceList=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+		userToBinaryDecisionAbsenceList.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
+		ListCooperativeEnergyDetectionAbsence= FC.ListBasedDecision(inf, sup, userToBinaryDecisionAbsenceList, attempts, K, L, M, N,"MSU"+numberMSU+"_Absence");
+
+		userToBinaryDecisionAbsenceListTN=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+		userToBinaryDecisionAbsenceListTN.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
+		ListCooperativeTNEnergyDetectionAbsence=FC.ListBasedWithTrustedNodeDecision(inf, sup, userToBinaryDecisionAbsenceListTN, 
+		Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa), attempts, K, L, M, N, "absence"+"MSU"+numberMSU);
+		
+		DetectionGraph.put("ListBased", ListCooperativeEnergyDetectionAbsence);
+		DetectionGraphTN.put("ListBased with TN", ListCooperativeTNEnergyDetectionAbsence);
+		DetectionGraph.put("Reputation", ReputationEnergyDetectionAbsence);
+		DetectionGraphTN.put("Reputation with TN", ReputationTNEnergyDetectionAbsence);
+		
+		JFreeChartGraphGenerator graphAbsence= new JFreeChartGraphGenerator("List Based VS Reputation");
+		graphAbsence.drawAndSaveSNRtoDetectionGraph("List Based VS Reputation", DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_AbsenceMSU"+numberMSU+".jpg");
+		
+		JFreeChartGraphGenerator graphAbsenceTN= new JFreeChartGraphGenerator("List Based VS Reputation with TN");
+		graphAbsenceTN.drawAndSaveSNRtoDetectionGraph("List Based VS Reputation with TN", DetectionGraphTN, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_AbsenceMSU"+numberMSU+"_TN.jpg");
+		
+
+
+	}
+}

@@ -396,8 +396,196 @@ public class Utils {
 		return result;
 	}
 	
+	/**Dato un array di decisioni binarie, il metodo riporta una una lista di decisioni binarie dando peso 0.33 a ciascun utente.
+	
+	 * @param binaryDecisions un array di Decisioni binarie
+	 * @return una una lista di decisioni binarie dando peso 0.33 a ciascun utente.
+	 */
+	public static ArrayList<Integer> getOneThirdGreyListDecision(ArrayList<Integer> binaryDecisions){
+		ArrayList<Integer> result= new ArrayList<Integer>();
+		int presence=0;
+		int absence=0;
+		if(binaryDecisions.size()==1){result.add(binaryDecisions.get(0));}
+		else{
+			for(int i=0;i<binaryDecisions.size();i++){
+				if(binaryDecisions.get(i)==0){ absence++;}
+				else if (binaryDecisions.get(i)==1){ presence++;}
+			}
+			
+			if(absence%3==0 && presence%3==0){
+				for(int i=0;i<(absence/3);i++){
+					result.add(0);
+				}
+				for(int i=0;i<(presence/3);i++){
+					result.add(1);
+				}
+			}
+			else if(absence%3!=0 && presence%3==0){
+				
+			  for(int i=0;i<((int)((absence)/3));i++){
+						result.add(0);
+					}
+				for(int i=0;i<(presence/3);i++){
+					result.add(1);
+				}
+			}
+			else if(absence%3==0 && presence%3!=0){
+				for(int i=0;i<(absence/3);i++){
+					result.add(0);}
+				
+				for(int i=0;i<((int)((presence)/3));i++){
+						result.add(1);
+						
+				}
+			}
+			
+			else if(absence%3!=0 && presence%3!=0){
+				
+					for(int i=0;i<((int)((absence)/3));i++){
+						result.add(0);
+					}
+					
+					for(int i=0;i<((int)((presence)/3));i++){
+						result.add(1);
+					
+					}
+							}
+		}
+		//System.out.println("absence "+absence);
+		//System.out.println("presence"+presence);
+		//System.out.println(result.size());
+		return result;
+	}
 	
 	
+	/**Dato un array di decisioni binarie, il metodo riporta una una lista di decisioni binarie dando peso 0.25 a ciascun utente.
+	
+	 * @param binaryDecisions un array di Decisioni binarie
+	 * @return una una lista di decisioni binarie dando peso 0.25 a ciascun utente.
+	 */
+	public static ArrayList<Integer> getOneFourthGreyListDecision(ArrayList<Integer> binaryDecisions){
+		ArrayList<Integer> result= new ArrayList<Integer>();
+		int presence=0;
+		int absence=0;
+		if(binaryDecisions.size()==1){result.add(binaryDecisions.get(0));}
+		else{
+			for(int i=0;i<binaryDecisions.size();i++){
+				if(binaryDecisions.get(i)==0){ absence++;}
+				else if (binaryDecisions.get(i)==1){ presence++;}
+			}
+			
+			if(absence%4==0 && presence%4==0){
+				for(int i=0;i<(absence/4);i++){
+					result.add(0);
+				}
+				for(int i=0;i<(presence/4);i++){
+					result.add(1);
+				}
+			}
+			else if(absence%4!=0 && presence%4==0){
+				
+			  for(int i=0;i<((int)((absence)/4));i++){
+						result.add(0);
+					}
+				for(int i=0;i<(presence/4);i++){
+					result.add(1);
+				}
+			}
+			else if(absence%4==0 && presence%4!=0){
+				for(int i=0;i<(absence/4);i++){
+					result.add(0);}
+				
+				for(int i=0;i<((int)((presence)/4));i++){
+						result.add(1);
+						
+				}
+			}
+			
+			else if(absence%4!=0 && presence%4!=0){
+				
+					for(int i=0;i<((int)((absence)/4));i++){
+						result.add(0);
+					}
+					
+					for(int i=0;i<((int)((presence)/4));i++){
+						result.add(1);
+					
+					}
+				}
+		}
+		
+		return result;
+	}
+	
+	/**Dato un array di decisioni binarie, il metodo riporta una una lista di decisioni binarie dando peso 0.2 a ciascun utente.
+	  
+	 * @param binaryDecisions un array di Decisioni binarie
+	 * @return una una lista di decisioni binarie dando peso 0.2 a ciascun utente.
+	 */
+	public static ArrayList<Integer> getOneFifthGreyListDecision(ArrayList<Integer> binaryDecisions){
+		ArrayList<Integer> result= new ArrayList<Integer>();
+		int presence=0;
+		int absence=0;
+		if(binaryDecisions.size()==1){result.add(binaryDecisions.get(0));}
+		else{
+			for(int i=0;i<binaryDecisions.size();i++){
+				if(binaryDecisions.get(i)==0){ absence++;}
+				else if (binaryDecisions.get(i)==1){ presence++;}
+			}
+			
+			if(absence%5==0 && presence%5==0){
+				for(int i=0;i<(absence/5);i++){
+					result.add(0);
+				}
+				for(int i=0;i<(presence/5);i++){
+					result.add(1);
+				}
+			}
+			else if(absence%5!=0 && presence%5==0){
+				
+			  for(int i=0;i<((int)((absence)/5));i++){
+						result.add(0);
+					}
+				for(int i=0;i<(presence/5);i++){
+					result.add(1);
+				}
+			}
+			else if(absence%5==0 && presence%5!=0){
+				for(int i=0;i<(absence/5);i++){
+					result.add(0);}
+				
+				for(int i=0;i<((int)((presence)/5));i++){
+						result.add(1);
+						
+				}
+			}
+			
+			else if(absence%5!=0 && presence%5!=0){
+				
+					for(int i=0;i<((int)((absence)/5));i++){
+						result.add(0);
+					}
+					
+					for(int i=0;i<((int)((presence)/5));i++){
+						result.add(1);
+					
+					}
+				}
+		}
+		
+		return result;
+	}	
+	
+	/**Dato un array di decisioni binarie, il metodo riporta una lista vuota.
+	 * @param binaryDecisions un array di Decisioni binarie
+	 * @return una lista vuota
+	 */
+	public static ArrayList<Integer> getNullGreyListDecision(ArrayList<Integer> binaryDecisions){
+		ArrayList<Integer> result= new ArrayList<Integer>();
+		result=null;
+		return result;}
+	
+		
 	/** Metodo per il calcolo del mean detection time
 	 * @param detection Probabilità di detection
 	 * @return tempo medio di detection
@@ -477,6 +665,35 @@ public class Utils {
 		is.close();
 		os.close();
 	}
+	
+	public static void generateMDTText(String title, HashMap<String, ArrayList<Double>> detection ,int inf,int sup,String path) throws IOException{
+		FileWriter w=new FileWriter(path+".txt");
+		BufferedWriter b=new BufferedWriter(w);
+	for (String graphName : detection.keySet()) {
+	
+	b.write(graphName+" \n");
+	for(int i=0;i<detection.get(graphName).size();i++){
+		b.write("SNR: " +inf+i+" MDT: "+Utils.computeMDT(detection.get(graphName).get(i))+" \n ");
+
+	}
+	}	
+	b.close();
+	}
+	
+	public static void generateMDTRatioText(String title, HashMap<String, ArrayList<Double>> detection ,int inf,int sup,String path) throws IOException{
+		FileWriter w=new FileWriter(path+".txt");
+		BufferedWriter b=new BufferedWriter(w);
+		for (String graphName : detection.keySet()) {
+		
+		b.write(graphName+" \n");
+		for(int i=0;i<detection.get(graphName).size();i++){
+			b.write("SNR: " +inf+i+" MDT Ratio: "+detection.get(graphName).get(i)+" \n ");
+
+		}
+		}	
+		b.close();
+		}
+
 
 
 }

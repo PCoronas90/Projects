@@ -55,7 +55,7 @@ public class ListCSS {
 
 		// Setto i parametri
 		int length = 1000; // poi 10000
-		int attempts =100;
+		int attempts =600;
 		int inf=-15;
 		int sup=-5 ;
 		int block=10; //blocchi energy Detector
@@ -75,12 +75,12 @@ public class ListCSS {
 		//creo il segnale
 		Signal s = PU.createAndSend(length);
 for(int h=1;h<8;h++){		
- for(int i=2;i<3;i++){
+ for(int i=1;i<4;i++){
 			numberTSU=27-i;
 			numberMSU=i;
 			numberTN=3;
 			
-			/**TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+			TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 			MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 			
 			userToBinaryDecisionIntelligentReputation=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
@@ -98,7 +98,7 @@ for(int h=1;h<8;h++){
 			
 			TrustedSecondaryUsers.clear();
 			MaliciousSecondaryUsers.clear();
-			**/
+			
 			TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 			MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 			userToBinaryDecisionAbsenceReputation=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
@@ -108,7 +108,7 @@ for(int h=1;h<8;h++){
 			//----------------------------------------------------- With trusted Node-----------------------------------------------------------------//
 			TrustedSecondaryUsers.clear();
 			MaliciousSecondaryUsers.clear();
-			/**
+			
 			TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 			TrustedNode= Utils.createTrustedNode(numberTN,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 			MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
@@ -138,7 +138,7 @@ for(int h=1;h<8;h++){
 			TrustedSecondaryUsers.clear();
 			MaliciousSecondaryUsers.clear();
 			TrustedNode.clear();
-			**/
+			
 			
 			TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 			TrustedNode= Utils.createTrustedNode(numberTN,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
@@ -160,7 +160,7 @@ for(int h=1;h<8;h++){
 			TrustedSecondaryUsers.clear();
 			MaliciousSecondaryUsers.clear();
 			
-		/**TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
+		TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 		MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 		
 		userToBinaryDecisionIntelligent=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
@@ -174,13 +174,17 @@ for(int h=1;h<8;h++){
 		
 		JFreeChartGraphGenerator graphIntelligent1= new JFreeChartGraphGenerator("MDT  in Cooperative ED");
 		graphIntelligent1.drawAndSaveMDTtoSNRGraph("",DetectionGraph, inf, sup,"C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_IntelligentMSU"+numberMSU+h+".jpg");;
-
+        
+		Utils.generateMDTText("MDT  in Cooperative ED", DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_IntelligentMSU"+numberMSU+h);
+		
 		DetectionGraph.clear();
 		DetectionGraph.put("ListBased-Reputation", Utils.computeMDTRatio(ListCooperativeEnergyDetectionIntelligent,ReputationEnergyDetectionIntelligent));
 		DetectionGraph.put("ListBased-Reputation with TN", Utils.computeMDTRatio(ListCooperativeEnergyDetectionIntelligent, ReputationTNEnergyDetectionIntelligent));
 
 		JFreeChartGraphGenerator graphIntelligent= new JFreeChartGraphGenerator("MDT Ratio in Cooperative ED");
 		graphIntelligent.drawAndSaveMDTtoSNRRatioGraph("",DetectionGraph, inf, sup,"C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_IntelligentMSU"+numberMSU+h+"ratio.jpg");;
+        
+		Utils.generateMDTRatioText("MDT ratio in Cooperative ED", DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_IntelligentMSU"+numberMSU+h+"Ratio");
 
 		DetectionGraph.clear();
 		TrustedSecondaryUsers.clear();
@@ -198,8 +202,10 @@ for(int h=1;h<8;h++){
 		DetectionGraph.put("ListBased", ListCooperativeEnergyDetectionOpposite);
 		DetectionGraph.put("Reputation", ReputationEnergyDetectionOpposite);
 		DetectionGraph.put("Reputation with TN", ReputationTNEnergyDetectionOpposite);
+		
 		JFreeChartGraphGenerator graphOpposite2= new JFreeChartGraphGenerator("MDT  in Cooperative ED");
 		graphOpposite2.drawAndSaveMDTtoSNRGraph("",DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_OppositeMSU"+numberMSU+h+".jpg");;
+        Utils.generateMDTText("MDT  in Cooperative ED", DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_OppositeMSU"+numberMSU+h);
 
 		DetectionGraph.clear();
 		DetectionGraph.put("ListBased-Reputation", Utils.computeMDTRatio(ListCooperativeEnergyDetectionOpposite, ReputationEnergyDetectionOpposite));
@@ -207,12 +213,13 @@ for(int h=1;h<8;h++){
 
 		JFreeChartGraphGenerator graphOpposite= new JFreeChartGraphGenerator("MDT Ratio in Cooperative ED");
 		graphOpposite.drawAndSaveMDTtoSNRRatioGraph("",DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_OppositeMSU"+numberMSU+h+"ratio.jpg");;
+        Utils.generateMDTRatioText("MDT  Ratio in Cooperative ED", DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_OppositeMSU"+numberMSU+h+"Ratio");
 
 		DetectionGraph.clear();
 		TrustedSecondaryUsers.clear();
 		MaliciousSecondaryUsers.clear();
 
-**/
+
 		TrustedSecondaryUsers= Utils.createTrustedSecondaryUsers(numberTSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 		MaliciousSecondaryUsers=Utils.createMaliciousSecondaryUsers(numberMSU,s,s.getLenght(), SignalProcessor.computeEnergy(s), attempts, inf, sup, block);
 
@@ -229,6 +236,10 @@ for(int h=1;h<8;h++){
 		JFreeChartGraphGenerator graphAbsence2= new JFreeChartGraphGenerator("MDT  in Cooperative ED");
 
 		graphAbsence2.drawAndSaveMDTtoSNRGraph("",DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_AbsenceMSU"+numberMSU+h+".jpg");;
+        Utils.generateMDTText("MDT  in Cooperative ED", DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_AbsenceMSU"+numberMSU+h);
+
+		
+		
 		DetectionGraph.clear();
 		
 		DetectionGraph.put("ListBased-Reputation", Utils.computeMDTRatio(ListCooperativeEnergyDetectionAbsence,ReputationEnergyDetectionAbsence));
@@ -239,7 +250,8 @@ for(int h=1;h<8;h++){
 		JFreeChartGraphGenerator graphAbsence= new JFreeChartGraphGenerator("MDT Ratio in Cooperative ED");
 
 		graphAbsence.drawAndSaveMDTtoSNRRatioGraph("",DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_AbsenceMSU"+numberMSU+h+"ratio.jpg");;
-		
+        Utils.generateMDTRatioText("MDT Ratio in Cooperative ED", DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_AbsenceMSU"+numberMSU+h+"Ratio");
+
 		}}
 	
 
