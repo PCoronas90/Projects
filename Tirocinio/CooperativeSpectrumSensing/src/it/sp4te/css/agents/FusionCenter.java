@@ -206,6 +206,61 @@ public class FusionCenter {
 		return Utils.orderSignal(listBasedDetection);
 	}
 	
+	public  ArrayList<Double> ListBasedDecisionOptimazed(int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,int attempts,
+			int K,int L,int M,int N,String typeMSU) throws IOException{
+		this.K=K; 
+		this.L=L;
+		this.M=M;
+		this.N=N;
+	FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_"+typeMSU+"Optimazed.txt");
+		 BufferedWriter b=new BufferedWriter(w);
+		HashMap<Double,Double> listBasedDetection=new HashMap<Double,Double>();
+		createSnrToUsers(inf,sup,userToBinaryDecision,attempts);
+		for(Double snr: this.snrToPresenceUsers.keySet()){
+				b.write(" ");
+				b.write("------------------- SNR="+snr+" -------------------------"+" \n");
+			inizializeValue(userToBinaryDecision);
+			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
+			for(int attempt=0;attempt<this.snrToPresenceUsers.get(snr).size();attempt++){
+				b.write("-------------------SNR="+snr+" Prova="+attempt+"-------------------------"+" \n");
+				int whiteNumber=0;
+				int blackNumber=0;
+				int greyNumber=0;
+			for(String SU: this.usersToInfo.keySet()){
+				if(this.usersToInfo.get(SU).getFlag()==0){whiteNumber++;}
+				if(this.usersToInfo.get(SU).getFlag()==1){greyNumber++;}
+				if(this.usersToInfo.get(SU).getFlag()==2){blackNumber++;}
+					
+				b.write(SU+" list: "+ this.usersToInfo.get(SU).getFlag()+" ConsecutiveHits: "+
+					 this.usersToInfo.get(SU).getConsecutiveHits()+" ErrorCount: "+ this.usersToInfo.get(SU).getErrorCount() +" \n ");
+				}
+				
+				HashMap<String,Integer> binaryDecisionsWhite=computeUserToDecisionWhite(this.snrToPresenceUsers.get(snr).get(attempt),
+						this.snrToAbsenceUsers.get(snr).get(attempt));
+				HashMap<String,Integer> binaryDecisionsGrey=computeUserToDecisionGrey(this.snrToPresenceUsers.get(snr).get(attempt),
+						this.snrToAbsenceUsers.get(snr).get(attempt));
+				
+				Integer globalDecision=computeGlobalDecisionOptimazed(binaryDecisionsWhite,binaryDecisionsGrey);
+				b.write("Global Decision: "+globalDecision+" |");
+				b.write(" Presence: "+ this.snrToPresenceUsers.get(snr).get(attempt).size()+"| ");
+				b.write(" Absence: "+ this.snrToAbsenceUsers.get(snr).get(attempt).size()+"| ");
+				b.write(" White list: "+ whiteNumber+"| ");
+				b.write(" Grey list: "+ greyNumber+"| ");
+				b.write(" Black list: "+ blackNumber+"| ");
+				b.write(" \n");
+				
+				globalDecisions.add(globalDecision);
+				updateValue(globalDecision,this.snrToPresenceUsers.get(snr).get(attempt),
+						this.snrToAbsenceUsers.get(snr).get(attempt));
+
+			}
+			double detection=Detector.reputationBasedDetection(globalDecisions);
+			listBasedDetection.put(snr,detection);
+		}
+			b.close();
+		return Utils.orderSignal(listBasedDetection);
+	}
+	
 
 	/** QUesto metodo inizializza la mappa userToInfo, inserendo come chiave l'identificativo dell'utente secondario, e come valore un 
 	 * array di 3 elementi contenente gli hits consecutivi, gli errori e la lista di appartenenza. Tutti questo valori vengono 
@@ -381,6 +436,7 @@ public class FusionCenter {
 	public int computeGlobalDecision(HashMap<String,Integer> binaryDecisionsWhite,HashMap<String,Integer> binaryDecisionsGrey){
 		ArrayList<Integer> binaryDecisionAllList=new ArrayList<Integer>();
 		if(binaryDecisionsWhite.size()!=0){
+			
 		binaryDecisionAllList.addAll(binaryDecisionsWhite.values());}
 		if(binaryDecisionsGrey.size()!=0){
 			ArrayList<Integer> greyDecisions= new ArrayList<Integer>();
@@ -388,8 +444,34 @@ public class FusionCenter {
 				greyDecisions.add( binaryDecisionsGrey.get(SU));
 			}
 		
-		binaryDecisionAllList.addAll(Utils. getOneThirdGreyListDecision(greyDecisions));
+		binaryDecisionAllList.addAll(Utils.getGreyListDecision(greyDecisions));
 		}
+		//binaryDecisionAllList.addAll(binaryDecisionsGrey.values());}
+		return Detector.majorityFusionRule(binaryDecisionAllList);
+}
+	
+	public int computeGlobalDecisionOptimazed(HashMap<String,Integer> binaryDecisionsWhite,HashMap<String,Integer> binaryDecisionsGrey){
+		ArrayList<Integer> binaryDecisionAllList=new ArrayList<Integer>();
+		if(binaryDecisionsWhite.size()!=0){
+			for(String SU: binaryDecisionsWhite.keySet()){
+				if(SU.contains("Node")){
+					binaryDecisionAllList.add(binaryDecisionsWhite.get(SU));
+					binaryDecisionAllList.add(binaryDecisionsWhite.get(SU));
+					//binaryDecisionAllList.add(binaryDecisionsWhite.get(SU));
+					
+				}
+			}
+		binaryDecisionAllList.addAll(binaryDecisionsWhite.values());
+		binaryDecisionAllList.addAll(binaryDecisionsWhite.values());}
+		if(binaryDecisionsGrey.size()!=0){
+		//	ArrayList<Integer> greyDecisions= new ArrayList<Integer>();
+		//	for(String SU: binaryDecisionsGrey.keySet() ){
+		//		greyDecisions.add( binaryDecisionsGrey.get(SU));
+		//	}
+		
+		//binaryDecisionAllList.addAll(Utils.getGreyListDecision(greyDecisions));
+		//}
+		binaryDecisionAllList.addAll(binaryDecisionsGrey.values());}
 		return Detector.majorityFusionRule(binaryDecisionAllList);
 }
 
@@ -473,6 +555,61 @@ public class FusionCenter {
 		return Utils.orderSignal(listBasedDetection);
 	}
 	
+	public  ArrayList<Double> ListBasedWithTrustedNodeDecisionOptimazed(int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,HashMap<String,ArrayList<ArrayList<Integer>>> trustedNodeToBinaryDecision,int attempts,
+			int K,int L,int M,int N,String typeMSU) throws IOException{
+		this.K=K; 
+		this.L=L;
+		this.M=M;
+		this.N=N;
+	FileWriter w=new FileWriter("C:/Users/Pietro/Desktop/OutputTN/"+K+L+M+N+"TN_"+typeMSU+"Optimazed.txt");
+		 BufferedWriter b=new BufferedWriter(w);
+		HashMap<Double,Double> listBasedDetection=new HashMap<Double,Double>();
+		createSnrToUsers(inf,sup,userToBinaryDecision,trustedNodeToBinaryDecision,attempts);
+		for(Double snr: this.snrToPresenceUsers.keySet()){
+				b.write(" ");
+				b.write("------------------- SNR="+snr+" -------------------------"+" \n");
+			inizializeValueTN(userToBinaryDecision,trustedNodeToBinaryDecision);
+			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
+			for(int attempt=0;attempt<this.snrToPresenceUsers.get(snr).size();attempt++){
+				b.write("-------------------SNR="+snr+" Prova="+attempt+"-------------------------"+" \n");
+				int whiteNumber=0;
+				int blackNumber=0;
+				int greyNumber=0;
+			for(String SU: this.usersToInfo.keySet()){
+				if(this.usersToInfo.get(SU).getFlag()==0){whiteNumber++;}
+				if(this.usersToInfo.get(SU).getFlag()==5){whiteNumber++;}
+				if(this.usersToInfo.get(SU).getFlag()==1){greyNumber++;}
+				if(this.usersToInfo.get(SU).getFlag()==2){blackNumber++;}
+					
+				b.write(SU+" list: "+ this.usersToInfo.get(SU).getFlag()+" ConsecutiveHits: "+
+				 this.usersToInfo.get(SU).getConsecutiveHits()+" ErrorCount: "+ this.usersToInfo.get(SU).getErrorCount() +" \n ");
+				}
+				
+				HashMap<String,Integer> binaryDecisionsWhite=computeUserToDecisionWhiteTN(this.snrToPresenceUsers.get(snr).get(attempt),
+						this.snrToAbsenceUsers.get(snr).get(attempt));
+				HashMap<String,Integer> binaryDecisionsGrey=computeUserToDecisionGrey(this.snrToPresenceUsers.get(snr).get(attempt),
+						this.snrToAbsenceUsers.get(snr).get(attempt));
+				
+				Integer globalDecision=computeGlobalDecisionOptimazed(binaryDecisionsWhite,binaryDecisionsGrey);
+				b.write("Global Decision: "+globalDecision+" |");
+				b.write(" Presence: "+ this.snrToPresenceUsers.get(snr).get(attempt).size()+"| ");
+				b.write(" Absence: "+ this.snrToAbsenceUsers.get(snr).get(attempt).size()+"| ");
+				b.write(" White list: "+ whiteNumber+"| ");
+				b.write(" Grey list: "+ greyNumber+"| ");
+				b.write(" Black list: "+ blackNumber+"| ");
+				b.write(" \n");
+				
+				globalDecisions.add(globalDecision);
+				updateValueTN(globalDecision,this.snrToPresenceUsers.get(snr).get(attempt),
+						this.snrToAbsenceUsers.get(snr).get(attempt));
+
+			}
+			double detection=Detector.reputationBasedDetection(globalDecisions);
+			listBasedDetection.put(snr,detection);
+		}
+			b.close();
+		return Utils.orderSignal(listBasedDetection);
+	}
 
 	/** QUesto metodo inizializza la mappa userToInfo, inserendo come chiave l'identificativo dell'utente secondario, e come valore un 
 	 * array di 3 elementi contenente gli hits consecutivi, gli errori e la lista di appartenenza. Tutti questo valori vengono 

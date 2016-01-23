@@ -520,9 +520,9 @@ public class Utils {
 	/**Dato un array di decisioni binarie, il metodo riporta una una lista di decisioni binarie dando peso 0.2 a ciascun utente.
 	  
 	 * @param binaryDecisions un array di Decisioni binarie
-	 * @return una una lista di decisioni binarie dando peso 0.2 a ciascun utente.
+	 * @return una una lista di decisioni binarie dando peso 0.16 a ciascun utente.
 	 */
-	public static ArrayList<Integer> getOneFifthGreyListDecision(ArrayList<Integer> binaryDecisions){
+	public static ArrayList<Integer> getOneSixthGreyListDecision(ArrayList<Integer> binaryDecisions){
 		ArrayList<Integer> result= new ArrayList<Integer>();
 		int presence=0;
 		int absence=0;
@@ -533,40 +533,40 @@ public class Utils {
 				else if (binaryDecisions.get(i)==1){ presence++;}
 			}
 			
-			if(absence%5==0 && presence%5==0){
-				for(int i=0;i<(absence/5);i++){
+			if(absence%6==0 && presence%6==0){
+				for(int i=0;i<(absence/6);i++){
 					result.add(0);
 				}
-				for(int i=0;i<(presence/5);i++){
+				for(int i=0;i<(presence/6);i++){
 					result.add(1);
 				}
 			}
-			else if(absence%5!=0 && presence%5==0){
+			else if(absence%6!=0 && presence%6==0){
 				
-			  for(int i=0;i<((int)((absence)/5));i++){
+			  for(int i=0;i<((int)((absence)/6));i++){
 						result.add(0);
 					}
-				for(int i=0;i<(presence/5);i++){
+				for(int i=0;i<(presence/6);i++){
 					result.add(1);
 				}
 			}
-			else if(absence%5==0 && presence%5!=0){
-				for(int i=0;i<(absence/5);i++){
+			else if(absence%6==0 && presence%6!=0){
+				for(int i=0;i<(absence/6);i++){
 					result.add(0);}
 				
-				for(int i=0;i<((int)((presence)/5));i++){
+				for(int i=0;i<((int)((presence)/6));i++){
 						result.add(1);
 						
 				}
 			}
 			
-			else if(absence%5!=0 && presence%5!=0){
+			else if(absence%6!=0 && presence%6!=0){
 				
-					for(int i=0;i<((int)((absence)/5));i++){
+					for(int i=0;i<((int)((absence)/6));i++){
 						result.add(0);
 					}
 					
-					for(int i=0;i<((int)((presence)/5));i++){
+					for(int i=0;i<((int)((presence)/6));i++){
 						result.add(1);
 					
 					}
@@ -582,7 +582,7 @@ public class Utils {
 	 */
 	public static ArrayList<Integer> getNullGreyListDecision(ArrayList<Integer> binaryDecisions){
 		ArrayList<Integer> result= new ArrayList<Integer>();
-		result=null;
+		
 		return result;}
 	
 		
