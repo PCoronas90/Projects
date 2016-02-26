@@ -92,6 +92,29 @@ public interface GraphGenerator {
 	 **/
 	public void drawMDTtoSNRGraph(String title, HashMap<String, ArrayList<Double>> detection, int inf, int sup) throws IOException;
 
+	/**
+	 * Metodo per la creazione del grafico SNR-Rapporto tra MDT e salvataggio su path specifico
+	 * 
+	 * @param title Titolo del grafico
+	 * @param detection Mappa che ha come chiave il nome della curva da visualizzare e come valore una lista con le percentuali di 
+	 * Detection al variare dell'SNR.
+	 * @param inf Estremo inferiore di SNR
+	 * @param sup Estremo superiore di SNR
+	 * @param path Destinazione in cui salvare l'immagine
+	 * @throws IOException 
+	 **/
+	
 	public  void drawAndSaveMDTtoSNRRatioGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path)throws IOException;
+	
+	/**
+	 * Metodo per la creazione del grafico SNR-Rapporto tra MDT 
+	 * 
+	 * @param title Titolo del grafico
+	 * @param detection Mappa che ha come chiave il nome della curva da visualizzare e come valore una lista con le percentuali di 
+	 * Detection al variare dell'SNR.
+	 * @param inf Estremo inferiore di SNR
+	 * @param sup Estremo superiore di SNR
+	 * @throws IOException 
+	 **/
 	public  void drawMDTtoSNRRatioGraph(String title,HashMap<String, ArrayList<Double>> detection, int inf, int sup,String path)throws IOException;
 }

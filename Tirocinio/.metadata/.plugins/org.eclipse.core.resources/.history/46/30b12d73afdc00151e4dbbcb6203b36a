@@ -24,6 +24,7 @@ import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
 import it.sp4te.css.signalprocessing.SignalProcessor;
+import it.sp4te.css.signalprocessing.Utils;
 
 
 /**

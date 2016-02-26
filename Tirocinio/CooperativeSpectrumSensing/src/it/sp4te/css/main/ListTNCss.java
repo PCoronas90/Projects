@@ -15,8 +15,8 @@ import it.sp4te.css.signalprocessing.Utils;
 
 public class ListTNCss {
 	public static void main(String args[]) throws Exception {
-		int length = 1000; // poi 10000
-		int attempts =500;
+		int length = 500; // poi 10000
+		int attempts =100;
 		int inf=-14;
 		int sup=-5 ;
 		int block=10; //blocchi energy Detector
@@ -115,35 +115,29 @@ public class ListTNCss {
 		HashMap<String,ArrayList<ArrayList<Integer>>> binaryVector=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
 
 		///////////////////////////////////////////////////
-		userToBinaryDecisionAbsenceReputation=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionAbsenceReputation=binaryVector;
 		userToBinaryDecisionAbsenceReputation.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
 		ReputationEnergyDetectionAbsence=FC.reputationBasedDecision(inf, sup, userToBinaryDecisionAbsenceReputation,attempts,"absence"+"MSU"+numberMSU+h);
 		
-		userToBinaryDecisionAbsenceReputationTN=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionAbsenceReputationTN=binaryVector;
 		userToBinaryDecisionAbsenceReputationTN.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
 		ReputationTNEnergyDetectionAbsence=FC.reputationBasedWithTrustedNodeDecision(inf, sup, userToBinaryDecisionAbsenceReputationTN,
 		Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa),attempts,"absence"+"MSU"+numberMSU+h);
 		
-		userToBinaryDecisionAbsenceList=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionAbsenceList=binaryVector;
 		userToBinaryDecisionAbsenceList.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
 		ListCooperativeEnergyDetectionAbsence= FC.ListBasedDecision(inf, sup, userToBinaryDecisionAbsenceList, attempts, K, L, M, N,"MSU"+numberMSU+"_Absence"+h);
 
-		userToBinaryDecisionAbsenceListOpt=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionAbsenceListOpt=binaryVector;
 		userToBinaryDecisionAbsenceListOpt.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
 		ListCooperativeOptEnergyDetectionAbsence= FC.ListBasedDecisionOptimazed(inf, sup, userToBinaryDecisionAbsenceList, attempts, K, L, M, N,"MSU"+numberMSU+"_AbsenceOptimazed"+h);
 
-		userToBinaryDecisionAbsenceListTN=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionAbsenceListTN=binaryVector;
 		userToBinaryDecisionAbsenceListTN.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
 		ListCooperativeTNEnergyDetectionAbsence=FC.ListBasedWithTrustedNodeDecision(inf, sup, userToBinaryDecisionAbsenceListTN, 
 		Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa), attempts, K, L, M, N, "absence"+"MSU"+numberMSU+h);
 		
-		userToBinaryDecisionAbsenceListTNOpt=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionAbsenceListTNOpt=binaryVector;
 		userToBinaryDecisionAbsenceListTNOpt.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
 		ListCooperativeTNOptEnergyDetectionAbsence=FC.ListBasedWithTrustedNodeDecisionOptimazed(inf, sup, userToBinaryDecisionAbsenceListTN, 
 		Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa), attempts, K, L, M, N, "absence"+"MSU"+numberMSU+"Optimazed"+h);
@@ -164,36 +158,30 @@ public class ListTNCss {
 		
 ////////////////////////////////////////
 		
-		userToBinaryDecisionOppositeReputation=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionOppositeReputation=binaryVector;
 		userToBinaryDecisionOppositeReputation.putAll(Utils.genereteOppositeBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
 		ReputationEnergyDetectionOpposite=FC.reputationBasedDecision(inf, sup, userToBinaryDecisionOppositeReputation,attempts,"opposite"+"MSU"+numberMSU+h);
 		
-		userToBinaryDecisionOppositeReputationTN=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionOppositeReputationTN=binaryVector;
 		userToBinaryDecisionOppositeReputationTN.putAll(Utils.genereteOppositeBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
 		ReputationTNEnergyDetectionOpposite=FC.reputationBasedWithTrustedNodeDecision(inf, sup, userToBinaryDecisionOppositeReputationTN,
 		Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa),attempts,"Opposite"+"MSU"+numberMSU+h);
 		
-		userToBinaryDecisionOppositeList=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionOppositeList=binaryVector;
 		userToBinaryDecisionOppositeList.putAll(Utils.genereteOppositeBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
 		ListCooperativeEnergyDetectionOpposite= FC.ListBasedDecision(inf, sup, userToBinaryDecisionOppositeList, attempts, K, L, M, N,"MSU"+numberMSU+"_Opposite"+h);
 
-		userToBinaryDecisionOppositeListOpt=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionOppositeListOpt=binaryVector;
 		userToBinaryDecisionOppositeListOpt.putAll(Utils.genereteOppositeBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
 		ListCooperativeEnergyDetectionOppositeOpt= FC.ListBasedDecisionOptimazed(inf, sup, userToBinaryDecisionOppositeList, attempts, K, L, M, N,"MSU"+numberMSU+"_OppositeOptimazed"+h);
 
 		
-		userToBinaryDecisionOppositeListTN=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionOppositeListTN=binaryVector;
 		userToBinaryDecisionOppositeListTN.putAll(Utils.genereteOppositeBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
 		ListCooperativeTNEnergyDetectionOpposite=FC.ListBasedWithTrustedNodeDecision(inf, sup, userToBinaryDecisionOppositeListTN, 
 		Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa), attempts, K, L, M, N, "Opposite"+"MSU"+numberMSU+h);
 		
-		userToBinaryDecisionOppositeListTNOpt=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionOppositeListTNOpt=binaryVector;
 		userToBinaryDecisionOppositeListTNOpt.putAll(Utils.genereteOppositeBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
 		ListCooperativeTNOptEnergyDetectionOpposite=FC.ListBasedWithTrustedNodeDecisionOptimazed(inf, sup, userToBinaryDecisionOppositeListTN, 
 		Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa), attempts, K, L, M, N, "Opposite"+"MSU"+numberMSU+"_Optimazed"+h);
@@ -214,36 +202,30 @@ public class ListTNCss {
 		
 		///////////////////////////////////////////////////////////////////////////////////
 		
-		userToBinaryDecisionIntelligentReputation=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionIntelligentReputation=binaryVector;
 		userToBinaryDecisionIntelligentReputation.putAll(Utils.genereteIntelligentOppositeMaliciousBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
 		ReputationEnergyDetectionIntelligent=FC.reputationBasedDecision(inf, sup, userToBinaryDecisionIntelligentReputation,attempts,"Intelligent"+"MSU"+numberMSU+h);
 		
-		userToBinaryDecisionIntelligentReputationTN=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionIntelligentReputationTN=binaryVector;
 		userToBinaryDecisionIntelligentReputationTN.putAll(Utils.genereteIntelligentOppositeMaliciousBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
 		ReputationTNEnergyDetectionIntelligent=FC.reputationBasedWithTrustedNodeDecision(inf, sup, userToBinaryDecisionIntelligentReputationTN,
 		Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa),attempts,"Intelligent"+"MSU"+numberMSU+h);
 		
-		userToBinaryDecisionIntelligentList=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionIntelligentList=binaryVector;
 		userToBinaryDecisionIntelligentList.putAll(Utils.genereteIntelligentOppositeMaliciousBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
 		ListCooperativeEnergyDetectionIntelligent= FC.ListBasedDecision(inf, sup, userToBinaryDecisionIntelligentList, attempts, K, L, M, N,"MSU"+numberMSU+"_Intelligent"+h);
 
-		userToBinaryDecisionIntelligentListOpt=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionIntelligentListOpt=binaryVector;
 		userToBinaryDecisionIntelligentListOpt.putAll(Utils.genereteIntelligentOppositeMaliciousBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
 		ListCooperativeEnergyDetectionIntelligentOpt= FC.ListBasedDecisionOptimazed(inf, sup, userToBinaryDecisionIntelligentList, attempts, K, L, M, N,"MSU"+numberMSU+"_OptimazedIntelligent"+h);
 
 		
-		userToBinaryDecisionIntelligentListTN=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionIntelligentListTN=binaryVector;
 		userToBinaryDecisionIntelligentListTN.putAll(Utils.genereteIntelligentOppositeMaliciousBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
 		ListCooperativeTNEnergyDetectionIntelligent=FC.ListBasedWithTrustedNodeDecision(inf, sup, userToBinaryDecisionIntelligentListTN, 
 		Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa), attempts, K, L, M, N, "Intelligent"+"MSU"+numberMSU+h);
 		
-		userToBinaryDecisionIntelligentListTNOpt=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
-
+		userToBinaryDecisionIntelligentListTNOpt=binaryVector;
 		userToBinaryDecisionIntelligentListTNOpt.putAll(Utils.genereteIntelligentOppositeMaliciousBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
 		ListCooperativeTNOptEnergyDetectionIntelligent=FC.ListBasedWithTrustedNodeDecisionOptimazed(inf, sup, userToBinaryDecisionIntelligentListTN, 
 		Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa), attempts, K, L, M, N, "Intelligent"+"MSU"+numberMSU+"_Optimazed"+h);

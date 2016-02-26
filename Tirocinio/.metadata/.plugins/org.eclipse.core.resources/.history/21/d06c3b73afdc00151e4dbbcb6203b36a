@@ -7,6 +7,8 @@ import it.sp4te.css.detection.Detector;
 import it.sp4te.css.model.Signal;
 import it.sp4te.css.signalprocessing.Moment;
 import it.sp4te.css.signalprocessing.SignalProcessor;
+import it.sp4te.css.signalprocessing.Utils;
+
 /** <p>Titolo:SecondaryUser</p>
  * <p>Descrizione: Classe atratta per utenti secondari</p>
  * @author Pietro Coronas

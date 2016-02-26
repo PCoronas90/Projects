@@ -23,7 +23,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
-import it.sp4te.css.signalprocessing.SignalProcessor;
+import it.sp4te.css.signalprocessing.Utils;
 
 
 /**
@@ -266,7 +266,7 @@ public class JFreeChartGraphGenerator extends ApplicationFrame implements GraphG
 			numberOfGraph++;
 			final XYSeries series = new XYSeries(graphName);
 			for(int i=0;i<detection.get(graphName).size();i++){
-				series.add((double)inf+i, SignalProcessor.computeMDT(detection.get(graphName).get(i)));
+				series.add((double)inf+i, Utils.computeMDT(detection.get(graphName).get(i)));
 
 			}
 

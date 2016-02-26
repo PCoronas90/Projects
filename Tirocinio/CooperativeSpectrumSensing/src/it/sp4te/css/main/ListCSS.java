@@ -178,8 +178,8 @@ for(int h=1;h<8;h++){
 		Utils.generateMDTText("MDT  in Cooperative ED", DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_IntelligentMSU"+numberMSU+h);
 		
 		DetectionGraph.clear();
-		DetectionGraph.put("ListBased-Reputation", Utils.computeMDTRatio(ListCooperativeEnergyDetectionIntelligent,ReputationEnergyDetectionIntelligent));
-		DetectionGraph.put("ListBased-Reputation with TN", Utils.computeMDTRatio(ListCooperativeEnergyDetectionIntelligent, ReputationTNEnergyDetectionIntelligent));
+		DetectionGraph.put("ListBased-Reputation", SignalProcessor.computeMDTRatio(ListCooperativeEnergyDetectionIntelligent,ReputationEnergyDetectionIntelligent));
+		DetectionGraph.put("ListBased-Reputation with TN", SignalProcessor.computeMDTRatio(ListCooperativeEnergyDetectionIntelligent, ReputationTNEnergyDetectionIntelligent));
 
 		JFreeChartGraphGenerator graphIntelligent= new JFreeChartGraphGenerator("MDT Ratio in Cooperative ED");
 		graphIntelligent.drawAndSaveMDTtoSNRRatioGraph("",DetectionGraph, inf, sup,"C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_IntelligentMSU"+numberMSU+h+"ratio.jpg");;
@@ -208,8 +208,8 @@ for(int h=1;h<8;h++){
         Utils.generateMDTText("MDT  in Cooperative ED", DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_OppositeMSU"+numberMSU+h);
 
 		DetectionGraph.clear();
-		DetectionGraph.put("ListBased-Reputation", Utils.computeMDTRatio(ListCooperativeEnergyDetectionOpposite, ReputationEnergyDetectionOpposite));
-		DetectionGraph.put("ListBased-Reputation with TN", Utils.computeMDTRatio(ListCooperativeEnergyDetectionOpposite, ReputationTNEnergyDetectionOpposite));
+		DetectionGraph.put("ListBased-Reputation", SignalProcessor.computeMDTRatio(ListCooperativeEnergyDetectionOpposite, ReputationEnergyDetectionOpposite));
+		DetectionGraph.put("ListBased-Reputation with TN", SignalProcessor.computeMDTRatio(ListCooperativeEnergyDetectionOpposite, ReputationTNEnergyDetectionOpposite));
 
 		JFreeChartGraphGenerator graphOpposite= new JFreeChartGraphGenerator("MDT Ratio in Cooperative ED");
 		graphOpposite.drawAndSaveMDTtoSNRRatioGraph("",DetectionGraph, inf, sup, "C:/Users/Pietro/Desktop/Output/"+K+L+M+N+"_OppositeMSU"+numberMSU+h+"ratio.jpg");;
@@ -242,8 +242,8 @@ for(int h=1;h<8;h++){
 		
 		DetectionGraph.clear();
 		
-		DetectionGraph.put("ListBased-Reputation", Utils.computeMDTRatio(ListCooperativeEnergyDetectionAbsence,ReputationEnergyDetectionAbsence));
-		DetectionGraph.put("ListBased-Reputation with TN", Utils.computeMDTRatio(ListCooperativeEnergyDetectionAbsence, ReputationTNEnergyDetectionAbsence));
+		DetectionGraph.put("ListBased-Reputation", SignalProcessor.computeMDTRatio(ListCooperativeEnergyDetectionAbsence,ReputationEnergyDetectionAbsence));
+		DetectionGraph.put("ListBased-Reputation with TN", SignalProcessor.computeMDTRatio(ListCooperativeEnergyDetectionAbsence, ReputationTNEnergyDetectionAbsence));
 
 
 

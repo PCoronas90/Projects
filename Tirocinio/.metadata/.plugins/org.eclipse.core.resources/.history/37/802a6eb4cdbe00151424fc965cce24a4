@@ -1,5 +1,0 @@
-package it.sp4te.css.main;
-
-public class ListTNCss {
-	public static void main(String args[]) throws Exception {}
-}

@@ -9,6 +9,7 @@ import java.util.Set;
 
 import it.sp4te.css.detection.Detector;
 import it.sp4te.css.signalprocessing.SignalProcessor;
+import it.sp4te.css.signalprocessing.Utils;
 /** <p>Titolo:FusionCenter</p>
  * <p>Descrizione: Classe che modella il Fusion Center, l'unica centrale nella cooperazione tra dispositivi cognitivi </p>
  * @author Pietro Coronas
@@ -443,7 +444,7 @@ public class FusionCenter {
 				greyDecisions.add( binaryDecisionsGrey.get(SU));
 			}
 		
-		binaryDecisionAllList.addAll(SignalProcessor.getGreyListDecision(greyDecisions));
+		binaryDecisionAllList.addAll(Utils.getGreyListDecision(greyDecisions));
 		}
 		//binaryDecisionAllList.addAll(binaryDecisionsGrey.values());}
 		return Detector.majorityFusionRule(binaryDecisionAllList);

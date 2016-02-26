@@ -26,7 +26,6 @@
 <fullyQualifiedTypeName name="it.sp4te.CooperativeSpectrumSensing.Functions.Pr"/>
 <fullyQualifiedTypeName name="java.awt.List"/>
 <fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="it.sp4te.css.agents.PrimaryUser"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="it.sp4te.fusioncenter.FusionCenter"/>
 <fullyQualifiedTypeName name="it.sp4te.css.detection.Detector"/>
@@ -35,19 +34,15 @@
 <fullyQualifiedTypeName name="it.sp4te.css.agents.BelievableSecondaryUser"/>
 <fullyQualifiedTypeName name="it.sp4te.css.agents.SecondaryUser"/>
 <fullyQualifiedTypeName name="it.sp4te.css.agents.TrustedSecondaryUser"/>
-<fullyQualifiedTypeName name="it.sp4te.css.model.Signal"/>
 <fullyQualifiedTypeName name="it.sp4te.css.agents.MaliciousSecondaryUser"/>
 <fullyQualifiedTypeName name="java.util.Set"/>
 <fullyQualifiedTypeName name="com.googlecode.charts4j.XYLineChart"/>
-<fullyQualifiedTypeName name="java.io.FileWriter"/>
-<fullyQualifiedTypeName name="java.io.BufferedWriter"/>
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="org.jsoup.Jsoup"/>
 <fullyQualifiedTypeName name="javax.swing.text.Document"/>
 <fullyQualifiedTypeName name="org.jsoup.nodes.Document"/>
 <fullyQualifiedTypeName name="org.jsoup.nodes.Element"/>
 <fullyQualifiedTypeName name="org.jsoup.select.Elements"/>
-<fullyQualifiedTypeName name="it.sp4te.css.signalprocessing.SignalProcessor"/>
 <fullyQualifiedTypeName name="java.io.FileReader"/>
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
@@ -60,4 +55,9 @@
 <fullyQualifiedTypeName name="it.sp4te.css.agents.TrustedNode"/>
 <fullyQualifiedTypeName name="org.jfree.chart.axis.ValueAxis"/>
 <fullyQualifiedTypeName name="it.sp4te.css.signalprocessing.Utils"/>
+<fullyQualifiedTypeName name="it.sp4te.css.agents.PrimaryUser"/>
+<fullyQualifiedTypeName name="it.sp4te.css.model.Signal"/>
+<fullyQualifiedTypeName name="java.io.FileWriter"/>
+<fullyQualifiedTypeName name="java.io.BufferedWriter"/>
+<fullyQualifiedTypeName name="it.sp4te.css.signalprocessing.SignalProcessor"/>
 </qualifiedTypeNameHistroy>

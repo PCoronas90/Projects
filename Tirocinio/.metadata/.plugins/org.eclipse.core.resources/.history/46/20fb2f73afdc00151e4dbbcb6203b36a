@@ -32,6 +32,7 @@ import com.googlecode.charts4j.Plots;
 import com.googlecode.charts4j.Shape;
 
 import it.sp4te.css.signalprocessing.SignalProcessor;
+import it.sp4te.css.signalprocessing.Utils;
 
 /**
  * <p>Titolo: Chart4jGraphGenerator</p>
