@@ -49,6 +49,7 @@ public class ReputationBasedVSClassicCooperative {
 		PrimaryUser PU= new PrimaryUser();
 		//creo il segnale
 		Signal s = PU.createAndSend(length);
+		String path="C:/Users/Pietro/Desktop/Output/";
 
 
 		//OPPOSITE
@@ -63,7 +64,7 @@ public class ReputationBasedVSClassicCooperative {
 		//CooperativeEnergyDetectionAndFusion=FC.andDecision(inf, sup,userToBinaryDecision);
 		//CooperativeEnergyDetectionOrFusion=FC.orDecision(inf, sup,userToBinaryDecision);
 		CooperativeEnergyDetectionMajorityFusion=FC.majorityDecision(inf, sup,userToBinaryDecision);
-		reputationBasedCSS= FC.reputationBasedDecision(inf, sup, userToBinaryDecision, attempts,"Opposite");
+		reputationBasedCSS= FC.reputationBasedDecision( path,inf, sup, userToBinaryDecision, attempts,"Opposite");
 
 
 		//DetectionGraph.put("CED AND fusion", CooperativeEnergyDetectionAndFusion);

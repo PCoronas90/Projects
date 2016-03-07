@@ -295,7 +295,7 @@ public class SignalProcessor {
 
 	public static double getEnergyDetectorThreshold(double Pfa, int snr) throws Exception {
 
-		FileReader f=new FileReader("threshold.txt");
+		FileReader f=new FileReader("threshold"+Pfa+".txt");
 		BufferedReader reader=new BufferedReader(f);
 		String s=null;
 		boolean find=false;

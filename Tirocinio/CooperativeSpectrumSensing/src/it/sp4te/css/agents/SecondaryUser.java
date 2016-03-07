@@ -60,8 +60,6 @@ public abstract class SecondaryUser {
 
 	public ArrayList<Double> spectrumSensingBlockEnergyDetector(Double pfa) throws Exception{
 		HashMap<Double, Double> EnergyDetection = new HashMap<Double, Double>();
-
-		ArrayList<ArrayList<Double>> MediumNoiseEnergy=SignalProcessor.computeMediumEnergy(null, length, energy, attempts, inf, sup, block);
 		ArrayList<ArrayList<Double>> MediumSignalEnergy;
 		if(s!=null){
 			MediumSignalEnergy=SignalProcessor.computeMediumEnergy(s, length, energy, attempts, inf, sup, block);
@@ -70,7 +68,7 @@ public abstract class SecondaryUser {
 		int snr=inf-1;
 		for (int i = 0; i < MediumSignalEnergy.size(); i++) {
 			Double ED = Detector.energyDetection(
-					SignalProcessor.computeEnergyDetectorThreshold(pfa, MediumNoiseEnergy.get(i)), MediumSignalEnergy.get(i));
+					SignalProcessor.getEnergyDetectorThreshold(pfa, snr), MediumSignalEnergy.get(i));
 			EnergyDetection.put((double)snr++, ED);
 		}
 
@@ -144,7 +142,6 @@ public abstract class SecondaryUser {
 	public ArrayList<Double> spectrumSensingTraditionalEnergyDetector(double pfa) throws Exception {
 
 		HashMap<Double, Double> EnergyDetection = new HashMap<Double, Double>();
-		//ArrayList<ArrayList<Double>> VectorNoiseEnergy=SignalProcessor.computeVectorsEnergy(null, length, energy, attempts, inf, sup);	
 
 		ArrayList<ArrayList<Double>> VectorSignalEnergy;
 		if(s!=null){
@@ -154,7 +151,7 @@ public abstract class SecondaryUser {
 		int snr=inf;
 		for (int i = 0; i < VectorSignalEnergy.size(); i++) {
 			Double ED = Detector.energyDetection(
-					SignalProcessor.getEnergyDetectorThreshold(pfa, snr), VectorSignalEnergy.get(i));
+					SignalProcessor.getEnergyDetectorThreshold(pfa,snr), VectorSignalEnergy.get(i));
 			EnergyDetection.put((double)(inf++), ED);
 			//snr++;
 		}
@@ -171,6 +168,7 @@ public abstract class SecondaryUser {
 	public ArrayList<ArrayList<Integer>> computeBinaryDecisionVector(double pfa) throws Exception {
 		ArrayList<ArrayList<Integer>> decisions= new  ArrayList<ArrayList<Integer>>();
 		ArrayList<ArrayList<Double>> VectorSignalEnergy;
+
 		if(s!=null){
 			VectorSignalEnergy=SignalProcessor.computeVectorsEnergy(s, length, energy, attempts, inf, sup);
 		}	
@@ -178,7 +176,7 @@ public abstract class SecondaryUser {
 		int snr=inf;
 		for (int i = 0; i < VectorSignalEnergy.size(); i++) {
 			ArrayList<Integer> snrDecisions = Detector.binaryDetector(
-					SignalProcessor.getEnergyDetectorThreshold(pfa, snr), VectorSignalEnergy.get(i));
+					SignalProcessor.getEnergyDetectorThreshold(pfa,snr), VectorSignalEnergy.get(i));
 			decisions.add(snrDecisions);
 			snr++;
 
