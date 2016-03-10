@@ -203,14 +203,16 @@ public class FusionCenter {
 		return SignalProcessor.orderSignal(listBasedDetection);
 	}
 
-	public  ArrayList<Double> ListBasedDecisionOptimazed(String path,int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,int attempts,
+	public  ArrayList<Double> ListBasedDecisionOptimazed(String path,String pathUE,int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,int attempts,
 			int K,int L,int M,int N,String typeMSU) throws IOException{
 		this.K=K; 
 		this.L=L;
 		this.M=M;
 		this.N=N;
 		FileWriter w=new FileWriter(path+"ProposedOptimazed_User_Exluded"+"_"+typeMSU+".txt");
+		FileWriter w2=new FileWriter(pathUE+"ProposedOptimazed_User_Exluded"+"_"+typeMSU+".txt");
 		BufferedWriter b=new BufferedWriter(w);
+		BufferedWriter b2=new BufferedWriter(w2);
 		HashMap<Double,Double> listBasedDetection=new HashMap<Double,Double>();
 		createSnrToUsers(inf,sup,userToBinaryDecision,attempts);
 		for(Double snr: this.snrToPresenceUsers.keySet()){
@@ -249,10 +251,28 @@ public class FusionCenter {
 						this.snrToAbsenceUsers.get(snr).get(attempt));
 
 			}
+			b2.write("---------------------- "+snr+" ----------------------------------------"+"\n");
+			ArrayList<String> SUADD= new ArrayList<String>();
+			b2.write("Black List User: "+"\n");
+			for(String SU: this.usersToInfo.keySet()){
+				if(this.usersToInfo.get(SU).getFlag()==2 & !SUADD.contains(SU)){b2.write(SU+"\n"); SUADD.add(SU);}}
+			b2.write("\n");
+			b2.write("Grey List User: "+"\n");
+			for(String SU: this.usersToInfo.keySet()){
+				if(this.usersToInfo.get(SU).getFlag()==1& !SUADD.contains(SU)){b2.write(SU+"\n");SUADD.add(SU);};}
+			b2.write("\n");
+			b2.write("White List User: "+"\n");
+			for(String SU: this.usersToInfo.keySet()){
+				if(this.usersToInfo.get(SU).getFlag()==0& !SUADD.contains(SU)){b2.write(SU+"\n");SUADD.add(SU);}}
+			
+
+			b2.write("\n");
+			
 			double detection=Detector.reputationBasedDetection(globalDecisions);
 			listBasedDetection.put(snr,detection);
 		}
 		b.close();
+		b2.close();
 		return SignalProcessor.orderSignal(listBasedDetection);
 	}
 
@@ -547,14 +567,16 @@ public class FusionCenter {
 		return SignalProcessor.orderSignal(listBasedDetection);
 	}
 
-	public  ArrayList<Double> ListBasedWithTrustedNodeDecisionOptimazed(String path,int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,HashMap<String,ArrayList<ArrayList<Integer>>> trustedNodeToBinaryDecision,int attempts,
+	public  ArrayList<Double> ListBasedWithTrustedNodeDecisionOptimazed(String path,String pathUE,int inf,int sup,HashMap<String,ArrayList<ArrayList<Integer>>> userToBinaryDecision,HashMap<String,ArrayList<ArrayList<Integer>>> trustedNodeToBinaryDecision,int attempts,
 			int K,int L,int M,int N,String typeMSU) throws IOException{
 		this.K=K; 
 		this.L=L;
 		this.M=M;
 		this.N=N;
 		FileWriter w=new FileWriter(path+"ProposedOptimized_User_Excluded_"+"TN_"+typeMSU+".txt");
+		FileWriter w2=new FileWriter(pathUE+"ProposedOptimized_User_Excluded_"+"TN_"+typeMSU+".txt");
 		BufferedWriter b=new BufferedWriter(w);
+		BufferedWriter b2=new BufferedWriter(w2);
 		HashMap<Double,Double> listBasedDetection=new HashMap<Double,Double>();
 		createSnrToUsers(inf,sup,userToBinaryDecision,trustedNodeToBinaryDecision,attempts);
 		for(Double snr: this.snrToPresenceUsers.keySet()){
@@ -594,10 +616,25 @@ public class FusionCenter {
 						this.snrToAbsenceUsers.get(snr).get(attempt));
 
 			}
+			b2.write("---------------------- "+snr+" ----------------------------------------"+"\n");
+			ArrayList<String> SUADD= new ArrayList<String>();
+			b2.write("Black List User: "+"\n");
+			for(String SU: this.usersToInfo.keySet()){
+				if(this.usersToInfo.get(SU).getFlag()==2 & !SUADD.contains(SU)){b2.write(SU+"\n");SUADD.add(SU);}}
+			b2.write("\n");
+			b2.write("Grey List User: "+"\n");
+			for(String SU: this.usersToInfo.keySet()){
+				if(this.usersToInfo.get(SU).getFlag()==1 & !SUADD.contains(SU) ){b2.write(SU+"\n");SUADD.add(SU);;}}
+			b2.write("\n");			
+			b2.write("White List User: "+"\n");
+			for(String SU: this.usersToInfo.keySet()){
+				if((this.usersToInfo.get(SU).getFlag()==0 | this.usersToInfo.get(SU).getFlag()==5)& !SUADD.contains(SU)){b2.write(SU+"\n");SUADD.add(SU);;};}
+			b2.write("\n");
 			double detection=Detector.reputationBasedDetection(globalDecisions);
 			listBasedDetection.put(snr,detection);
 		}
 		b.close();
+		b2.close();
 		return SignalProcessor.orderSignal(listBasedDetection);
 	}
 
@@ -1074,16 +1111,11 @@ public class FusionCenter {
 				//aggiorno la reputazione
 				updateReliabilitiesAndState(globalDecision,this.snrToPresenceUsers.get(snr).get(attempt),
 						this.snrToAbsenceUsers.get(snr).get(attempt),snr,attempt);
-
-
-
-
 			}
 			b.write("------------------- SNR="+snr+" -------------------------"+" \n");
 			b.write("User Excluded: "+this.discardedState.size()+" \n");	
 			for(String key: this.discardedStateStamp.keySet()){
 				b.write("User :" + key+" prova: "+ this.discardedStateStamp.get(key)+" \n");	
-
 			}
 			b.write("\n");
 			b.write("Reliable User: "+this.reliableState.size()+" \n");	
