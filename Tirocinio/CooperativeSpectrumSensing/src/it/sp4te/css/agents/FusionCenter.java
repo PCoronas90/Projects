@@ -209,20 +209,20 @@ public class FusionCenter {
 		this.L=L;
 		this.M=M;
 		this.N=N;
-		FileWriter w=new FileWriter(path+"ProposedOptimazed_User_Exluded"+"_"+typeMSU+".txt");
+		//FileWriter w=new FileWriter(path+"ProposedOptimazed_User_Exluded"+"_"+typeMSU+".txt");
 		FileWriter w2=new FileWriter(pathUE+"ProposedOptimazed_User_Exluded"+"_"+typeMSU+".txt");
-		BufferedWriter b=new BufferedWriter(w);
+		//BufferedWriter b=new BufferedWriter(w);
 		BufferedWriter b2=new BufferedWriter(w2);
 		HashMap<Double,Double> listBasedDetection=new HashMap<Double,Double>();
 		createSnrToUsers(inf,sup,userToBinaryDecision,attempts);
 		for(Double snr: this.snrToPresenceUsers.keySet()){
-			b.write(" ");
-			b.write("------------------- SNR="+snr+" -------------------------"+" \n");
+			//b.write(" ");
+			//b.write("------------------- SNR="+snr+" -------------------------"+" \n");
 			inizializeValue(userToBinaryDecision);
 			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
 			for(int attempt=0;attempt<this.snrToPresenceUsers.get(snr).size();attempt++){
-				b.write("-------------------SNR="+snr+" Prova="+attempt+"-------------------------"+" \n");
-				int whiteNumber=0;
+				//b.write("-------------------SNR="+snr+" Prova="+attempt+"-------------------------"+" \n");
+				/**int whiteNumber=0;
 				int blackNumber=0;
 				int greyNumber=0;
 				for(String SU: this.usersToInfo.keySet()){
@@ -230,7 +230,7 @@ public class FusionCenter {
 					if(this.usersToInfo.get(SU).getFlag()==1){greyNumber++;}
 					if(this.usersToInfo.get(SU).getFlag()==2){blackNumber++;}
 
-				}
+				}**/
 
 				HashMap<String,Integer> binaryDecisionsWhite=computeUserToDecisionWhite(this.snrToPresenceUsers.get(snr).get(attempt),
 						this.snrToAbsenceUsers.get(snr).get(attempt));
@@ -238,13 +238,13 @@ public class FusionCenter {
 						this.snrToAbsenceUsers.get(snr).get(attempt));
 
 				Integer globalDecision=computeGlobalDecisionOptimazed(binaryDecisionsWhite,binaryDecisionsGrey);
-				b.write("Global Decision: "+globalDecision+" |");
+				/**b.write("Global Decision: "+globalDecision+" |");
 				b.write(" Presence: "+ this.snrToPresenceUsers.get(snr).get(attempt).size()+"| ");
 				b.write(" Absence: "+ this.snrToAbsenceUsers.get(snr).get(attempt).size()+"| ");
 				b.write(" White list: "+ whiteNumber+"| ");
 				b.write(" Grey list: "+ greyNumber+"| ");
 				b.write(" Black list: "+ blackNumber+"| ");
-				b.write(" \n");
+				b.write(" \n");**/
 
 				globalDecisions.add(globalDecision);
 				updateValue(globalDecision,this.snrToPresenceUsers.get(snr).get(attempt),
@@ -271,7 +271,7 @@ public class FusionCenter {
 			double detection=Detector.reputationBasedDetection(globalDecisions);
 			listBasedDetection.put(snr,detection);
 		}
-		b.close();
+		//b.close();
 		b2.close();
 		return SignalProcessor.orderSignal(listBasedDetection);
 	}
@@ -519,18 +519,18 @@ public class FusionCenter {
 		this.L=L;
 		this.M=M;
 		this.N=N;
-		FileWriter w=new FileWriter(path+"Proposed_User_excluded"+"TN_"+typeMSU+".txt");
-		BufferedWriter b=new BufferedWriter(w);
+		//FileWriter w=new FileWriter(path+"Proposed_User_excluded"+"TN_"+typeMSU+".txt");
+		//BufferedWriter b=new BufferedWriter(w);
 		HashMap<Double,Double> listBasedDetection=new HashMap<Double,Double>();
 		createSnrToUsers(inf,sup,userToBinaryDecision,trustedNodeToBinaryDecision,attempts);
 		for(Double snr: this.snrToPresenceUsers.keySet()){
-			b.write(" ");
-			b.write("------------------- SNR="+snr+" -------------------------"+" \n");
+			//b.write(" ");
+			//b.write("------------------- SNR="+snr+" -------------------------"+" \n");
 			inizializeValueTN(userToBinaryDecision,trustedNodeToBinaryDecision);
 			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
 			for(int attempt=0;attempt<this.snrToPresenceUsers.get(snr).size();attempt++){
-				b.write("-------------------SNR="+snr+" Prova="+attempt+"-------------------------"+" \n");
-				int whiteNumber=0;
+				//b.write("-------------------SNR="+snr+" Prova="+attempt+"-------------------------"+" \n");
+			/**	int whiteNumber=0;
 				int blackNumber=0;
 				int greyNumber=0;
 				for(String SU: this.usersToInfo.keySet()){
@@ -539,7 +539,7 @@ public class FusionCenter {
 					if(this.usersToInfo.get(SU).getFlag()==1){greyNumber++;}
 					if(this.usersToInfo.get(SU).getFlag()==2){blackNumber++;}
 
-				}
+				}**/
 
 				HashMap<String,Integer> binaryDecisionsWhite=computeUserToDecisionWhiteTN(this.snrToPresenceUsers.get(snr).get(attempt),
 						this.snrToAbsenceUsers.get(snr).get(attempt));
@@ -547,13 +547,13 @@ public class FusionCenter {
 						this.snrToAbsenceUsers.get(snr).get(attempt));
 
 				Integer globalDecision=computeGlobalDecision(binaryDecisionsWhite,binaryDecisionsGrey);
-				b.write("Global Decision: "+globalDecision+" |");
+				/**b.write("Global Decision: "+globalDecision+" |");
 				b.write(" Presence: "+ this.snrToPresenceUsers.get(snr).get(attempt).size()+"| ");
 				b.write(" Absence: "+ this.snrToAbsenceUsers.get(snr).get(attempt).size()+"| ");
 				b.write(" White list: "+ whiteNumber+"| ");
 				b.write(" Grey list: "+ greyNumber+"| ");
 				b.write(" Black list: "+ blackNumber+"| ");
-				b.write(" \n");
+				b.write(" \n");**/
 
 				globalDecisions.add(globalDecision);
 				updateValueTN(globalDecision,this.snrToPresenceUsers.get(snr).get(attempt),
@@ -563,7 +563,7 @@ public class FusionCenter {
 			double detection=Detector.reputationBasedDetection(globalDecisions);
 			listBasedDetection.put(snr,detection);
 		}
-		b.close();
+		//b.close();
 		return SignalProcessor.orderSignal(listBasedDetection);
 	}
 
@@ -573,20 +573,20 @@ public class FusionCenter {
 		this.L=L;
 		this.M=M;
 		this.N=N;
-		FileWriter w=new FileWriter(path+"ProposedOptimized_User_Excluded_"+"TN_"+typeMSU+".txt");
+	//	FileWriter w=new FileWriter(path+"ProposedOptimized_User_Excluded_"+"TN_"+typeMSU+".txt");
 		FileWriter w2=new FileWriter(pathUE+"ProposedOptimized_User_Excluded_"+"TN_"+typeMSU+".txt");
-		BufferedWriter b=new BufferedWriter(w);
+	//	BufferedWriter b=new BufferedWriter(w);
 		BufferedWriter b2=new BufferedWriter(w2);
 		HashMap<Double,Double> listBasedDetection=new HashMap<Double,Double>();
 		createSnrToUsers(inf,sup,userToBinaryDecision,trustedNodeToBinaryDecision,attempts);
 		for(Double snr: this.snrToPresenceUsers.keySet()){
-			b.write(" ");
-			b.write("------------------- SNR="+snr+" -------------------------"+" \n");
+			//b.write(" ");
+			//b.write("------------------- SNR="+snr+" -------------------------"+" \n");
 			inizializeValueTN(userToBinaryDecision,trustedNodeToBinaryDecision);
 			ArrayList<Integer> globalDecisions= new ArrayList<Integer>();
 			for(int attempt=0;attempt<this.snrToPresenceUsers.get(snr).size();attempt++){
-				b.write("-------------------SNR="+snr+" Prova="+attempt+"-------------------------"+" \n");
-				int whiteNumber=0;
+				//b.write("-------------------SNR="+snr+" Prova="+attempt+"-------------------------"+" \n");
+				/**int whiteNumber=0;
 				int blackNumber=0;
 				int greyNumber=0;
 				for(String SU: this.usersToInfo.keySet()){
@@ -595,7 +595,7 @@ public class FusionCenter {
 					if(this.usersToInfo.get(SU).getFlag()==1){greyNumber++;}
 					if(this.usersToInfo.get(SU).getFlag()==2){blackNumber++;}
 
-				}
+				}**/
 
 				HashMap<String,Integer> binaryDecisionsWhite=computeUserToDecisionWhiteTN(this.snrToPresenceUsers.get(snr).get(attempt),
 						this.snrToAbsenceUsers.get(snr).get(attempt));
@@ -603,13 +603,13 @@ public class FusionCenter {
 						this.snrToAbsenceUsers.get(snr).get(attempt));
 
 				Integer globalDecision=computeGlobalDecisionOptimazed(binaryDecisionsWhite,binaryDecisionsGrey);
-				b.write("Global Decision: "+globalDecision+" |");
+				/**b.write("Global Decision: "+globalDecision+" |");
 				b.write(" Presence: "+ this.snrToPresenceUsers.get(snr).get(attempt).size()+"| ");
 				b.write(" Absence: "+ this.snrToAbsenceUsers.get(snr).get(attempt).size()+"| ");
 				b.write(" White list: "+ whiteNumber+"| ");
 				b.write(" Grey list: "+ greyNumber+"| ");
 				b.write(" Black list: "+ blackNumber+"| ");
-				b.write(" \n");
+				b.write(" \n");**/
 
 				globalDecisions.add(globalDecision);
 				updateValueTN(globalDecision,this.snrToPresenceUsers.get(snr).get(attempt),
@@ -633,7 +633,7 @@ public class FusionCenter {
 			double detection=Detector.reputationBasedDetection(globalDecisions);
 			listBasedDetection.put(snr,detection);
 		}
-		b.close();
+		//b.close();
 		b2.close();
 		return SignalProcessor.orderSignal(listBasedDetection);
 	}

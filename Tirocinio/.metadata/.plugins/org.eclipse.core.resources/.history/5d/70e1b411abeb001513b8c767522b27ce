@@ -17,8 +17,8 @@ import it.sp4te.css.signalprocessing.Utils;
 public class ProbDetectionVSattackers {
 	
 	public static void main(String args[]) throws Exception {
-	int length = 800; // poi 10000
-	int attempts =800;
+	int length = 500; // poi 10000
+	int attempts =500;
 	int inf=-14;
 	int sup=-5 ;
 	int block=10; //blocchi energy Detector
@@ -32,6 +32,9 @@ public class ProbDetectionVSattackers {
 	int M=8; //BIANCA->GRIGIA
 	int N=10;//GRIGIA->NERA
 
+	
+
+	
 	//Creo il Fusion center
 	FusionCenter FC=new FusionCenter();
 	//Creo l'utente primario
@@ -52,14 +55,14 @@ public class ProbDetectionVSattackers {
 			//nome cartella xUtentiyMalevoliUtentiEsclusiTN
 			String pathTNUE="C:/Users/Pietro/Desktop/OutputTNUE/";
 			
-int i=2;
-	while(i<6){
+int i=10;
+	while(i<110){
 	
 		
-		numberMSU=i;
-		numberTSU=50-i;
-		numberTN=5;	
-		numberTSUTN=45-i;
+		numberMSU=i/10;
+		numberTSU=i-numberMSU;
+		numberTN=i/10;	
+		numberTSUTN=(i-numberMSU)-numberTN;
 		
 		
 		
@@ -272,7 +275,7 @@ int i=2;
 
 			b3.close();
 
-	i=i+1;	
+	i=i+10;	
 	}}
 }
 

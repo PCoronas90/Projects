@@ -17,8 +17,8 @@ import it.sp4te.css.signalprocessing.Utils;
 public class ProbDetectionVSattackers {
 	
 	public static void main(String args[]) throws Exception {
-	int length = 800; // poi 10000
-	int attempts =800;
+	int length = 500; // poi 10000
+	int attempts =500;
 	int inf=-14;
 	int sup=-5 ;
 	int block=10; //blocchi energy Detector
@@ -32,6 +32,9 @@ public class ProbDetectionVSattackers {
 	int M=8; //BIANCA->GRIGIA
 	int N=10;//GRIGIA->NERA
 
+	
+
+	
 	//Creo il Fusion center
 	FusionCenter FC=new FusionCenter();
 	//Creo l'utente primario
@@ -52,14 +55,14 @@ public class ProbDetectionVSattackers {
 			//nome cartella xUtentiyMalevoliUtentiEsclusiTN
 			String pathTNUE="C:/Users/Pietro/Desktop/OutputTNUE/";
 			
-int i=2;
-	while(i<6){
+int i=70;
+	while(i<110){
 	
 		
-		numberMSU=i;
-		numberTSU=50-i;
-		numberTN=5;	
-		numberTSUTN=45-i;
+		numberMSU=i/10;
+		numberTSU=i-numberMSU;
+		numberTN=i/10;	
+		numberTSUTN=(i-numberMSU)-numberTN;
 		
 		
 		
@@ -116,16 +119,16 @@ int i=2;
 				Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa),attempts,"absence"+"MSU"+numberMSU);
 
 
-		userToBinaryDecisionAbsenceListOpt=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+		/**userToBinaryDecisionAbsenceListOpt=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
 
 		userToBinaryDecisionAbsenceListOpt.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
 		ListCooperativeOptEnergyDetectionAbsence= FC.ListBasedDecisionOptimazed(path,pathUE,inf, sup, userToBinaryDecisionAbsenceListOpt, attempts, K, L, M, N,"MSU"+numberMSU+"_Absence");
-
-		userToBinaryDecisionAbsenceListTNOpt=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsersTN, pfa);
+**/
+		/**userToBinaryDecisionAbsenceListTNOpt=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsersTN, pfa);
 		userToBinaryDecisionAbsenceListTNOpt.putAll(Utils.genereteAbsenceBinaryDecisionVectors(MaliciousSecondaryUsers));
 		ListCooperativeTNOptEnergyDetectionAbsence=FC.ListBasedWithTrustedNodeDecisionOptimazed(pathTN,pathTNUE,inf, sup, userToBinaryDecisionAbsenceListTNOpt, 
 				Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa), attempts, K, L, M, N, "absence"+"MSU"+numberMSU+"Optimazed");
-
+**/
 
 		FileWriter w=new FileWriter(path+"Detection"+"_Absence"+numberMSU+".txt");
 		BufferedWriter b=new BufferedWriter(w);
@@ -171,7 +174,7 @@ int i=2;
 		ReputationTNEnergyDetectionOpposite=FC.reputationBasedWithTrustedNodeDecision(pathTN,inf, sup, userToBinaryDecisionOppositeReputationTN,
 				Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa),attempts,"Opposite"+"MSU"+numberMSU);
 
-		userToBinaryDecisionOppositeListOpt=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+	/**	userToBinaryDecisionOppositeListOpt=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
 		userToBinaryDecisionOppositeListOpt.putAll(Utils.genereteOppositeBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
 		ListCooperativeEnergyDetectionOppositeOpt= FC.ListBasedDecisionOptimazed(path,pathUE,inf, sup, userToBinaryDecisionOppositeListOpt, attempts, K, L, M, N,"MSU"+numberMSU+"_Opposite");
 
@@ -181,7 +184,7 @@ int i=2;
 		ListCooperativeTNOptEnergyDetectionOpposite=FC.ListBasedWithTrustedNodeDecisionOptimazed(pathTN,pathTNUE,inf, sup, userToBinaryDecisionOppositeListTNOpt, 
 				Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa), attempts, K, L, M, N, "Opposite"+"MSU"+numberMSU+"_Optimazed");
 
-		
+		**/
 
 		FileWriter w2=new FileWriter(path+"Detection"+"_Opposite"+numberMSU+".txt");
 		BufferedWriter b2=new BufferedWriter(w2);
@@ -230,7 +233,7 @@ int i=2;
 				Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa),attempts,"Intelligent"+"MSU"+numberMSU);
 
 
-		userToBinaryDecisionIntelligentListOpt=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
+	/**	userToBinaryDecisionIntelligentListOpt=Utils.genereteBinaryDecisionVectors(TrustedSecondaryUsers, pfa);
 		userToBinaryDecisionIntelligentListOpt.putAll(Utils.genereteIntelligentOppositeMaliciousBinaryDecisionVectors(MaliciousSecondaryUsers,pfa));
 		ListCooperativeEnergyDetectionIntelligentOpt= FC.ListBasedDecisionOptimazed(path,pathUE,inf, sup, userToBinaryDecisionIntelligentListOpt, attempts, K, L, M, N,"MSU"+numberMSU+"_Intelligent");
 
@@ -240,7 +243,7 @@ int i=2;
 		ListCooperativeTNOptEnergyDetectionIntelligent=FC.ListBasedWithTrustedNodeDecisionOptimazed(pathTN,pathTNUE,inf, sup, userToBinaryDecisionIntelligentListTNOpt, 
 				Utils.genereteTrustedNodeBinaryDecisionVectors(TrustedNode, pfa), attempts, K, L, M, N, "Intelligent"+"MSU"+numberMSU+"_Optimazed");
 
-
+**/
 
 		FileWriter w3=new FileWriter(path+"Detection"+"_Intelligent"+numberMSU+".txt");
 		BufferedWriter b3=new BufferedWriter(w3);
@@ -272,7 +275,7 @@ int i=2;
 
 			b3.close();
 
-	i=i+1;	
+	i=i+10;	
 	}}
 }
 

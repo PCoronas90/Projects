@@ -17,8 +17,8 @@ import it.sp4te.css.signalprocessing.Utils;
 public class ProbDetectionVSattackers {
 	
 	public static void main(String args[]) throws Exception {
-	int length = 800; // poi 10000
-	int attempts =800;
+	int length = 1000; // poi 10000
+	int attempts =1000;
 	int inf=-14;
 	int sup=-5 ;
 	int block=10; //blocchi energy Detector
@@ -52,7 +52,7 @@ public class ProbDetectionVSattackers {
 			//nome cartella xUtentiyMalevoliUtentiEsclusiTN
 			String pathTNUE="C:/Users/Pietro/Desktop/OutputTNUE/";
 			
-int i=2;
+int i=1;
 	while(i<6){
 	
 		
